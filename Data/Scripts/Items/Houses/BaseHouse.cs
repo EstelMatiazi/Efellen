@@ -993,7 +993,7 @@ namespace Server.Multis
 			BaseHouse house = BaseHouse.FindHouseAt(from);
 
 			if (house == null)
-				return false;
+				return true;
 
 			SecureAccessResult res = CheckSecureAccess( from, item );
 
@@ -1689,7 +1689,7 @@ namespace Server.Multis
 				bool valid = m_House != null && Sextant.Format( m_House.Location, m_House.Map, ref xLong, ref yLat, ref xMins, ref yMins, ref xEast, ref ySouth );
 
 				if ( valid )
-					location = String.Format( "{0}° {1}'{2}, {3}° {4}'{5}", yLat, yMins, ySouth ? "S" : "N", xLong, xMins, xEast ? "E" : "W" );
+					location = String.Format( "{0}ï¿½ {1}'{2}, {3}ï¿½ {4}'{5}", yLat, yMins, ySouth ? "S" : "N", xLong, xMins, xEast ? "E" : "W" );
 				else
 					location = "unknown";
 
@@ -3859,8 +3859,10 @@ namespace Server.Multis
 			ISecurable sec = GetSecurable( Owner.From, m_Item );
 
 			if ( sec != null )
+			{
 				Owner.From.CloseGump( typeof ( SetSecureLevelGump ) );
 				Owner.From.SendGump( new SetSecureLevelGump( Owner.From, sec, BaseHouse.FindHouseAt( m_Item ) ) );
+			}
 		}
 	}
 
