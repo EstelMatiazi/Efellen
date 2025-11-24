@@ -137,6 +137,7 @@ namespace Server.Custom.DefenderOfTheRealm.Vow.VowOfTheScourge
             from.AddToBackpack(rewardBag);
             from.SendMessage("You have completed your Vow of the Scourge and received a bag containing {0} marks of the Scourge and additional rewards!", m_Reward);
             Effects.PlaySound(from.Location, from.Map, 0x243);
+            Misc.Titles.AwardKarma( from, -400, true );
             this.Delete();
             return true;
         }
