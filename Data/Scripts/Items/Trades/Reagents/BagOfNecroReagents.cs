@@ -23,16 +23,6 @@ namespace Server.Items
 				i = new DaemonBlood( amount ); DropItem( i );
 				i = new NoxCrystal( amount ); DropItem( i );
 				i = new PigIron( amount ); DropItem( i );
-				i = new BitterRoot( amount ); DropItem( i );
-				i = new BlackSand( amount ); DropItem( i );
-				i = new BloodRose( amount ); DropItem( i );
-				i = new DriedToad( amount ); DropItem( i );
-				i = new Maggot( amount ); DropItem( i );
-				i = new MummyWrap( amount ); DropItem( i );
-				i = new VioletFungus( amount ); DropItem( i );
-				i = new WerewolfClaw( amount ); DropItem( i );
-				i = new Wolfsbane( amount ); DropItem( i );
-
 				this.Weight = 2.0;
 			}
 
