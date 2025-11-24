@@ -2,6 +2,10 @@ using System;
 using Server;
 using Server.Items;
 using Server.Misc;
+using System.Collections; 
+using Server.Misc; 
+using Server.Network;
+using Server.Mobiles;
 
 namespace Server.Mobiles
 {
@@ -96,6 +100,16 @@ namespace Server.Mobiles
 							c.DropItem( book );
 					}
 					Server.Mobiles.Dragons.DropSpecial( this, killer, this.Name + " " + this.Title, c, 10, 0x6DD );
+					if ( PlayerSettings.GetKeys( killer, "Dreamstone" ) )
+					{
+						killer.PrivateOverheadMessage(MessageType.Regular, 1150, false, "You already found a Dreamstone from a previous Dragon King.", killer.NetState);
+					}
+					else
+					{
+						PlayerSettings.SetKeys( killer, "Dreamstone", true );
+						killer.SendSound( 0x3D );
+						killer.PrivateOverheadMessage(MessageType.Regular, 1150, false, "You found a Dreamstone.", killer.NetState);
+					}
 				}
 			}
 		}
