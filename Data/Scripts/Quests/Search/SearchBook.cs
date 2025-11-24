@@ -176,8 +176,6 @@ namespace Server.Items
 				}
 				else if (info.ButtonID >= 1 && info.ButtonID != null)
 				{
-					// we debug like the ancient sumerians did
-					//from.SendMessage("show id: " + info.ButtonID);
 					from.SendGump(new ConfirmGump(from, info.ButtonID, m_Book));
 				}
 			}
@@ -307,6 +305,7 @@ namespace Server.Items
 			if ( artifact == arty) { name="Artifact_BladeOfInsanity"; item="Blade of Insanity"; } arty++;
 			if ( artifact == arty) { name="Artifact_ConansSword"; item="Blade of the Cimmerian"; } arty++;
 			if ( artifact == arty) { name="Artifact_BladeOfTheRighteous"; item="Blade of the Righteous"; } arty++;
+			if ( artifact == arty) { name="Artifact_BladeOfTheWilds"; item="Blade of the Wilds";} arty++;
 			if ( artifact == arty) { name="Artifact_ShadowBlade"; item="Blade of the Shadows"; } arty++;
 			if ( artifact == arty) { name="Artifact_BlazeOfDeath"; item="Blaze of Death"; } arty++;
 			if ( artifact == arty) { name="Artifact_BlightGrippedLongbow"; item="Blight Gripped Longbow"; } arty++;
@@ -320,8 +319,10 @@ namespace Server.Items
 			if ( artifact == arty) { name="Artifact_BootsofHydros"; item="Boots of the Lurker"; } arty++;
 			if ( artifact == arty) { name="Artifact_BootsofLithos"; item="Boots of the Mountain King"; } arty++;
 			if ( artifact == arty) { name="Artifact_BootsofStratos"; item="Boots of the Mystic Voice"; } arty++;
+			if ( artifact == arty) { name="Artifact_BootsOfThePiper"; item="Boots of the Pied Piper";} arty++;
 			if ( artifact == arty) { name="Artifact_BowOfTheJukaKing"; item="Bow of the Juka King"; } arty++;
 			if ( artifact == arty) { name="Artifact_BowofthePhoenix"; item="Bow of the Phoenix"; } arty++;
+			if ( artifact == arty) { name="Artifact_BowOfTheProwler"; item="Bow of the Prowler";} arty++;
 			if ( artifact == arty) { name="Artifact_BraceletOfHealth"; item="Bracelet of Health"; } arty++;
 			if ( artifact == arty) { name="Artifact_BraceletOfTheElements"; item="Bracelet of the Elements"; } arty++;
 			if ( artifact == arty) { name="Artifact_BraceletOfTheVile"; item="Bracelet of the Vile"; } arty++;
@@ -340,9 +341,11 @@ namespace Server.Items
 			if ( artifact == arty) { name="Artifact_CapOfTheFallenKing"; item="Cap of the Fallen King"; } arty++;
 			if ( artifact == arty) { name="Artifact_CaptainJohnsHat"; item="Captain John's Hat"; } arty++;
 			if ( artifact == arty) { name="Artifact_CaptainQuacklebushsCutlass"; item="Captain Quacklebush's Cutlass"; } arty++;
+			if ( artifact == arty) { name="Artifact_HolySword"; item="Carsomyr"; } arty++;
 			if ( artifact == arty) { name="Artifact_CavortingClub"; item="Cavorting Club"; } arty++;
 			if ( artifact == arty) { name="Artifact_CircletOfTheSorceress"; item="Circlet Of The Sorceress"; } arty++;
 			if ( artifact == arty) { name="Artifact_GrayMouserCloak"; item="Cloak of the Rogue"; } arty++;
+			if ( artifact == arty) { name="Artifact_CoatOfTheDreadPirate";item="Coat of the Dread Pirate";} arty++;
 			if ( artifact == arty) { name="Artifact_CoifOfBane"; item="Coif of Bane"; } arty++;
 			if ( artifact == arty) { name="Artifact_CoifOfFire"; item="Coif of Fire"; } arty++;
 			if ( artifact == arty) { name="Artifact_ColdBlood"; item="Cold Blood"; } arty++;
@@ -398,6 +401,7 @@ namespace Server.Items
 			if ( artifact == arty) { name="Artifact_GlovesOfRegeneration"; item="Gloves Of Regeneration"; } arty++;
 			if ( artifact == arty) { name="Artifact_GlovesOfTheFallenKing"; item="Gloves of the Fallen King"; } arty++;
 			if ( artifact == arty) { name="Artifact_GlovesOfTheHarrower"; item="Gloves of the Harrower"; } arty++;
+			if ( artifact == arty) { name="Artifact_GlovesOfThePiper"; item="Gloves of the Pied Piper";} arty++;
 			if ( artifact == arty) { name="Artifact_GlovesOfThePugilist"; item="Gloves of the Pugilist"; } arty++;
 			if ( artifact == arty) { name="Artifact_SamaritanRobe"; item="Good Samaritan Robe"; } arty++;
 			if ( artifact == arty) { name="Artifact_GorgetOfAegis"; item="Gorget of Aegis"; } arty++;
@@ -426,7 +430,6 @@ namespace Server.Items
 			if ( artifact == arty) { name="Artifact_HolyKnightsLegging"; item="Holy Knight's Legging"; } arty++;
 			if ( artifact == arty) { name="Artifact_HolyKnightsPlateHelm"; item="Holy Knight's Plate Helm"; } arty++;
 			if ( artifact == arty) { name="Artifact_LunaLance"; item="Holy Lance"; } arty++;
-			if ( artifact == arty) { name="Artifact_HolySword"; item="Holy Sword"; } arty++;
 			if ( artifact == arty) { name="Artifact_HoodedShroudOfShadows"; item="Hooded Shroud of Shadows"; } arty++;
 			if ( artifact == arty) { name="HornOfKingTriton"; item="Horn of King Triton"; } arty++;
 			if ( artifact == arty) { name="Artifact_HuntersArms"; item="Hunter's Arms"; } arty++;
@@ -495,6 +498,16 @@ namespace Server.Items
 			if ( artifact == arty) { name="Artifact_MidnightLegs"; item="Midnight Leggings"; } arty++;
 			if ( artifact == arty) { name="Artifact_MidnightTunic"; item="Midnight Tunic"; } arty++;
 			if ( artifact == arty) { name="Artifact_MinersPickaxe"; item="Miner's Pickaxe"; } arty++;
+			if ( artifact == arty) { name="Artifact_NatureVengeanceMask"; item="Mask of Natural Vengeance";} arty++;
+			if ( artifact == arty) { name="Artifact_NatureVengeanceCoat"; item="Coat of Natural Vengeance";} arty++;
+			if ( artifact == arty) { name="Artifact_NatureVengeanceLeggings"; item="Leggings of Natural Vengeance";} arty++;
+			if ( artifact == arty) { name="Artifact_NatureVengeanceArms"; item="Arms of Natural Vengeance";} arty++;
+			if ( artifact == arty) { name="Artifact_NatureVengeanceGloves"; item="Gloves of Natural Vengeance";} arty++;
+			if ( artifact == arty) { name="Artifact_NatureMasterHeaddress"; item="Headdress of the Nature's Master";} arty++;
+			if ( artifact == arty) { name="Artifact_NatureMasterCoat"; item="Coat of the Nature's Master";} arty++;
+			if ( artifact == arty) { name="Artifact_NatureMasterLeggings"; item="Leggings of the Nature's Master";} arty++;
+			if ( artifact == arty) { name="Artifact_NatureMasterArms"; item="Arms of the Nature's Master";} arty++;
+			if ( artifact == arty) { name="Artifact_NatureMasterGloves"; item="Gloves of the Nature's Master";} arty++;
 			if ( artifact == arty) { name="Artifact_ANecromancerShroud"; item="Necromancer Shroud"; } arty++;
 			if ( artifact == arty) { name="Artifact_TheNightReaper"; item="Night Reaper"; } arty++;
 			if ( artifact == arty) { name="Artifact_NightsKiss"; item="Night's Kiss"; } arty++;
@@ -516,8 +529,19 @@ namespace Server.Items
 			if ( artifact == arty) { name="Artifact_Pestilence"; item="Pestilence"; } arty++;
 			if ( artifact == arty) { name="Artifact_PhantomStaff"; item="Phantom Staff"; } arty++;
 			if ( artifact == arty) { name="Artifact_PixieSwatter"; item="Pixie Swatter"; } arty++;
+			if ( artifact == arty) { name="Artifact_PiedPiperFeatheredHat"; item="Pied Piper's Feathered Hat";} arty++;
 			if ( artifact == arty) { name="Artifact_PolarBearBoots"; item="Polar Bear Boots"; } arty++;
 			if ( artifact == arty) { name="Artifact_PolarBearCape"; item="Polar Bear Cape"; } arty++;
+			if ( artifact == arty) { name="Artifact_ProwleroftheWildsLegging"; item="Leggings of the Prowler";} arty++;
+			if ( artifact == arty) { name="Artifact_ProwleroftheWildsHelmet"; item="Mask of the Prowler";} arty++;
+			if ( artifact == arty) { name="Artifact_ProwleroftheWildsGloves"; item="Gloves of the Prowler";} arty++;
+			if ( artifact == arty) { name="Artifact_ProwleroftheWildsTunic"; item="Tunic of the Prowler";} arty++;
+			if ( artifact == arty) { name="Artifact_ProwleroftheWildsArms"; item="Arms of the Prowler";} arty++;
+			if ( artifact == arty) { name="Artifact_ProtectoroftheWildsChestplate"; item="Chestplate of the Wilds";} arty++;
+			if ( artifact == arty) { name="Artifact_ProtectoroftheWildsLeggings"; item="Leggings of the Wilds";} arty++;
+			if ( artifact == arty) { name="Artifact_ProtectoroftheWildsGloves"; item="Gloves of the Wilds";} arty++;
+			if ( artifact == arty) { name="Artifact_ProtectoroftheWildsArms"; item="Arms of the Wilds";} arty++;
+			if ( artifact == arty) { name="Artifact_ProtectoroftheWildsHelmet"; item="Helmet of the Wilds";} arty++;
 			if ( artifact == arty) { name="Artifact_Quell"; item="Quell"; } arty++;
 			if ( artifact == arty) { name="QuiverOfBlight"; item="Quiver of Blight"; } arty++;
 			if ( artifact == arty) { name="QuiverOfFire"; item="Quiver of Fire"; } arty++;
@@ -530,6 +554,7 @@ namespace Server.Items
 			if ( artifact == arty) { name="Artifact_RamusNecromanticScalpel"; item="Ramus' Necromantic Scalpel"; } arty++;
 			if ( artifact == arty) { name="Artifact_ResilientBracer"; item="Resillient Bracer"; } arty++;
 			if ( artifact == arty) { name="Artifact_Retort"; item="Retort"; } arty++;
+			if ( artifact == arty) { name="Artifact_ReachOfTheDepths";item="Reach of the Depths";} arty++;
 			if ( artifact == arty) { name="Artifact_RighteousAnger"; item="Righteous Anger"; } arty++;
 			if ( artifact == arty) { name="Artifact_RingOfHealth"; item="Ring of Health"; } arty++;
 			if ( artifact == arty) { name="Artifact_RingOfProtection"; item="Ring of Protection"; } arty++;
@@ -546,6 +571,8 @@ namespace Server.Items
 			if ( artifact == arty) { name="Artifact_RobeofStratos"; item="Robe of the Mystic Voice"; } arty++;
 			if ( artifact == arty) { name="Artifact_RobeOfTreason"; item="Robe Of Treason"; } arty++;
 			if ( artifact == arty) { name="Artifact_RobinHoodsBow"; item="Robin Hood's Bow"; } arty++;
+			if ( artifact == arty) { name="Artifact_RobeOfWilds"; item="Robe of the Wilds";} arty++;
+			if ( artifact == arty) { name="Artifact_RobeOfWildLegion"; item="Robe of the Wild Legion";} arty++;
 			if ( artifact == arty) { name="Artifact_RobinHoodsFeatheredHat"; item="Robin Hood's Feathered Hat"; } arty++;
 			if ( artifact == arty) { name="Artifact_RodOfResurrection"; item="Rod Of Resurrection"; } arty++;
 			if ( artifact == arty) { name="Artifact_RoyalArchersBow"; item="Royal Archer's Bow"; } arty++;
@@ -555,6 +582,7 @@ namespace Server.Items
 			if ( artifact == arty) { name="Artifact_RoyalGuardsChestplate"; item="Royal Guard's Chest Plate"; } arty++;
 			if ( artifact == arty) { name="Artifact_LeggingsOfEmbers"; item="Royal Leggings of Embers"; } arty++;
 			if ( artifact == arty) { name="Artifact_RuneCarvingKnife"; item="Rune Carving Knife"; } arty++;
+			if ( artifact == arty) { name="Artifact_StaffoftheWoodlands"; item="Staff of the Woodlands";} arty++;
 			if ( artifact == arty) { name="Artifact_FalseGodsScepter"; item="Scepter Of The False Goddess"; } arty++;
 			if ( artifact == arty) { name="Artifact_SerpentsFang"; item="Serpent's Fang"; } arty++;
 			if ( artifact == arty) { name="Artifact_ShadowDancerArms"; item="Shadow Dancer Arms"; } arty++;
@@ -567,6 +595,7 @@ namespace Server.Items
 			if ( artifact == arty) { name="Artifact_ShardThrasher"; item="Shard Thrasher"; } arty++;
 			if ( artifact == arty) { name="Artifact_ShieldOfInvulnerability"; item="Shield of Invulnerability"; } arty++;
 			if ( artifact == arty) { name="Artifact_ShimmeringTalisman"; item="Shimmering Talisman"; } arty++;
+			if ( artifact == arty) { name="Artifact_ShirtOfThePiper"; item="Shirt of the Pied Piper";} arty++;
 			if ( artifact == arty) { name="Artifact_ShroudOfDeciet"; item="Shroud of Deceit"; } arty++;
 			if ( artifact == arty) { name="Artifact_SilvanisFeywoodBow"; item="Silvani's Feywood Bow"; } arty++;
 			if ( artifact == arty) { name="Artifact_TheDragonSlayer"; item="Slayer of Dragons"; } arty++;
@@ -585,6 +614,7 @@ namespace Server.Items
 			if ( artifact == arty) { name="Artifact_SwiftStrike"; item="Swift Strike"; } arty++;
 			if ( artifact == arty) { name="Artifact_GlassSword"; item="Sword of Shattered Hopes"; } arty++;
 			if ( artifact == arty) { name="Artifact_SinbadsSword"; item="Sword of Sinbad"; } arty++;
+			if ( artifact == arty) { name="Artifact_TalismanOfTheAlbatroz";item="Talisman of the Albatroz";} arty++;
 			if ( artifact == arty) { name="Artifact_TalonBite"; item="Talon Bite"; } arty++;
 			if ( artifact == arty) { name="Artifact_TheTaskmaster"; item="Taskmaster"; } arty++;
 			if ( artifact == arty) { name="Artifact_TitansHammer"; item="Titan's Hammer"; } arty++;
@@ -596,16 +626,19 @@ namespace Server.Items
 			if ( artifact == arty) { name="Artifact_TotemLeggings"; item="Totem Leggings"; } arty++;
 			if ( artifact == arty) { name="Artifact_TotemOfVoid"; item="Totem of the Void"; } arty++;
 			if ( artifact == arty) { name="Artifact_TotemTunic"; item="Totem Tunic"; } arty++;
+			if ( artifact == arty) { name="Artifact_TrousersOfThePiper"; item="Trousers of the Pied Piper";} arty++;
 			if ( artifact == arty) { name="Artifact_TunicOfAegis"; item="Tunic of Aegis"; } arty++;
 			if ( artifact == arty) { name="Artifact_TunicOfBane"; item="Tunic of Bane"; } arty++;
 			if ( artifact == arty) { name="Artifact_TunicOfFire"; item="Tunic of Fire"; } arty++;
 			if ( artifact == arty) { name="Artifact_TunicOfTheFallenKing"; item="Tunic of the Fallen King"; } arty++;
 			if ( artifact == arty) { name="Artifact_TunicOfTheHarrower"; item="Tunic of the Harrower"; } arty++;
+			if ( artifact == arty) { name="Artifact_TyrantOfTheReefs";item="Tyrant of the Reefs";} arty++;
 			if ( artifact == arty) { name="Artifact_BelmontWhip"; item="Vampire Killer"; } arty++;
 			if ( artifact == arty) { name="Artifact_VampiricDaisho"; item="Vampiric Daisho"; } arty++;
 			if ( artifact == arty) { name="Artifact_VioletCourage"; item="Violet Courage"; } arty++;
 			if ( artifact == arty) { name="Artifact_VoiceOfTheFallenKing"; item="Voice of the Fallen King"; } arty++;
 			if ( artifact == arty) { name="Artifact_WarriorsClasp"; item="Warrior's Clasp"; } arty++;
+			if ( artifact == arty) { name="Artifact_WhistleofthePiper"; item="Whistle of the Pied Piper";} arty++;
 			if ( artifact == arty) { name="Artifact_WildfireBow"; item="Wildfire Bow"; } arty++;
 			if ( artifact == arty) { name="Artifact_Windsong"; item="Windsong"; } arty++;
 			if ( artifact == arty) { name="Artifact_ArcticBeacon"; item="Winter Beacon"; } arty++;
@@ -613,41 +646,6 @@ namespace Server.Items
 			if ( artifact == arty) { name="Artifact_WrathOfTheDryad"; item="Wrath of the Dryad"; } arty++;
 			if ( artifact == arty) { name="Artifact_YashimotosHatsuburi"; item="Yashimoto's Hatsuburi"; } arty++;
 			if ( artifact == arty) { name="Artifact_ZyronicClaw"; item="Zyronic Claw"; } arty++;
-			if ( artifact == arty) { name="Artifact_GlovesOfThePiper"; item="Gloves of the Pied Piper";} arty++;
-			if ( artifact == arty) { name="Artifact_PiedPiperFeatheredHat"; item="Pied Piper's Feathered Hat";} arty++;
-			if ( artifact == arty) { name="Artifact_ShirtOfThePiper"; item="Shirt of the Pied Piper";} arty++;
-			if ( artifact == arty) { name="Artifact_BootsOfThePiper"; item="Boots of the Pied Piper";} arty++;
-			if ( artifact == arty) { name="Artifact_TrousersOfThePiper"; item="Trousers of the Pied Piper";} arty++;
-			if ( artifact == arty) { name="Artifact_WhistleofthePiper"; item="Whistle of the Pied Piper";} arty++;
-			if ( artifact == arty) { name="Artifact_NatureVengeanceMask"; item="Mask of Natural Vengeance";} arty++;
-			if ( artifact == arty) { name="Artifact_NatureVengeanceCoat"; item="Coat of Natural Vengeance";} arty++;
-			if ( artifact == arty) { name="Artifact_NatureVengeanceLeggings"; item="Leggings of Natural Vengeance";} arty++;
-			if ( artifact == arty) { name="Artifact_NatureVengeanceArms"; item="Arms of Natural Vengeance";} arty++;
-			if ( artifact == arty) { name="Artifact_NatureVengeanceGloves"; item="Gloves of Natural Vengeance";} arty++;
-			if ( artifact == arty) { name="Artifact_NatureMasterHeaddress"; item="Headdress of the Nature's Master";} arty++;
-			if ( artifact == arty) { name="Artifact_NatureMasterCoat"; item="Coat of the Nature's Master";} arty++;
-			if ( artifact == arty) { name="Artifact_NatureMasterLeggings"; item="Leggings of the Nature's Master";} arty++;
-			if ( artifact == arty) { name="Artifact_NatureMasterArms"; item="Arms of the Nature's Master";} arty++;
-			if ( artifact == arty) { name="Artifact_NatureMasterGloves"; item="Gloves of the Nature's Master";} arty++;
-			if ( artifact == arty) { name="Artifact_ProwleroftheWildsLegging"; item="Leggings of the Prowler";} arty++;
-			if ( artifact == arty) { name="Artifact_ProwleroftheWildsHelmet"; item="Mask of the Prowler";} arty++;
-			if ( artifact == arty) { name="Artifact_ProwleroftheWildsGloves"; item="Gloves of the Prowler";} arty++;
-			if ( artifact == arty) { name="Artifact_ProwleroftheWildsTunic"; item="Tunic of the Prowler";} arty++;
-			if ( artifact == arty) { name="Artifact_ProwleroftheWildsArms"; item="Arms of the Prowler";} arty++;
-			if ( artifact == arty) { name="Artifact_ProtectoroftheWildsChestplate"; item="Chestplate of the Wilds";} arty++;
-			if ( artifact == arty) { name="Artifact_ProtectoroftheWildsLeggings"; item="Leggings of the Wilds";} arty++;
-			if ( artifact == arty) { name="Artifact_ProtectoroftheWildsGloves"; item="Gloves of the Wilds";} arty++;
-			if ( artifact == arty) { name="Artifact_ProtectoroftheWildsArms"; item="Arms of the Wilds";} arty++;
-			if ( artifact == arty) { name="Artifact_ProtectoroftheWildsHelmet"; item="Helmet of the Wilds";} arty++;
-			if ( artifact == arty) { name="Artifact_RobeOfWilds"; item="Robe of the Wilds";} arty++;
-			if ( artifact == arty) { name="Artifact_RobeOfWildLegion"; item="Robe of the Wild Legion";} arty++;
-			if ( artifact == arty) { name="Artifact_StaffoftheWoodlands"; item="Staff of the Woodlands";} arty++;
-			if ( artifact == arty) { name="Artifact_BowOfTheProwler"; item="Bow of the Prowler";} arty++;
-			if ( artifact == arty) { name="Artifact_BladeOfTheWilds"; item="Blade of the Wilds";} arty++;
-			if ( artifact == arty) { name="Artifact_ReachOfTheDepths";item="Reach of the Depths";} arty++;
-			if ( artifact == arty) { name="Artifact_TyrantOfTheReefs";item="Tyrant of the Reefs";} arty++;
-			if ( artifact == arty) { name="Artifact_CoatOfTheDreadPirate";item="Coat of the Dread Pirate";} arty++;
-			if ( artifact == arty) { name="Artifact_TalismanOfTheAlbatroz";item="Talisman of the Albatroz";} arty++;
 			if ( part == 2 ){ item = name; }
 
 			return item;
