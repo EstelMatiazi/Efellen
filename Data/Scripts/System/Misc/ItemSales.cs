@@ -2462,6 +2462,7 @@ namespace Server
 			new ItemSalesInfo( typeof(	DuctTape	),	180	,	0	,	0	,	false	,	false	,	World.None	,	Category.None	,	Material.None	,	Market.Tinker	),
 			new ItemSalesInfo( typeof(	Dyes	),	8	,	15	,	0	,	false	,	false	,	World.None	,	Category.None	,	Material.None	,	Market.Tailor	),
 			new ItemSalesInfo( typeof(	DyeTub	),	8	,	15	,	0	,	false	,	false	,	World.None	,	Category.None	,	Material.None	,	Market.Tailor	),
+			new ItemSalesInfo( typeof(	DyeExtractorTub	),	5000,	15	,	0	,	false	,	false	,	World.None	,	Category.None	,	Material.None	,	Market.Tailor	),
 			new ItemSalesInfo( typeof(	DyingPlant	),	175	,	3	,	50	,	false	,	false	,	World.None	,	Category.None	,	Material.None	,	Market.Herbalist	),
 			new ItemSalesInfo( typeof(	DynamicBook	),	300	,	0	,	0	,	false	,	false	,	World.None	,	Category.Book	,	Material.None	,	Market.Scribe	),
 			new ItemSalesInfo( typeof(	Easle	),	116	,	1	,	95	,	false	,	false	,	World.None	,	Category.None	,	Material.None	,	Market.Painter	),
