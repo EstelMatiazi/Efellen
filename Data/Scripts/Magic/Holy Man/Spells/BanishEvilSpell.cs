@@ -17,7 +17,7 @@ namespace Server.Spells.HolyMan
 			);
 
 		public override TimeSpan CastDelayBase { get { return TimeSpan.FromSeconds( 3 ); } }
-		public override int RequiredTithing{ get{ return 60; } }
+		public override int RequiredTithing{ get{ return 120; } }
 		public override double RequiredSkill{ get{ return 60.0; } }
 		public override int RequiredMana{ get{ return 30; } }
 
@@ -53,44 +53,44 @@ namespace Server.Spells.HolyMan
 			{
                 Caster.SendMessage("Your prayers cannot banish such a creature!");
 			}
-			else if ( exorcism.Slays(m) && !bc.IsDispellable )
-			{
-				m.Say("Your pitiful prayers are heard by no one, mortal!");
-				double damage;
-				damage = GetNewAosDamage(48, 1, 5, Caster);
-				m.FixedParticles(0x3709, 10, 30, 5052, 0x480, 0, EffectLayer.LeftFoot);
-				m.PlaySound(0x208);
-				SpellHelper.Damage(this, m, damage, 0, 100, 0, 0, 0);
-				DrainSoulsInSymbol( Caster, RequiredTithing );
-			}
-			else if ( m.Fame >= 23000 )
-			{
-				m.Say("Your pitiful prayers are heard by no one, mortal!");
-				double damage;
-				damage = GetNewAosDamage(48, 1, 5, Caster);
-				m.FixedParticles(0x3709, 10, 30, 5052, 0x480, 0, EffectLayer.LeftFoot);
-				m.PlaySound(0x208);
-				SpellHelper.Damage(this, m, damage, 0, 100, 0, 0, 0);
-				DrainSoulsInSymbol( Caster, RequiredTithing );
-			}
-            else if (CheckHSequence(m))
+            else if (CheckHSequence( m ) )
             {
-                SpellHelper.Turn(Caster, m);
-
-                m.FixedParticles(0x3709, 10, 30, 5052, 0x480, 0, EffectLayer.LeftFoot);
-                m.PlaySound(0x208);
-				DrainSoulsInSymbol( Caster, RequiredTithing );
-
-				if (undead.Slays(m))
+				if ( exorcism.Slays(m) && !bc.IsDispellable )
 				{
-					m.Say("No! You cannot banish me! I will return from the Underworld!");
+					m.Say("Your pitiful prayers are heard by no one, mortal!");
+					double damage;
+					damage = GetNewAosDamage(48, 1, 5, Caster);
+					m.FixedParticles(0x3709, 10, 30, 5052, 0x480, 0, EffectLayer.LeftFoot);
+					m.PlaySound(0x208);
+					SpellHelper.Damage(this, m, damage, 0, 100, 0, 0, 0);
+				}
+				else if ( m.Fame >= 23000 )
+				{
+					m.Say("Your pitiful prayers are heard by no one, mortal!");
+					double damage;
+					damage = GetNewAosDamage(48, 1, 5, Caster);
+					m.FixedParticles(0x3709, 10, 30, 5052, 0x480, 0, EffectLayer.LeftFoot);
+					m.PlaySound(0x208);
+					SpellHelper.Damage(this, m, damage, 0, 100, 0, 0, 0);
 				}
 				else
 				{
-					m.Say("No! You cannot kill that which is dead! I will return!");
-				}
+					SpellHelper.Turn(Caster, m);
 
-                new InternalTimer(m).Start();
+					m.FixedParticles(0x3709, 10, 30, 5052, 0x480, 0, EffectLayer.LeftFoot);
+					m.PlaySound(0x208);
+
+					if (undead.Slays(m))
+					{
+						m.Say("No! You cannot banish me! I shall return from the Underworld!");
+					}
+					else
+					{
+						m.Say("You cannot kill that which is dead! I shall return!");
+					}
+
+					new InternalTimer(m).Start();
+				}
             }
 
             FinishSequence();

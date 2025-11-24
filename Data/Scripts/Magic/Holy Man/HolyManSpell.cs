@@ -104,13 +104,12 @@ namespace Server.Spells.HolyMan
 				return false;
 			}
 
-			return true;
-		}
+			if ( !base.CheckFizzle() )
+				return false;
 
-		public override void FinishSequence()
-		{
 			DrainSoulsInSymbol( Caster, RequiredTithing );
-			base.FinishSequence();
+
+			return true;
 		}
 
 		public override void DoFizzle()
@@ -123,7 +122,7 @@ namespace Server.Spells.HolyMan
 
 		public override int GetMana()
 		{
-			return ScaleMana( RequiredMana );
+			return RequiredMana;
 		}
 
 		public static int GetTithing( Mobile Caster, HolyManSpell spell )

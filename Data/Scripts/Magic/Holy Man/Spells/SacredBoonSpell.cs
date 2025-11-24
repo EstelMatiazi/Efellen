@@ -70,7 +70,6 @@ namespace Server.Spells.HolyMan
 				m.FixedParticles( 0x376A, 1, 62, 9923, 3, 3, EffectLayer.Waist );
 				m.FixedParticles( 0x3779, 1, 46, 9502, 5, 3, EffectLayer.Waist );
 				m.SendMessage( "A holy aura surrounds you causing your wounds to heal faster." );
-				DrainSoulsInSymbol( Caster, RequiredTithing );
 			}
 
 			FinishSequence();

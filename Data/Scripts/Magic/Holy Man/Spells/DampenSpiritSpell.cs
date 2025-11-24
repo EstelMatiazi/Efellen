@@ -17,7 +17,7 @@ namespace Server.Spells.HolyMan
 			);
 
 		public override TimeSpan CastDelayBase { get { return TimeSpan.FromSeconds( 3 ); } }
-		public override int RequiredTithing{ get{ return 35; } }
+		public override int RequiredTithing{ get{ return 70; } }
 		public override double RequiredSkill{ get{ return 70.0; } }
 		public override int RequiredMana{ get{ return 35; } }
 
@@ -75,7 +75,6 @@ namespace Server.Spells.HolyMan
 				m.PlaySound( 0x1FB );
 
 				HarmfulSpell( m );
-				DrainSoulsInSymbol( Caster, RequiredTithing );
 			}
 
 			FinishSequence();

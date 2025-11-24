@@ -230,7 +230,7 @@ namespace Server.Spells.Jedi
 
 		public override int GetMana()
 		{
-			return ScaleMana( RequiredMana );
+			return RequiredMana;
 		}
 
 		public static int GetTithing( Mobile Caster, JediSpell spell )

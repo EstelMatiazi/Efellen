@@ -58,7 +58,6 @@ namespace Server.Spells.HolyMan
 				Caster.SendMessage( "Your body is covered by holy flames." );
 				Caster.FixedParticles( 0x3709, 10, 30, 5052, 0x480, 0, EffectLayer.LeftFoot );
 				Caster.PlaySound( 0x208 );
-				DrainSoulsInSymbol( Caster, RequiredTithing );
 				BuffInfo.RemoveBuff( Caster, BuffIcon.TrialByFire );
 				BuffInfo.AddBuff( Caster, new BuffInfo( BuffIcon.TrialByFire, 1063540 ) );
 			}

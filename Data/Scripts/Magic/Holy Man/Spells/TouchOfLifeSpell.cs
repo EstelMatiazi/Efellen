@@ -48,7 +48,6 @@ namespace Server.Spells.HolyMan
 
 				m.FixedParticles( 0x376A, 9, 32, 5030, EffectLayer.Waist );
 				m.PlaySound( 0x202 );
-				DrainSoulsInSymbol( Caster, RequiredTithing );
 			}
 
 			FinishSequence();

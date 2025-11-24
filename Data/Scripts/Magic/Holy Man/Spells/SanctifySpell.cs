@@ -103,7 +103,6 @@ namespace Server.Spells.HolyMan
 				Caster.PlaySound( 0x5C9 );
 				Point3D wings = new Point3D( Caster.X+1, Caster.Y+1, Caster.Z+18 );
 				Effects.SendLocationEffect( wings, Caster.Map, 0x3FE5, 30, 10, 0, 0 );
-				DrainSoulsInSymbol( Caster, RequiredTithing );
 			}
 
             FinishSequence();
