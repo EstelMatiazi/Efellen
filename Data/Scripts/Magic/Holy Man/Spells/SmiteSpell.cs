@@ -57,7 +57,6 @@ namespace Server.Spells.HolyMan
 				m.BoltEffect( 0 );
 
 				SpellHelper.Damage( this, m, damage, 0, 0, 0, 0, 100 );
-				DrainSoulsInSymbol( Caster, RequiredTithing );
 			}
 
 			FinishSequence();

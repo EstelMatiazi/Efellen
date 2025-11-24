@@ -53,7 +53,6 @@ namespace Server.Spells.HolyMan
 
 				Server.Spells.Chivalry.RemoveCurseSpell.RemoveBadThings( m );
 
-				DrainSoulsInSymbol( Caster, RequiredTithing );
 			}
 
 			FinishSequence();

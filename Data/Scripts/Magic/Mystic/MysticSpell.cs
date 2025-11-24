@@ -157,12 +157,7 @@ namespace Server.Spells.Mystic
 
 			Caster.TithingPoints -= requiredTithing;
 
-			if ( !base.CheckFizzle() )
-				return false;
-
-			Caster.Mana -= mana;
-
-			return true;
+			return base.CheckFizzle();
 		}
 
 		public override void SayMantra()
@@ -254,7 +249,7 @@ namespace Server.Spells.Mystic
 
 		public override int GetMana()
 		{
-			return 0;
+			return RequiredMana;
 		}
 	}
 }

@@ -62,8 +62,7 @@ namespace Server.Spells.HolyMan
 				iOrb.m_Owner = m;
 				m.AddToBackpack( iOrb );
 				Server.Items.SoulOrb.OnSummoned( m, iOrb );
-				DrainSoulsInSymbol( Caster, RequiredTithing );
-            }
+			}
             else if ( m == Caster )
             {
 				Caster.SendMessage("You failed to summon an orb.");
@@ -94,8 +93,7 @@ namespace Server.Spells.HolyMan
  
                 m.CloseGump( typeof( ResurrectGump ) );
                 m.SendGump( new ResurrectGump( m, Caster ) );
-				DrainSoulsInSymbol( Caster, RequiredTithing );
-            }
+			}
             else if (m is BaseCreature && CheckBSequence( m, true ) )
 			{
 				BaseCreature pet = (BaseCreature)m;
@@ -107,8 +105,7 @@ namespace Server.Spells.HolyMan
  
                 master.CloseGump(typeof(PetResurrectGump));
                 master.SendGump(new PetResurrectGump(master, pet));
-				DrainSoulsInSymbol( Caster, RequiredTithing );
-            }
+			}
             FinishSequence();
         }
 

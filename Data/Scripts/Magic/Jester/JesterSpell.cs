@@ -73,12 +73,7 @@ namespace Server.Spells.Jester
 
 			Server.Items.BagOfTricks.UsePranks( Caster, requiredTithing );
 
-			if ( !base.CheckFizzle() )
-				return false;
-
-			Caster.Mana -= mana;
-
-			return true;
+			return base.CheckFizzle();
 		}
 
 		public override void SayMantra()
@@ -128,7 +123,7 @@ namespace Server.Spells.Jester
 
 		public override int GetMana()
 		{
-			return 0;
+			return RequiredMana;
 		}
 
 		public static int Buff( Mobile m, string category )

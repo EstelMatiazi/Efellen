@@ -105,8 +105,7 @@ namespace Server.Spells.HolyMan
                         m_Timers[Caster] = t;
 
                         t.Start();
-						DrainSoulsInSymbol( Caster, RequiredTithing );
-                    }
+					}
                 }
                 else
                 {
