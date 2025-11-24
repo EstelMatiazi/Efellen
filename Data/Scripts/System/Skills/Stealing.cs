@@ -433,12 +433,17 @@ namespace Server.SkillHandlers
 				        if (from.CheckSkill(SkillName.Stealing, 0, 100))
 				        {
 				            Gold stolenGold = new Gold(gold);
+							int marks = gold/35 >= 1 ? gold/35 : 0;
 				            from.AddToBackpack(stolenGold);
 							from.PublicOverheadMessage(MessageType.Regular, 0x3B2, false, string.Format("You successfully stole {0} gold.", gold));
 							from.SendMessage(string.Format("You successfully stole {0} gold.", gold));
-				            Titles.AwardKarma(from, -60, true);
-				            from.PlaySound(0x2E6); // Coin sound				
-
+				            if(from.Skills[SkillName.Snooping].Value > Utility.RandomMinMax(20, 126) && marks > 0 && IsInGuild(from))			
+							{
+								from.AddToBackpack(new MarksOfTheShadowbroker(marks));
+								from.SendMessage(string.Format("You gained {0} Marks of the Shadowbroker.", marks));
+							}
+							Titles.AwardKarma(from, -60, true);
+				            from.PlaySound(0x2E6); // Coin sound
 				            // Contraband check
 				            ContrabandSystem.TryGiveContraband(from, victim);
 				        }

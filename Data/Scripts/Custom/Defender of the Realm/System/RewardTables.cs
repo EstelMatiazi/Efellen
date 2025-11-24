@@ -55,5 +55,15 @@ namespace Server.Custom.DefenderOfTheRealm
             new RewardInfo(typeof(Artifact_ScourgeOfTheRealmHelmet), 900, 0x1412, "Scourge's Helmet",true,0),
             new RewardInfo(typeof(Artifact_ScourgeOfTheRealmLeggings), 1000, 0x46AA, "Scourge's Leggings",true,0)
         };
+
+        public static RewardInfo[] ShadowbrokerRewards = new RewardInfo[]
+        {
+            new RewardInfo(typeof(Artifact_ShadowBrokerArms), 900, 0x13cd, "Shadow Broker Arms",true,0),
+            new RewardInfo(typeof(Artifact_ShadowBrokerTunic), 1000, 0x13CC, "Shadow Broker Tunic",true,0),
+            new RewardInfo(typeof(Artifact_ShadowBrokerGloves), 900, 0x13C6, "Shadow Broker Gloves",true,0),
+            new RewardInfo(typeof(Artifact_ShadowBrokerGorget), 900, 0x13C7, "Shadow Broker Gorget",true,0),
+            new RewardInfo(typeof(Artifact_ShadowBrokerCap), 900, 0x1DB9, "Shadow Broker Cap",true,0),
+            new RewardInfo(typeof(Artifact_ShadowBrokerLeggings), 1000, 0x13D2, "Shadow Broker Leggings",true,0)
+        };
     }
 }

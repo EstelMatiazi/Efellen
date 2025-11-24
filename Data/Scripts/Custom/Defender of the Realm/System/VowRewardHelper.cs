@@ -8,7 +8,8 @@ namespace Server.Custom.DefenderOfTheRealm.Vow
     public enum VowType
     {
         Honor,
-        Scourge
+        Scourge,
+        Shadowbroker
     }
 
     public static class VowRewardHelper
@@ -294,7 +295,7 @@ namespace Server.Custom.DefenderOfTheRealm.Vow
                         return new Artifact_DefenderOfTheRealmArms();
                 }
             }
-            else
+            else if (type == VowType.Scourge)
             {
                 switch (Utility.Random(6))
                 {
@@ -314,9 +315,31 @@ namespace Server.Custom.DefenderOfTheRealm.Vow
                         return new Artifact_ScourgeOfTheRealmArms();
                 }
             }
+            else if (type == VowType.Shadowbroker)
+            {
+                switch (Utility.Random(6))
+                {
+                    case 0: 
+                        return new Artifact_ShadowBrokerArms();
+                    case 1: 
+                        return new Artifact_ShadowBrokerTunic();
+                    case 2: 
+                        return new Artifact_ShadowBrokerGloves();
+                    case 3: 
+                        return new Artifact_ShadowBrokerGorget();
+                    case 4: 
+                        return new Artifact_ShadowBrokerCap();
+                    case 5: 
+                        return new Artifact_ShadowBrokerLeggings();
+                    default: //hacky, need to think of a better implementation
+                        return new Artifact_ShadowBrokerArms();
+                }
+            }
 
             if (item != null)
                 return item;
+            else
+                return null;
         }
         public static void GenerateEnchantedItem(Mobile from, int enchantLevel, Container rewardBag)
         {

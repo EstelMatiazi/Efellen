@@ -8,6 +8,7 @@ using Server.ContextMenus;
 using Server.Gumps;
 using Server.Misc;
 using Server.Mobiles;
+using Server.Custom.DefenderOfTheRealm.Vow;
 
 namespace Server.Mobiles
 {
@@ -28,6 +29,13 @@ namespace Server.Mobiles
 			SetSkill( SkillName.Fencing, 75.0, 98.0 );
 			SetSkill( SkillName.Stealth, 85.0, 100.0 );
 			SetSkill( SkillName.RemoveTrap, 85.0, 100.0 );
+			AddItem( new Server.Items.Cloak() );
+			AddItem(new Server.Items.Artifact_ShadowBrokerArms());
+			AddItem(new Server.Items.Artifact_ShadowBrokerCap());
+			AddItem(new Server.Items.Artifact_ShadowBrokerGloves());
+			AddItem(new Server.Items.Artifact_ShadowBrokerGorget());
+			AddItem(new Server.Items.Artifact_ShadowBrokerLeggings());
+			AddItem(new Server.Items.Artifact_ShadowBrokerTunic());
 		}
 
 		public override void InitSBInfo( Mobile m )
@@ -35,6 +43,39 @@ namespace Server.Mobiles
 			m_Merchant = m;
 			SBInfos.Add( new MyStock() );
 		}
+
+		public override bool HandlesOnSpeech( Mobile from ) 
+		{ 
+			return true; 
+		} 
+
+        public override void OnSpeech(SpeechEventArgs e)
+        {
+            Mobile from = e.Mobile;
+
+            if (from == null || !(from is PlayerMobile))
+                return;
+          
+            if( e.Mobile.InRange( this, 4 ))
+			{
+			    if (e.Speech.IndexOf("reward") >= 0)
+                {
+					if (from is PlayerMobile && ((PlayerMobile)from).NpcGuild == NpcGuild.ThievesGuild)
+                    {
+                        from.SendGump(new Server.Custom.DefenderOfTheRealm.RewardGump(from, 3, 0));
+                        Say("These are the rewards I can offer you, friend.");
+                    }
+                    else
+                    {
+                        Say("I don't do business outside of the guild, friend.");
+                    }
+                }
+			    else 
+			    { 
+			        base.OnSpeech( e ); 
+			    }
+			}
+        }
 
 		public class MyStock: SBInfo
 		{
@@ -73,21 +114,6 @@ namespace Server.Mobiles
 			}
 		}
 
-		public override void InitOutfit()
-		{
-			base.InitOutfit();
-
-			int color = Utility.RandomNeutralHue();
-			switch ( Utility.RandomMinMax( 0, 5 ) )
-			{
-				case 0: AddItem( new Server.Items.Bandana( color ) ); break;
-				case 1: AddItem( new Server.Items.SkullCap( color ) ); break;
-				case 2: AddItem( new Server.Items.ClothCowl( color ) ); AddItem( new Server.Items.Cloak( color ) ); break;
-				case 3: AddItem( new Server.Items.ClothHood( color ) ); AddItem( new Server.Items.Cloak( color ) ); break;
-				case 4: AddItem( new Server.Items.FancyHood( color ) ); AddItem( new Server.Items.Cloak( color ) ); break;
-				case 5: AddItem( new Server.Items.HoodedMantle( color ) ); AddItem( new Server.Items.Cloak( color ) ); break;
-			}
-		}
 
 		public override void SayWelcomeTo( Mobile m )
 		{
@@ -271,82 +297,33 @@ namespace Server.Mobiles
 
 		    if (box is CommonContrabandBox)
 		    {
-		        int min = 50, max = 250;
-		        int amount = GetGoldByLuck(min, max, luck);
-		        rewardBag.DropItem(new Gold(amount));
-		        GenerateEnchantedItem(mobile, 75, rewardBag);
-		        rewardBag.DropItem(Loot.RandomPotion(4, false));
+				VowRewardHelper.GenerateRewards( mobile, 5, rewardBag, VowType.Shadowbroker );
+				rewardBag.DropItem(new MarksOfTheShadowbroker(Utility.RandomMinMax(10, 25)));
 		    }
 		    else if (box is UncommonContrabandBox)
 		    {
-		        int min = 250, max = 450;
-		        int amount = GetGoldByLuck(min, max, luck);
-		        rewardBag.DropItem(new Gold(amount));
-		        GenerateEnchantedItem(mobile, 150, rewardBag);
-		        rewardBag.DropItem(Loot.RandomPotion(8, false));
+		    	VowRewardHelper.GenerateRewards( mobile, 10, rewardBag, VowType.Shadowbroker );
+				rewardBag.DropItem(new MarksOfTheShadowbroker(Utility.RandomMinMax(35, 75)));
 		    }
 		    else if (box is RareContrabandBox)
 		    {
-		        int min = 550, max = 1090;
-		        int amount = GetGoldByLuck(min, max, luck);
-		        rewardBag.DropItem(new Gold(amount));
-		        GenerateEnchantedItem(mobile, 200, rewardBag);
-
-		        if (Utility.Random(5) == 0)
-		            rewardBag.DropItem(PowerScroll.CreateRandom(5, 10));
-
-		        if (Utility.Random(5) == 0)
-		            rewardBag.DropItem(ScrollofTranscendence.CreateRandom(5, 15));
-
-		        rewardBag.DropItem(Loot.RandomRare(Utility.RandomMinMax(6, 12), mobile));
-		        rewardBag.DropItem(Loot.RandomRelic(mobile));
+		        VowRewardHelper.GenerateRewards( mobile, 20, rewardBag, VowType.Shadowbroker );
+				rewardBag.DropItem(new MarksOfTheShadowbroker(Utility.RandomMinMax(105, 145)));
 		    }
 		    else if (box is VeryRareContrabandBox)
 		    {
-		        int min = 1540, max = 2800;
-		        int amount = GetGoldByLuck(min, max, luck);
-		        rewardBag.DropItem(new Gold(amount));
-				GenerateEnchantedItem(mobile, 300, rewardBag);
-		        if (Utility.RandomBool())
-		            rewardBag.DropItem(PowerScroll.CreateRandom(5, 10));
-		        else
-		            rewardBag.DropItem(ScrollofTranscendence.CreateRandom(5, 15));
-
-		        rewardBag.DropItem(Loot.RandomRare(Utility.RandomMinMax(6, 12), mobile));
-		        rewardBag.DropItem(Loot.RandomRelic(mobile));
+				VowRewardHelper.GenerateRewards( mobile, 30, rewardBag, VowType.Shadowbroker );
+				rewardBag.DropItem(new MarksOfTheShadowbroker(Utility.RandomMinMax(185, 225)));
 		    }
 		    else if (box is ExtremelyRareContrabandBox)
 		    {
-		        int min = 3500, max = 6600;
-		        int amount = GetGoldByLuck(min, max, luck);
-		        rewardBag.DropItem(new BankCheck(amount));
-				GenerateEnchantedItem(mobile, 400, rewardBag);
-		        rewardBag.DropItem(PowerScroll.CreateRandom(5, 15));
-		        rewardBag.DropItem(ScrollofTranscendence.CreateRandom(5, 25));
-
-		        if (Utility.Random(5) == 0)
-		            rewardBag.DropItem(Loot.RandomArty());
-
-		        rewardBag.DropItem(Loot.RandomRare(Utility.RandomMinMax(6, 12), mobile));
-		        rewardBag.DropItem(Loot.RandomRelic(mobile));
+		        VowRewardHelper.GenerateRewards( mobile, 40, rewardBag, VowType.Shadowbroker );
+				rewardBag.DropItem(new MarksOfTheShadowbroker(Utility.RandomMinMax(285, 345)));
 		    }
 		    else if (box is LegendaryContrabandBox)
 		    {
-		        int min = 10000, max = 12000;
-		        int amount = GetGoldByLuck(min, max, luck);
-		        rewardBag.DropItem(new BankCheck(amount));
-				GenerateEnchantedItem(mobile, 500, rewardBag);
-		        Item arty = Loot.RandomArty();
-		        
-				if (arty != null)
-		            rewardBag.DropItem(arty);
-
-		        rewardBag.DropItem(PowerScroll.CreateRandom(10, 20));
-		        rewardBag.DropItem(ScrollofTranscendence.CreateRandom(5, 35));
-		        rewardBag.DropItem(Loot.RandomRare(Utility.RandomMinMax(6, 12), mobile));
-		        rewardBag.DropItem(Loot.RandomRare(Utility.RandomMinMax(6, 12), mobile));
-		        rewardBag.DropItem(Loot.RandomRelic(mobile));
-		        rewardBag.DropItem(Loot.RandomRelic(mobile));
+		        VowRewardHelper.GenerateRewards( mobile, 50, rewardBag, VowType.Shadowbroker );
+				rewardBag.DropItem(new MarksOfTheShadowbroker(Utility.RandomMinMax(425, 500)));
 		    }
 		    mobile.AddToBackpack(rewardBag);
 			mobile.SendMessage("The Guildmaster rewards you for your skill and discretion.");
@@ -371,32 +348,5 @@ namespace Server.Mobiles
 			LoggingFunctions.LogStandard( mobile, "has smuggled a " + box.Name + "!" );
 
 		}
-
-		private static void GenerateEnchantedItem(Mobile from, int enchantLevel, Container rewardBag)
-        {
-            Item item = Loot.RandomMagicalItem(Server.LootPackEntry.playOrient(from));
-            if (item != null)
-            {
-                item = LootPackEntry.Enchant(from, enchantLevel, item);
-                rewardBag.DropItem(item);
-            }
-        }
-
-		private static int GetGoldByLuck(int min, int max, int luck)
-		{
-		    int randomValue = Utility.RandomMinMax(min, max);
-
-		    if (luck <= 0)
-		        return randomValue;
-
-		    if (luck >= 2000)
-		        return max;
-
-		    double luckFactor = Math.Min(luck, 2000) / 2000.0;
-		    int adjustedValue = min + (int)((max - min) * luckFactor);
-
-		    return Math.Max(randomValue, adjustedValue);
-		}
-
 	}
 }
