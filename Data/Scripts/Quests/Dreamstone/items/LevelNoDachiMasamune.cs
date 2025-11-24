@@ -59,7 +59,7 @@ namespace Server.Items
 
 		public override bool OnEquip(Mobile from)
 		{
-			if (m_Owner != null && m_Owner.Length > 0 && from.Name != m_Owner)
+			if (m_Owner != null && m_Owner.Length > 0 && from.Name != m_Owner && from.Karma < 0)
 			{
 				from.SendMessage("You are not worthy of the Masamune.");
 				return false;

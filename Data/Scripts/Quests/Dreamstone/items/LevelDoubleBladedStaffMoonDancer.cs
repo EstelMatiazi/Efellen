@@ -54,7 +54,7 @@ namespace Server.Items
 		}
         public override bool OnEquip(Mobile from)
 		{
-			if (m_Owner != null && m_Owner.Length > 0 && from.Name != m_Owner)
+			if (m_Owner != null && m_Owner.Length > 0 && from.Name != m_Owner && from.Skills[SkillName.Tactics].Base < 111.0)
 			{
 				from.SendMessage("You are not worthy of the Moon Dancer.");
 				return false;

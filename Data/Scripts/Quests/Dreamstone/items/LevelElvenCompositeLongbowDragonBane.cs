@@ -61,7 +61,7 @@ namespace Server.Items
 		}
 		public override bool OnEquip(Mobile from)
 		{
-			if (m_Owner != null && m_Owner.Length > 0 && from.Name != m_Owner)
+			if (m_Owner != null && m_Owner.Length > 0 && from.Name != m_Owner && from.Skills[SkillName.Tracking].Base < 111.0)
 			{
 				from.SendMessage("You are not worthy of the Dragonbane.");
 				return false;

@@ -56,7 +56,7 @@ namespace Server.Items
 
 		public override bool OnEquip(Mobile from)
 		{
-			if (m_Owner != null && m_Owner.Length > 0 && from.Name != m_Owner)
+			if (m_Owner != null && m_Owner.Length > 0 && from.Name != m_Owner && from.Skills[SkillName.MagicResist].Base < 111)
 			{
 				from.SendMessage("You are not worthy of Kongor's Undying Rage.");
 				return false;
