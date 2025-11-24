@@ -993,7 +993,7 @@ namespace Server.Multis
 			BaseHouse house = BaseHouse.FindHouseAt(from);
 
 			if (house == null)
-				return false;
+				return true;
 
 			SecureAccessResult res = CheckSecureAccess( from, item );
 
