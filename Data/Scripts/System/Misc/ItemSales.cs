@@ -4149,7 +4149,9 @@ namespace Server
 			new ItemSalesInfo( typeof(	Ruby	),	70	,	15	,	0	,	false	,	false	,	World.None	,	Category.None	,	Material.None	,	Market.Jeweler	),
 			new ItemSalesInfo( typeof(	Sapphire	),	110	,	15	,	0	,	false	,	false	,	World.None	,	Category.None	,	Material.None	,	Market.Jeweler	),
 			new ItemSalesInfo( typeof(	StarSapphire	),	120	,	15	,	0	,	false	,	false	,	World.None	,	Category.None	,	Material.None	,	Market.Jeweler	),
-			new ItemSalesInfo( typeof(	Tourmaline	),	80	,	15	,	0	,	false	,	false	,	World.None	,	Category.None	,	Material.None	,	Market.Jeweler	)
+			new ItemSalesInfo( typeof(	Tourmaline	),	80	,	15	,	0	,	false	,	false	,	World.None	,	Category.None	,	Material.None	,	Market.Jeweler	),
+			new ItemSalesInfo( typeof(	LesserWandOfDisenchanting	),	1000	,	0	,	0	,	false	,	false	,	World.None	,	Category.Rare	,	Material.None	,	Market.Mage	),
+			new ItemSalesInfo( typeof(	ArcaneDust	),	150	,	0	,	0	,	false	,	false	,	World.None	,	Category.None	,	Material.None	,	Market.Mage	)
 		};
 	}
 }

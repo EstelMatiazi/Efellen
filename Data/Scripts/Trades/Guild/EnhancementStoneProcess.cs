@@ -59,14 +59,14 @@ namespace Server.Items
 			{
 				Owner.SendMessage("This piece of equipment cannot be enhanced with that any further.");
 			}
-            else if (SpendGold(GetCostToUpgrade(handler)))
+            else if (SpendDust(GetCostToUpgrade(handler)))
             {
                 handler.Upgrade(ItemToUpgrade, false);
                 BeginProcess();
             }
         }
 
-        private bool SpendGold(int amount)
+        private bool SpendDust(int amount)
         {
             bool bought = (Owner.AccessLevel >= AccessLevel.GameMaster);
             bool fromBank = false;
@@ -74,12 +74,12 @@ namespace Server.Items
             Container cont = Owner.Backpack;
             if (!bought && cont != null)
             {
-                if (cont.ConsumeTotal(typeof(Gold), amount))
+                if (cont.ConsumeTotal(typeof(ArcaneDust), amount))
                     bought = true;
                 else
                 {
                     cont = Owner.FindBankNoCreate();
-                    if (cont != null && cont.ConsumeTotal(typeof(Gold), amount))
+                    if (cont != null && cont.ConsumeTotal(typeof(ArcaneDust), amount))
                     {
                         bought = true;
                         fromBank = true;
@@ -94,11 +94,11 @@ namespace Server.Items
             if (bought)
             {
                 if (Owner.AccessLevel >= AccessLevel.GameMaster)
-                    Owner.SendMessage("{0} gold would have been withdrawn from your bank if you were not an admin.", amount);
+                    Owner.SendMessage("{0} Arcane Dust would have been withdrawn from your bank if you were not an admin.", amount);
                 else if (fromBank)
-                    Owner.SendMessage("The total of your purchase is {0} gold, which has been withdrawn from your bank account.", amount);
+                    Owner.SendMessage("The total cost of your endeavor is {0} Arcane Dust, which has been withdrawn from your bank account.", amount);
                 else
-                    Owner.SendMessage("The total of your purchase is {0} gold.", amount);
+                    Owner.SendMessage("The total cost of your endeavor is {0} Arcane Dust.", amount);
             }
 
 			PlayerMobile pc = (PlayerMobile)Owner;
@@ -126,8 +126,8 @@ namespace Server.Items
         {
             int attrMultiplier = 1;
 
-			int gold = (int)( (double)BaseCost * ( 1.0 + ( (double)MySettings.S_GuildEnhanceMod / 100.0 ) ) );
-				if ( IsCraftedByEnhancer( ItemToUpgrade, Owner ) ){ gold = (int)( gold / 2 ); }
+			int dust = (int)( (double)BaseCost * ( 1.0 + ( (double)MySettings.S_GuildEnhanceMod / 100.0 ) ) );
+				if ( IsCraftedByEnhancer( ItemToUpgrade, Owner ) ){ dust = (int)( dust / 2 ); }
 
             if (AttrCountAffectsCost)
             {
@@ -143,9 +143,10 @@ namespace Server.Items
             int lvl = handler.Upgrade(ItemToUpgrade, true);
 
 			if ( lvl < max )
-				cost = ((lvl+1)*handler.Cost)*gold;
-
-            cost = (int)(cost * attrMultiplier);
+				cost = ((lvl+1)*handler.Cost)*dust;
+            // original cost quickly scaled up to a couple million gold coins per 1% increase in a prop. 
+            // arcane dust usages should still be expensive, but not prohibitively so. 
+            cost = (int)(cost * attrMultiplier)/50;
 
             return cost;
         }

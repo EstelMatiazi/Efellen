@@ -188,19 +188,16 @@ namespace Server.Custom.DefenderOfTheRealm.Scourge
           
             if( e.Mobile.InRange( this, 4 ))
 			{
-			    if ( ( e.Speech.ToLower() == "reward" ) )
+			    if ( e.Speech.IndexOf("reward") >= 0 )
 			    {
-			        if (e.Speech.IndexOf("reward") >= 0)
+			        if (from.Karma < 0)
                     {
-                        if (from.Karma < 0)
-                        {
-                            from.SendGump(new Server.Custom.DefenderOfTheRealm.RewardGump(from, false, 0));
-                            Say("These are the rewards I can offer thee.");
-                        }
-                        else
-                        {
-                            Say("I shall not offer my services to slaves of Virtue!");
-                        }
+                        from.SendGump(new Server.Custom.DefenderOfTheRealm.RewardGump(from, false, 0));
+                        Say("These are the rewards I can offer thee.");
+                    }
+                    else
+                    {
+                        Say("I shall not offer my services to slaves of Virtue!");
                     }
 			    }
 			    else 

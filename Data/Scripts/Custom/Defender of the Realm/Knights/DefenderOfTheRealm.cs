@@ -92,19 +92,16 @@ namespace Server.Custom.DefenderOfTheRealm.Knight
           
             if( e.Mobile.InRange( this, 4 ))
 			{
-			    if ( ( e.Speech.ToLower() == "reward" ) )
+			    if ( e.Speech.IndexOf("reward") >= 0 )
 			    {
-			        if (e.Speech.IndexOf("reward") >= 0)
+			        if (from.Karma > 0)
                     {
-                        if (from.Karma > 0)
-                        {
-                            from.SendGump(new Server.Custom.DefenderOfTheRealm.RewardGump(from, true, 0));
-                            Say("These are the rewards I can offer thee.");
-                        }
-                        else
-                        {
-                            Say("I shall not offer my services to servants of evil! Redeem thyself!");
-                        }
+                        from.SendGump(new Server.Custom.DefenderOfTheRealm.RewardGump(from, true, 0));
+                        Say("These are the rewards I can offer thee.");
+                    }
+                    else
+                    {
+                        Say("I shall not offer my services to servants of evil! Redeem thyself!");
                     }
 			    }
 			    else 

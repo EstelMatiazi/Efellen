@@ -14,6 +14,7 @@ namespace Server.Custom.DefenderOfTheRealm
         public string Name; <-- item name
         public bool Hueable; <-- sets default hue for the npc faction
         public int Hue <-- 0 for faction items, hue for items with hardcoded hues;
+        public object[] Args; <-- sets amount of items
          */
         public static RewardInfo[] CommonRewards = new RewardInfo[]
         {
@@ -31,7 +32,8 @@ namespace Server.Custom.DefenderOfTheRealm
             new RewardInfo(typeof(EtherealReptalon), 500, 0x2D95, "Ethereal Reptalon",true,0),
             new RewardInfo(typeof(EtherealHorse), 250, 0x20DD, "Ethereal Horse",true,0),
             new RewardInfo(typeof(EtherealLlama), 250, 0x20F6, "Ethereal Llama",true,0),
-            new RewardInfo(typeof(EtherealOstard), 250, 0x2135, "Ethereal Ostard",true,0)
+            new RewardInfo(typeof(EtherealOstard), 250, 0x2135, "Ethereal Ostard",true,0),
+            new RewardInfo(typeof(ArcaneDust), 50, 12265, "100 Arcane Dust",false,33,100)
         };
 
         public static RewardInfo[] DefenderRewards = new RewardInfo[]

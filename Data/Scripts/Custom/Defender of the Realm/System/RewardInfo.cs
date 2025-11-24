@@ -12,8 +12,9 @@ namespace Server.Custom.DefenderOfTheRealm
         public string Name;
         public bool Hueable;
         public int Hue;
+        public object[] Args;
 
-        public RewardInfo(Type type, int cost, int itemID, string name, bool hueable, int hue)
+        public RewardInfo(Type type, int cost, int itemID, string name, bool hueable, int hue,params object[] args)
         {
             ItemType = type;
             Cost = cost;
@@ -21,11 +22,12 @@ namespace Server.Custom.DefenderOfTheRealm
             Name = name;
             Hueable = hueable;
             Hue = hue;
+            Args = args; //amount
         }
 
         public Item CreateItem(bool isDefender)
         {
-            Item item = (Item)Activator.CreateInstance(ItemType);
+            Item item = (Item)Activator.CreateInstance(ItemType, Args);
 
             if (Hueable)
             {

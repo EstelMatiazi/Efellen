@@ -26,11 +26,11 @@ namespace Server.Gumps
             AddLabel(224, 12, 0x481, "Equipment Enhancement");
 
             AddLabel(15, 40, 0x481, "Attributes");
-            AddLabel(184, 40, 0x481, "Gold");
+            AddLabel(184, 40, 0x481, "Dust");
             AddLabel(273, 40, 0x481, "Use");
 
             AddLabel(319, 40, 0x481, "Attributes");
-            AddLabel(488, 40, 0x481, "Gold");
+            AddLabel(488, 40, 0x481, "Dust");
             AddLabel(577, 40, 0x481, "Use");
 
             int column = 0;
