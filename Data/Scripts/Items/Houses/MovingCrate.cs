@@ -151,14 +151,24 @@ namespace Server.Multis
 
 		public override bool CheckHold( Mobile m, Item item, bool message, bool checkItems, int plusItems, int plusWeight )
 		{
-			if ( m.AccessLevel < AccessLevel.GameMaster )
-			{
-				m.SendLocalizedMessage( 1061145 ); // You cannot place items into a house moving crate.
-				return false;
-			}
+		    if (!m.InRange(this.GetWorldLocation(), 3))
+		    {
+		        if (message)
+		            m.SendMessage("You are too far away to deposit items into that.");
 
-			return base.CheckHold( m, item, message, checkItems, plusItems, plusWeight );
+		        return false;
+		    }
+
+		    if (m.AccessLevel < AccessLevel.GameMaster)
+		    {
+		        if (message)
+		            m.SendLocalizedMessage(1061145); // You cannot place items into a house moving crate.
+		        return false;
+		    }
+
+		    return base.CheckHold(m, item, message, checkItems, plusItems, plusWeight);
 		}
+
 
 		public override bool CheckLift( Mobile from, Item item, ref LRReason reject )
 		{
