@@ -104,12 +104,9 @@ namespace Server.Spells.HolyMan
 				return false;
 			}
 
-			if ( !base.CheckFizzle() )
-				return false;
-
 			DrainSoulsInSymbol( Caster, RequiredTithing );
 
-			return true;
+			return base.CheckFizzle();
 		}
 
 		public override void DoFizzle()

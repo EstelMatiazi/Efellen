@@ -81,12 +81,7 @@ namespace Server.Spells.Ninjitsu
 				return false;
 			}
 
-			if ( !base.CheckFizzle() )
-				return false;
-
-			Caster.Mana -= mana;
-
-			return true;
+			return base.CheckFizzle();
 		}
 
 		public override void GetCastSkills( out double min, out double max )
@@ -97,7 +92,7 @@ namespace Server.Spells.Ninjitsu
 
 		public override int GetMana()
 		{
-			return 0;
+			return RequiredMana;
 		}
 	}
 }
