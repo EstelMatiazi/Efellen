@@ -34,11 +34,11 @@ namespace Server.Custom.DefenderOfTheRealm
             if (amount <= 0)
                 return;
 
-            if (bc.Karma >= 10000 && killer.Karma < 0)
+            if ( killer.Karma < 0)
             {
                 c.DropItem(new MarksOfTheScourge(amount));
             }
-            else if (bc.Karma <= -10000 && killer.Karma > 0)
+            else if ( killer.Karma > 0)
             {
                 c.DropItem(new MarksOfHonor(amount));
             }
