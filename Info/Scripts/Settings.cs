@@ -55,7 +55,7 @@ namespace Server
 
 	// This setting is the number of days a character must exist before a player can delete them.
 
-		public static double S_DeleteDays = 7.0;
+		public static double S_DeleteDays = 0.0;
 
 	// If true, players can just type in a name and password and it will create an account for them.
 
@@ -197,7 +197,7 @@ namespace Server
 	// If true, then characters will not get hungry or thirsty when inside places like banks, inns, or houses...allowing you
 	// to step away from the game without your character starving eventually.
 
-		public static bool S_Belly = false;
+		public static bool S_Belly = true;
 
 	// This number can be set from 5 to 60, which determines the number of minutes that hunger and thirst are checked for
 	// reduction (default is 5).
@@ -509,7 +509,7 @@ namespace Server
 
 	// If true (default false) then vendors will buy anything they normally stock. Some items have a default rarity % that this setting does not affect.
 
-		public static bool S_BuyAll = false;
+		public static bool S_BuyAll = true;
 
 	// If false, then vendors will NOT buy some tailor materials (cotton, flax, wool, regular cloth, and string).
 	// Does not affect a custom merchant that is set to buy such items.
@@ -605,7 +605,7 @@ namespace Server
 	// false, the lawn items will refund the gold back to the character's bank box and the lawn tools will be
 	// removed from the game.
 
-		public static bool S_LawnsAllowed = false;
+		public static bool S_LawnsAllowed = true;
 
 	// When true (default setting), characters can use remodeling tools (from architects) to add items to their
 	// home like walls, doors, tiles, and other items. Remodeling tools require an amount of gold to place items.
@@ -613,7 +613,7 @@ namespace Server
 	// remodeling items will refund the gold back to the character's bank box and the remodeling tools will be
 	// removed from the game.
 
-		public static bool S_ShantysAllowed = false;
+		public static bool S_ShantysAllowed = true;
 
 	// The number of days, no less than 5.0 (decimal format), that a boat or magic carpet will decay if on
 	// the sea not used.
@@ -630,7 +630,7 @@ namespace Server
 
 	// The amount of houses an account's characters may own. A -1 setting will be unlimited.
 
-		public static int S_HousesPerAccount = 1;
+		public static int S_HousesPerAccount = -1;
 
 	// If true, this means that the players can dye construction contracts so their pre-designed home is
 	// entirely in that same color.
@@ -640,13 +640,13 @@ namespace Server
 	// If true, then players can make use of the custom house system. Otherwise they can only purchase the
 	// pre-built classic houses.
 
-		public static bool S_AllowCustomHomes = false;
+		public static bool S_AllowCustomHomes = true;
 
 	// If true, the public basement system is active. This lets players buy basement doors for their homes
 	// and basement doors will appear in some trade shops. These lead to the same basement public area and
 	// is usually used for multiplayer game environments.
 
-		public static bool S_Basements = false;
+		public static bool S_Basements = true;
 
 	// If true, then anything you set in you home will never decay. This makes the housing system's storage
 	// capacity useless as any home can hold any amount of items, and it may convince players to never
