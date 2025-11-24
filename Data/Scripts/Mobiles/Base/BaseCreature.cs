@@ -6317,7 +6317,8 @@ namespace Server.Mobiles
 			int x = System.Math.Abs( this.X - attacker.X );
 			int y = System.Math.Abs( this.Y - attacker.Y );
 
-			if ( m_Coins > 0 && x < 2 && y < 2 && attacker is PlayerMobile && stealing >= 50.0 && level < stealing && snooping > Utility.RandomMinMax(20, 126) )
+			if ( m_Coins > 0 && x < 2 && y < 2 && attacker is PlayerMobile && ((PlayerMobile)attacker).NpcGuild == NpcGuild.ThievesGuild 
+				&& stealing >= 50.0 && level < stealing && snooping > Utility.RandomMinMax(20, 126) )
 			{
 				int coins = m_Coins * ( 1 - ( level / stealing ) );
 				if ( coins < 1 )
@@ -6329,10 +6330,9 @@ namespace Server.Mobiles
 
 				if ( m_Coins < 0 )
 					m_Coins = 0;
-				if (attacker is PlayerMobile && ((PlayerMobile)attacker).NpcGuild == NpcGuild.ThievesGuild)
-				{
-					attacker.AddToBackpack( new MarksOfTheShadowbroker( coins ) );	
-				}
+				
+				attacker.AddToBackpack( new MarksOfTheShadowbroker( coins ) );	
+				
 				string stole = "stolen";
 				switch ( Utility.RandomMinMax( 0, 7 ) ) 
 				{

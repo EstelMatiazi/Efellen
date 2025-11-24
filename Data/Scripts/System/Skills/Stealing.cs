@@ -437,7 +437,7 @@ namespace Server.SkillHandlers
 				            from.AddToBackpack(stolenGold);
 							from.PublicOverheadMessage(MessageType.Regular, 0x3B2, false, string.Format("You successfully stole {0} gold.", gold));
 							from.SendMessage(string.Format("You successfully stole {0} gold.", gold));
-				            if(from.Skills[SkillName.Snooping].Value > Utility.RandomMinMax(20, 126) && marks > 0)			
+				            if(from.Skills[SkillName.Snooping].Value > Utility.RandomMinMax(20, 126) && marks > 0 && IsInGuild(from))			
 							{
 								from.AddToBackpack(new MarksOfTheShadowbroker(marks));
 								from.SendMessage(string.Format("You gained {0} Marks of the Shadowbroker.", marks));
