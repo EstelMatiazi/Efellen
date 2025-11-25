@@ -34,7 +34,6 @@ namespace Server.Items
 			BookTitle = Server.Misc.RandomThings.GetBookTitle();
 			Name = BookTitle;
 			BookAuthor = Server.Misc.RandomThings.GetRandomAuthor();
-			val = 48;
 			switch( val )
 			{
 				case 0: BookTitle = "Akalabeth's Tale"; BookAuthor = "Shamino the Anarch"; SetBookCover( 1, this ); break;
