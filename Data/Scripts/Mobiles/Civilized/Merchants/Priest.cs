@@ -163,13 +163,6 @@ namespace Server.Mobiles
 
 				return false;
 			}
-			else if ( dropped is Gold && dropped.Amount >= 5 && Server.Misc.GetPlayerInfo.isJedi ( from, false ) )
-			{
-				int crystals = (int)( dropped.Amount / 5 );
-				this.Say( "Bring light to the world with these, Jedi." );
-				from.AddToBackpack ( new KaranCrystal( crystals ) );
-				dropped.Delete();
-			}
 
 			return base.OnDragDrop( from, dropped );
 		}

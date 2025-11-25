@@ -111,7 +111,7 @@ namespace Server
 			return String.Format( "[{0}: {1}]", Name, Base );
 		}
 
-		public static string CharacterTitle( string skillTitle, bool gender, int karma, double knightship, double seafaring, double magery, double necromancy, double healing, double spirits, int isBarbaric, bool isOriental, bool isMonk, bool isSyth, bool isJedi, bool isJester, bool isEvil )
+		public static string CharacterTitle( string skillTitle, bool gender, int karma, double knightship, double seafaring, double magery, double necromancy, double healing, double spirits, int isBarbaric, bool isOriental, bool isMonk, bool isJester, bool isEvil )
 		{
 			if ( isBarbaric > 0 && 
 				( skillTitle.Contains("Alchemist") || 
@@ -174,16 +174,7 @@ namespace Server
 				skillTitle = skillTitle.Replace("Brawler", "Monk");
 				if ( magery >= 50 || necromancy >= 50 ){ skillTitle = skillTitle.Replace("Monk", "Mystic"); }
 			}
-			else if ( ( skillTitle.Contains("Scholar") ) && isSyth )
-			{
-				skillTitle = skillTitle.Replace("Scholar", "Syth");
-			}
-			else if ( ( skillTitle.Contains("Scholar") ) && isJedi )
-			{
-				string jedi = "Jedi";
-				if ( knightship >= 100 ){ jedi = "Jedi Knight"; }
-				skillTitle = skillTitle.Replace("Scholar", jedi);
-			}
+			
 
 			else if ( skillTitle.Contains("Beggar") && isJester ){ skillTitle = skillTitle.Replace("Beggar", "Jester"); }
 			else if ( skillTitle.Contains("Scholar") && isJester ){ skillTitle = skillTitle.Replace("Scholar", "Joker"); }

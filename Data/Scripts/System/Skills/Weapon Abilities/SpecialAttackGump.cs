@@ -70,9 +70,7 @@ namespace Server.Gumps
 			int nActivated = 0x22;
 
 			if ( Server.Misc.GetPlayerInfo.isJester( from ) ){ nActivated = 0; }
-			else if ( Server.Misc.GetPlayerInfo.isSyth( from, false ) ){ nActivated = 0; }
-			else if ( Server.Misc.GetPlayerInfo.isJedi( from, false ) ){ nActivated = 0; }
-
+			
 			CustomWeaponAbilities.SetAbilities(m_weapon, ref Primary, ref Secondary, ref Third, ref Fourth, ref Fifth);
 
 			AddImage(nLeft+7, nButton-24, 3609);
@@ -81,8 +79,6 @@ namespace Server.Gumps
 			AddButton(nLeft, nButton, PrimaryIcon, PrimaryIcon, 1, GumpButtonType.Reply, 0);
 				if ( PrimaryState != 9781 ){ AddImage( nLeft, nButton, PrimaryIcon, nActivated ); }
 				else if ( Server.Misc.GetPlayerInfo.isJester( from ) ){ AddImage( nLeft, nButton, PrimaryIcon, 32 ); }
-				else if ( Server.Misc.GetPlayerInfo.isSyth( from, false ) ){ AddImage( nLeft, nButton, PrimaryIcon, 0x22 ); }
-				else if ( Server.Misc.GetPlayerInfo.isJedi( from, false ) ){ AddImage( nLeft, nButton, PrimaryIcon, 2825 ); }
 				if ( AbilityNamesWeapon.From( from ) ){ AddLabel(nLeft+52, nText, 0x481, @"" + GetAbilName( Primary ) + ""); }
 
 			nButton = nButton + nDown;
@@ -95,8 +91,6 @@ namespace Server.Gumps
 				AddButton(nLeft, nButton, SecondaryIcon, SecondaryIcon, 2, GumpButtonType.Reply, 0);
 					if ( SecondaryState != 9781 ){ AddImage( nLeft, nButton, SecondaryIcon, nActivated ); }
 					else if ( Server.Misc.GetPlayerInfo.isJester( from ) ){ AddImage( nLeft, nButton, SecondaryIcon, 69 ); }
-					else if ( Server.Misc.GetPlayerInfo.isSyth( from, false ) ){ AddImage( nLeft, nButton, SecondaryIcon, 0x22 ); }
-					else if ( Server.Misc.GetPlayerInfo.isJedi( from, false ) ){ AddImage( nLeft, nButton, SecondaryIcon, 2825 ); }
 					if ( AbilityNamesWeapon.From( from ) ){ AddLabel(nLeft+52, nText, 0x481, @"" + GetAbilName( Secondary ) + ""); }
 
 				nButton = nButton + nDown;
@@ -109,8 +103,6 @@ namespace Server.Gumps
 				AddButton(nLeft, nButton, ThirdIcon, ThirdIcon, 3, GumpButtonType.Reply, 0);
 					if ( ThirdState != 9781 ){ AddImage( nLeft, nButton, ThirdIcon, nActivated ); }
 					else if ( Server.Misc.GetPlayerInfo.isJester( from ) ){ AddImage( nLeft, nButton, ThirdIcon, 93 ); }
-					else if ( Server.Misc.GetPlayerInfo.isSyth( from, false ) ){ AddImage( nLeft, nButton, ThirdIcon, 0x22 ); }
-					else if ( Server.Misc.GetPlayerInfo.isJedi( from, false ) ){ AddImage( nLeft, nButton, ThirdIcon, 2825 ); }
 					if ( AbilityNamesWeapon.From( from ) ){ AddLabel(nLeft+52, nText, 0x481, @"" + GetAbilName( Third ) + ""); }
 
 				nButton = nButton + nDown;
@@ -123,8 +115,6 @@ namespace Server.Gumps
 				AddButton(nLeft, nButton, FourthIcon, FourthIcon, 4, GumpButtonType.Reply, 0);
 					if ( FourthState != 9781 ){ AddImage( nLeft, nButton, FourthIcon, nActivated ); }
 					else if ( Server.Misc.GetPlayerInfo.isJester( from ) ){ AddImage( nLeft, nButton, FourthIcon, 114 ); }
-					else if ( Server.Misc.GetPlayerInfo.isSyth( from, false ) ){ AddImage( nLeft, nButton, FourthIcon, 0x22 ); }
-					else if ( Server.Misc.GetPlayerInfo.isJedi( from, false ) ){ AddImage( nLeft, nButton, FourthIcon, 2825 ); }
 					if ( AbilityNamesWeapon.From( from ) ){ AddLabel(nLeft+52, nText, 0x481, @"" + GetAbilName( Fourth ) + ""); }
 
 				nButton = nButton + nDown;
@@ -137,8 +127,6 @@ namespace Server.Gumps
 				AddButton(nLeft, nButton, FifthIcon, FifthIcon, 5, GumpButtonType.Reply, 0);
 					if ( FifthState != 9781 ){ AddImage( nLeft, nButton, FifthIcon, nActivated ); }
 					else if ( Server.Misc.GetPlayerInfo.isJester( from ) ){ AddImage( nLeft, nButton, FifthIcon, 253 ); }
-					else if ( Server.Misc.GetPlayerInfo.isSyth( from, false ) ){ AddImage( nLeft, nButton, FifthIcon, 0x22 ); }
-					else if ( Server.Misc.GetPlayerInfo.isJedi( from, false ) ){ AddImage( nLeft, nButton, FifthIcon, 2825 ); }
 					if ( AbilityNamesWeapon.From( from ) ){ AddLabel(nLeft+52, nText, 0x481, @"" + GetAbilName( Fifth ) + ""); }
 
 				nButton = nButton + nDown;

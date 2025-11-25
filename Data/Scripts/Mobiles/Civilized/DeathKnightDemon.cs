@@ -70,13 +70,6 @@ namespace Server.Mobiles
 				from.AddToBackpack ( new DeathKnightWarhorse() );
 				dropped.Delete();
 			}
-			else if ( dropped is Gold && dropped.Amount >= 5 && Server.Misc.GetPlayerInfo.isSyth ( from, false ) )
-			{
-				int crystals = (int)( dropped.Amount / 5 );
-				this.Say( "Do with these what you will, Syth." );
-				from.AddToBackpack ( new HellShard( crystals ) );
-				dropped.Delete();
-			}
 			else if ( dropped is BaseClothing || dropped is BaseArmor )
 			{
 				if ( dropped.Layer == Layer.Cloak && dropped.ItemID != 0x2FC5 && dropped.ItemID != 0x317B )

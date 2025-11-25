@@ -2125,8 +2125,6 @@ namespace Server.Mobiles
 						}
 
 						Server.Spells.Mystic.WindRunner.RemoveEffect( this );
-						Server.Spells.Syth.SythSpeed.RemoveEffect( this );
-						Server.Spells.Jedi.Celerity.RemoveEffect( this );
 						Server.Spells.Shinobi.CheetahPaws.RemoveEffect( this );
 					}
 					Server.Misc.HenchmanFunctions.DismountHenchman( this );
@@ -4011,14 +4009,6 @@ namespace Server.Mobiles
 					else if ( (shoes is HikingBoots || shoes is LevelHikingBoots || shoes is GiftHikingBoots) && pm.RaceID > 0 ){ return true; }
 				}
 				if ( Spells.Mystic.WindRunner.UnderEffect( pm ) )
-				{
-					return true;
-				}
-				if ( Spells.Syth.SythSpeed.UnderEffect( pm ) )
-				{
-					return true;
-				}
-				if ( Spells.Jedi.Celerity.UnderEffect( pm ) )
 				{
 					return true;
 				}

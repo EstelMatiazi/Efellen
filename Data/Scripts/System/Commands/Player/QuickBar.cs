@@ -71,7 +71,6 @@ namespace Server.Gumps
 			int set27 = 0; 
 			int set28 = 0; 
 			int set29 = 0; 
-			int set30 = 0; 
 			int set31 = 0; 
 			int set32 = 0; 
 			int set33 = 0; 
@@ -79,7 +78,6 @@ namespace Server.Gumps
 			int set35 = 0; 
 			int set36 = 0; 
 			int set37 = 0; 
-			int set38 = 0; 
 			int set39 = 0; 
 			int set40 = 0; 
 
@@ -153,7 +151,6 @@ namespace Server.Gumps
 					else if ( nEntry == 27 && key == "1" ){ set27 = 1; }
 					else if ( nEntry == 28 && key == "1" ){ set28 = 1; }
 					else if ( nEntry == 29 && key == "1" ){ set29 = 1; }
-					else if ( nEntry == 30 && key == "1" ){ set30 = 1; }
 					else if ( nEntry == 31 && key == "1" ){ set31 = 1; }
 					else if ( nEntry == 32 && key == "1" ){ set32 = 1; }
 					else if ( nEntry == 33 && key == "1" ){ set33 = 1; }
@@ -161,7 +158,6 @@ namespace Server.Gumps
 					else if ( nEntry == 35 && key == "1" ){ set35 = 1; }
 					else if ( nEntry == 36 && key == "1" ){ set36 = 1; }
 					else if ( nEntry == 37 && key == "1" ){ set37 = 1; }
-					else if ( nEntry == 38 && key == "1" ){ set38 = 1; }
 					else if ( nEntry == 39 && key == "1" ){ set39 = 1; }
 					else if ( nEntry == 40 && key == "1" ){ set40 = 1; }
 
@@ -192,7 +188,7 @@ namespace Server.Gumps
 
 			bool showICON = false;
 
-			while ( i < 40 )
+			while ( i <= 40 )
 			{
 				i++;
 				showICON = false;
@@ -224,7 +220,6 @@ namespace Server.Gumps
 				else if ( i == 27 && set27 == 1 ){ showICON = true; }
 				else if ( i == 28 && set28 == 1 ){ showICON = true; }
 				else if ( i == 29 && set29 == 1 ){ showICON = true; }
-				else if ( i == 30 && set30 == 1 ){ showICON = true; }
 				else if ( i == 31 && set31 == 1 ){ showICON = true; }
 				else if ( i == 32 && set32 == 1 ){ showICON = true; }
 				else if ( i == 33 && set33 == 1 ){ showICON = true; }
@@ -232,7 +227,6 @@ namespace Server.Gumps
 				else if ( i == 35 && set35 == 1 ){ showICON = true; }
 				else if ( i == 36 && set36 == 1 ){ showICON = true; }
 				else if ( i == 37 && set37 == 1 ){ showICON = true; }
-				else if ( i == 38 && set38 == 1 ){ showICON = true; }
 				else if ( i == 39 && set39 == 1 ){ showICON = true; }
 				else if ( i == 40 && set40 == 1 ){ showICON = true; }
 
@@ -261,12 +255,12 @@ namespace Server.Gumps
 					{
 						AddImage( x, y, QuickConfig.rowNumber(i,from) );
 					}
-					else
+					else if (i != 30 && i != 38)
 					{
 						AddButton(x, y, QuickConfig.rowNumber(i,from), QuickConfig.rowNumber(i,from), i, GumpButtonType.Reply, 0);
 					}
 
-					if ( i == 25 || i == 26 || i == 27 || i == 29 || i == 33 || i == 34 || i == 35 )
+					if ( (i == 25 || i == 26 || i == 27 || i == 29 || i == 33 || i == 34 || i == 35) && (i != 30 || i != 38) )
 					{
 						x=x+v; y=y+w; AddButton(x, y, QuickConfig.rowNumber(i,from), QuickConfig.rowNumber(i,from), i*10, GumpButtonType.Reply, 0);
 					}
@@ -342,29 +336,7 @@ namespace Server.Gumps
 			}
 			else if ( info.ButtonID == 29 ){ if ( from.HasGump( typeof( SpellBarsElement1 ) ) ){ InvokeCommand( "elementclose1", from ); } else { InvokeCommand( "elementtool1", from ); } }
 			else if ( info.ButtonID == 290 ){ if ( from.HasGump( typeof( SpellBarsElement2 ) ) ){ InvokeCommand( "elementclose2", from ); } else { InvokeCommand( "elementtool2", from ); } }
-			else if ( info.ButtonID == 30 )
-			{ 
-				if ( from.HasGump( typeof( JediSpellbook.PowerColumn ) ) )
-				{
-					from.CloseGump( typeof( JediSpellbook.PowerColumn ) );
-					if ( from.Backpack.FindItemByType( typeof ( JediSpellbook ) ) != null )
-					{
-						JediSpellbook jedi = (JediSpellbook)(from.Backpack.FindItemByType( typeof ( JediSpellbook ) ));
-						if ( jedi.owner == from )
-							from.SendGump( new Server.Items.JediSpellbook.PowerRow( from, jedi ) );
-					}
-				}
-				else if ( from.HasGump( typeof( JediSpellbook.PowerRow ) ) )
-				{
-					from.CloseGump( typeof( JediSpellbook.PowerRow ) );
-				}
-				else if ( from.Backpack.FindItemByType( typeof ( JediSpellbook ) ) != null )
-				{
-					JediSpellbook cube = (JediSpellbook)(from.Backpack.FindItemByType( typeof ( JediSpellbook ) ));
-					if ( cube.owner == from )
-						from.SendGump( new Server.Items.JediSpellbook.PowerColumn( from, cube ) );
-				}
-			}
+			
 			else if ( info.ButtonID == 31 )
 			{
 				if ( from.HasGump( typeof( BagOfTricks.TricksLargeColumn ) ) ){ 		from.CloseGump( typeof( BagOfTricks.TricksLargeColumn ) );	from.SendGump( new BagOfTricks.TricksLargeRow( from ) );	}
@@ -408,29 +380,6 @@ namespace Server.Gumps
 					ShinobiScroll scroll = (ShinobiScroll)(from.Backpack.FindItemByType( typeof ( ShinobiScroll ) ));
 					if ( scroll.owner == from )
 						from.SendGump( new Server.Items.ShinobiScroll.ShinobiColumn( from, scroll ) );
-				}
-			}
-			else if ( info.ButtonID == 38 )
-			{ 
-				if ( from.HasGump( typeof( SythSpellbook.PowerColumn ) ) )
-				{
-					from.CloseGump( typeof( SythSpellbook.PowerColumn ) );
-					if ( from.Backpack.FindItemByType( typeof ( SythSpellbook ) ) != null )
-					{
-						SythSpellbook syth = (SythSpellbook)(from.Backpack.FindItemByType( typeof ( SythSpellbook ) ));
-						if ( syth.owner == from )
-							from.SendGump( new Server.Items.SythSpellbook.PowerRow( from, syth ) );
-					}
-				}
-				else if ( from.HasGump( typeof( SythSpellbook.PowerRow ) ) )
-				{
-					from.CloseGump( typeof( SythSpellbook.PowerRow ) );
-				}
-				else if ( from.Backpack.FindItemByType( typeof ( SythSpellbook ) ) != null )
-				{
-					SythSpellbook cube = (SythSpellbook)(from.Backpack.FindItemByType( typeof ( SythSpellbook ) ));
-					if ( cube.owner == from )
-						from.SendGump( new Server.Items.SythSpellbook.PowerColumn( from, cube ) );
 				}
 			}
 			else if ( info.ButtonID == 39 )
@@ -489,7 +438,6 @@ namespace Server.Gumps
 			int btn27 = 3609;
 			int btn28 = 3609;
 			int btn29 = 3609;
-			int btn30 = 3609;
 			int btn31 = 3609;
 			int btn32 = 3609;
 			int btn33 = 3609;
@@ -497,7 +445,6 @@ namespace Server.Gumps
 			int btn35 = 3609;
 			int btn36 = 3609;
 			int btn37 = 3609;
-			int btn38 = 3609;
 			int btn39 = 3609;
 			int btn40 = 3609;
 
@@ -540,7 +487,6 @@ namespace Server.Gumps
 					else if ( nEntry == 27 && key == "1" ){ btn27 = 4017; }
 					else if ( nEntry == 28 && key == "1" ){ btn28 = 4017; }
 					else if ( nEntry == 29 && key == "1" ){ btn29 = 4017; }
-					else if ( nEntry == 30 && key == "1" ){ btn30 = 4017; }
 					else if ( nEntry == 31 && key == "1" ){ btn31 = 4017; }
 					else if ( nEntry == 32 && key == "1" ){ btn32 = 4017; }
 					else if ( nEntry == 33 && key == "1" ){ btn33 = 4017; }
@@ -548,7 +494,6 @@ namespace Server.Gumps
 					else if ( nEntry == 35 && key == "1" ){ btn35 = 4017; }
 					else if ( nEntry == 36 && key == "1" ){ btn36 = 4017; }
 					else if ( nEntry == 37 && key == "1" ){ btn37 = 4017; }
-					else if ( nEntry == 38 && key == "1" ){ btn38 = 4017; }
 					else if ( nEntry == 39 && key == "1" ){ btn39 = 4017; }
 					else if ( nEntry == 40 && key == "1" ){ btn40 = 4017; }
 
@@ -619,7 +564,6 @@ namespace Server.Gumps
 				else if ( icons == 27 ){ button = btn27; }
 				else if ( icons == 28 ){ button = btn28; }
 				else if ( icons == 29 ){ button = btn29; }
-				else if ( icons == 30 ){ button = btn30; }
 				else if ( icons == 31 ){ button = btn31; }
 				else if ( icons == 32 ){ button = btn32; }
 				else if ( icons == 33 ){ button = btn33; }
@@ -627,17 +571,18 @@ namespace Server.Gumps
 				else if ( icons == 35 ){ button = btn35; }
 				else if ( icons == 36 ){ button = btn36; }
 				else if ( icons == 37 ){ button = btn37; }
-				else if ( icons == 38 ){ button = btn38; }
 				else if ( icons == 39 ){ button = btn39; }
 				else if ( icons == 40 ){ button = btn40; }
 
 				count++;
 				if ( count == 16 || count == 29 ){ x = x+332; y = 158; }
 				y = y + p;
-
-				AddImage(x+36, y, rowNumber( icons, from ));
-				AddButton(x, y+6, button, button, icons, GumpButtonType.Reply, 0);
-				AddHtml( x+74, y+5, 223, 20, @"<BODY><BASEFONT Color=" + color + ">" + rowText( icons ) + "</BASEFONT></BODY>", (bool)false, (bool)false);
+				if(icons != 30 && icons != 38)
+                {
+					AddImage(x+36, y, rowNumber( icons, from ));
+					AddButton(x, y+6, button, button, icons, GumpButtonType.Reply, 0);
+					AddHtml( x+74, y+5, 223, 20, @"<BODY><BASEFONT Color=" + color + ">" + rowText( icons ) + "</BASEFONT></BODY>", (bool)false, (bool)false);
+                }
 			}
 
 		}
@@ -688,7 +633,6 @@ namespace Server.Gumps
 			else if ( set == 27 ){ row = "Death Knight Magic"; }
 			else if ( set == 28 ){ row = "Druid Potions"; }
 			else if ( set == 29 ){ row = "Elementalist Spells"; }
-			else if ( set == 30 ){ row = "Jedi Abilities"; }
 			else if ( set == 31 ){ row = "Jester Abilities"; }
 			else if ( set == 32 ){ row = "Magery Spells"; }
 			else if ( set == 33 ){ row = "Monk Abilities"; }
@@ -696,7 +640,6 @@ namespace Server.Gumps
 			else if ( set == 35 ){ row = "Priest Prayers"; }
 			else if ( set == 36 ){ row = "Ancient Spells"; }
 			else if ( set == 37 ){ row = "Shinobi Abilities"; }
-			else if ( set == 38 ){ row = "Syth Abilities"; }
 			else if ( set == 39 ){ row = "Witch Potions"; }
 			else if ( set == 40 ){ row = "Skill List"; }
 
@@ -754,7 +697,6 @@ namespace Server.Gumps
 			else if ( set == 27 ){ row = 10316; }
 			else if ( set == 28 ){ row = 10322; }
 			else if ( set == 29 ){ row = GetElementBookIcon( m ); }
-			else if ( set == 30 ){ row = 10331; }
 			else if ( set == 31 ){ row = 10332; }
 			else if ( set == 32 ){ row = 10318; }
 			else if ( set == 33 ){ row = 10335; }
@@ -762,7 +704,6 @@ namespace Server.Gumps
 			else if ( set == 35 ){ row = 10317; }
 			else if ( set == 36 ){ row = 10343; }
 			else if ( set == 37 ){ row = 10345; }
-			else if ( set == 38 ){ row = 10346; }
 			else if ( set == 39 ){ row = 10348; }
 			else if ( set == 40 ){ row = 10350; }
 

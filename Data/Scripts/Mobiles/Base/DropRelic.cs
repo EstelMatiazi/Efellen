@@ -108,53 +108,7 @@ namespace Server.Misc
 							}
 						}
 					}
-
-					/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-					if ( GetPlayerInfo.LuckyKiller( killer.Luck ) && Utility.RandomBool() && from is Syth )
-					{
-						int min = (int)(from.Fame/2000); if ( min < 1 ){ min = 1; }
-						int max = (int)(from.Fame/1000); if ( max < 2 ){ max = 2; }
-						int props = (int)(from.Fame/3000); if ( props < 1 ){ props = 1; }
-
-						BaseTrinket talisman = new TrinketTalisman();
-						BaseRunicTool.ApplyAttributesTo( talisman, false, killer.Luck, props, min, max );
-						talisman.Hue = Utility.RandomColor(0);
-						talisman.Name = "Mysticron of " + from.Name + " " + from.Title;
-						talisman.ItemID = 0x4CDE;
-						c.DropItem( talisman );
-					}
-
-					///////////////////////////////////////////////////////////////////////////////////////
-
-					SlayerEntry sythdemon = SlayerGroup.GetEntryByName( SlayerName.Exorcism );
-
-					Mobile syth = from.LastKiller;					// SYTH AND JEDI GET CRYSTALS
-					if ( sythdemon.Slays(from) && syth != null )
-					{
-						if ( syth is BaseCreature )
-							syth = ((BaseCreature)syth).GetMaster();
-
-						if ( syth is PlayerMobile && Utility.RandomBool() )
-						{
-							int minhs = (int)(from.Fame/600);
-								if ( minhs < 1 ){ minhs = 1; }
-							int maxhs = (int)(from.Fame/400);
-								if ( maxhs < 3 ){ maxhs = 3; }
-
-							if ( Server.Misc.GetPlayerInfo.isSyth ( syth, false ) )
-							{
-								Item hellshard = new HellShard( Utility.RandomMinMax( minhs, maxhs ) );
-								c.DropItem( hellshard );
-							}
-							else if ( Server.Misc.GetPlayerInfo.isJedi( syth, false )  )
-							{
-								Item karancrystal = new KaranCrystal( Utility.RandomMinMax( minhs, maxhs ) );
-								c.DropItem( karancrystal );
-							}
-						}
-					}
-
+					
 					/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 					if ( GetPlayerInfo.LuckyKiller( killer.Luck ) && Utility.RandomMinMax( 0, 100 ) > 90 && from.Skills[SkillName.Inscribe].Base >= 20 && from.Skills[SkillName.Magery].Base >= 20 )

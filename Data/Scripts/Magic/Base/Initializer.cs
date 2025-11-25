@@ -212,30 +212,6 @@ namespace Server.Spells
 			Register( 268, typeof( Jester.SeltzerBottle ) );
 			Register( 269, typeof( Jester.SurpriseGift ) );
 
-			// Syth abilities
-			Register( 270, typeof( Syth.Psychokinesis ) );
-			Register( 271, typeof( Syth.DeathGrip ) );
-			Register( 272, typeof( Syth.Projection ) );
-			Register( 273, typeof( Syth.ThrowSword ) );
-			Register( 274, typeof( Syth.SythSpeed ) );
-			Register( 275, typeof( Syth.SythLightning ) );
-			Register( 276, typeof( Syth.Absorption ) );
-			Register( 277, typeof( Syth.PsychicBlast ) );
-			Register( 278, typeof( Syth.DrainLife ) );
-			Register( 279, typeof( Syth.CloneBody ) );
-
-			// Jedi abilities
-			Register( 280, typeof( Jedi.ForceGrip ) );
-			Register( 281, typeof( Jedi.MindsEye ) );
-			Register( 282, typeof( Jedi.Mirage ) );
-			Register( 283, typeof( Jedi.ThrowSabre ) );
-			Register( 284, typeof( Jedi.Celerity ) );
-			Register( 285, typeof( Jedi.PsychicAura ) );
-			Register( 286, typeof( Jedi.Deflection ) );
-			Register( 287, typeof( Jedi.SoothingTouch ) );
-			Register( 288, typeof( Jedi.StasisField ) );
-			Register( 289, typeof( Jedi.Replicate ) );
-
 			// Shinobi abilities
 			Register( 290, typeof( Shinobi.CheetahPaws ) );
 			Register( 291, typeof( Shinobi.Deception ) );

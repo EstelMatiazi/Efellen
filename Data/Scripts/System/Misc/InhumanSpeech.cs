@@ -235,7 +235,7 @@ namespace Server.Misc
 							"les", "sath", "sia", "ais", "isa", "asi", "asth",
 							"stha", "sthi", "isth", "asa", "ath", "tha", "als",
 							"sla", "thth", "ci", "ce", "cy", "yss", "ys", "yth",
-							"syth", "thys", "yts", "syt", "tys", "tsy", "ssy",
+							"ysth", "thys", "yts", "syt", "tys", "tsy", "ssy",
 							"syl", "lys", "sys", "lyl", "thyl", "lyth", "sthy",
 							"lysh", "shy", "myss", "ysa", "sthy", "ysth"
 						};

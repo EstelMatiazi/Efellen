@@ -511,7 +511,7 @@ namespace Server.Items
 			if ( book.QuestTomeType == 1 )
 			{
 				foreach ( Mobile target in World.Mobiles.Values )
-				if ( target.Region is DungeonRegion && target.Fame >= 18000 && !( target is Exodus || target is CodexGargoyleA || target is CodexGargoyleB || target is Syth ) )
+				if ( target.Region is DungeonRegion && target.Fame >= 18000 && !( target is Exodus || target is CodexGargoyleA || target is CodexGargoyleB ) )
 				{
 					if ( target.Land == searchLocation )
 					{

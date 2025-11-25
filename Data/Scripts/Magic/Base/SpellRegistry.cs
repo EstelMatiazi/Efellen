@@ -158,8 +158,6 @@ namespace Server.Spells
 				"Mystic",
 				"Jester",
 				"Research",
-				"Syth",
-				"Jedi",
 				"Shinobi"
 			};
 

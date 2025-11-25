@@ -35,53 +35,6 @@ namespace Server.Items
 			list.Add( "Written by " + BookAuthor );
 		}
 
-		public class DynamicSythGump : Gump
-		{
-			public DynamicSythGump( Mobile from, DynamicBook book ): base( 100, 100 )
-			{
-				this.Closable=true;
-				this.Disposable=true;
-				this.Dragable=true;
-				this.Resizable=false;
-				this.AddPage(0);
-
-				AddImage(0, 0, 30521);
-				AddImage(51, 41, 11428);
-				AddImage(52, 438, 11426);
-				AddHtml( 275, 45, 445, 20, @"<BODY><BASEFONT Color=#FF0000>" + book.BookTitle + " by " + book.BookAuthor + "</BASEFONT></BODY>", (bool)false, (bool)false);
-				AddHtml( 275, 84, 445, 521, @"<BODY><BASEFONT Color=#00FF06>" + book.BookText + "</BASEFONT></BODY>", (bool)false, (bool)true);
-			}
-
-			public override void OnResponse( NetState state, RelayInfo info )
-			{
-				Mobile from = state.Mobile;
-				from.SendSound( 0x54D );
-			}
-		}
-
-		public class DynamicJediGump : Gump
-		{
-			public DynamicJediGump( Mobile from, DynamicBook book ): base( 100, 100 )
-			{
-				this.Closable=true;
-				this.Disposable=true;
-				this.Dragable=true;
-				this.Resizable=false;
-				this.AddPage(0);
-
-				AddImage(0, 0, 30521);
-				AddImage(51, 41, 11435);
-				AddImage(52, 438, 11433);
-				AddHtml( 275, 45, 445, 20, @"<BODY><BASEFONT Color=#308EB3>" + book.BookTitle + " by " + book.BookAuthor + "</BASEFONT></BODY>", (bool)false, (bool)false);
-				AddHtml( 275, 84, 445, 521, @"<BODY><BASEFONT Color=#00FF06>" + book.BookText + "</BASEFONT></BODY>", (bool)false, (bool)true);
-			}
-
-			public override void OnResponse( NetState state, RelayInfo info )
-			{
-				Mobile from = state.Mobile;
-				from.SendSound( 0x54D );
-			}
-		}
 
 		public class DynamicBookGump : Gump
 		{
@@ -209,25 +162,16 @@ namespace Server.Items
 				if ( ItemID == 0x4CDF )
 				{
 					e.CloseGump( typeof( DynamicBookGump ) );
-					e.CloseGump( typeof( DynamicSythGump ) );
-					e.CloseGump( typeof( DynamicJediGump ) );
-					e.SendGump( new DynamicSythGump( e, this ) );
 					e.SendSound( 0x54D );
 				}
 				else if ( ItemID == 0x543C )
 				{
 					e.CloseGump( typeof( DynamicBookGump ) );
-					e.CloseGump( typeof( DynamicSythGump ) );
-					e.CloseGump( typeof( DynamicJediGump ) );
-					e.SendGump( new DynamicJediGump( e, this ) );
 					e.SendSound( 0x54D );
 				}
 				else
 				{
-					e.CloseGump( typeof( DynamicSythGump ) );
 					e.CloseGump( typeof( DynamicBookGump ) );
-					e.CloseGump( typeof( DynamicJediGump ) );
-					e.SendGump( new DynamicBookGump( e, this ) );
 					e.SendSound( 0x55 );
 				}
 				Server.Gumps.MyLibrary.readBook ( this, e );

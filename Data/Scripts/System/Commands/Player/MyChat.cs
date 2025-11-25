@@ -167,31 +167,30 @@ namespace Server.Gumps
 				case 20: txt = "Gypsy"; spk = "Gypsy"; break;
 				case 21: txt = "Healer"; spk = "Healer"; break;
 				case 22: txt = "Herbalist"; spk = "Herbalist"; break;
-				case 23: txt = "Jedi"; spk = "Jedi"; break;
-				case 24: txt = "Jester"; spk = "Jester"; break;
-				case 25: txt = "Knight"; spk = "Knight"; break;
-				case 26: txt = "Leather Worker"; spk = "LeatherWorker"; break;
-				case 27: txt = "Mage"; spk = "Mage"; break;
-				case 28: txt = "Mapmaker"; spk = "Mapmaker"; break;
-				case 29: txt = "Monk"; spk = "Monk"; break;
-				case 30: txt = "Grounds Keeper"; spk = "NecroGreeter"; break;
-				case 31: txt = "Necromancer"; spk = "Necromancer"; break;
-				case 32: txt = "Painter"; spk = "Painter"; break;
-				case 33: txt = "Stablemaster"; spk = "Pets"; break;
-				case 34: txt = "Teacher of Knowledge"; spk = "Powerscroll"; break;
-				case 35: txt = "Provisioner"; spk = "Provisioner"; break;
-				case 36: txt = "Ranger"; spk = "Ranger"; break;
-				case 37: txt = "Sage"; spk = "Sage"; break;
-				case 38: txt = "Scribe"; spk = "Scribe"; break;
-				case 39: txt = "Shipwright"; spk = "Shipwright"; break;
-				case 40: txt = "Stonecrafter"; spk = "Stonecrafter"; break;
-				case 41: txt = "Tailor"; spk = "Tailor"; break;
-				case 42: txt = "Tanner"; spk = "Tanner"; break;
-				case 43: txt = "Tavern"; spk = "Tavern"; break;
-				case 44: txt = "Thief"; spk = "Thief"; break;
-				case 45: txt = "Art Collector"; spk = "Variety"; break;
-				case 46: txt = "Weaponsmith"; spk = "Weaponsmith"; break;
-				case 47: txt = "Xardok"; spk = "Xardok"; break;
+				case 23: txt = "Jester"; spk = "Jester"; break;
+				case 24: txt = "Knight"; spk = "Knight"; break;
+				case 25: txt = "Leather Worker"; spk = "LeatherWorker"; break;
+				case 26: txt = "Mage"; spk = "Mage"; break;
+				case 27: txt = "Mapmaker"; spk = "Mapmaker"; break;
+				case 28: txt = "Monk"; spk = "Monk"; break;
+				case 29: txt = "Grounds Keeper"; spk = "NecroGreeter"; break;
+				case 30: txt = "Necromancer"; spk = "Necromancer"; break;
+				case 31: txt = "Painter"; spk = "Painter"; break;
+				case 32: txt = "Stablemaster"; spk = "Pets"; break;
+				case 33: txt = "Teacher of Knowledge"; spk = "Powerscroll"; break;
+				case 34: txt = "Provisioner"; spk = "Provisioner"; break;
+				case 35: txt = "Ranger"; spk = "Ranger"; break;
+				case 36: txt = "Sage"; spk = "Sage"; break;
+				case 37: txt = "Scribe"; spk = "Scribe"; break;
+				case 38: txt = "Shipwright"; spk = "Shipwright"; break;
+				case 39: txt = "Stonecrafter"; spk = "Stonecrafter"; break;
+				case 40: txt = "Tailor"; spk = "Tailor"; break;
+				case 41: txt = "Tanner"; spk = "Tanner"; break;
+				case 42: txt = "Tavern"; spk = "Tavern"; break;
+				case 43: txt = "Thief"; spk = "Thief"; break;
+				case 44: txt = "Art Collector"; spk = "Variety"; break;
+				case 45: txt = "Weaponsmith"; spk = "Weaponsmith"; break;
+				case 46: txt = "Xardok"; spk = "Xardok"; break;
 			}
 
 			if ( part == 1 )
@@ -229,31 +228,30 @@ namespace Server.Gumps
 			else if ( chat == "Gypsy" ){ num = 20; }
 			else if ( chat == "Healer" ){ num = 21; }
 			else if ( chat == "Herbalist" ){ num = 22; }
-			else if ( chat == "Jedi" ){ num = 23; }
-			else if ( chat == "Jester" ){ num = 24; }
-			else if ( chat == "Knight" ){ num = 25; }
-			else if ( chat == "LeatherWorker" ){ num = 26; }
-			else if ( chat == "Mage" ){ num = 27; }
-			else if ( chat == "Mapmaker" ){ num = 28; }
-			else if ( chat == "Monk" ){ num = 29; }
-			else if ( chat == "NecroGreeter" ){ num = 30; }
-			else if ( chat == "Necromancer" ){ num = 31; }
-			else if ( chat == "Painter" ){ num = 32; }
-			else if ( chat == "Pets" ){ num = 33; }
-			else if ( chat == "Powerscroll" ){ num = 34; }
-			else if ( chat == "Provisioner" ){ num = 35; }
-			else if ( chat == "Ranger" ){ num = 36; }
-			else if ( chat == "Sage" ){ num = 37; }
-			else if ( chat == "Scribe" ){ num = 38; }
-			else if ( chat == "Shipwright" ){ num = 39; }
-			else if ( chat == "Stonecrafter" ){ num = 40; }
-			else if ( chat == "Tailor" ){ num = 41; }
-			else if ( chat == "Tanner" ){ num = 42; }
-			else if ( chat == "Tavern" ){ num = 43; }
-			else if ( chat == "Thief" ){ num = 44; }
-			else if ( chat == "Variety" ){ num = 45; }
-			else if ( chat == "Weaponsmith" ){ num = 46; }
-			else if ( chat == "Xardok" ){ num = 47; }
+			else if ( chat == "Jester" ){ num = 23; }
+			else if ( chat == "Knight" ){ num = 24; }
+			else if ( chat == "LeatherWorker" ){ num = 25; }
+			else if ( chat == "Mage" ){ num = 26; }
+			else if ( chat == "Mapmaker" ){ num = 27; }
+			else if ( chat == "Monk" ){ num = 28; }
+			else if ( chat == "NecroGreeter" ){ num = 29; }
+			else if ( chat == "Necromancer" ){ num = 30; }
+			else if ( chat == "Painter" ){ num = 31; }
+			else if ( chat == "Pets" ){ num = 32; }
+			else if ( chat == "Powerscroll" ){ num = 33; }
+			else if ( chat == "Provisioner" ){ num = 34; }
+			else if ( chat == "Ranger" ){ num = 35; }
+			else if ( chat == "Sage" ){ num = 36; }
+			else if ( chat == "Scribe" ){ num = 37; }
+			else if ( chat == "Shipwright" ){ num = 38; }
+			else if ( chat == "Stonecrafter" ){ num = 39; }
+			else if ( chat == "Tailor" ){ num = 40; }
+			else if ( chat == "Tanner" ){ num = 41; }
+			else if ( chat == "Tavern" ){ num = 42; }
+			else if ( chat == "Thief" ){ num = 43; }
+			else if ( chat == "Variety" ){ num = 44; }
+			else if ( chat == "Weaponsmith" ){ num = 45; }
+			else if ( chat == "Xardok" ){ num = 46; }
 
 			if ( num > 0 )
 			{

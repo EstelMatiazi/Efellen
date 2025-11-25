@@ -83,49 +83,6 @@ namespace Server.Misc
 			return false;
 		}
 
-		public static bool isSyth ( Mobile m, bool checkSword )
-		{
-			int points = 0;
-
-			Spellbook book = Spellbook.FindSyth( m );
-			if ( book is SythSpellbook )
-			{
-				SythSpellbook tome = (SythSpellbook)book;
-				if ( tome.owner == m )
-				{
-					points++;
-				}
-			}
-
-			if ( Server.Spells.Syth.SythSpell.SythNotIllegal( m, checkSword ) ){ points++; }
-
-			if ( points > 1 )
-				return true;
-
-			return false;
-		}
-
-		public static bool isJedi ( Mobile m, bool checkSword )
-		{
-			int points = 0;
-
-			Spellbook book = Spellbook.FindJedi( m );
-			if ( book is JediSpellbook )
-			{
-				JediSpellbook tome = (JediSpellbook)book;
-				if ( tome.owner == m )
-				{
-					points++;
-				}
-			}
-
-			if ( Server.Spells.Jedi.JediSpell.JediNotIllegal( m, checkSword ) ){ points++; }
-
-			if ( points > 1 )
-				return true;
-
-			return false;
-		}
 
 		public static bool isJester ( Mobile from )
 		{
@@ -609,7 +566,6 @@ namespace Server.Misc
 					|| m.Skills[SkillName.Necromancy].Base >= 50.0 && m.Karma < 0 // NECROMANCERS
 					|| m.Skills[SkillName.Forensics].Base >= 80.0 && m.Karma < 0 // UNDERTAKERS
 					|| m.Skills[SkillName.Knightship].Base >= 50.0 && m.Karma <= -5000 // DEATH KNIGHTS
-					|| m.Skills[SkillName.Psychology].Base >= 50.0 && m.Skills[SkillName.Swords].Base >= 50.0 && m.Karma <= -5000 && Server.Misc.GetPlayerInfo.isSyth(m,false) // SYTH
 					|| Server.Items.BaseRace.IsRavendarkCreature( m ) // EVIL UNDEAD CREATURE PLAYERS
 					|| ((PlayerMobile)m).Fugitive == 1) // OUTLAWS
 				{
@@ -646,10 +602,7 @@ namespace Server.Misc
 				{
 					warning = warning + "You are a death knight, which is feared amongst the land. ";
 				}
-				if ( m is PlayerMobile && m.Karma <= -5000 && m.Skills[SkillName.Psychology].Base >= 50 && Server.Misc.GetPlayerInfo.isSyth(m, false) )
-				{
-					warning = warning + "You are a syth, and are not welcome in most settlements. ";
-				}
+				
 
 				if ( DisguiseTimers.IsDisguised( m ) && warning != "" )
 					warning = warning + "You could probably sneak into settlements, however, since you will not be recognized.";
@@ -699,8 +652,6 @@ namespace Server.Misc
 				else if ( m is PlayerMobile && ( m.Karma < 2500 || m.Fame < 2500 ) && Server.Items.BaseRace.IsEvil( m ) )
 					wanted = true;
 				else if ( m is PlayerMobile && m.Karma <= -5000 && m.Skills[SkillName.Knightship].Base >= 50 )
-					wanted = true;
-				else if ( m is PlayerMobile && m.Karma <= -5000 && m.Skills[SkillName.Psychology].Base >= 50 && Server.Misc.GetPlayerInfo.isSyth(m, false) )
 					wanted = true;
 				else if ( m.Criminal )
 					wanted = true;
@@ -945,8 +896,6 @@ namespace Server.Misc
 			int isOriental = p.CharacterOriental;
 			bool isJester = GetPlayerInfo.isJester(p);
 			bool isMonk = GetPlayerInfo.isMonk(p);
-			bool isJedi = GetPlayerInfo.isJedi(p, false);
-			bool isSyth = GetPlayerInfo.isSyth(p, false);
 
 			switch((SkillName)s.SkillID)
 			{
@@ -1027,16 +976,7 @@ namespace Server.Misc
 					// Demoralizer
 					break;
 				case SkillName.Psychology:
-					// Scholar
-					if(isSyth)
-					{
-						skillTitle = "Syth";
-					}
-					else if (isJedi)
-					{
-						skillTitle = p.Skills.Knightship.Base >= 100 ? "Jedi Knight" : "Jedi";
-					}
-					else if(isJester)
+					if(isJester)
 					{
 						skillTitle = "Joker";
 					}
