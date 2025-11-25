@@ -1652,7 +1652,7 @@ namespace Server.Items
 				manaLeech += wraithLeech;
 			}
 
-			if ( lifeLeech != 0 )
+			if ( lifeLeech != 0 && !((BaseCreature)defender).LeechImmune )
 				attacker.Hits += AOS.Scale( damageGiven, lifeLeech );
 
 			if ( stamLeech != 0 )

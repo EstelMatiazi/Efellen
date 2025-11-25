@@ -526,6 +526,14 @@ namespace Server.Mobiles
 			set { m_SummonEnd = value; }
 		}
 
+		private bool m_LeechImmune; 
+		public bool LeechImmune
+		{
+		    get { return m_LeechImmune; }
+		    set { m_LeechImmune = value; }
+		}
+
+
 		#region Bonding
 		public const bool BondingEnabled = true;
 

@@ -34,7 +34,6 @@ namespace Server.Items
 			BookTitle = Server.Misc.RandomThings.GetBookTitle();
 			Name = BookTitle;
 			BookAuthor = Server.Misc.RandomThings.GetRandomAuthor();
-
 			switch( val )
 			{
 				case 0: BookTitle = "Akalabeth's Tale"; BookAuthor = "Shamino the Anarch"; SetBookCover( 1, this ); break;
@@ -85,6 +84,7 @@ namespace Server.Items
 				case 45: BookTitle = "Antiquities"; BookAuthor = "Daran the Collector"; SetBookCover( 7, this ); break;
 				case 46: BookTitle = "The Jedi Order"; BookAuthor = "Zoda the Jedi Master"; SetBookCover( 16, this ); ItemID = 0x543C; Light = LightType.Circle225; break;
 				case 47: BookTitle = "The Dreamstone"; BookAuthor = "Melchior the Guru of Life"; SetBookCover( 78, this ); break;
+				case 48: BookTitle = "The Ballad of the Prince of Darkness"; BookAuthor = "Zakk the Wild"; SetBookCover(78,this);break;
 			}
 
 			GetText( this );
@@ -169,7 +169,59 @@ namespace Server.Items
 				"There was once a metal unlike any other, a legend whispered through the tongues of dwarves and dragons alike. The Dreamstone. It shimmered not with mere light, but with memories—colors that no man could name, reflections of worlds that could have been. It was said to have fallen from the heavens in the first age, when dragons ruled the sky and shaped mountains with their fire.<br><br>" +
 				"I saw it once, long ago, in the hollow of a dragon’s hoard. It sang to me, a melody of longing and promise. They say the greatest of wyrms guarded the Dreamstone, coveting its beauty as they coveted their dominion over a savaged land. It is not a metal that can be mined or bought. It must be earned, or taken from the dreams of gods.<br><br>" +
 				"Those who possess the Dreamstone are said to forge weapons that defy the mortal coil, blades that remember their bearer and obey their will. Yet such gifts come at a cost. The metal binds to the soul of the one who wields it. Their essence and the blade become one—and when the bearer falters, so does the weapon.<br><br>" +
-				"I have seen too much of death to chase such beauty again. But for those who would seek it... beware. Dark are the dreams of those that greedly imprison such a metal, and dreadful will be the measures that they will go through to keep it. There are others that search for it - I've met an elf from a forgotten realm on a quest for it, and a king of a noble people that in ages past wore Dreamstone as their right and heritage, and I'm sure that there are others with intentions more or less noble. If one would seek them with the dreamstone, I'm sure that the rewards would be great, as would the requirements for earning their trust. I ask for little. All I want is to make one final blade, one used by the one that wishes to see an end to the violence that surrounds us. A skilled warrior with the heart that my long lost queen once had and only found when it no longer mattered.";};
+				"I have seen too much of death to chase such beauty again. But for those who would seek it... beware. Dark are the dreams of those that greedly imprison such a metal, and dreadful will be the measures that they will go through to keep it. There are others that search for it - I've met an elf from a forgotten realm on a quest for it, and a king of a noble people that in ages past wore Dreamstone as their right and heritage, and I'm sure that there are others with intentions more or less noble. If one would seek them with the dreamstone, I'm sure that the rewards would be great, as would the requirements for earning their trust. I ask for little. All I want is to make one final blade, one used by the one that wishes to see an end to the violence that surrounds us. A skilled warrior with the heart that my long lost queen once had and only found when it no longer mattered.";}
+			else if (book.BookTitle == "The Ballad of the Prince of Darkness") {book.BookText = book.BookText = @"
+			What follows below is the last song recorded by the sole survivor of the 9th expedition into the underworld.<br><br>
+			
+			...And thus I beheld that which is the most vile,<br>
+			Upon a frozen throne of screaming skulls,<br>
+			Crowned in a halo of shadowed fire,<br>
+			Clad in the blackest of metals.<br>
+			He feasted upon the flesh of wingéd beasts,<br>
+			Drinking their fading soul deep,<br>
+			As though the act itself were ritual,<br>
+			A sacrament in ode to his own unending funeral.<br><br>
+			And when at last its gaze fell upon me,<br>
+			It smiled — a jagged crescent of lunacy,<br>
+			For in its eyes danced a storm without mercy,<br>
+			Wild as the tides of madness that birthed him.<br><br>
+			Then came its voice...<br>
+			O gods above and below, that voice—<br>
+			A thunderous dirge, cracked and broken,<br>
+			Yet alive with a terrible, irresistible power.<br><br>
+			It howled of empires drowned in venom,<br>
+			Of stars devoured by despair,<br>
+			Of a life spent wandering the trenches<br>
+			of ungodly and vidious warfare.<br><br>
+			It sang of battles fought with blade and spell,<br>
+			Of triumph against the gnawing of hell;<br>
+			Of loss suffered through fury and fire,<br>
+			And failures embraced with reckless desire.<br><br>
+			For such is the Prince of Darkness—<br>
+			A creature of glory and decay,<br>
+			Pride and tragedy entwined as shackle and chain,<br>
+			A lord of excess, a fool, a legend of all that is vain.<br><br>
+			And as he rose from his blighted throne,<br>
+			His shadow spread like wings across the ceilingless cavern,<br>
+			And the stones beneath my feet quivered in fear,<br>
+			At the weight of his dreadful renown lingered near.<br><br>
+			He spoke then, in that world-breaking song:<br>
+			A promise of carnage yet to come,<br>
+			A summons to those bold or witless enough<br>
+			To challenge his dominion over all that there shone.<br><br>
+			And I fled —<br>
+			For no mortal heart can withstand that hymn,<br>
+			No sane mind can meet that ruinous grin<br>
+			Yet still I hear it in the quiet hours...<br>
+			That voice, that terrible voice,<br>
+			Calling from the deep places of the world,<br>
+			Bidding us remember—<br>
+			And fear him.<br><br>
+			For the Prince of Darkness does not fade.<br>
+			He waits.<br>
+			He hungers.<br>
+			He sings.<br><br>
+			";} 
 		}
 	}
 }
