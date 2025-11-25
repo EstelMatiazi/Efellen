@@ -18,15 +18,7 @@ namespace Server.Misc
 
 				bool switchSongs = false;
 
-				if ( reg.IsPartOf( "the Tomb of Malak the Syth Lord" ) )
-				{
-					toPlay = SythMusic[Utility.Random(SythMusic.Length)]; switchSongs = true;
-				}
-				else if ( reg.IsPartOf( "the Tomb of Zoda the Jedi Master" ) )
-				{
-					toPlay = JediMusic[Utility.Random(JediMusic.Length)]; switchSongs = true;
-				}
-				else if ( reg.IsPartOf( "the Ancient Sky Ship" ) || reg.IsPartOf( "the Ancient Crash Site" ) )
+				if ( reg.IsPartOf( "the Ancient Sky Ship" ) || reg.IsPartOf( "the Ancient Crash Site" ) )
 				{
 					toPlay = SpaceMusic[Utility.Random(SpaceMusic.Length)]; switchSongs = true;
 				}
@@ -342,18 +334,6 @@ namespace Server.Misc
 			MusicName.DarkGuild,
 			MusicName.SkaraBrae,
 			MusicName.Guild
-        };
-
-        public static MusicName[] SythMusic = new MusicName[]
-        {
-            MusicName.SythCrypt,
-			MusicName.SythTomb
-        };
-
-        public static MusicName[] JediMusic = new MusicName[]
-        {
-            MusicName.JediCrypt,
-			MusicName.JediTomb
         };
 
         public static MusicName[] SpaceMusic = new MusicName[]

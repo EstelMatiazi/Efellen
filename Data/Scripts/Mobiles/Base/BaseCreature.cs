@@ -7836,7 +7836,7 @@ namespace Server.Mobiles
 			if ( m_ControlOrder == OrderType.Guard )
 				list.Add( 1080078 ); // guarding
 
-			if ( this is JediMirage || this is SythProjection || this is Clown || this is Clone ){} // NO WORDS
+			if ( this is Clown || this is Clone ){} // NO WORDS
 			else if ( this is HenchmanFamiliar )
 				list.Add( "(familiar)" );
 			else if ( this is PackBeast )

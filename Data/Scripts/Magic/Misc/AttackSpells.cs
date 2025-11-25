@@ -1014,7 +1014,6 @@ namespace Server.Spells.Magical
 			else if ( m is HillGiantShaman ){ wizardry = Utility.RandomList( 5, 6 ); }
 			else if ( m is IceDevil ){ wizardry = Utility.RandomList( 5, 3 ); }
 			else if ( m is JadeSerpent ){ wizardry = Utility.RandomList( 5, 7 ); }
-			else if ( m is Server.Mobiles.Jedi ){ wizardry = Utility.RandomList( 5, 6, 3 ); }
 			else if ( m is KhumashGor ){ wizardry = Utility.RandomList( 5, 4, 3, 7 ); }
 			else if ( m is Kobold ){ wizardry = Utility.RandomList( 5 ); }
 			else if ( m is KoboldMage ){ wizardry = Utility.RandomList( 5 ); }
@@ -1131,7 +1130,6 @@ namespace Server.Spells.Magical
 			else if ( m is PrimevalBlackDragon ){ wizardry = Utility.RandomList( 7, 5 ); }
 			else if ( m is PrimevalNightDragon ){ wizardry = Utility.RandomList( 7, 5 ); }
 			else if ( m is PrimevalStygianDragon ){ wizardry = Utility.RandomList( 7, 5 ); }
-			else if ( m is Server.Mobiles.Syth ){ wizardry = Utility.RandomList( 7 ); }
 			else if ( m is ToxicElemental ){ wizardry = Utility.RandomList( 7 ); }
 			else if ( m is Wyvra ){ wizardry = Utility.RandomList( 7 ); }
 			else if ( m is XormiteElemental ){ wizardry = Utility.RandomList( 7 ); }

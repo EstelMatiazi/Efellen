@@ -101,8 +101,6 @@ namespace Server.Items
 				typeof( Adventurers ), 
 				typeof( SavageAlien ), 
 				typeof( BombWorshipper ), 
-				typeof( Syth ), 
-				typeof( Jedi ), 
 				typeof( Psionicist ), 
 				typeof( Monks ), 
 				typeof( Brigand ), 

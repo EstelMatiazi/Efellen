@@ -1089,11 +1089,6 @@ namespace Server
 				if ( var.SpellCount == 1 ){ text += "1 Ability<BR>"; }
 				else { text += "" + var.SpellCount.ToString() + " Abilities<BR>"; }
 			}
-			else if ( ( var is JediSpellbook || var is SythSpellbook ) && var.SpellCount > 0 )
-			{
-				if ( var.SpellCount == 1 ){ text += "1 Power<BR>"; }
-				else { text += "" + var.SpellCount.ToString() + " Powers<BR>"; }
-			}
 			else if ( var.SpellCount > 0 )
 			{
 				if ( var.SpellCount == 1 ){ text += "1 Spell<BR>"; }

@@ -14,8 +14,6 @@ using Server.Gumps;
 using Server.Spells.HolyMan;
 using Server.Spells.Song;
 using Server.Spells.Mystic;
-using Server.Spells.Syth;
-using Server.Spells.Jedi;
 using Server.Spells.Jester;
 using Server.Spells.Research;
 using Server.Spells.Shinobi;

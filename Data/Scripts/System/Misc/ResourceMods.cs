@@ -342,7 +342,7 @@ namespace Server
 				if ( reduce ){ var.Attributes.SpellChanneling -= AosAttribute_SpellChanneling; } else { var.Attributes.SpellChanneling += AosAttribute_SpellChanneling; }
 				if ( reduce ){ var.Attributes.NightSight -= AosAttribute_NightSight; } else { var.Attributes.NightSight += AosAttribute_NightSight; }
 			}
-			else if ( item is Spellbook && !(item is HolyManSpellbook) && !(item is MysticSpellbook) && !(item is SythSpellbook) && !(item is JediSpellbook) )
+			else if ( item is Spellbook && !(item is HolyManSpellbook) && !(item is MysticSpellbook) )
 			{
 				Spellbook var = (Spellbook)item;
 

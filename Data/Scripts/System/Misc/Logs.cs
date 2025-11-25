@@ -818,34 +818,6 @@ namespace Server.Misc
 			return null;
 		}
 		// --------------------------------------------------------------------------------------------
-		public static string LogCreatedSyth( Mobile m, string sArty )
-		{
-			string sDateString = GetPlayerInfo.GetTodaysDate();
-
-			PlayerMobile pm = (PlayerMobile)m;
-			if (pm.PublicInfo == true)
-			{
-				string sEvent = "A Syth constructed a weapon called " + sArty + "#" + sDateString;
-				LoggingFunctions.LogEvent( sEvent, "Logging Quests" );
-			}
-
-			return null;
-		}
-		// --------------------------------------------------------------------------------------------
-		public static string LogCreatedJedi( Mobile m, string sArty )
-		{
-			string sDateString = GetPlayerInfo.GetTodaysDate();
-
-			PlayerMobile pm = (PlayerMobile)m;
-			if (pm.PublicInfo == true)
-			{
-				string sEvent = "A Jedi constructed a weapon called " + sArty + "#" + sDateString;
-				LoggingFunctions.LogEvent( sEvent, "Logging Quests" );
-			}
-
-			return null;
-		}
-		// --------------------------------------------------------------------------------------------
 		public static string LogGenericQuest( Mobile m, string sText )
 		{
 			string sDateString = GetPlayerInfo.GetTodaysDate();

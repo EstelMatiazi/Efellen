@@ -91,10 +91,6 @@ namespace Server.Items
 				scroll.InfoText1 = "Holy Magic";
 			else if ( spellID >= 351 && spellID < 366 )
 				scroll.InfoText1 = "Bard Song";
-			else if ( spellID >= 280 && spellID < 289 )
-				scroll.InfoText1 = "Jedi Master Holocron";
-			else if ( spellID >= 270 && spellID < 279 )
-				scroll.InfoText1 = "Syth Lord Mysticron";
 			else if ( spellID >= 250 && spellID < 259 )
 				scroll.InfoText1 = "Mystic Ability";
 		}

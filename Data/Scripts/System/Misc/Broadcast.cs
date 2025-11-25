@@ -84,8 +84,6 @@ namespace Server
 			{
 				m.Send(SpeedControl.Disable);
 				Server.Spells.Mystic.WindRunner.RemoveEffect( m );
-				Server.Spells.Syth.SythSpeed.RemoveEffect( m );
-				Server.Spells.Jedi.Celerity.RemoveEffect( m );
 				Server.Spells.Shinobi.CheetahPaws.RemoveEffect( m );
 			}
         }

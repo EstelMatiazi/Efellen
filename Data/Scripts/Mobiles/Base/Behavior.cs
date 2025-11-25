@@ -423,8 +423,6 @@ namespace Server
 					typeof( Adventurers ),
 					typeof( SavageAlien ),
 					typeof( BombWorshipper ),
-					typeof( Syth ),
-					typeof( Jedi ),
 					typeof( Psionicist ),
 					typeof( HenchmanFighter ),
 					typeof( HenchmanArcher ),
@@ -1122,9 +1120,6 @@ namespace Server.Misc
 
 			if ( (m.Region).Name != "the Castle of Knowledge" && !trick && m is PlayerMobile && m.Karma <= -5000 && m.Skills[SkillName.Knightship].Base >= 50 && !m.Region.IsPartOf(typeof(UmbraRegion)) && !m.Region.IsPartOf(typeof(NecromancerRegion)) )
 				enemy = true; // DEATH KNIGHTS ARE NOT WELCOME AFTER THIS POINT...EXCEPT IN UMBRA OR RAVENDARK
-
-			if ( (m.Region).Name != "the Castle of Knowledge" && !trick && m is PlayerMobile && m.Karma <= -5000 && m.Skills[SkillName.Psychology].Base >= 50 && Server.Misc.GetPlayerInfo.isSyth(m, false) && !m.Region.IsPartOf(typeof(UmbraRegion)) && !m.Region.IsPartOf(typeof(NecromancerRegion)) )
-				enemy = true; // SYTH ARE NOT WELCOME AFTER THIS POINT...EXCEPT IN UMBRA OR RAVENDARK
 
 			if ( (m.Region).Name != "the Castle of Knowledge" && !trick && m is PlayerMobile && m.Karma < 2500 && m.Fame < 2500 && Server.Items.BaseRace.IsEvil( m ) && !m.Region.IsPartOf(typeof(UmbraRegion)) && !m.Region.IsPartOf(typeof(NecromancerRegion)) && !m.Region.IsPartOf(typeof(GargoyleRegion)) )
 				enemy = true; // PLAYER CREATURES THAT ARE EVIL...EXCEPT IN UMBRA OR RAVENDARK
@@ -5206,21 +5201,6 @@ namespace Server.Misc
 							case 8: from.Say("You will kneel before the bomb!"); break;
 						};
 					}
-					else if ( from is Syth )
-					{
-						switch ( Utility.Random( 9 ))		   
-						{
-							case 0: from.Say("The Syth will be the last thing you see, " + m.Name + "!"); break;
-							case 1: from.Say("You will submit to my dark power!"); break;
-							case 2: from.Say("No one will find the bones of " + m.Name + "!"); break;
-							case 3: from.Say("You should have fled but it is too late!"); break;
-							case 4: from.Say("Do you think you can beat me?!"); break;
-							case 5: from.Say("No one has faced a syth and lived!"); break;
-							case 6: from.Say("Your life ends here!"); break;
-							case 7: from.Say("Your life ends here, " + m.Name + "!"); break;
-							case 8: from.Say("You will kneel before the Syth!"); break;
-						};
-					}
 					else if ( from is ElfBerserker
 						 || from is ElfRogue
 						 || from is ElfMonks
@@ -5254,7 +5234,7 @@ namespace Server.Misc
 							case 8: from.Say("All should fear " + from.Name + "!"); break;
 						};
 					}
-					else if ( from is Adventurers || from is Jedi )
+					else if ( from is Adventurers )
 					{
 						switch ( Utility.Random( 9 ))		   
 						{

@@ -24,8 +24,6 @@ namespace Server.Items
 		DeathKnight,
 		HolyMan,
 		Mystic,
-		Syth,
-		Jedi,
 		Archmage
 	}
 
@@ -91,8 +89,6 @@ namespace Server.Items
 				return false;
 			else if ( this is HolyManSpellbook )
 				return false;
-			else if ( this is JediSpellbook )
-				return false;
 			else if ( this is BookOfChivalry )
 				return false;
 			else if ( this is MysticSpellbook )
@@ -103,9 +99,7 @@ namespace Server.Items
 				return false;
 			else if ( this is AncientSpellbook )
 				return false;
-			else if ( this is SythSpellbook )
-				return false;
-
+			
 			return true;
 		}
 
@@ -181,9 +175,7 @@ namespace Server.Items
 				case 8:		type = SpellbookType.DeathKnight; break;
 				case 9:		type = SpellbookType.HolyMan; break;
 				case 10:	type = SpellbookType.Mystic; break;
-				case 11:	type = SpellbookType.Syth; break;
-				case 12:	type = SpellbookType.Jedi; break;
-				case 13:	type = SpellbookType.Archmage; break;
+				case 11:	type = SpellbookType.Archmage; break;
 			}
 
 			Spellbook book = Spellbook.Find( from, -1, type );
@@ -253,10 +245,6 @@ namespace Server.Items
 				return SpellbookType.HolyMan;
 			else if ( spellID >= 250 && spellID < 260 )
 				return SpellbookType.Mystic;
-			else if ( spellID >= 270 && spellID < 280 )
-				return SpellbookType.Syth;
-			else if ( spellID >= 280 && spellID < 290 )
-				return SpellbookType.Jedi;
 			else if ( spellID >= 600 && spellID < 664 )
 				return SpellbookType.Archmage;
 
@@ -311,16 +299,6 @@ namespace Server.Items
 		public static Spellbook FindMystic( Mobile from )
 		{
 			return Find( from, -1, SpellbookType.Mystic );
-		}
-
-		public static Spellbook FindSyth( Mobile from )
-		{
-			return Find( from, -1, SpellbookType.Syth );
-		}
-
-		public static Spellbook FindJedi( Mobile from )
-		{
-			return Find( from, -1, SpellbookType.Jedi );
 		}
 
 		public static Spellbook FindArchmage( Mobile from )
@@ -524,9 +502,7 @@ namespace Server.Items
 				}
 				else if ( HasSpell( scroll.SpellID ) )
 				{
-					if ( this is SythSpellbook ){ from.SendMessage( "That power is already in that datacron." ); }
-					else if ( this is JediSpellbook ){ from.SendMessage( "That wisdom is already in that datacron." ); }
-					else { from.SendLocalizedMessage( 500179 ); } // That spell is already present in that spellbook.
+					from.SendLocalizedMessage( 500179 );// That spell is already present in that spellbook.
 					return false;
 				}
 				else
@@ -541,10 +517,7 @@ namespace Server.Items
 						InvalidateProperties();
 
 						scroll.Delete();
-
-						if ( this is SythSpellbook ){ from.SendSound( 0x558 ); }
-						else if ( this is JediSpellbook ){ from.SendSound( 0x558 ); }
-						else { from.Send( new PlaySound( 0x249, GetWorldLocation() ) ); }
+						from.Send( new PlaySound( 0x249, GetWorldLocation() ) );
 						return true;
 					}
 
@@ -783,14 +756,6 @@ namespace Server.Items
 			{
 				return false;
 			}
-			else if ( this is SythSpellbook )
-			{
-				return false;
-			}
-			else if ( this is JediSpellbook )
-			{
-				return false;
-			}
 			else if ( this is AncientSpellbook )
 			{
 				if ( ((AncientSpellbook)this).Owner != from )
@@ -1009,10 +974,6 @@ namespace Server.Items
 			else if ( this is BookOfNinjitsu || this is BookOfBushido || this is MysticSpellbook )
 			{
 				if ( m_Count == 1 ){ list.Add( 1049644, "1 Ability" );  } else { list.Add( 1049644, "" + m_Count.ToString() + " Abilities" ); }
-			}
-			else if ( this is SythSpellbook || this is JediSpellbook )
-			{
-				if ( m_Count == 1 ){ list.Add( 1049644, "1 Power" );  } else { list.Add( 1049644, "" + m_Count.ToString() + " Powers" ); }
 			}
 			else
 			{

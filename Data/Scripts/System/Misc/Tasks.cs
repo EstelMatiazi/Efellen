@@ -424,7 +424,7 @@ namespace Server.Items
 				{
 					if ( creature != null )
 					{
-						if ( creature is Adventurers || creature is WanderingHealer || creature is Courier || creature is Syth || creature is Jedi ){ healers.Add( creature ); }
+						if ( creature is Adventurers || creature is WanderingHealer || creature is Courier ){ healers.Add( creature ); }
 						else if ( creature is Exodus ){ exodus.Add( creature ); }
 						else if ( creature is Jormungandr ){ serpent.Add( creature ); }
 						else { targets.Add( creature ); }
@@ -485,7 +485,7 @@ namespace Server.Items
 				Mobile creature = ( Mobile )cleanup[ i ];
 				creature.Delete();
 			}
-			if ( MySettings.ConsoleLog ){ Console.WriteLine( "(Daily) Respawn Jedis, Healers, etc..." ); }
+			if ( MySettings.ConsoleLog ){ Console.WriteLine( "(Daily) Respawn Healers, etc..." ); }
 			for ( int i = 0; i < healers.Count; ++i )
 			{
 				Mobile healer = ( Mobile )healers[ i ];

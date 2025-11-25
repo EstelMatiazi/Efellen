@@ -324,7 +324,6 @@ namespace Server.Gumps
 				case 37: item = "GoldenRangers"; title = "The Golden Rangers"; id = 114; break;
 				case 38: item = "LearnTraps"; title = "Hidden Traps"; id = 112; break;
 				case 39: item = "LoreBook"; title = "The Ice Queen"; id = 19; break;
-				case 40: item = "LoreBook"; title = "The Jedi Order"; id = 46; break;
 				case 41: item = "FamiliarClue"; title = "Journal on Familiars"; id = 108; break;
 				case 42: item = "LoreBook"; title = "The Knight Who Fell"; id = 14; break;
 				case 43: item = "LearnLeatherBook"; title = "Leather & Bone Crafts"; id = 207; break;
@@ -349,7 +348,6 @@ namespace Server.Gumps
 				case 62: item = "LoreBook"; title = "The Story of Exodus"; id = 29; break;
 				case 63: item = "LoreBook"; title = "The Story of Minax"; id = 30; break;
 				case 64: item = "LoreBook"; title = "The Story of Mondain"; id = 31; break;
-				case 65: item = "LoreBook"; title = "The Syth Order"; id = 43; break;
 				case 66: item = "LearnTailorBook"; title = "Tailoring the Cloth"; id = 201; break;
 				case 67: item = "LoreBook"; title = "A Tattered Journal"; id = 21; break;
 				case 68: item = "TendrinsJournal"; title = "Tendrin's Journal"; id = 100; break;
@@ -415,7 +413,6 @@ namespace Server.Gumps
 			else if ( book.Name == "The Golden Rangers" ){ num = 36; }
 			else if ( book.Name == "Hidden Traps" ){ num = 37; }
 			else if ( book.Name == "The Ice Queen" ){ num = 38; }
-			else if ( book.Name == "The Jedi Order" ){ num = 39; }
 			else if ( book.Name == "Journal on Familiars" ){ num = 40; }
 			else if ( book.Name == "The Knight Who Fell" ){ num = 41; }
 			else if ( book.Name == "Leather & Bone Crafts" ){ num = 42; }
@@ -440,7 +437,6 @@ namespace Server.Gumps
 			else if ( book.Name == "The Story of Exodus" ){ num = 61; }
 			else if ( book.Name == "The Story of Minax" ){ num = 62; }
 			else if ( book.Name == "The Story of Mondain" ){ num = 63; }
-			else if ( book.Name == "The Syth Order" ){ num = 64; }
 			else if ( book.Name == "Tailoring the Cloth" ){ num = 65; }
 			else if ( book.Name == "A Tattered Journal" ){ num = 66; }
 			else if ( book.Name == "Tendrin's Journal" ){ num = 67; }

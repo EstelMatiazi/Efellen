@@ -403,7 +403,6 @@ namespace Server.Misc
 			RegisterEntry("Floor", 1305, "Stone Light", "stone", 50);
 			RegisterEntry("Floor", 1306, "Stone Mix", "stone", 50);
 			RegisterEntry("Floor", 25578, "Stone Tile Mossy Mix", "stone", 50);
-			RegisterEntry("Floor", 0x2163, "Syth Tile", "tile", 50);
 			RegisterEntry("Floor", 0x215E, "Vortex Tile", "tile", 50);
 			RegisterEntry("Floor", 1222, "Wooden Planks EW", "planks", 50);
 			RegisterEntry("Floor", 1236, "Wooden Planks NS", "planks", 50);

@@ -8,8 +8,6 @@ using Server.Network;
 using Server.Targeting;
 using Server.Misc;
 using Server.Regions;
-using Server.Spells.Syth;
-using Server.Spells.Jedi;
 using Server.Spells.Mystic;
 using System.Collections;
 
@@ -340,12 +338,6 @@ namespace Server.Mobiles
 
 				Item shoes = from.FindItemOnLayer( Layer.Shoes );
 				if ( ( shoes is Artifact_BootsofHermes || shoes is Artifact_SprintersSandals || ( (shoes is HikingBoots || shoes is LevelHikingBoots || shoes is GiftHikingBoots) && from.RaceID > 0 ) ) && shoes.Weight < 5.0 )
-					return true;
-
-				if ( Spells.Syth.SythSpeed.UnderEffect( (PlayerMobile)from ) )
-					return true;
-
-				if ( Spells.Jedi.Celerity.UnderEffect( (PlayerMobile)from ) )
 					return true;
 
 				if ( Spells.Mystic.WindRunner.UnderEffect( (PlayerMobile)from ) )
