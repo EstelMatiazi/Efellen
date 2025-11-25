@@ -34,7 +34,7 @@ namespace Server.Items
 			BookTitle = Server.Misc.RandomThings.GetBookTitle();
 			Name = BookTitle;
 			BookAuthor = Server.Misc.RandomThings.GetRandomAuthor();
-
+			val = 48;
 			switch( val )
 			{
 				case 0: BookTitle = "Akalabeth's Tale"; BookAuthor = "Shamino the Anarch"; SetBookCover( 1, this ); break;
@@ -84,6 +84,7 @@ namespace Server.Items
 				case 44: BookTitle = "The Rule of One"; BookAuthor = "Asajj Ventress the Syth Lord"; SetBookCover( 78, this ); ItemID = 0x4CDF; Light = LightType.Circle225; break;
 				case 45: BookTitle = "Antiquities"; BookAuthor = "Daran the Collector"; SetBookCover( 7, this ); break;
 				case 46: BookTitle = "The Jedi Order"; BookAuthor = "Zoda the Jedi Master"; SetBookCover( 16, this ); ItemID = 0x543C; Light = LightType.Circle225; break;
+				case 48: BookTitle = "The Ballad of the Prince of Darkness"; BookAuthor = "Zakk the Wild"; SetBookCover(78,this);break;
 			}
 
 			GetText( this );
@@ -163,6 +164,58 @@ namespace Server.Items
 			else if ( book.BookTitle == "The Rule of One" ){ book.BookText = "Our mission was a simple one. Get the plans for that new space station that is being built so we can then find a weakness and strike a devastating blow for the Syth. Two of us managed to infiltrate Captain Gadberry’s ship and download the data, but his ship crashed here on this planet. After the crash, the theory traversing the decks was that a stranger took too much fuel from the main ship’s reserves. This supposedly caused the orbit to decay. We were soon discovered by security and Master Malak and I fled the wreckage and managed to avoid pursuit in the forest. We setup a beacon for evacuation, but fear that we are too far in the galaxy to have the signal picked up by our order.<br><br>We spent many years exploring the land and learning the cultures. Some of these people, often called wizards, seem to have a power similar to us. The way they call it forth, however, is more ritualistic than the sheer psychic forces we command. They use a series of herbs and trinkets, along with words and gestures to unleash these forces. Although different, they have similar effects and have often matched our own strength of will. We searched for items of similar power, in the hopes that one can get us off this rock. We never found such an item.<br><br>It was decided to increase our ranks on this planet, by finding those that have the talent to become a Syth. If we cannot leave, then perhaps we should rule. Malak decided to cultivate a relationship with a group of death knights. Ten were allowed in the Syth order, as they had similar methodologies to our own so teaching them the Syth ways was of little difficulty. We were a disease unleashed on the land, and we brought the mightiest to their knees. This, however, brought forth new dilemmas.<br><br>The death knights became hungry for power. So much in fact that they began to betray us as well as each other. Their greed is what killed my master, and fractured the collective whole. Soon the holy knights of the land hunted them down and slain each in turn. The ten followers are dead now, buried in tombs throughout the lands. I laid Malak to rest in the Fires of Hell, and built a statue in his honor. I entombed him with his datacron, which could hold the knowledge of the Syth if one seeks it. After being slain by the death knights, each of the ten took a piece of Malak’s knowledge with them. So his datacron now contains very little information and I have no desire to restore it. It is locked away, however, and I need only speak the words ‘Anakasu Arrii Venaal’ to release it from its resting place if I ever change my mind.<br><br>So now I remain, the last Syth on this primitive planet. Gadberry never repaired his ship and it was deserted the last time I went to the crash site. Ship logs showed that the survivors went off to settle the land and live out their lives. I grow weary and old, but I did find an apprentice to pass my knowledge to. I will instill the rule of one, where only one Syth should be. Any more than one could lead to the destruction of the order in its entirety as greed and power will cause us to kill each other to be the ultimate ruler. Once I feel they are ready, they will help me end my life and pursue their own agenda until they need to pass on their knowledge to another. They will need to begin learning the concepts of psychology (10 points at least) and have negative karma if they ever want to claim Malak's datacron. They would then need to master the skills of swords and tactics if they wish to have the most power at their fingertips. I will rest now, and I'll see how they do."; }
 			else if ( book.BookTitle == "Antiquities" ){ book.BookText = "Rare items are a goal for most collectors of the land, as I myself could pay plenty of gold for something that is unique. My days of exploring the dreadful dungeons is long past, but other brave souls manage to bring back items long forgotten in the dingy hallways of the abandoned dwellings where evil commonly lurks. One may find some unusual weapon or armor that is no longer usable, but can be decorative for a wealthy home or castle. Other rare items could be found in the forms of leather, furs, cloth, liquors, reagents, jewelry, or mystical items from long dead wizards. Others may be decorative clocks, vases, statues, or paintings of people and scenery from long ago. These items are often kept by adventurers as trophies for their adventures. Others would rather barter for gold of such items. One that is good with item lore can usually determine the value of such items, and who in the settlements may want the items. Those that are not good at item lore or identification can usually guess who may want the item. These items cannot be simply sold to these collectors, but instead one would just give them the item and the citizen will give them an appropriate amount of gold. Usually those skilled in mercantile will get more gold than the average adventurer, but the value can still be great. So if one wishes to carry out such treasures, they can surely increase their wealth from just the coins they may hoard."; }
 			else if ( book.BookTitle == "The Jedi Order" ){ book.BookText = "This world is not my home. That lies far away in the Corusant system, of the Zeta Quadrant, among the stars. When Gadberry's ship crashed, I was stranded here along with everyone else. We were not alone on that ship, however. The Syth came aboard at some point, and they were attempting to steal critical data from the computer system. Although they succeeded in their efforts, it turned out to be futile as they could not escape anymore than I. The Syth fled from the ship, and the crew sought my council on this vile cult of psychics. I gave chase into this strange world, but never found a trace of them. I vowed to never return to the ship until I found the Syth and dealt with their treachery. As the years carried on, I learned more and more of this world. The strange creatures and the humanoids with powers similar to mine, all became a normal affair to me.<br><br>I still believed the Syth were out there, plotting. I decided to teach the Jedi way to those that have the psychic potential of psychology in others. Some learned quickly, where others could not fully grasp the teachings. Those that joined the order did battle the Syth, but they were Syth of this world and not of the ones that crashed here with me. This means that they were gathering followers. This secret war waged on and we began seeing less and less Syth in the land. We may have defeated them, on this planet at least.<br><br>As the peace settled in, much of our new order slowly joined civilization. Although I know them by their Jedi names, they embraced new names for themselves and became priests in the many villages of the realm. I approved of this life, as it was a noble end to their lives. These ten Jedi were keepers of a holocron of wisdom for a particular Jedi power. If time was to catch up with them, I asked only they take their holocron to their final resting place. Anyone that presents themselves to learn the Jedi way, will learn of these secrets from my resting place. I chose a cave far off to the east of Britain, where Jacen is instructed to lay me to rest. If one is worthy of this path, they need only speak 'Oh Beh Wahn' at my tomb and they will get the wisdom I will pass to start their journey. If the Syth return, then the Jedi must as well."; }
+			else if (book.BookTitle == "The Ballad of the Prince of Darkness") {book.BookText = book.BookText = @"
+			What follows below is the last song recorded by the sole survivor of the 9th expedition into the underworld.<br><br>
+			
+			...And thus I beheld that which is the most vile,<br>
+			Upon a frozen throne of screaming skulls,<br>
+			Crowned in a halo of shadowed fire,<br>
+			Clad in the blackest of metals.<br>
+			He feasted upon the flesh of wingéd beasts,<br>
+			Drinking their fading soul deep,<br>
+			As though the act itself were ritual,<br>
+			A sacrament in ode to his own unending funeral.<br><br>
+			And when at last its gaze fell upon me,<br>
+			It smiled — a jagged crescent of lunacy,<br>
+			For in its eyes danced a storm without mercy,<br>
+			Wild as the tides of madness that birthed him.<br><br>
+			Then came its voice...<br>
+			O gods above and below, that voice—<br>
+			A thunderous dirge, cracked and broken,<br>
+			Yet alive with a terrible, irresistible power.<br><br>
+			It howled of empires drowned in venom,<br>
+			Of stars devoured by despair,<br>
+			Of a life spent wandering the trenches<br>
+			of ungodly and vidious warfare.<br><br>
+			It sang of battles fought with blade and spell,<br>
+			Of triumph against the gnawing of hell;<br>
+			Of loss suffered through fury and fire,<br>
+			And failures embraced with reckless desire.<br><br>
+			For such is the Prince of Darkness—<br>
+			A creature of glory and decay,<br>
+			Pride and tragedy entwined as shackle and chain,<br>
+			A lord of excess, a fool, a legend of all that is vain.<br><br>
+			And as he rose from his blighted throne,<br>
+			His shadow spread like wings across the ceilingless cavern,<br>
+			And the stones beneath my feet quivered in fear,<br>
+			At the weight of his dreadful renown lingered near.<br><br>
+			He spoke then, in that world-breaking song:<br>
+			A promise of carnage yet to come,<br>
+			A summons to those bold or witless enough<br>
+			To challenge his dominion over all that there shone.<br><br>
+			And I fled —<br>
+			For no mortal heart can withstand that hymn,<br>
+			No sane mind can meet that ruinous grin<br>
+			Yet still I hear it in the quiet hours...<br>
+			That voice, that terrible voice,<br>
+			Calling from the deep places of the world,<br>
+			Bidding us remember—<br>
+			And fear him.<br><br>
+			For the Prince of Darkness does not fade.<br>
+			He waits.<br>
+			He hungers.<br>
+			He sings.<br><br>
+			";} 
 		}
 	}
 }

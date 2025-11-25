@@ -12,6 +12,8 @@ namespace Server.Mobiles
 {
 	public class MetalHead : BaseCreature 
 	{
+		private static Dictionary<Mobile, DateTime> m_LastHealTime = new Dictionary<Mobile, DateTime>();
+
 		[Constructable] 
 		public MetalHead() : base( AIType.AI_Melee, FightMode.Closest, 10, 1, 0.2, 0.4 ) 
 		{
@@ -69,12 +71,7 @@ namespace Server.Mobiles
             this.Title = "the Metalhead";
         
 		}
-
-		public override void GenerateLoot()
-		{
-			AddLoot( LootPack.Average );
-        }
-
+		
 		public override bool ClickTitle{ get{ return false; } }
 		public override bool ShowFameTitle { get { return false; } }
 		public override bool CanRummageCorpses{ get{ return false; } }
@@ -85,12 +82,9 @@ namespace Server.Mobiles
 			base.OnGotMeleeAttack( attacker );
 			Server.Misc.IntelligentAction.CryOut( this );
 		}
-
-
 		public MetalHead( Serial serial ) : base( serial ) 
 		{ 
 		} 
-
 		public override void Serialize( GenericWriter writer ) 
 		{ 
 			base.Serialize( writer ); 
@@ -102,6 +96,40 @@ namespace Server.Mobiles
 			base.Deserialize( reader ); 
 			int version = reader.ReadInt(); 
 		} 
+
+		public override bool OnBeforeDeath()
+		{
+		    if (this.Map != null && this.Map != Map.Internal)
+		    {
+		        IPooledEnumerable eable = this.Map.GetMobilesInRange(this.Location, 6);
+		        int mobileCount = 0;
+		        foreach (Mobile m in eable)
+		        {
+		            mobileCount++;
+		            if (m is PrinceOfDarkness && m.Alive)
+		            {
+		                PrinceOfDarkness prince = (PrinceOfDarkness)m;
+		                DateTime lastHeal;
+		                if (!m_LastHealTime.TryGetValue(prince, out lastHeal) || 
+		                    DateTime.UtcNow >= lastHeal + TimeSpan.FromMinutes(1.0))
+		                {
+		                    prince.PublicOverheadMessage(
+		                        Network.MessageType.Regular, 
+		                        0x982, 
+		                        false, 
+		                        "The Prince of Darkness chops the Metalhead's head off!"
+		                    );
+		                    int healAmount = Utility.RandomMinMax(125, 425);
+			                prince.Heal(healAmount);
+		                    m_LastHealTime[prince] = DateTime.UtcNow;
+		                }
+		                break;
+		            }
+		        }
+		        eable.Free();
+		    }
+		    return base.OnBeforeDeath();
+		}
 
         public void EquipMetalGear()
         {
@@ -132,40 +160,34 @@ namespace Server.Mobiles
                     if (Utility.Random(3) == 1) { shield.Hue = 0x497; this.AddItem(shield); }
                     break;
             }
-
             Robe robe = new Robe
             {
                 Name = "Metalhead robe",
                 Hue = 0x497
             };
             this.AddItem(robe);
-
             LeatherThighBoots boots = new LeatherThighBoots
             {
                 Name = "Metalhead Boots",
                 Hue = 0x497
             };
             this.AddItem(boots);
-
             NorseHelm helm = new NorseHelm
             {
                 Name = "Metalhead Helmet",
                 Hue = 0x497
             };
             this.AddItem(helm);
-
             RingmailArms arms = new RingmailArms {
                 Name = "Metalhead Ringmail Arms",
                 Hue = 0x497
             };
             this.AddItem(arms);
-
             RingmailLegs legs = new RingmailLegs {
                 Name = "Metalhead Ringmail legs",
                 Hue = 0x497
             };
             this.AddItem(legs);
-
             RingmailChest chest = new RingmailChest {
                 Name = "Metalhead Ringmail Chest",
                 Hue = 0x497
