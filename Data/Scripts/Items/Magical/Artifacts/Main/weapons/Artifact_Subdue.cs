@@ -23,7 +23,7 @@ namespace Server.Items
 			Attributes.AttackChance = 10;
 			WeaponAttributes.HitLeechMana = 25;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_Subdue( Serial serial ) : base( serial )

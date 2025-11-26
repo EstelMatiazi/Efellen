@@ -25,7 +25,7 @@ namespace Server.Items
 			Attributes.RegenHits = 7;
 			Attributes.RegenStam = 7;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_GeishasObi( Serial serial ) : base( serial )

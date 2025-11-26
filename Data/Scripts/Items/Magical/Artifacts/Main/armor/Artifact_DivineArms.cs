@@ -21,7 +21,7 @@ namespace Server.Items
 			Attributes.LowerManaCost = 4;
 			Attributes.Luck = 80;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_DivineArms( Serial serial ) : base( serial )

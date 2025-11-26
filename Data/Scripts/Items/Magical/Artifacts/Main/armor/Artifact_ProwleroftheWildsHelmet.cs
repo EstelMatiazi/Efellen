@@ -28,7 +28,7 @@ namespace Server.Items
 			Attributes.WeaponSpeed = 5;
 			Attributes.WeaponDamage = 10;
 			Attributes.BonusStr = 5;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_ProwleroftheWildsHelmet( Serial serial ) : base( serial )

@@ -20,7 +20,7 @@ namespace Server.Items
 			SkillBonuses.SetValues(1, SkillName.Focus, 15);
 			SkillBonuses.SetValues(2, SkillName.Meditation, 15);
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "Stratos' Magical Robe" );
+			Server.Misc.Arty.ArtySetup( this, "Stratos' Magical Robe" );
 		}
 
 		public Artifact_RobeofStratos( Serial serial ) : base( serial )

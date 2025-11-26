@@ -24,7 +24,7 @@ namespace Server.Items
 			WeaponAttributes.HitLightning = 15;
 			WeaponAttributes.SelfRepair = 5;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_KamiNarisIndestructableDoubleAxe( Serial serial ) : base( serial )

@@ -17,7 +17,7 @@ namespace Server.Items
 			Attributes.BonusMana = 20;
 			Resistances.Energy = 20;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_EarringsOfTheMagician( Serial serial ) : base( serial )

@@ -22,7 +22,7 @@ namespace Server.Items
 			WeaponAttributes.SelfRepair = 10;
 			WeaponAttributes.UseBestSkill = 1;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "Smites Evil " );
+			Server.Misc.Arty.ArtySetup( this, "Smites Evil " );
 		}
 
 		public override void OnHit(Mobile attacker, Mobile defender, double damageBonus)

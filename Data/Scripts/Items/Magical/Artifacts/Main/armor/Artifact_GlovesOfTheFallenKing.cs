@@ -22,7 +22,7 @@ namespace Server.Items
 			Attributes.RegenStam = 5;
 			Attributes.Luck = 90;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_GlovesOfTheFallenKing( Serial serial ) : base( serial )

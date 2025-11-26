@@ -21,7 +21,7 @@ namespace Server.Items
 			SkillBonuses.SetValues(1, SkillName.Focus, 10);
 			SkillBonuses.SetValues(2, SkillName.Meditation, 10);
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "Stratos' Magical Hood" );
+			Server.Misc.Arty.ArtySetup( this, "Stratos' Magical Hood" );
 		}
 
 		public Artifact_MantleofStratos( Serial serial ) : base( serial )

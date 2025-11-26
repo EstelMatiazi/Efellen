@@ -18,7 +18,7 @@ namespace Server.Items
 			Attributes.RegenMana = 10;
 			Attributes.BonusInt = 5;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_GandalfsHat( Serial serial ) : base( serial )

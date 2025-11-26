@@ -24,7 +24,7 @@ namespace Server.Items
 			WeaponAttributes.ResistPoisonBonus = 15;
 			WeaponAttributes.HitLeechHits = 14;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_FangOfRactus( Serial serial ) : base( serial )

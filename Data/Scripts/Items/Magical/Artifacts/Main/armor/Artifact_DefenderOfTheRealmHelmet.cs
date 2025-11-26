@@ -20,7 +20,7 @@ namespace Server.Items
 			Attributes.LowerManaCost = 7;
 			SkillBonuses.SetValues( 0, SkillName.MagicResist, 5 );
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 7, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_DefenderOfTheRealmHelmet( Serial serial ) : base( serial )

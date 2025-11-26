@@ -14,7 +14,7 @@ namespace Server.Items
 			Attributes.CastSpeed = 2;
 			Attributes.Luck = 80;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_DjinnisRing( Serial serial ) : base( serial )

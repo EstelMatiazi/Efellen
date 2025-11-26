@@ -14,7 +14,7 @@ namespace Server.Items
 			SkillBonuses.SetValues( 0, SkillName.Hiding, 50 );
 			SkillBonuses.SetValues( 1, SkillName.Stealth, 50 );
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_HoodedShroudOfShadows( Serial serial ) : base( serial )

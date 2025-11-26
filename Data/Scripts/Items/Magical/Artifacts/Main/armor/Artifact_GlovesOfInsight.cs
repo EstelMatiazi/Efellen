@@ -22,7 +22,7 @@ namespace Server.Items
 			Attributes.LowerManaCost = 8;
 			ArmorAttributes.MageArmor = 1;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_GlovesOfInsight( Serial serial ) : base( serial )

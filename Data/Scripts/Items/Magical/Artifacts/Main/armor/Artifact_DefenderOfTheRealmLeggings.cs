@@ -20,7 +20,7 @@ namespace Server.Items
 			Attributes.DefendChance = 12;
 			Attributes.LowerManaCost = 10;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 7, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_DefenderOfTheRealmLeggings( Serial serial ) : base( serial )

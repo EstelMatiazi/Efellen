@@ -131,7 +131,7 @@ namespace Server.Items
 
 			int size = 1;
 			string xSpecies = "";
-			int allow = MySettings.S_MonsterCharacters;
+			int allow = 0;
 
 			int id = GetID( race );
 

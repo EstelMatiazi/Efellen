@@ -27,7 +27,7 @@ namespace Server.Items
 			Attributes.AttackChance = 5;
 			Attributes.WeaponDamage = 2;
 			Attributes.BonusStr = 5;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_ProwleroftheWildsTunic( Serial serial ) : base( serial )

@@ -23,7 +23,7 @@ namespace Server.Items
 			WeaponAttributes.ResistFireBonus = 3;
 			WeaponAttributes.ResistPoisonBonus = 3;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_GlovesOfThePugilist( Serial serial ) : base( serial )

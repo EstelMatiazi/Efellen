@@ -20,7 +20,7 @@ namespace Server.Items
 			Attributes.Luck = 50;
 			Attributes.WeaponDamage = 20;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_LegsOfNobility( Serial serial ) : base( serial )

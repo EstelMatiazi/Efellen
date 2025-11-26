@@ -20,7 +20,7 @@ namespace Server.Items
 			Attributes.LowerManaCost = 20;
 			Attributes.CastSpeed = 2;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_StaffOfPower( Serial serial ) : base( serial )

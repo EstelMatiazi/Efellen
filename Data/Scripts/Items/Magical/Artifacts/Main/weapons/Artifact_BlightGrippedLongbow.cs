@@ -17,7 +17,7 @@ namespace Server.Items
 			Attributes.WeaponSpeed = 10;
 			Attributes.WeaponDamage = 21;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_BlightGrippedLongbow( Serial serial ) : base( serial )

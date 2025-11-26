@@ -137,7 +137,7 @@ namespace Server.Items
 					int gx = 804;
 					int gy = 56;
 					int gm = 30;
-					int go = MySettings.S_MonsterCharacters;
+					int go = 0;
 					int gb = 6000;
 
 					AddHtml( 786, 11, 213, 20, @"<BODY><BASEFONT Color=" + color + ">CATEGORIES</BASEFONT></BODY>", (bool)false, (bool)false);
@@ -327,7 +327,7 @@ namespace Server.Items
 					else if ( quick == 35 ){ move = 130; }
 					else if ( quick == 36 ){ move = 131; }
 					else if ( quick == 37 ){ move = 138; }
-					else if ( quick == 38 ){ move = 151; if ( MySettings.S_MonsterCharacters > 1 ){ move = 150; } }
+					else if ( quick == 38 ){ move = 151; }
 					else if ( quick == 39 ){ move = 152; }
 					else if ( quick == 40 ){ move = 155; }
 					else if ( quick == 41 ){ move = 38; }

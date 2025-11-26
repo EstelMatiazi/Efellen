@@ -24,7 +24,7 @@ namespace Server.Items
 			ArmorAttributes.MageArmor = 1;
 			Attributes.NightSight = 1;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_ArcaneTunic( Serial serial ) : base( serial )

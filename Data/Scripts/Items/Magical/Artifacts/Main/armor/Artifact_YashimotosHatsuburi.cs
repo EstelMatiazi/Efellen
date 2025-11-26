@@ -26,7 +26,7 @@ namespace Server.Items
 			Attributes.DefendChance = 15;
 			Attributes.WeaponDamage = 6;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_YashimotosHatsuburi( Serial serial ) : base( serial )

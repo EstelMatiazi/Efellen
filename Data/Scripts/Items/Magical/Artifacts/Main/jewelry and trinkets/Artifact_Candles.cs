@@ -13,7 +13,7 @@ namespace Server.Items
 			Resistances.Cold = 50;
 			Attributes.Luck = 100;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_CandleCold( Serial serial ) : base( serial )
@@ -44,7 +44,7 @@ namespace Server.Items
 			Resistances.Fire = 50;
 			Attributes.Luck = 100;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_CandleFire( Serial serial ) : base( serial )
@@ -75,7 +75,7 @@ namespace Server.Items
 			Resistances.Poison = 50;
 			Attributes.Luck = 100;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_CandlePoison( Serial serial ) : base( serial )
@@ -106,7 +106,7 @@ namespace Server.Items
 			Resistances.Energy = 50;
 			Attributes.Luck = 100;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_CandleEnergy( Serial serial ) : base( serial )
@@ -142,7 +142,7 @@ namespace Server.Items
 			Attributes.LowerManaCost = 17;
 			Attributes.LowerRegCost = 17;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_CandleWizard( Serial serial ) : base( serial )
@@ -178,7 +178,7 @@ namespace Server.Items
 			Attributes.LowerManaCost = 17;
 			Attributes.LowerRegCost = 17;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_CandleNecromancer( Serial serial ) : base( serial )

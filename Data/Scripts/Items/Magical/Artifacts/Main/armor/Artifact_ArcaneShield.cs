@@ -20,7 +20,7 @@ namespace Server.Items
 			ArmorAttributes.SelfRepair = 7;
 			Attributes.NightSight = 1;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_ArcaneShield( Serial serial ) : base( serial )

@@ -18,7 +18,7 @@ namespace Server.Items
 			Resistances.Energy = 12;
 			Attributes.Luck = 75;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_RingOfProtection( Serial serial ) : base( serial )

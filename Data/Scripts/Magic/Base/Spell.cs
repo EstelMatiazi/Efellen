@@ -841,7 +841,7 @@ namespace Server.Spells
 				m_Caster.Mana -= mana;
 
 				if ( this is PaladinSpell || this is DeathKnightSpell )
-					m_Caster.Stam -= (int)( 10 * MySettings.S_PlayerLevelMod );
+					m_Caster.Stam -= 10;
 
 				if ( this is ElementalSpell ){ m_Caster.Stam -= ((ElementalSpell)this).GetStam(); }
 

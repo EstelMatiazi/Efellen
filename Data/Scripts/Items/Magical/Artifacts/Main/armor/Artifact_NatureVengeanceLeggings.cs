@@ -28,7 +28,7 @@ namespace Server.Items
 			SkillBonuses.SetValues( 0, SkillName.Elementalism, 10);
 			SkillBonuses.SetValues( 1, SkillName.Taming, 10);
 			SkillBonuses.SetValues( 2, SkillName.Druidism, 10);
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_NatureVengeanceLeggings( Serial serial ) : base( serial )

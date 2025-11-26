@@ -18,7 +18,7 @@ namespace Server.Items
 			SkillBonuses.SetValues( 0, SkillName.Bludgeoning, 25 );
 			AccuracyLevel = WeaponAccuracyLevel.Supremely;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_GiantBlackjack( Serial serial ) : base( serial )

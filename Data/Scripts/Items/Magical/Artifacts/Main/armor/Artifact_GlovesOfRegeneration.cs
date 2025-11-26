@@ -28,7 +28,7 @@ namespace Server.Items
 			ArmorAttributes.SelfRepair = 5;
 			ArmorAttributes.DurabilityBonus = 25;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_GlovesOfRegeneration( Serial serial ) : base( serial )

@@ -23,7 +23,7 @@ namespace Server.Items
 			Attributes.SpellChanneling = 1;
 			WeaponAttributes.UseBestSkill = 1;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_Calm( Serial serial ) : base( serial )

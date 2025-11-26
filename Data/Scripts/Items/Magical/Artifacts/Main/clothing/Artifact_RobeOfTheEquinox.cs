@@ -19,7 +19,7 @@ namespace Server.Items
 			SkillBonuses.SetValues(0, SkillName.Magery, 20);
 			SkillBonuses.SetValues(1, SkillName.Psychology, 10);
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_RobeOfTheEquinox( Serial serial ) : base( serial )

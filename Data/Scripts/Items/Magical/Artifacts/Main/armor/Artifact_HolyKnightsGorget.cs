@@ -21,7 +21,7 @@ namespace Server.Items
 			Attributes.BonusHits = 10;
 			Attributes.ReflectPhysical = 15;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_HolyKnightsGorget( Serial serial ) : base( serial )

@@ -16,7 +16,7 @@ namespace Server.Items
             Attributes.Luck = 55;
 			Resistances.Poison = 15;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_NoxNightlight( Serial serial ) : base( serial )

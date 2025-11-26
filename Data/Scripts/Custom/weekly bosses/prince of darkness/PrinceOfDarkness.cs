@@ -52,7 +52,7 @@ namespace Server.Mobiles
 			SetDex( 125, 175 );
 			SetInt( 586, 675 );
 
-			SetHits( 30000 );
+			SetHits( 25000 );
 			SetDamage( 33, 44 );
 
 			SetDamageType( ResistanceType.Physical, 100 );
@@ -118,7 +118,7 @@ namespace Server.Mobiles
 			if ( m_Rage >= 1 && DateTime.UtcNow >= m_NextSpecialAttack )
 			{
 				PerformRageAttack( from );
-				m_NextSpecialAttack = DateTime.UtcNow + TimeSpan.FromSeconds( 7.6 - (m_Rage * 1.5) );
+				m_NextSpecialAttack = DateTime.UtcNow + TimeSpan.FromSeconds( 12.6 - (m_Rage * 1.5) );
 			}
 			
 			base.OnDamage( amount, from, willKill );

@@ -24,7 +24,7 @@ namespace Server.Items
 			ArmorAttributes.MageArmor = 1;
 			Attributes.Luck = 60;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_InquisitorsGorget( Serial serial ) : base( serial )

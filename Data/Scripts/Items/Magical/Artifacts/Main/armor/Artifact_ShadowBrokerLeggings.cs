@@ -22,7 +22,7 @@ namespace Server.Items
 			SkillBonuses.SetValues( 1, SkillName.Stealing, 20.0 );
 			Attributes.Luck = 90;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_ShadowBrokerLeggings( Serial serial ) : base( serial )

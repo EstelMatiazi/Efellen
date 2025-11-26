@@ -20,7 +20,7 @@ namespace Server.Items
 			Attributes.Luck = 140;
 			Attributes.EnhancePotions = 25;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_RoyalGuardSurvivalKnife( Serial serial ) : base( serial )

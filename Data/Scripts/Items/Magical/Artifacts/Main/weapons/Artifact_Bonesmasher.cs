@@ -20,7 +20,7 @@ namespace Server.Items
 			WeaponAttributes.HitLeechStam = 40;
 			Attributes.BonusStr = 3;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_Bonesmasher( Serial serial ) : base( serial )

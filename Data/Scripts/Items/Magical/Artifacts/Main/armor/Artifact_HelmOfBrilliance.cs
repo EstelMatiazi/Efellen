@@ -22,7 +22,7 @@ namespace Server.Items
 			FireBonus = 50;
 			Attributes.Luck = 75;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "(Casts Fireballs) " );
+			Server.Misc.Arty.ArtySetup( this, "(Casts Fireballs) " );
 		}
 
 		public override void OnDoubleClick( Mobile from )

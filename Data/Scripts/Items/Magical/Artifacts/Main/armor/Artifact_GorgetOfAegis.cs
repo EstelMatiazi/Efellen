@@ -22,7 +22,7 @@ namespace Server.Items
 			Attributes.DefendChance = 13;
 			Attributes.LowerManaCost = 10;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_GorgetOfAegis( Serial serial ) : base( serial )

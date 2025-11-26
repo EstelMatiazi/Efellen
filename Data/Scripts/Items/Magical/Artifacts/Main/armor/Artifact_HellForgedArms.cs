@@ -29,7 +29,7 @@ namespace Server.Items
 			Attributes.LowerManaCost = 5;
 			Attributes.SpellDamage = 9;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_HellForgedArms( Serial serial ) : base( serial )

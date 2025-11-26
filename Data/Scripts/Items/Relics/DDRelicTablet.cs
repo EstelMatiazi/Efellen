@@ -227,7 +227,7 @@ namespace Server.Items
 			BaseHouse house = BaseHouse.FindHouseAt(this);
 			if (house != null && (house.Public ? house.IsBanned(e) : !house.HasAccess(e))){ CanFlip = false; }
 
-			if ( !IsChildOf( e.Backpack ) && MySettings.S_IdentifyItemsOnlyInPack && e is PlayerMobile && ((PlayerMobile)e).DoubleClickID && NotIdentified ) 
+			if ( !IsChildOf( e.Backpack ) && e is PlayerMobile && ((PlayerMobile)e).DoubleClickID && NotIdentified ) 
 				e.SendMessage( "This must be in your backpack to identify." );
 			else if ( e is PlayerMobile && ((PlayerMobile)e).DoubleClickID && NotIdentified )
 				IDCommand( e );

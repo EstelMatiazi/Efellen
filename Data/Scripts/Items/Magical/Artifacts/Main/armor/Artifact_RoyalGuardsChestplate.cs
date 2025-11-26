@@ -26,7 +26,7 @@ namespace Server.Items
 			Attributes.RegenHits = 12;
 			Attributes.ReflectPhysical = 30;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_RoyalGuardsChestplate( Serial serial ) : base( serial )

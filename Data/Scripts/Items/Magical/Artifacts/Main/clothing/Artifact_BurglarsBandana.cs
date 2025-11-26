@@ -16,7 +16,7 @@ namespace Server.Items
 			Attributes.BonusDex = 5;
 			Attributes.Luck = 80;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_BurglarsBandana( Serial serial ) : base( serial )

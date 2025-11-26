@@ -16,7 +16,7 @@ namespace Server.Items
 			Attributes.BonusDex = 10;
 			Attributes.BonusStam = 20;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "Sprinting " );
+			Server.Misc.Arty.ArtySetup( this, "Sprinting " );
 		}
 
 		public override bool OnEquip( Mobile from )

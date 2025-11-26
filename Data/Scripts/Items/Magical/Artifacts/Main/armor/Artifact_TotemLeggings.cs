@@ -19,7 +19,7 @@ namespace Server.Items
 			Attributes.BonusStr = 18;
 			Attributes.AttackChance = 10;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_TotemLeggings( Serial serial ) : base( serial )

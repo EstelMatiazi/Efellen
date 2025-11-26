@@ -40,10 +40,6 @@ namespace Server.Spells.Undead
 			{
 				Caster.SendLocalizedMessage( 500237 ); // Target can not be seen.
 			}
-			else if ( reg.IsPartOf( typeof( PirateRegion ) ) && !MySettings.S_TravelRestrictions )
-			{
-				Caster.SendMessage( "These waters are too rough to cast this spell." );
-			}
 			else if ( Worlds.RegionAllowedTeleport( Caster.Map, Caster.Location, Caster.X, Caster.Y ) == false )
 			{
 				Caster.SendMessage( "That potion does not seem to work in this place." );

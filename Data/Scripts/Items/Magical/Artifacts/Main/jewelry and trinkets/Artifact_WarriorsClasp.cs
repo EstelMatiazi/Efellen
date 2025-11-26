@@ -16,7 +16,7 @@ namespace Server.Items
             Attributes.BonusMana = 9;
             Attributes.BonusHits = 9;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
         public Artifact_WarriorsClasp( Serial serial ) : base( serial )

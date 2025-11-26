@@ -18,7 +18,7 @@ namespace Server.Items
 			AccuracyLevel = WeaponAccuracyLevel.Supremely;
 			Attributes.AttackChance = 6;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_RobinHoodsBow( Serial serial ) : base( serial )

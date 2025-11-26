@@ -29,7 +29,7 @@ namespace Server.Items
 			Attributes.WeaponDamage = 9;
 			Attributes.BonusDex = 7;
 			Attributes.RegenStam = 5;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_ProtectoroftheWildsHelmet( Serial serial ) : base( serial )

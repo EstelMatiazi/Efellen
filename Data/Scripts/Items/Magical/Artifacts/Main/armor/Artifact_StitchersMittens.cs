@@ -19,7 +19,7 @@ namespace Server.Items
 			Attributes.BonusDex = 5;
 			Attributes.LowerRegCost = 20;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_StitchersMittens( Serial serial ) : base( serial )

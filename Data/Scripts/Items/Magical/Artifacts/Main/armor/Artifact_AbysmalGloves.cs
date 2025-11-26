@@ -26,7 +26,7 @@ namespace Server.Items
 			Attributes.SpellDamage = 15;
 			Attributes.RegenMana = 5;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_AbysmalGloves( Serial serial ) : base( serial )

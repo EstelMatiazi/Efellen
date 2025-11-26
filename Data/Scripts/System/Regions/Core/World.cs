@@ -530,14 +530,8 @@ namespace Server.Misc
 			if ( land == Land.Underworld )
 				return false;
 
-			if ( land == Land.Ambrosia )
-				return !MySettings.S_TravelRestrictions;
-
 			if ( land == Land.SkaraBrae )
 				return false;
-
-			if ( reg.IsPartOf( "the Moon's Core" ) || reg.IsPartOf( "the Core of the Moon" ) || reg.IsPartOf( "Moonlight Cavern" ) )
-				return !MySettings.S_TravelRestrictions;
 
 			if ( reg.IsPartOf( "the Camping Tent" ) )
 				return false;
@@ -545,20 +539,11 @@ namespace Server.Misc
 			if ( reg.IsPartOf( "the Dungeon Room" ) )
 				return false;
 
-			if ( reg.IsPartOf( "the Lyceum" ) )
-				return !MySettings.S_TravelRestrictions;
-
 			if ( reg.IsPartOf( "the Island of Stonegate" ) )
 				return false;
 
 			if ( reg.IsPartOf( "the Painting of the Glade" ) )
 				return false;
-
-			if ( reg.IsPartOf( "the Island of the Black Knight" ) )
-				return !MySettings.S_TravelRestrictions;
-
-			if ( reg.IsPartOf( "the Castle of the Black Knight" ) )
-				return !MySettings.S_TravelRestrictions;
 
 			if ( reg.IsPartOf( typeof( GargoyleRegion ) ) )
 				return false;
@@ -568,12 +553,6 @@ namespace Server.Misc
 
 			if ( reg.IsPartOf( typeof( PublicRegion ) ) )
 				return false;
-
-			if ( reg.IsPartOf( "the Island of Poseidon" ) )
-				return !MySettings.S_TravelRestrictions;
-
-			if ( reg.IsPartOf( "the Village of Ravendark" ) )
-				return !MySettings.S_TravelRestrictions;
 
 			if ( reg.IsPartOf( typeof( BargeDeadRegion ) ) )
 				return false;
@@ -671,17 +650,8 @@ namespace Server.Misc
 			if ( land == Land.SkaraBrae )
 				return false;
 
-			if ( reg.IsPartOf( "Moonlight Cavern" ) )
-				return !MySettings.S_TravelRestrictions;
-
 			if ( land == Land.Kuldar )
 				return false;
-
-			if ( land == Land.Ambrosia )
-				return !MySettings.S_TravelRestrictions;
-
-			if ( reg.IsPartOf( "the Village of Ravendark" ) )
-				return !MySettings.S_TravelRestrictions;
 
 			return true;
 		}

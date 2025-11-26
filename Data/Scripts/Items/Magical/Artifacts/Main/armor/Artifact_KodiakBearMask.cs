@@ -14,7 +14,7 @@ namespace Server.Items
 			Attributes.BonusStr = 10;
 			Attributes.Luck = 75;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_KodiakBearMask( Serial serial ) : base( serial )

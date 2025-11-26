@@ -21,7 +21,7 @@ namespace Server.Items
 			Attributes.LowerManaCost = 10;
 			Attributes.Luck = 45;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_DivineLeggings( Serial serial ) : base( serial )

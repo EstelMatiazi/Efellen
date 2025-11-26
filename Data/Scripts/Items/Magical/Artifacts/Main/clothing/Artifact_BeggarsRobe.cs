@@ -14,7 +14,7 @@ namespace Server.Items
 			Attributes.Luck = 110;
 			SkillBonuses.SetValues( 0, SkillName.Begging, 30 );
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_BeggarsRobe( Serial serial ) : base( serial )

@@ -16,7 +16,7 @@ namespace Server.Items
 			Resistances.Energy = 30;
 			Resistances.Poison = 30;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_TheRobeOfBritanniaAri( Serial serial ) : base( serial )

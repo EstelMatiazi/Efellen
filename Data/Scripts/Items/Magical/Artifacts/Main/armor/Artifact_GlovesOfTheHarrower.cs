@@ -20,7 +20,7 @@ namespace Server.Items
 			Attributes.RegenStam = 5;
 			Attributes.WeaponDamage = 25;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_GlovesOfTheHarrower( Serial serial ) : base( serial )

@@ -23,7 +23,7 @@ namespace Server.Items
 			MinDamage = 15;
 			MaxDamage = 20;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "Glass Sword " );
+			Server.Misc.Arty.ArtySetup( this, "Glass Sword " );
 		}
 
 		public Artifact_GlassSword( Serial serial ) : base( serial )

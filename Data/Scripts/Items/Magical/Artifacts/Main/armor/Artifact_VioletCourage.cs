@@ -23,7 +23,7 @@ namespace Server.Items
 			Attributes.DefendChance = 10;
 			ArmorAttributes.MageArmor = 1;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_VioletCourage( Serial serial ) : base( serial )

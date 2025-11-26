@@ -19,7 +19,7 @@ namespace Server.Items
 			ArmorAttributes.MageArmor = 1;
 			Attributes.Luck = 75;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_MidnightBracers( Serial serial ) : base( serial )

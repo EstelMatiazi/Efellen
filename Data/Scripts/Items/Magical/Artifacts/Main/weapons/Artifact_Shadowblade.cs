@@ -24,7 +24,7 @@ namespace Server.Items
             WeaponAttributes.HitLeechStam = 10;
 			Hue = 1899;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_ShadowBlade( Serial serial ) : base( serial )

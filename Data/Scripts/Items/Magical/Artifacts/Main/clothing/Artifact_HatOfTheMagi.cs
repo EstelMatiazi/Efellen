@@ -18,7 +18,7 @@ namespace Server.Items
 			Attributes.SpellDamage = 10;
 			Attributes.Luck = 40;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_HatOfTheMagi( Serial serial ) : base( serial )

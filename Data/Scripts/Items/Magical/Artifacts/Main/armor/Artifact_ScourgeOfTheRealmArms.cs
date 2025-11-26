@@ -20,7 +20,7 @@ namespace Server.Items
 			SkillBonuses.SetValues( 0, SkillName.MagicResist, 5 );
 			Attributes.LowerManaCost = 6;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 6, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_ScourgeOfTheRealmArms( Serial serial ) : base( serial )

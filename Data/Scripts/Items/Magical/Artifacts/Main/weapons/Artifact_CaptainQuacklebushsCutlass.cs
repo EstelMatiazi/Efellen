@@ -20,7 +20,7 @@ namespace Server.Items
 			Attributes.WeaponDamage = 16;
 			WeaponAttributes.UseBestSkill = 1;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_CaptainQuacklebushsCutlass( Serial serial ) : base( serial )

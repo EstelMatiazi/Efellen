@@ -21,7 +21,7 @@ namespace Server.Items
             Attributes.CastRecovery = 1;
 			Attributes.Luck = 40;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_BootsOfThePiper( Serial serial ) : base( serial )

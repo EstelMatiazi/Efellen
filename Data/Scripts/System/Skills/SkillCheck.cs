@@ -7,7 +7,7 @@ namespace Server.Misc
 {
 	public class SkillCheck
 	{
-		private static readonly bool AntiMacroCode = MyServerSettings.NoMacroing();		// Change this to false to disable anti-macro code
+		private static readonly bool AntiMacroCode = false;		// Change this to false to disable anti-macro code
 		public static TimeSpan AntiMacroExpire = TimeSpan.FromMinutes( 5.0 ); 			// How long do we remember targets/locations?
 		public const int Allowance = 3;													// How many times may we use the same location/target for gain
 		private const int LocationSize = 5; 											// The size of each location, make this smaller so players don't have to move as far

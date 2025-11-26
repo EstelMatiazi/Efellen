@@ -21,7 +21,7 @@ namespace Server.Items
 			Attributes.Luck = 45;
 			PhysicalBonus = 15;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_ArmsOfAegis( Serial serial ) : base( serial )

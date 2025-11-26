@@ -29,7 +29,7 @@ namespace Server.Items
 			Attributes.Luck = 50;
 			ArmorAttributes.MageArmor = 1;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_NatureVengeanceArms( Serial serial ) : base( serial )

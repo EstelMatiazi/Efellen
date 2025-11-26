@@ -19,7 +19,7 @@ namespace Server.Items
 			Attributes.AttackChance = 15;
 			Attributes.WeaponDamage = 10;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_BowOfTheJukaKing( Serial serial ) : base( serial )

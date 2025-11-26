@@ -17,7 +17,7 @@ namespace Server.Items
 			Hue = 2125;
 			Attributes.Luck = 150;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_JinBaoriOfGoodFortune( Serial serial ) : base( serial )

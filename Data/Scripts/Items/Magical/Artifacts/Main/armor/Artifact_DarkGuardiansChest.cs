@@ -26,7 +26,7 @@ namespace Server.Items
 			Attributes.RegenHits = 2;
 			Attributes.ReflectPhysical = 15;
 	 	 	ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 	 	public Artifact_DarkGuardiansChest(Serial serial) : base( serial )

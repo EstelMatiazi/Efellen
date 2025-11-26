@@ -18,7 +18,7 @@ namespace Server.Items
 			Attributes.BonusStr = 10;
 			Attributes.WeaponDamage = 10;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 		public Artifact_BoneCrusher( Serial serial ) : base( serial )
 		{

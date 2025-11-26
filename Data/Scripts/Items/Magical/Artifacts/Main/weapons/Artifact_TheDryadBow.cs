@@ -20,7 +20,7 @@ namespace Server.Items
 			SkillBonuses.SetValues( 1, SkillName.Taming, 20 );
 			SkillBonuses.SetValues( 2, SkillName.Veterinary, 20 );
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_TheDryadBow( Serial serial ) : base( serial )

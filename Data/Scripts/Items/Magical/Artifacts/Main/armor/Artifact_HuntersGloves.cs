@@ -22,7 +22,7 @@ namespace Server.Items
 			Attributes.AttackChance = 10;
 			Attributes.Luck = 50;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_HuntersGloves( Serial serial ) : base( serial )

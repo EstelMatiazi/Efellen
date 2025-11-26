@@ -1044,7 +1044,7 @@ namespace Server.Items
 
 			if ( Core.ML )
 			{
-				int stamTicks = (int)( ( m.Stam / MySettings.S_PlayerLevelMod ) / 30 );
+				int stamTicks = (int)( m.Stam / 30 );
 
 				ticks = speed * 4;
 				ticks = Math.Floor( ( ticks - stamTicks ) * ( 100.0 / ( 100 + bonus ) ) );
@@ -1056,7 +1056,7 @@ namespace Server.Items
 				if ( speed <= 0 )
 					speed = 1;
 
-				ticks = Math.Floor( ( 80000.0 / ( ( ( m.Stam / MySettings.S_PlayerLevelMod ) + 100 ) * speed ) ) - 2 );
+				ticks = Math.Floor( ( 80000.0 / ( ( m.Stam + 100 ) * speed ) ) - 2 );
 			}
 			
 			// Swing speed currently capped at one swing every 1.25 seconds (5 ticks).

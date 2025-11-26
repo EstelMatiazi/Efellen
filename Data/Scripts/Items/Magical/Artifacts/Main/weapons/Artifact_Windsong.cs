@@ -19,7 +19,7 @@ namespace Server.Items
 			Attributes.AttackChance = 5;
 			Velocity = 25;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_Windsong( Serial serial ) : base( serial )

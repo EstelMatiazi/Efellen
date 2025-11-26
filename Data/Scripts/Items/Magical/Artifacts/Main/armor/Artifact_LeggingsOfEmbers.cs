@@ -23,7 +23,7 @@ namespace Server.Items
 			Attributes.SpellDamage = 10;
 			Attributes.LowerRegCost = 5;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_LeggingsOfEmbers( Serial serial ) : base( serial )

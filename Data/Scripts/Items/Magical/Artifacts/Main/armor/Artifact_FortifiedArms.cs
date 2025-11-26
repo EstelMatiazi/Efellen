@@ -24,7 +24,7 @@ namespace Server.Items
             PhysicalBonus = 9;
             PoisonBonus = 8;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
         public Artifact_Fortifiedarms( Serial serial ) : base( serial )

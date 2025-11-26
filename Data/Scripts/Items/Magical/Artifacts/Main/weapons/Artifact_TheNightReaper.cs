@@ -20,7 +20,7 @@ namespace Server.Items
 			Attributes.WeaponSpeed = 25;
 			Attributes.WeaponDamage = 25;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_TheNightReaper( Serial serial ) : base( serial )

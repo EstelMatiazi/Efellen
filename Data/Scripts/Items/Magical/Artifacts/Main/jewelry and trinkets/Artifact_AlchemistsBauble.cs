@@ -17,7 +17,7 @@ namespace Server.Items
 			Attributes.LowerRegCost = 18;
 			Resistances.Poison = 10;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 		
 		public Artifact_AlchemistsBauble( Serial serial ) : base( serial )

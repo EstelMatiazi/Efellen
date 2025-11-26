@@ -521,19 +521,15 @@ namespace Server.Misc
 			if ( level < 1 ){ level = 1; }
 			if ( level > 100 ){ level = 100; }
 
-			if ( level < MySettings.S_DeathPayLevel && level < 100 )
+			if ( level < 15 )
 				return 0;
 
-			int price = MySettings.S_DeathPayAmount;
-				if ( price < 1 )
-					price = 1;
+			int price = 20;
+			int ressCost = level * price;
+			if ( ((PlayerMobile)m).Fugitive == 1 ){ ressCost = ressCost * 2; }
+			else if ( GetPlayerInfo.isFromSpace( m ) ){ ressCost = ressCost * 3; }
 
-			level = ( level * price );
-
-			if ( ((PlayerMobile)m).Fugitive == 1 ){ level = level * 2; }
-			else if ( GetPlayerInfo.isFromSpace( m ) ){ level = level * 3; }
-
-			return level;
+			return ressCost;
 		}
 
 		public static string GetTodaysDate()

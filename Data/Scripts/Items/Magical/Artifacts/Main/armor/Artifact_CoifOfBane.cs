@@ -16,7 +16,7 @@ namespace Server.Items
 			Attributes.AttackChance = 20;
 			PoisonBonus = 15;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_CoifOfBane( Serial serial ) : base( serial )

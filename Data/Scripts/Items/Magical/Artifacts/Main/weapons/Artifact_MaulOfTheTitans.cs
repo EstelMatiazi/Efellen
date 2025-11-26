@@ -20,7 +20,7 @@ namespace Server.Items
 			MaxDamage = MaxDamage + 10;
 			Attributes.BonusStr = 12;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_MaulOfTheTitans( Serial serial ) : base( serial )

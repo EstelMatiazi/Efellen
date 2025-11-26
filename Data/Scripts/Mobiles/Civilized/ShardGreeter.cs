@@ -242,15 +242,13 @@ namespace Server.Gumps
 					if ( !visitLodor( from ) && page == 10 ){ page++; }
 					if ( !visitLodor( from ) && page == 11 ){ page++; }
 					if ( !visitSavage( from ) && page == 12 ){ page++; }
-					if ( !MySettings.S_AllowAlienChoice && page == 13 && from.RaceID == 0 ){ page++; }
-					if ( page > 13 ){ page = 20; }
+					if ( page > 12 ){ page = 20; }
 
 				}
 				else
 				{
 					page--;
 
-					if ( !MySettings.S_AllowAlienChoice && page == 13 && from.RaceID == 0 ){ page--; }
 					if ( !visitSavage( from ) && page == 12 ){ page--; }
 					if ( !visitLodor( from ) && page == 11 ){ page--; }
 					if ( !visitLodor( from ) && page == 10 ){ page--; }

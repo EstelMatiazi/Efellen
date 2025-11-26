@@ -22,7 +22,7 @@ namespace Server.Items
 			Attributes.BonusDex = 5;
 			Attributes.Luck = 95;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_ShadowBrokerCap( Serial serial ) : base( serial )

@@ -18,7 +18,7 @@ namespace Server.Items
 			Attributes.WeaponDamage = 7;
 			Attributes.SpellChanneling = 1;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_BreathOfTheDead( Serial serial ) : base( serial )

@@ -16,7 +16,7 @@ namespace Server.Items
 			Resistances.Poison = 20;
 			Resistances.Energy = 20;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_BraceletOfTheElements( Serial serial ) : base( serial )

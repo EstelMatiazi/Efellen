@@ -19,7 +19,7 @@ namespace Server.Items
 			Attributes.Luck = 60;
 			Attributes.SpellDamage = 10;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_ArcanicRobe( Serial serial ) : base( serial )

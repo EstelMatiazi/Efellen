@@ -16,7 +16,7 @@ namespace Server.Items
 			Attributes.LowerRegCost = 10;
 			Attributes.Luck = 75;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_LieutenantOfTheBritannianRoyalGuard( Serial serial ) : base( serial )

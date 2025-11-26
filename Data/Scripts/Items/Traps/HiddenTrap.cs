@@ -1132,7 +1132,7 @@ namespace Server.Items
 
 			if ( SaveThrow >= Utility.RandomMinMax( 1, 100 ) )
 			{
-				if ( isTrap && MySettings.S_AnnounceTrapSaves )
+				if ( isTrap )
 				{
 					string textSay = "You got near a hidden trap, but with your " + area + "...you avoid it.";
 					if ( Server.Misc.Worlds.IsOnSpaceship( m.Location, m.Map ) )
@@ -1484,14 +1484,14 @@ namespace Server.Items
 			return myItem;
 		}
 
-		public override bool HandlesOnMovement{ get{ return MySettings.S_EnableDungeonSoundEffects; } }
+		public override bool HandlesOnMovement{ get{ return true; } }
 
 		private DateTime m_NextSound;	
 		public DateTime NextSound{ get{ return m_NextSound; } set{ m_NextSound = value; } }
 
 		public override void OnMovement( Mobile m, Point3D oldLocation )
 		{
-			if( m is PlayerMobile && MySettings.S_EnableDungeonSoundEffects )
+			if( m is PlayerMobile )
 			{
 				if ( DateTime.Now >= m_NextSound && Utility.InRange( m.Location, this.Location, 10 ) )
 				{

@@ -60,7 +60,7 @@ namespace Server
 
 				return ( item.CoinPrice * 2 );
 			}
-			else if ( !MySettings.S_QualityPrices && !resale )
+			else if ( !resale )
 				return price;
 			else if (	( item is BaseArmor && ((BaseArmor)item).Quality == ArmorQuality.Low ) || 
 					( item is BaseClothing && ((BaseClothing)item).Quality == ClothingQuality.Low ) || 
@@ -699,13 +699,10 @@ namespace Server
 
 			if ( price < 1 )
 				price = 1;
-
-			if ( MySettings.S_SellGoldCutRate > 0 )
-			{
-				price = (int)(price - ( price * MyServerSettings.SellGoldCutRate() ));
-					if ( price < 1 )
-						price = 1;
-			}
+			// gold cut rate
+			price = (int)(price - ( price * 50 ));
+			if ( price < 1 )
+				price = 1;
 
 			return price;
 		}
@@ -745,8 +742,8 @@ namespace Server
 				{
 					qty = Utility.RandomMinMax( 10, 50 );
 
-					if ( ( guild || MySettings.S_SoldResource ) && qty > 0 )
-						qty = Utility.RandomMinMax( 100,850 );
+					if ( guild )
+						qty = Utility.RandomMinMax( 100,250 );
 				}
 
 				if ( qty < 1 )
@@ -758,16 +755,16 @@ namespace Server
 
 		public static bool WillDeal( int val, Mobile m, bool selling, bool blackMarket, ItemSalesInfo.World world, bool guild )
 		{
-			if ( MySettings.S_NoBuyResources && iCategory(val) == ItemSalesInfo.Category.Resource )
+			if ( iCategory(val) == ItemSalesInfo.Category.Resource )
 				return false;
 
 			if ( blackMarket )
 				return Utility.RandomBool();
 
-			if ( MySettings.S_SellAll && selling )
+			if ( selling )
 				return true;
 
-			if ( MySettings.S_BuyAll && !selling )
+			if ( !selling )
 				return true;
 
 			if ( guild )
@@ -1101,22 +1098,19 @@ namespace Server
 
 		public static bool SetAllowedSell( ItemSalesInfo.Category v_Category, Type itemType )
 		{
-			if ( v_Category == ItemSalesInfo.Category.MonsterRace && MySettings.S_MonsterCharacters < 1 )
+			if ( v_Category == ItemSalesInfo.Category.MonsterRace )
 				return false;
 
-			if ( !MySettings.S_BuyCloth )
-			{
-				if ( itemType == typeof( SpoolOfThread ) )
-					return false;
-				if ( itemType == typeof( Flax ) )
-					return false;
-				if ( itemType == typeof( Cotton ) )
-					return false;
-				if ( itemType == typeof( Wool ) )
-					return false;
-				if ( itemType == typeof( Fabric ) )
-					return false;
-			}
+			if ( itemType == typeof( SpoolOfThread ) )
+				return false;
+			if ( itemType == typeof( Flax ) )
+				return false;
+			if ( itemType == typeof( Cotton ) )
+				return false;
+			if ( itemType == typeof( Wool ) )
+				return false;
+			if ( itemType == typeof( Fabric ) )
+				return false;
 
 			return true;
 		}

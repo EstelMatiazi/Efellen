@@ -20,7 +20,7 @@ namespace Server.Items
 			Attributes.ReflectPhysical = 10;
 			Attributes.AttackChance = 14;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_TotemGorget( Serial serial ) : base( serial )

@@ -21,7 +21,7 @@ namespace Server.Items
 			SkillBonuses.SetValues(0, SkillName.Marksmanship, 5);
 			SkillBonuses.SetValues(1, SkillName.Hiding, 5);
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_BowOfTheProwler( Serial serial ) : base( serial )

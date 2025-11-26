@@ -92,7 +92,7 @@ namespace Server.SkillHandlers
 					else if ( (si.Item).GetType() == typeof( LeatherTunicArtifact ) ){ 		rogue = 22; }
 					else if ( (si.Item).GetType() == typeof( RuinedPaintingArtifact ) ){ 	rogue = 23; }
 
-					if ( PlayerSettings.GetArtyConfig( m_Thief, rogue ) && !MySettings.S_DecoArtySteal )
+					if ( PlayerSettings.GetArtyConfig( m_Thief, rogue ) )
 					{
 						si = null;
 						m_Thief.PrivateOverheadMessage(MessageType.Regular, 1150, false, "I have already stolen that item!", m_Thief.NetState);

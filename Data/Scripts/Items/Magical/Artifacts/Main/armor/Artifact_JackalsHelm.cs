@@ -21,7 +21,7 @@ namespace Server.Items
 			Attributes.RegenHits = 6;
 			Attributes.Luck = 50;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_JackalsHelm( Serial serial ) : base( serial )

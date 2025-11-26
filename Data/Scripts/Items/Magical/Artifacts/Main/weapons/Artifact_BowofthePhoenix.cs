@@ -18,7 +18,7 @@ namespace Server.Items
 			AosElementDamages.Fire = 100; 
 			WeaponAttributes.HitFireball = 95;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_BowofthePhoenix( Serial serial ) : base( serial )

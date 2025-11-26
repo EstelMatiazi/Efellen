@@ -25,7 +25,7 @@ namespace Server.Multis
 		public static int MaxFriends { get { return !Core.AOS ? 50 : 140; } }
 		public static int MaxBans { get { return !Core.AOS ? 50 : 140; } }
 
-		public static bool DecayEnabled = MySettings.S_HousesDecay;
+		public static bool DecayEnabled = true;
 
 		public static void Decay_OnTick()
 		{

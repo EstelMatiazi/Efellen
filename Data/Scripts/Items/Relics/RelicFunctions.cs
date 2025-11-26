@@ -130,7 +130,7 @@ namespace Server
 				from.SendMessage( "That cannot move so you cannot identify it." );
 			else if ( !from.InRange( examine.GetWorldLocation(), 3 ) && vendor == null )
 				from.SendMessage( "You will need to get closer to identify that." );
-			else if ( !(examine.IsChildOf( from.Backpack )) && MySettings.S_IdentifyItemsOnlyInPack && vendor == null ) 
+			else if ( !(examine.IsChildOf( from.Backpack )) && vendor == null ) 
 				from.SendMessage( "This must be in your backpack to identify." );
 			else if ( examine is Food && examine.NotIDSkill == IDSkill.Tasting && vendor == null )
 			{

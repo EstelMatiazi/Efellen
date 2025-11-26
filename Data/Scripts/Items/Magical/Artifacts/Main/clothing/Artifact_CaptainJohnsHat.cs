@@ -23,7 +23,7 @@ namespace Server.Items
 			SkillBonuses.Skill_1_Name = SkillName.Swords;
 			SkillBonuses.Skill_1_Value = 10;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_CaptainJohnsHat( Serial serial ) : base( serial )

@@ -2045,10 +2045,10 @@ namespace Server.Mobiles
 
 			base.OnBeforeSpawn( location, m );
 		}
-
+		// wtf is this garbage
 		public void ExtraHP()
 		{
-			double mod = ( MySettings.S_HPModifier / 100 );
+			double mod = 0;
 
 			if ( mod > 0 && !IsCitizen() )
 			{
@@ -2152,13 +2152,11 @@ namespace Server.Mobiles
 					}
 				}
 			}
-
-			if ( MySettings.S_CreaturesSearching )
+			if ( bc.Skills[SkillName.Searching].Value < 10 )
 			{
 				double searching = (double)(Server.Misc.IntelligentAction.GetCreatureLevel( (Mobile)bc ) + 10);
-				if ( bc.Skills[SkillName.Searching].Value > 10 ){} // DON'T MODIFY THOSE THAT ALREADY HAVE THE SKILL
-				else { bc.SetSkill( SkillName.Searching, searching ); }
-			}
+				bc.SetSkill( SkillName.Searching, searching );
+            }
 		}
 
 		public static void BeefUpLoot( BaseCreature bc, int up )
@@ -2189,7 +2187,7 @@ namespace Server.Mobiles
 			m_Swimmer = CanSwim;
 			m_NoWalker = CantWalk;
 
-			if ( !IsCitizen() && MySettings.S_LineOfSight && WhisperHue != 999 && WhisperHue != 666 && !CanHearGhosts && !Controlled && (this.Region is DungeonRegion || this.Region is DeadRegion || this.Region is CaveRegion || this.Region is BardDungeonRegion || this.Region is OutDoorBadRegion) )
+			if ( !IsCitizen() && WhisperHue != 999 && WhisperHue != 666 && !CanHearGhosts && !Controlled && (this.Region is DungeonRegion || this.Region is DeadRegion || this.Region is CaveRegion || this.Region is BardDungeonRegion || this.Region is OutDoorBadRegion) )
 			{
 				CanHearGhosts = true;
 				CantWalk = true;
@@ -5313,7 +5311,7 @@ namespace Server.Mobiles
 
 			if ( FollowersMax > 5 ){ FollowersMax = 5; }
 
-			if ( !IsCitizen() && MySettings.S_LineOfSight && WhisperHue != 999 && WhisperHue != 666 && !CanHearGhosts && !Controlled && (this.Region is DungeonRegion || this.Region is DeadRegion || this.Region is CaveRegion || this.Region is BardDungeonRegion || this.Region is OutDoorBadRegion) )
+			if ( !IsCitizen() && WhisperHue != 999 && WhisperHue != 666 && !CanHearGhosts && !Controlled && (this.Region is DungeonRegion || this.Region is DeadRegion || this.Region is CaveRegion || this.Region is BardDungeonRegion || this.Region is OutDoorBadRegion) )
 			{
 				CanHearGhosts = true;
 				CantWalk = true;
@@ -6368,21 +6366,14 @@ namespace Server.Mobiles
 			double DispelChance = 0.33; // 33% chance to dispel at gm magery
 
 			bool willDispel = true;
-			int nope = MySettings.S_DispelFailure;
+			int nope = 10;
 			double magery = this.Skills[ SkillName.Magery ].Value * DispelChance * 0.01;
 
 			if ( !( magery > Utility.RandomDouble() ) )
 				willDispel = false;
 			else if ( this.Mana < 40 || ( this.Skills[SkillName.Magery].Value < 54 && this.Skills[SkillName.Necromancy].Value < 81 ) )
 				willDispel = false;
-			else if ( MySettings.S_DispelFailure > 0 )
-			{
-				if ( nope < 10 )
-					nope = 10;
-				if ( nope > 90 )
-					nope = 90;
-			}
-
+			
 			if ( m != null && m is BaseCreature )
 			{
 				BaseCreature bc = (BaseCreature)m;

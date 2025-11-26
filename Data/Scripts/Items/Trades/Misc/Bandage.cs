@@ -13,7 +13,7 @@ namespace Server.Items
 	{
 		public override string DefaultDescription{ get{ return "Bandages require a good healing or veterinary skill. When you use a bandage on someone, it will begin the attempt to heal some damage. If your skills are high enough, you can cure most poisons or even bring the dead back to life."; } }
 
-		public static int Range = ( MySettings.S_FriendsAvoidHeels ? 5 : 2 ); 
+		public static int Range = 5; 
 
 		public override int Hue{ get { return 0; } }
 

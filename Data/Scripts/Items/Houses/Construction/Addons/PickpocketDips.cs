@@ -38,7 +38,7 @@ namespace Server.Items
 		public PickpocketDip( int itemID ) : base( itemID )
 		{
 			MinSkill = -25.0;
-			MaxSkill = MySettings.S_PickDips;
+			MaxSkill = 50.0;
 		}
 
 		public void UpdateItemID()

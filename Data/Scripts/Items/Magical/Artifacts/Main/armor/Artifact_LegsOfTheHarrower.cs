@@ -19,7 +19,7 @@ namespace Server.Items
 			Attributes.RegenStam = 9;
 			Attributes.WeaponDamage = 30;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_LegsOfTheHarrower( Serial serial ) : base( serial )

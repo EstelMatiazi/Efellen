@@ -19,7 +19,7 @@ namespace Server.Items
 			Attributes.SpellDamage = 15;
 			Attributes.BonusMana = 10;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_FurCapeOfTheSorceress( Serial serial ) : base( serial )

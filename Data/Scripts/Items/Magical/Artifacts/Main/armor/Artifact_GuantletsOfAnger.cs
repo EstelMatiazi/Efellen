@@ -27,7 +27,7 @@ namespace Server.Items
 			Attributes.RegenHits = 8;
 			Attributes.DefendChance = 10;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_GuantletsOfAnger( Serial serial ) : base( serial )

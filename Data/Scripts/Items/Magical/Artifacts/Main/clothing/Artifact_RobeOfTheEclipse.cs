@@ -19,7 +19,7 @@ namespace Server.Items
 			SkillBonuses.SetValues(0, SkillName.Necromancy, 20);
 			SkillBonuses.SetValues(1, SkillName.Spiritualism, 10);
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_RobeOfTheEclipse( Serial serial ) : base( serial )

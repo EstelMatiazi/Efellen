@@ -21,7 +21,7 @@ namespace Server.Items
 			Attributes.ReflectPhysical = 25;
 			Attributes.DefendChance = 10;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_HolyKnightsBreastplate( Serial serial ) : base( serial )

@@ -17,7 +17,7 @@ namespace Server.Items
 			SkillBonuses.SetValues(1, SkillName.Cartography, 10);
 			Attributes.Luck = 100;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 		
 		public Artifact_TalismanOfTheAlbatroz( Serial serial ) :  base( serial )

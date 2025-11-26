@@ -18,7 +18,7 @@ namespace Server.Items
 			Attributes.SpellDamage = 11;
 			Resistances.Energy = 25;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_RingOfTheMagician( Serial serial ) : base( serial )

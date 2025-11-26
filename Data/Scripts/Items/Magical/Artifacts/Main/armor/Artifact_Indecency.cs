@@ -27,7 +27,7 @@ namespace Server.Items
             Attributes.DefendChance = 4;
             ArmorAttributes.MageArmor = 1;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
         public Artifact_Indecency(Serial serial) : base( serial )

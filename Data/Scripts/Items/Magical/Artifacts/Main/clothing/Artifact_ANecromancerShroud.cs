@@ -19,7 +19,7 @@ namespace Server.Items
 			SkillBonuses.SetValues( 0, SkillName.Spiritualism, 25 );
 			SkillBonuses.SetValues( 0, SkillName.Necromancy, 25 );
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_ANecromancerShroud( Serial serial ) : base( serial )

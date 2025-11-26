@@ -812,10 +812,10 @@ namespace Server.Mobiles
 
 		private int CalculateFollowersMax()
 		{
-			double herding = MySettings.S_ItemInfluencedTamingSlots ? this.Skills[SkillName.Herding].Value : this.Skills[SkillName.Herding].Base;
-			double veterinary = MySettings.S_ItemInfluencedTamingSlots ? this.Skills[SkillName.Veterinary].Value : this.Skills[SkillName.Veterinary].Base;
-			double druidism = MySettings.S_ItemInfluencedTamingSlots ? this.Skills[SkillName.Druidism].Value : this.Skills[SkillName.Druidism].Base;
-			double taming = MySettings.S_ItemInfluencedTamingSlots ? this.Skills[SkillName.Taming].Value : this.Skills[SkillName.Taming].Base;
+			double herding = this.Skills[SkillName.Herding].Value;
+			double veterinary = this.Skills[SkillName.Veterinary].Value;
+			double druidism = this.Skills[SkillName.Druidism].Value;
+			double taming = this.Skills[SkillName.Taming].Value;
 
 			if (herding >= 120 && veterinary >= 120 && druidism >= 120 && taming >= 120)
 				return 8;
@@ -831,8 +831,8 @@ namespace Server.Mobiles
 		{
 			int max = base.GetMaxResistance( type );
 
-			if ( MySettings.S_MaxResistance > 39 && MySettings.S_MaxResistance < 91 )
-				max = MySettings.S_MaxResistance;
+			if ( 70 > 39 && 70 < 91 )
+				max = 70;
 
 			if ( type != ResistanceType.Physical && Spells.Fourth.CurseSpell.UnderEffect( this ) )
 				max = max - 10;
@@ -2360,7 +2360,7 @@ namespace Server.Mobiles
 
 		public override bool OnBeforeDeath()
 		{
-			if ( !MySettings.S_GuardsSentenceDeath && ( this.LastKiller is TownGuards || ( this.LastKiller is BaseVendor && this.LastKiller.WhisperHue != 999 && !(this.LastKiller is PlayerVendor) && !(this.LastKiller is PlayerBarkeeper) ) ) )
+			if ( this.LastKiller is TownGuards || ( this.LastKiller is BaseVendor && this.LastKiller.WhisperHue != 999 && !(this.LastKiller is PlayerVendor) && !(this.LastKiller is PlayerBarkeeper) ) )
 			{
 				Land world = Server.Lands.GetLand( Map, Location, X, Y );
 				Point3D p = new Point3D( 1956, 1328, 0 );

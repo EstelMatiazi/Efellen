@@ -17,7 +17,7 @@ namespace Server.Items
 			Hue = Utility.RandomColor( 0 );
 			Attributes.Luck = 125;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "(Use to Teleport) " );
+			Server.Misc.Arty.ArtySetup( this, "(Use to Teleport) " );
 		}
 
 		public override void OnDoubleClick( Mobile from )

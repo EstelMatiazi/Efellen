@@ -17,7 +17,7 @@ namespace Server.Items
 			SkillBonuses.SetValues( 3, SkillName.Lockpicking, 10 );
 			SkillBonuses.SetValues( 4, SkillName.Snooping, 10 );
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_DetectiveBoots( Serial serial ) : base( serial )

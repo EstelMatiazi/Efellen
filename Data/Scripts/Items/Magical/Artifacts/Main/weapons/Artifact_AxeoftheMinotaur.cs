@@ -19,7 +19,7 @@ namespace Server.Items
 			Attributes.WeaponDamage = 10;
 			WeaponAttributes.HitPhysicalArea = 25;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_AxeoftheMinotaur( Serial serial ) : base( serial )

@@ -18,7 +18,7 @@ namespace Server.Items
 			Attributes.NightSight = 1;
 			Attributes.Luck = 100;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_PolarBearMask( Serial serial ) : base( serial )

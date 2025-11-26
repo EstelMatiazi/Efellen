@@ -28,7 +28,7 @@ namespace Server.Items
 			ColdBonus = 7;
 			EnergyBonus = 8;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_CircletOfTheSorceress( Serial serial ) : base( serial )

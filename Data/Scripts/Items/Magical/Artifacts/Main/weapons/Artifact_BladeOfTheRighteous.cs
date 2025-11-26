@@ -21,7 +21,7 @@ namespace Server.Items
 			WeaponAttributes.UseBestSkill = 1;
 			Attributes.WeaponDamage = 12;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_BladeOfTheRighteous( Serial serial ) : base( serial )
