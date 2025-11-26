@@ -5,7 +5,7 @@ using Server.Targeting;
 
 namespace Server.Items
 {
-	public class Artifact_StaffofSnakes : GiftQuarterStaff
+	public class Artifact_SerpentCoil : GiftQuarterStaff
 	{
 		public DateTime TimeUsed;
 
@@ -16,10 +16,10 @@ namespace Server.Items
 		public override int InitMaxHits{ get{ return 160; } }
 
 		[Constructable]
-		public Artifact_StaffofSnakes()
+		public Artifact_SerpentCoil()
 		{
 			Hue = 0x304;
-			Name = "Staff of the Serpent";
+			Name = "Serpent's Coil";
 			AosElementDamages.Poison = 100;
 			Attributes.SpellChanneling = 1;
 			Slayer = SlayerName.SnakesBane;
@@ -36,7 +36,7 @@ namespace Server.Items
 			long ticksNow = TimeNow.Ticks;
 			int minsThen = (int)TimeSpan.FromTicks(ticksThen).TotalMinutes;
 			int minsNow = (int)TimeSpan.FromTicks(ticksNow).TotalMinutes;
-			int CanUseMagic = 30 - ( minsNow - minsThen );
+			int CanUseMagic = 15 - ( minsNow - minsThen );
 
 			if ( Parent != from )
 			{
@@ -57,7 +57,7 @@ namespace Server.Items
 			}
 		}
 
-		public Artifact_StaffofSnakes( Serial serial ) : base( serial )
+		public Artifact_SerpentCoil( Serial serial ) : base( serial )
 		{
 		}
 		

@@ -19,8 +19,9 @@ namespace Server.Items
 			Name = "Helm of Brilliance";
 			Hue = 0xB54;
 			Attributes.NightSight = 1;
-			FireBonus = 50;
-			Attributes.Luck = 75;
+			FireBonus = 25;
+			EnergyBonus = 25;
+			Attributes.DefendChance = 20;
 			ArtifactLevel = 2;
 			Server.Misc.Arty.ArtySetup( this, "Casts Fireballs" );
 		}

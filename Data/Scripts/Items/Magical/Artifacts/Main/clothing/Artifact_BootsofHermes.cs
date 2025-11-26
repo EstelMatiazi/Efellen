@@ -13,10 +13,10 @@ namespace Server.Items
 			Hue = 0xBAD;
 			ItemID = 0x2FC4;
 			Name = "Boots of Hermes";
-			Attributes.BonusDex = 10;
+			Attributes.BonusDex = 15;
 			Attributes.BonusStam = 20;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, "Sprinting " );
+			Server.Misc.Arty.ArtySetup( this, "Sprinting" );
 		}
 
 		public override bool OnEquip( Mobile from )

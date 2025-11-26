@@ -14,12 +14,13 @@ namespace Server.Items
 			ItemID = 0x2645;
 			Hue = 0x835;
 			Name = "Helm of the Cimmerian";
-			Attributes.BonusStam = 5;
-			SkillBonuses.SetValues( 0, SkillName.Tactics, 5 );
-			Attributes.DefendChance = 30;
-			PhysicalBonus = 20;
+
+			Attributes.BonusStam = 10;
+			SkillBonuses.SetValues( 0, SkillName.MagicResist, 10 );
+			Attributes.DefendChance = 20;
+			PhysicalBonus = 15;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, "Conan's Lost Helm" );
+			Server.Misc.Arty.ArtySetup( this, "Conan's Lost Helm - 10% Spell Reflect" );
 		}
 
 		public Artifact_ConansHelm( Serial serial ) : base( serial )

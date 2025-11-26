@@ -344,7 +344,7 @@ namespace Server.Items
 			if ( artifact == arty) { name="Artifact_HolySword"; item="Carsomyr"; } arty++;
 			if ( artifact == arty) { name="Artifact_CavortingClub"; item="Cavorting Club"; } arty++;
 			if ( artifact == arty) { name="Artifact_CircletOfTheSorceress"; item="Circlet Of The Sorceress"; } arty++;
-			if ( artifact == arty) { name="Artifact_GrayMouserCloak"; item="Cloak of the Rogue"; } arty++;
+			if ( artifact == arty) { name="Artifact_CloakOfTheRogue"; item="Cloak of the Rogue"; } arty++;
 			if ( artifact == arty) { name="Artifact_CoatOfTheDreadPirate";item="Coat of the Dread Pirate";} arty++;
 			if ( artifact == arty) { name="Artifact_CoifOfBane"; item="Coif of Bane"; } arty++;
 			if ( artifact == arty) { name="Artifact_CoifOfFire"; item="Coif of Fire"; } arty++;
@@ -607,7 +607,7 @@ namespace Server.Items
 			if ( artifact == arty) { name="Artifact_SprintersSandals"; item="Sprinter's Sandals"; } arty++;
 			if ( artifact == arty) { name="Artifact_StaffOfPower"; item="Staff of Power"; } arty++;
 			if ( artifact == arty) { name="Artifact_StaffOfTheMagi"; item="Staff of the Magi"; } arty++;
-			if ( artifact == arty) { name="Artifact_StaffofSnakes"; item="Staff of the Serpent"; } arty++;
+			if ( artifact == arty) { name="Artifact_SerpentCoil"; item="Serpent's Coil"; } arty++;
 			if ( artifact == arty) { name="Artifact_StitchersMittens"; item="Stitcher's Mittens"; } arty++;
 			if ( artifact == arty) { name="Artifact_Stormbringer"; item="Stormbringer"; } arty++;
 			if ( artifact == arty) { name="Artifact_Subdue"; item="Subdue"; } arty++;

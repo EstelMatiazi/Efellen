@@ -4075,7 +4075,32 @@ namespace Server.Mobiles
 		#endregion
 
 		public virtual void CheckReflect( Mobile caster, ref bool reflect )
+        {
+			// Conan's artifacts increase spell reflection chance
+            int count = ConanSetCount(this);
+			if (count > 0)
+		    {
+		        int chance = count * 10;
+		  
+		        if (Utility.Random(100) < chance)
+		            reflect = true;
+		    }
+        }
+
+		//artifact helpers
+		public static int ConanSetCount(Mobile m)
 		{
+		    int count = 0;
+		
+		    Item helm = m.FindItemOnLayer(Layer.Helm);
+		    Item sword = m.FindItemOnLayer(Layer.TwoHanded) ?? m.FindItemOnLayer(Layer.OneHanded);
+		    Item cloth = m.FindItemOnLayer(Layer.Pants);
+		
+		    if (helm is Artifact_ConansHelm) count++;
+		    if (sword is Artifact_ConansSword) count++;
+		    if (cloth is Artifact_ConansLoinCloth) count++;
+		
+		    return count;
 		}
 
 		public ScaleType ResourceScales()
