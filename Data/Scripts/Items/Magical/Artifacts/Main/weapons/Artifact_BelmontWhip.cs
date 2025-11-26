@@ -20,7 +20,7 @@ namespace Server.Items
             Slayer = SlayerName.Silver;
             Slayer2 = SlayerName.Exorcism;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, "Simon Belmonts's Whip " );
+			Server.Misc.Arty.ArtySetup( this, "Belmonts's Family Whip" );
 		}
 
 		public Artifact_BelmontWhip( Serial serial ) : base( serial )

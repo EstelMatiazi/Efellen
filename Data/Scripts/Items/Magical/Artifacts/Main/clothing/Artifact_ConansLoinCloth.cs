@@ -15,7 +15,7 @@ namespace Server.Items
 			Attributes.Luck = 85;
 			SkillBonuses.SetValues( 0, SkillName.Tactics, 10 );
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, "Conan's Loin Cloth " );
+			Server.Misc.Arty.ArtySetup( this, "Conan's Loin Cloth" );
 		}
 
 		public Artifact_ConansLoinCloth( Serial serial ) : base( serial )

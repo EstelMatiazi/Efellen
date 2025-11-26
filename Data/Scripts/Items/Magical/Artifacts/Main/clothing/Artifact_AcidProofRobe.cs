@@ -23,7 +23,7 @@ namespace Server.Items
 			Attributes.Luck = 50;
 			Attributes.ReflectPhysical = 15;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, "Acid Soaked " );
+			Server.Misc.Arty.ArtySetup( this, "Soaked in acid" );
 		}
 
 		public override void OnDoubleClick( Mobile from )
