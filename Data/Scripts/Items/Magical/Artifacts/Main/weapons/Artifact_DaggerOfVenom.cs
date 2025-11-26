@@ -23,7 +23,7 @@ namespace Server.Items
 			AosElementDamages.Physical = 50;
 			AosElementDamages.Poison = 50;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, "Dripping With Venom " );
+			Server.Misc.Arty.ArtySetup( this, "Dripping With Venom" );
 		}
 
 		public override void OnHit( Mobile attacker, Mobile defender, double damageBonus )

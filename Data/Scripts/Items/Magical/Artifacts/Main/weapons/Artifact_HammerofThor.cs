@@ -25,7 +25,7 @@ namespace Server.Items
 			WeaponAttributes.HitLightning = 25;
 			DamageLevel = WeaponDamageLevel.Vanq;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, "(Casts Lightning) " );
+			Server.Misc.Arty.ArtySetup( this, "Casts Lightning" );
 		}
 
 		public override void OnDoubleClick( Mobile from )

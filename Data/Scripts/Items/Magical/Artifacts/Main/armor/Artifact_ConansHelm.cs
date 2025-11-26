@@ -19,7 +19,7 @@ namespace Server.Items
 			Attributes.DefendChance = 30;
 			PhysicalBonus = 20;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, "Conan's Lost Helm " );
+			Server.Misc.Arty.ArtySetup( this, "Conan's Lost Helm" );
 		}
 
 		public Artifact_ConansHelm( Serial serial ) : base( serial )
