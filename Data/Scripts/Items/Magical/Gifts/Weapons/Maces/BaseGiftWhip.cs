@@ -12,6 +12,12 @@ namespace Server.Items
 {
     public abstract class BaseGiftWhip : BaseWhip, IGiftable
     {
+         private string m_ArtifactExtra;
+        public string ArtifactExtra
+        {
+        	get { return m_ArtifactExtra; }
+        	set { m_ArtifactExtra = value; }
+        }
         public Mobile m_Owner;
         public string m_Gifter;
         public string m_How;
@@ -49,11 +55,12 @@ namespace Server.Items
         {
             base.Serialize(writer);
 
-            writer.Write((int)1);
+            writer.Write((int)2);
             writer.Write(m_Owner);
             writer.Write(m_Gifter);
             writer.Write(m_How);
             writer.Write(m_Points);
+            writer.Write(ArtifactExtra);
         }
 
         public override void Deserialize(GenericReader reader)
@@ -61,10 +68,22 @@ namespace Server.Items
             base.Deserialize(reader);
 
             int version = reader.ReadInt();
-			m_Owner = reader.ReadMobile();
-			m_Gifter = reader.ReadString();
-			m_How = reader.ReadString();
-			m_Points = reader.ReadInt();
+		    if (version >= 1)
+            {
+                m_Owner = reader.ReadMobile();
+                m_Gifter = reader.ReadString();
+                m_How = reader.ReadString();
+                m_Points = reader.ReadInt();
+            }
+            if (version >= 2)
+            {
+                m_ArtifactExtra = reader.ReadString();
+            }
+            else
+            {
+                // Items created in old saves have no extra—safe default
+                m_ArtifactExtra = null;
+            }
         }
 
 		public override void AddNameProperties(ObjectPropertyList list)
@@ -74,6 +93,10 @@ namespace Server.Items
 			else if ( m_Gifter != "" && m_Gifter != null ){ list.Add( 1070722, m_Gifter); }
 			if ( m_Points > 5 && m_How == "Unearthed by" ){ list.Add( 1049644, m_Points + " Enchantment Points" ); }
 			else if ( m_Owner != null ){ list.Add( 1049644, m_How + " " + m_Owner.Name + "" ); }
+            if (!string.IsNullOrEmpty(m_ArtifactExtra))
+            {
+                list.Add(ArtifactExtra);
+            }
 		}
 
         public override void GetContextMenuEntries(Mobile from, List<ContextMenuEntry> list)
