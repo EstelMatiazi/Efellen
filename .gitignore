@@ -1,3 +1,9 @@
 Data/Logs
 Data/System/Source/obj
 throttle.log
+Backups/
+Saves/
+World.sln
+Data/Data.ref
+Data/Data.hash
+Data/Data.bin
