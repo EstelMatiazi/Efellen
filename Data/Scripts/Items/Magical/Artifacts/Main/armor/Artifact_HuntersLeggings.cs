@@ -21,7 +21,7 @@ namespace Server.Items
 			Attributes.NightSight = 1;
 			Attributes.AttackChance = 14;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_HuntersLeggings( Serial serial ) : base( serial )

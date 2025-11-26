@@ -31,7 +31,7 @@ namespace Server.Items
 				Attributes.AttackChance = 14;
 
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_OrcChieftainHelm( Serial serial ) : base( serial )

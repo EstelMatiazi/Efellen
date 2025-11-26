@@ -9003,7 +9003,7 @@ namespace Server.Mobiles
 		public virtual bool WalkMobileRange( Mobile m, int iSteps, bool bRun, int iWantDistMin, int iWantDistMax )
 		{
 			int foll = 1;
-			if ( MySettings.S_FriendsAvoidHeels && m_Mobile.Controlled && !(m_Mobile.Backpack is StrongBackpack) && m_Mobile.ControlMaster == m )
+			if ( m_Mobile.Controlled && !(m_Mobile.Backpack is StrongBackpack) && m_Mobile.ControlMaster == m )
 			{
 				if ( m_Mobile.FollowersMax < 6 ){ m_Mobile.FollowersMax = Utility.RandomMinMax( 6, 9 ); }
 				iWantDistMin = m_Mobile.FollowersMax-5;
@@ -9243,7 +9243,7 @@ namespace Server.Mobiles
 								bValid = ( m.Karma < -2499 || m.Criminal || m.Kills > 0 );
 								if ( bValid ){ m.CriminalAction( false ); }
 							}
-							else if ( MySettings.S_Purple && m is BaseCreature && ((BaseCreature)m).ControlMaster == null )
+							else if ( m is BaseCreature && ((BaseCreature)m).ControlMaster == null )
 							{
 								bValid = m.Karma < -2499;
 							}

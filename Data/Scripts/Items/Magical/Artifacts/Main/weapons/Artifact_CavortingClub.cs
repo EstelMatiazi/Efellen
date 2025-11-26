@@ -22,7 +22,7 @@ namespace Server.Items
 			WeaponAttributes.ResistPoisonBonus = 8;
 			WeaponAttributes.ResistEnergyBonus = 8;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_CavortingClub( Serial serial ) : base( serial )

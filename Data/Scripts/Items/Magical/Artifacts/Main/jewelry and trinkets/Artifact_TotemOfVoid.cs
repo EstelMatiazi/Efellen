@@ -15,7 +15,7 @@ namespace Server.Items
 			Attributes.RegenHits = 10;
 			Attributes.LowerManaCost = 50;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_TotemOfVoid( Serial serial ) :  base( serial )

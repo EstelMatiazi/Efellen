@@ -20,7 +20,7 @@ namespace Server.Items
             Slayer = SlayerName.Silver;
             Slayer2 = SlayerName.Exorcism;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "King Arthur's Lost Sword" );
+			Server.Misc.Arty.ArtySetup( this, "King Arthur's Lost Sword" );
 		}
 
 		public Artifact_Excalibur( Serial serial ) : base( serial )

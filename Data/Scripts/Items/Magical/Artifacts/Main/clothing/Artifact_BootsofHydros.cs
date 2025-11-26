@@ -22,7 +22,7 @@ namespace Server.Items
 			SkillBonuses.SetValues(1, SkillName.Focus, 10);
 			SkillBonuses.SetValues(2, SkillName.Meditation, 10);
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "Hydros' Enchanted Boots" );
+			Server.Misc.Arty.ArtySetup( this, "Hydros' Enchanted Boots" );
 		}
 
 		public Artifact_BootsofHydros( Serial serial ) : base( serial )

@@ -17,7 +17,7 @@ namespace Server.Items
 			SkillBonuses.SetValues( 0, SkillName.Healing, 25 );
 			SkillBonuses.SetValues( 1, SkillName.Anatomy, 25 );
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_RingOfHealth( Serial serial ) : base( serial )

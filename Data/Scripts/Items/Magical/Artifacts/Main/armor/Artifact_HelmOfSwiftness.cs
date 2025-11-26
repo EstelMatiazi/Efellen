@@ -24,7 +24,7 @@ namespace Server.Items
 			Attributes.RegenStam = 4;
 			Attributes.BonusStam = 4;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_HelmOfSwiftness( Serial serial ) : base( serial )

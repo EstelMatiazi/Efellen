@@ -19,7 +19,7 @@ namespace Server.Items
 			WeaponAttributes.SelfRepair = 5;
 			WeaponAttributes.HitPoisonArea = 40;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_MelisandesCorrodedHatchet( Serial serial ) : base( serial )

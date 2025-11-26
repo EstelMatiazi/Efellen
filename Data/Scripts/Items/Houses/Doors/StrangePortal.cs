@@ -61,17 +61,14 @@ namespace Server.Items
 			else if ( Land == Land.Savaged ){ GateLocation = Utility.RandomMinMax( 48, 56 ); }
 			else if ( Land == Land.Underworld ){ GateLocation = Utility.RandomMinMax( 57, 64 ); }
 
-			if ( MySettings.S_PortalExits )
-			{
-				Strange_Portal gate = new Strange_Portal();
-				gate.Gate_Location_X = this.X;
-				gate.Gate_Location_Y = this.Y;
-				gate.Gate_Location_Z = this.Z;
-				gate.Gate_Location_M = this.Map;
-				gate.Hue = this.Hue;
-				gate.Name = this.Name;
-				UseGate( null, GateLocation, gate );
-			}
+			Strange_Portal gate = new Strange_Portal();
+			gate.Gate_Location_X = this.X;
+			gate.Gate_Location_Y = this.Y;
+			gate.Gate_Location_Z = this.Z;
+			gate.Gate_Location_M = this.Map;
+			gate.Hue = this.Hue;
+			gate.Name = this.Name;
+			UseGate( null, GateLocation, gate );
 		}
 
 		public static void UseGate( Mobile m, int portal, Item gate )

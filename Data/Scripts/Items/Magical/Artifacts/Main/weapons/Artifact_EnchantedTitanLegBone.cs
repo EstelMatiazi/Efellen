@@ -20,7 +20,7 @@ namespace Server.Items
 			Attributes.WeaponDamage = 20;
 			WeaponAttributes.ResistPhysicalBonus = 15;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_EnchantedTitanLegBone( Serial serial ) : base( serial )

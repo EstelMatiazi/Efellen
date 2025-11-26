@@ -14,7 +14,7 @@ namespace Server.Items
 			SkillBonuses.SetValues( 1, SkillName.Snooping, 25 );
 			SkillBonuses.SetValues( 2, SkillName.RemoveTrap, 50 );
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "Gray Mouser's Cloak " );
+			Server.Misc.Arty.ArtySetup( this, "Gray Mouser's Cloak " );
 		}
 
 		public Artifact_GrayMouserCloak( Serial serial ) : base( serial )

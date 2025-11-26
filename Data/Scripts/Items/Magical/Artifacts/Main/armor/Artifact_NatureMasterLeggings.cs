@@ -26,7 +26,7 @@ namespace Server.Items
 			SkillBonuses.SetValues( 1, SkillName.Taming, 5);
 			SkillBonuses.SetValues( 2, SkillName.Druidism, 5);
 			SkillBonuses.SetValues( 3, SkillName.Veterinary, 5);
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_NatureMasterLeggings( Serial serial ) : base( serial )

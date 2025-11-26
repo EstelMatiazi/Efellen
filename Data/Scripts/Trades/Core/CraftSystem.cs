@@ -56,7 +56,7 @@ namespace Server.Engines.Craft
 			if ( tool != null && ( tool is BaseRunicTool || tool is TomeOfWands ) )
 				return false;
 
-			return MySettings.S_CraftMany;
+			return true;
 		}
 
 		public static void SetCraftResource( CraftContext context, int index, CraftSubRes res )

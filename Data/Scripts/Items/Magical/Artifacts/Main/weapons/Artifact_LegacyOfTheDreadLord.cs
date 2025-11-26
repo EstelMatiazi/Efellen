@@ -19,7 +19,7 @@ namespace Server.Items
 			Attributes.WeaponSpeed = 30;
 			Attributes.WeaponDamage = 9;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_LegacyOfTheDreadLord( Serial serial ) : base( serial )

@@ -15,7 +15,7 @@ namespace Server.Items
 			Attributes.BonusStr = 10;
 			ItemID = 0x672D;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_BraceletOfHealth( Serial serial ) : base( serial )

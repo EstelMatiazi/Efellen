@@ -22,7 +22,7 @@ namespace Server.Items
 			SkillBonuses.SetValues(1, SkillName.Taming,  10);
 			SkillBonuses.SetValues(2, SkillName.Herding,  10);
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public override void GetDamageTypes( Mobile wielder, out int phys, out int fire, out int cold, out int pois, out int nrgy, out int chaos, out int direct )

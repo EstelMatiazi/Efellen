@@ -26,7 +26,7 @@ namespace Server.Items
 			Attributes.SpellDamage = 6;
 			WeaponAttributes.HitPoisonArea = 50;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "(Summons Snakes) " );
+			Server.Misc.Arty.ArtySetup( this, "(Summons Snakes) " );
 		}
 
 		public override void OnDoubleClick( Mobile from )

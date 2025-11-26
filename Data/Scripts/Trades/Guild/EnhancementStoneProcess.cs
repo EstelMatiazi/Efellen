@@ -126,7 +126,7 @@ namespace Server.Items
         {
             int attrMultiplier = 1;
 
-			int dust = (int)( (double)BaseCost * ( 1.0 + ( (double)MySettings.S_GuildEnhanceMod / 100.0 ) ) );
+			int dust = (int)( (double)BaseCost * ( 1.0 + ( 100.0 / 100.0 ) ) );
 				if ( IsCraftedByEnhancer( ItemToUpgrade, Owner ) ){ dust = (int)( dust / 2 ); }
 
             if (AttrCountAffectsCost)

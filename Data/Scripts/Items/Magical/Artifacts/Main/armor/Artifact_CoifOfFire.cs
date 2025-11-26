@@ -24,7 +24,7 @@ namespace Server.Items
 			PhysicalBonus = 12;
 			FireBonus = 15;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_CoifOfFire( Serial serial ) : base( serial )

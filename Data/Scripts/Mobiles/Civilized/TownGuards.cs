@@ -36,11 +36,8 @@ namespace Server.Mobiles
 
 			AddItem( new LightCitizen( true ) );
 
-			if ( MySettings.S_GuardsSprint )
-			{
-				ActiveSpeed = 0.15;
-				PassiveSpeed = 0.25;
-			}
+			ActiveSpeed = 0.15;
+			PassiveSpeed = 0.25;
 
 			if ( Backpack != null ){ Backpack.Delete(); }
 			Container pack = new Backpack();
@@ -511,10 +508,10 @@ namespace Server.Mobiles
 			if ( !IntelligentAction.GetMyEnemies( m, this, true ) )
 				return false;
 
-			if ( m.Region != this.Region && !MySettings.S_GuardsPatrolOutside )
+			if ( m.Region != this.Region )
 				return false;
 
-			if ( MySettings.S_GuardsSentenceDeath || ( m is BaseCreature && ((BaseCreature)m).ControlMaster == null ) )
+			if (m is BaseCreature && ((BaseCreature)m).ControlMaster == null )
 			{
 				this.Location = m.Location;
 				this.Combatant = m;

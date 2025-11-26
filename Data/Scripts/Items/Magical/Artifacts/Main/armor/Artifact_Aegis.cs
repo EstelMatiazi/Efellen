@@ -17,7 +17,7 @@ namespace Server.Items
 			Attributes.LowerManaCost = 10;
 			PhysicalBonus = 15;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_Aegis( Serial serial ) : base( serial )

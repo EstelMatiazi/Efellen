@@ -17,7 +17,7 @@ namespace Server.Items
 			Attributes.DefendChance = 15;
 			Resistances.Physical = 30;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_ResilientBracer( Serial serial ) : base( serial )

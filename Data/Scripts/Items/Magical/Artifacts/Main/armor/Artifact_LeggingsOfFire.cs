@@ -22,7 +22,7 @@ namespace Server.Items
 			Attributes.NightSight = 1;
 			Attributes.ReflectPhysical = 15;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_LeggingsOfFire( Serial serial ) : base( serial )

@@ -27,7 +27,7 @@ namespace Server.Items
 			Attributes.BonusMana = 5;
 	 	 	Attributes.NightSight = 1;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 	 	public Artifact_EvilMageGloves(Serial serial) : base( serial )

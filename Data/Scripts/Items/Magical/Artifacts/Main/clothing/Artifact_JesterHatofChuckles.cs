@@ -19,7 +19,7 @@ namespace Server.Items
 			Resistances.Fire = 12;
 			Resistances.Poison = 12;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_JesterHatofChuckles( Serial serial ) : base( serial )

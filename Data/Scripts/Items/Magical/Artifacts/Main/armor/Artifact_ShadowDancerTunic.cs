@@ -25,7 +25,7 @@ namespace Server.Items
 			Attributes.RegenStam = 3;
 			Attributes.Luck = 75;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_ShadowDancerTunic( Serial serial ) : base( serial )

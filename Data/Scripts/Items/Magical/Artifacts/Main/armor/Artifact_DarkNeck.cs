@@ -26,7 +26,7 @@ namespace Server.Items
 			Attributes.SpellDamage = 5;
 	 	 	Attributes.NightSight = 1;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 	 	public Artifact_DarkNeck(Serial serial) : base( serial )

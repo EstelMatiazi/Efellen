@@ -10,7 +10,7 @@ namespace Server.Items
 		public abstract int MaxHeal { get; }
 		public abstract double Delay { get; }
 
-		public override string DefaultDescription{ get{ return "These potions will recover between " + (int)(MinHeal * MySettings.S_PlayerLevelMod) + " and " + (int)(MaxHeal * MySettings.S_PlayerLevelMod) + " points of your health. You must wait 10 seconds before drinking another."; } }
+		public override string DefaultDescription{ get{ return "These potions will recover between " + MinHeal + " and " + MaxHeal + " points of your health. You must wait 10 seconds before drinking another."; } }
 
 		public BaseHealPotion( PotionEffect effect ) : base( 0xF0C, effect )
 		{

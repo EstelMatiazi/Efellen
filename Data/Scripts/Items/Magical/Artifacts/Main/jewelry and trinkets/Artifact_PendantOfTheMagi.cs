@@ -15,7 +15,7 @@ namespace Server.Items
 			Attributes.LowerManaCost = 10;
 			Attributes.LowerRegCost = 10;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_PendantOfTheMagi( Serial serial ) : base( serial )

@@ -45,7 +45,7 @@ namespace Server.Items
 		public TrainingDummy( int itemID ) : base( itemID )
 		{
 			MinSkill = -25.0;
-			MaxSkill = MySettings.S_TrainDummies;
+			MaxSkill = 25.0;
 		}
 
 		public void UpdateItemID()

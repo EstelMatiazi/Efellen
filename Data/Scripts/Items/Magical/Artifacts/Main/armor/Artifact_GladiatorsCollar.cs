@@ -30,7 +30,7 @@ namespace Server.Items
 
 			ArmorAttributes.MageArmor = 1;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_GladiatorsCollar( Serial serial ) : base( serial )

@@ -22,7 +22,7 @@ namespace Server.Items
 			Attributes.WeaponDamage = 8;
 			PhysicalBonus = 20;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_AchillesShield( Serial serial ) : base( serial )

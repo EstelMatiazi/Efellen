@@ -20,7 +20,7 @@ namespace Server.Items
 			Attributes.LowerManaCost = 11;
 			ArmorAttributes.MageArmor = 1;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_SpellWovenBritches( Serial serial ) : base( serial )

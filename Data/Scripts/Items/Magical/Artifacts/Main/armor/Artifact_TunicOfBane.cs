@@ -17,7 +17,7 @@ namespace Server.Items
 			Attributes.BonusStam = 10;
 			Attributes.AttackChance = 20;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_TunicOfBane( Serial serial ) : base( serial )

@@ -20,7 +20,7 @@ namespace Server.Items
 			SkillBonuses.SetValues( 2, SkillName.Lockpicking, 15 );
 			Attributes.AttackChance = 10;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_SinbadsSword( Serial serial ) : base( serial )

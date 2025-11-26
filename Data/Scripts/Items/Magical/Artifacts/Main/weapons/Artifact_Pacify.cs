@@ -22,7 +22,7 @@ namespace Server.Items
 			WeaponAttributes.HitLeechMana = 33;
 			WeaponAttributes.UseBestSkill = 1;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_Pacify( Serial serial ) : base( serial )

@@ -40,7 +40,7 @@ namespace Server.Spells.Song
 
 				foreach ( Mobile m in Caster.GetMobilesInRange( 10 ) )
 				{
-					if ( isFriendly( Caster, m ) && m.FireResistance < MySettings.S_MaxResistance )
+					if ( isFriendly( Caster, m ) && m.FireResistance < 70 )
 						targets.Add( m );
 				}
 
@@ -51,8 +51,8 @@ namespace Server.Spells.Song
 					TimeSpan duration = TimeSpan.FromSeconds( (double)(MusicSkill( Caster ) * 2) );
                     int amount = MyServerSettings.PlayerLevelMod( (int)(MusicSkill( Caster ) / 16), Caster );
 
-					if ( ( amount + m.FireResistance ) > MySettings.S_MaxResistance )
-						amount = MySettings.S_MaxResistance - m.FireResistance;
+					if ( ( amount + m.FireResistance ) > 70 )
+						amount = 70 - m.FireResistance;
 
 					m.SendMessage( "Your resistance to fire has increased." );
 					ResistanceMod mod1 = new ResistanceMod( ResistanceType.Fire, + amount );

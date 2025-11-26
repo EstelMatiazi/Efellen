@@ -21,7 +21,7 @@ namespace Server.Items
 			Attributes.SpellChanneling = 1;
 			Slayer = SlayerName.BloodDrinking ;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_VampiricDaisho( Serial serial ) : base( serial )

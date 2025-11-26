@@ -21,7 +21,7 @@ namespace Server.Items
             SkillBonuses.SetValues(0, SkillName.Tactics, 10);
 			SkillBonuses.SetValues(2, SkillName.Druidism, 5);
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_BladeOfTheWilds( Serial serial ) : base( serial )

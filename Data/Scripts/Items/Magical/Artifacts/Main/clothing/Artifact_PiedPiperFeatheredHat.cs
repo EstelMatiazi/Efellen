@@ -18,7 +18,7 @@ namespace Server.Items
             Attributes.BonusStam = 6;
 			Attributes.Luck = 40;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_PiedPiperFeatheredHat( Serial serial ) : base( serial )

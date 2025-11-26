@@ -24,7 +24,7 @@ namespace Server.Items
 			ColdBonus = 8;
 			EnergyBonus = 8;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_ArmsOfTheFallenKing( Serial serial ) : base( serial )

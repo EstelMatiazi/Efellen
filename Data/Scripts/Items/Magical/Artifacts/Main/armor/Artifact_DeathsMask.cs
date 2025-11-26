@@ -27,7 +27,7 @@ namespace Server.Items
 			Attributes.NightSight = 1;
 			Attributes.SpellDamage = 15;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_DeathsMask( Serial serial ) : base( serial )

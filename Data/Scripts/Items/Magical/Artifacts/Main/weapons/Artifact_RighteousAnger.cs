@@ -20,7 +20,7 @@ namespace Server.Items
 			Attributes.WeaponSpeed = 10;
 			Attributes.WeaponDamage = 10;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_RighteousAnger( Serial serial ) : base( serial )

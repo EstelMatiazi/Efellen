@@ -18,7 +18,7 @@ namespace Server.Items
             Attributes.BonusMana = 15;
             Attributes.RegenMana = 7;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
         public Artifact_MagesBand( Serial serial )

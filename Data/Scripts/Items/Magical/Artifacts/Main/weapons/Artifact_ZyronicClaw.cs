@@ -18,7 +18,7 @@ namespace Server.Items
 			WeaponAttributes.HitLeechMana = 57;
 			Attributes.AttackChance = 10;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public override void GetDamageTypes( Mobile wielder, out int phys, out int fire, out int cold, out int pois, out int nrgy, out int chaos, out int direct )

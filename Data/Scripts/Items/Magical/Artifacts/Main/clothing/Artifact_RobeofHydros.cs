@@ -20,7 +20,7 @@ namespace Server.Items
 			SkillBonuses.SetValues(1, SkillName.Focus, 15);
 			SkillBonuses.SetValues(2, SkillName.Meditation, 15);
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "Hydros' Enchanted Robe" );
+			Server.Misc.Arty.ArtySetup( this, "Hydros' Enchanted Robe" );
 		}
 
 		public Artifact_RobeofHydros( Serial serial ) : base( serial )

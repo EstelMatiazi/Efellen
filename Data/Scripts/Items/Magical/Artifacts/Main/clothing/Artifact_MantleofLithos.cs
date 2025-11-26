@@ -21,7 +21,7 @@ namespace Server.Items
 			SkillBonuses.SetValues(1, SkillName.Focus, 10);
 			SkillBonuses.SetValues(2, SkillName.Meditation, 10);
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "Lithos' Mystical Hood" );
+			Server.Misc.Arty.ArtySetup( this, "Lithos' Mystical Hood" );
 		}
 
 		public Artifact_MantleofLithos( Serial serial ) : base( serial )

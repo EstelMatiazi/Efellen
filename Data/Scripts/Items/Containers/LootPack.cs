@@ -72,44 +72,33 @@ namespace Server
 
 		public void Generate( Mobile from, Container cont, bool spawning, int luckChance, int level )
 		{
-			if ( MySettings.S_LootChance > Utility.Random(100) )
+			level = LootPackChange.ScaleLevel( level );
+
+			if ( cont == null )
+				return;
+			bool checkLuck = true;
+			for ( int i = 0; i < m_Entries.Length; ++i )
 			{
-				level = LootPackChange.ScaleLevel( level );
-
-				if ( cont == null )
-					return;
-
-				bool checkLuck = true;
-
-				for ( int i = 0; i < m_Entries.Length; ++i )
+				LootPackEntry entry = m_Entries[i];
+				bool shouldAdd = ( entry.Chance > Utility.Random( 10000 ) );
+				if ( !shouldAdd && checkLuck )
 				{
-					LootPackEntry entry = m_Entries[i];
-
-					bool shouldAdd = ( entry.Chance > Utility.Random( 10000 ) );
-
-					if ( !shouldAdd && checkLuck )
-					{
-						checkLuck = false;
-
-						if ( LootPack.CheckLuck( luckChance ) )
-							shouldAdd = ( entry.Chance > Utility.Random( 10000 ) );
-					}
-
-					if ( !shouldAdd )
+					checkLuck = false;
+					if ( LootPack.CheckLuck( luckChance ) )
+						shouldAdd = ( entry.Chance > Utility.Random( 10000 ) );
+				}
+				if ( !shouldAdd )
+					continue;
+				Item item = entry.Construct( from, luckChance, spawning );
+				if ( item != null )
+				{
+					LootPackChange.RemoveItem( item, from, level );
+					if (item.Deleted)
 						continue;
-
-					Item item = entry.Construct( from, luckChance, spawning );
-
-					if ( item != null )
-					{
-						LootPackChange.RemoveItem( item, from, level );
-						if (item.Deleted)
-							continue;
-							
-						item = LootPackChange.ChangeItem( item, from, level );
-						NotIdentified.ConfigureItem( item, cont, from );
-						ReagentJar.ConfigureItem( item, cont, from );
-					}
+						
+					item = LootPackChange.ChangeItem( item, from, level );
+					NotIdentified.ConfigureItem( item, cont, from );
+					ReagentJar.ConfigureItem( item, cont, from );
 				}
 			}
 		}

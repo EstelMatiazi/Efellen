@@ -22,7 +22,7 @@ namespace Server.Items
 			Attributes.Luck = 45;
 			Attributes.ReflectPhysical = 15;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_HolyKnightsLegging( Serial serial ) : base( serial )

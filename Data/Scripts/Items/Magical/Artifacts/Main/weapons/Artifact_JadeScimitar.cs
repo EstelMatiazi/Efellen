@@ -24,7 +24,7 @@ namespace Server.Items
 			WeaponAttributes.UseBestSkill = 1;
 			Attributes.AttackChance = 14;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_JadeScimitar( Serial serial ) : base( serial )

@@ -25,7 +25,7 @@ namespace Server.Items
 			Attributes.DefendChance = 24;
 			ArmorAttributes.MageArmor = 1;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_FeyLeggings( Serial serial ) : base( serial )

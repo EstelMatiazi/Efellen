@@ -25,7 +25,7 @@ namespace Server.Items
 			SkillBonuses.SetValues( 0, SkillName.Elementalism, 15);
 			SkillBonuses.SetValues( 1, SkillName.Taming, 15);
 			SkillBonuses.SetValues( 2, SkillName.Druidism, 15);
-            Server.Misc.Arty.ArtySetup( this, 10, "" );
+            Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_NatureVengeanceCoat( Serial serial ) : base( serial )

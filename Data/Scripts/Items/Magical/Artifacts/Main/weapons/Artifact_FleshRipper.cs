@@ -22,7 +22,7 @@ namespace Server.Items
 			WeaponAttributes.UseBestSkill = 1;
 			Slayer = SlayerName.Repond;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_FleshRipper( Serial serial ) : base( serial )

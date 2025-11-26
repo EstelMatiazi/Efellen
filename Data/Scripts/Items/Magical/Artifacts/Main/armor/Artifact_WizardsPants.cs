@@ -30,7 +30,7 @@ namespace Server.Items
 			Attributes.SpellDamage = 10;
 			Attributes.BonusMana = 15;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_WizardsPants( Serial serial ) : base( serial )

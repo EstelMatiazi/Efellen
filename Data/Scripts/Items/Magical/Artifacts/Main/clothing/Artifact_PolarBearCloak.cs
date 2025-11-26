@@ -13,7 +13,7 @@ namespace Server.Items
 			Resistances.Cold = 50;
 			Attributes.Luck = 100;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_PolarBearCape( Serial serial ) : base( serial )

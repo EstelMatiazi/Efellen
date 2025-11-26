@@ -26,7 +26,7 @@ namespace Server.Items
 			Attributes.Luck = 100;
 			Attributes.DefendChance = 5;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_NatureMasterGloves( Serial serial ) : base( serial )

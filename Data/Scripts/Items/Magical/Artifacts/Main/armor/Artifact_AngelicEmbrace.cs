@@ -32,7 +32,7 @@ namespace Server.Items
             ArmorAttributes.SelfRepair = 3;
             Attributes.LowerManaCost = 4;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
         public Artifact_AngelicEmbrace(Serial serial) : base( serial )

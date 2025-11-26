@@ -19,7 +19,7 @@ namespace Server.Items
 			Attributes.WeaponDamage = 25;
 			Attributes.Luck = 50;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_OrnateCrownOfTheHarrower( Serial serial ) : base( serial )

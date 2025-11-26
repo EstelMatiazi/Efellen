@@ -24,7 +24,7 @@ namespace Server.Items
             Attributes.Luck = 97;
             Attributes.DefendChance = 5;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_NatureMasterHeaddress( Serial serial ) : base( serial )

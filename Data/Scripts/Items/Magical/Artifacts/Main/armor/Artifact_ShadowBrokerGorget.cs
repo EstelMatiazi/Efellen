@@ -23,7 +23,7 @@ namespace Server.Items
 			Attributes.BonusDex = 3;
 			Attributes.Luck = 105;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_ShadowBrokerGorget( Serial serial ) : base( serial )

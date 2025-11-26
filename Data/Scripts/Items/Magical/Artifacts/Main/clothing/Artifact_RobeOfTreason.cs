@@ -20,7 +20,7 @@ namespace Server.Items
 			Attributes.ReflectPhysical = 50;
 			Attributes.SpellDamage = 5;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_RobeOfTreason( Serial serial ) : base( serial )

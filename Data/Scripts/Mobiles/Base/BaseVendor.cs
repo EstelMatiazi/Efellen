@@ -267,7 +267,7 @@ namespace Server.Mobiles
 			if ( typeof( PlayerVendor ) == this.GetType() || typeof( PlayerBarkeeper ) == this.GetType() )
 				return;
 
-			this.CoinPurse = Utility.RandomMinMax( MySettings.S_MinMerchant, MySettings.S_MaxMerchant );
+			this.CoinPurse = Utility.RandomMinMax( 500, 2000 );
 
 			if ( this is BaseGuildmaster )
 				this.CoinPurse = this.CoinPurse * 3;
@@ -1918,7 +1918,7 @@ namespace Server.Mobiles
 				SayTo( seller, true, "You may only sell {0} items at a time!", MaxSell );
 				return false;
 			}
-			else if ( !MySettings.S_RichMerchants && SoldPrice > this.CoinPurse && !MySettings.S_UseRemainingGold )
+			else if ( SoldPrice > this.CoinPurse )
 			{
 				SayTo( seller, true, "Sorry, but I only have {0} gold to barter with.", this.CoinPurse );
 				return false;
@@ -1932,7 +1932,7 @@ namespace Server.Mobiles
 
 			// Calculate maximum affordable amount if using remaining gold
 			int maxAffordableGold = SoldPrice;
-			if ( !MySettings.S_RichMerchants && SoldPrice > this.CoinPurse && MySettings.S_UseRemainingGold )
+			if ( SoldPrice > this.CoinPurse )
 			{
 				maxAffordableGold = this.CoinPurse;
 				SayTo( seller, true, "I give you my remaining {0} gold.", this.CoinPurse );
@@ -2091,7 +2091,7 @@ namespace Server.Mobiles
 			if ( GetPlayerInfo.GetNPCGuild( this ) != null )
 				list.Add( 1072172, "{0}\t{1}", "51C273", GetPlayerInfo.GetNPCGuild( this ) );
 
-			if ( IsActiveBuyer && CoinPurse > 0 && !MySettings.S_RichMerchants )
+			if ( IsActiveBuyer && CoinPurse > 0 )
 				list.Add( 1072173, "{0}\t{1}", "FBFF00", "" + CoinPurse + " Gold" );
 		}
 
@@ -2149,7 +2149,7 @@ namespace Server.Mobiles
 			{
 				bool buysThings = true;
 
-				if ( CoinPurse < 1 && !MySettings.S_RichMerchants )
+				if ( CoinPurse < 1 )
 					buysThings = false;
 				else if ( !IsActiveBuyer )
 					buysThings = false;

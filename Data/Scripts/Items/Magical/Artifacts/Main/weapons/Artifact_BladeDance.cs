@@ -20,7 +20,7 @@ namespace Server.Items
 			WeaponAttributes.HitLeechMana = 20;
 			WeaponAttributes.UseBestSkill = 1;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 		public Artifact_BladeDance( Serial serial ) : base( serial )
 		{

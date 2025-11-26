@@ -1292,7 +1292,7 @@ namespace Server.Mobiles
 				else
 					m = (Mobile)ent;
 
-				if ( !MySettings.S_Scary && SpawnID == 8888 )
+				if ( SpawnID == 8888 )
 				{
 					if ( m is RidingDragon ){ m.Delete(); m = new Drake(); }
 					else if ( m is Wyrms ){ m.Delete(); if ( Utility.RandomBool() ){ m = new Drake(); } else { m = new RidingDragon(); } }
@@ -1401,7 +1401,7 @@ namespace Server.Mobiles
 				else
 					m = (Mobile)ent;
 
-				if ( !MySettings.S_Scary && SpawnID == 8888 )
+				if (  SpawnID == 8888 )
 				{
 					if ( m is RidingDragon ){ m.Delete(); m = new Drake(); }
 					else if ( m is Wyrms ){ m.Delete(); if ( Utility.RandomBool() ){ m = new Drake(); } else { m = new RidingDragon(); } }
@@ -1504,7 +1504,7 @@ namespace Server.Mobiles
 				else
 					m = (Mobile)ent;
 
-				if ( !MySettings.S_Scary && SpawnID == 8888 )
+				if (  SpawnID == 8888 )
 				{
 					if ( m is RidingDragon ){ m.Delete(); m = new Drake(); }
 					else if ( m is Wyrms ){ m.Delete(); if ( Utility.RandomBool() ){ m = new Drake(); } else { m = new RidingDragon(); } }
@@ -1607,7 +1607,7 @@ namespace Server.Mobiles
 				else
 					m = (Mobile)ent;
 
-				if ( !MySettings.S_Scary && SpawnID == 8888 )
+				if (  SpawnID == 8888 )
 				{
 					if ( m is RidingDragon ){ m.Delete(); m = new Drake(); }
 					else if ( m is Wyrms ){ m.Delete(); if ( Utility.RandomBool() ){ m = new Drake(); } else { m = new RidingDragon(); } }
@@ -1710,7 +1710,7 @@ namespace Server.Mobiles
 				else
 					m = (Mobile)ent;
 
-				if ( !MySettings.S_Scary && SpawnID == 8888 )
+				if (  SpawnID == 8888 )
 				{
 					if ( m is RidingDragon ){ m.Delete(); m = new Drake(); }
 					else if ( m is Wyrms ){ m.Delete(); if ( Utility.RandomBool() ){ m = new Drake(); } else { m = new RidingDragon(); } }
@@ -1813,7 +1813,7 @@ namespace Server.Mobiles
 				else
 					m = (Mobile)ent;
 
-				if ( !MySettings.S_Scary && SpawnID == 8888 )
+				if (  SpawnID == 8888 )
 				{
 					if ( m is RidingDragon ){ m.Delete(); m = new Drake(); }
 					else if ( m is Wyrms ){ m.Delete(); if ( Utility.RandomBool() ){ m = new Drake(); } else { m = new RidingDragon(); } }

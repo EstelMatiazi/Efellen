@@ -18,7 +18,7 @@ namespace Server.Items
 			Attributes.AttackChance = 10;
 			Attributes.WeaponDamage = 10;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_AxeOfTheHeavens( Serial serial ) : base( serial )

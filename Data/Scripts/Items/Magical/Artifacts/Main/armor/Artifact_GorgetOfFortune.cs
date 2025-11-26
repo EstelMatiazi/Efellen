@@ -17,7 +17,7 @@ namespace Server.Items
 			Attributes.LowerRegCost = 17;
 			ArmorAttributes.MageArmor = 1;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_GorgetOfFortune( Serial serial ) : base( serial )

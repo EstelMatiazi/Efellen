@@ -54,7 +54,7 @@ namespace Server.Spells.DeathKnight
 			if ( !base.CheckCast() )
 				return false;
 
-			if ( Caster.Stam < (int)( 10 * MySettings.S_PlayerLevelMod ) )
+			if ( Caster.Stam < 10 )
 			{
 				Caster.SendMessage( "You are too fatigued to do that now." );
 				return false;
@@ -88,7 +88,7 @@ namespace Server.Spells.DeathKnight
 			int requiredTithing = GetTithing( Caster, this );
 			int mana = GetMana();
 
-			if ( Caster.Stam < (int)( 10 * MySettings.S_PlayerLevelMod ) )
+			if ( Caster.Stam < 10 )
 			{
 				Caster.SendMessage( "You are too fatigued to do that now." );
 				return false;

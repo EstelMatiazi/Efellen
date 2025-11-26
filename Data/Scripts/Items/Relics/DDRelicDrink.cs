@@ -107,7 +107,7 @@ namespace Server.Items
 			this.Consume();
 			from.PlaySound( Utility.RandomList( 0x30, 0x2D6 ) );
 
-			if ( !IsChildOf( from.Backpack ) && MySettings.S_IdentifyItemsOnlyInPack && from is PlayerMobile && ((PlayerMobile)from).DoubleClickID && NotIdentified ) 
+			if ( !IsChildOf( from.Backpack ) && from is PlayerMobile && ((PlayerMobile)from).DoubleClickID && NotIdentified ) 
 				from.SendMessage( "This must be in your backpack to identify." );
 			else if ( from is PlayerMobile && ((PlayerMobile)from).DoubleClickID && NotIdentified )
 				IDCommand( from );

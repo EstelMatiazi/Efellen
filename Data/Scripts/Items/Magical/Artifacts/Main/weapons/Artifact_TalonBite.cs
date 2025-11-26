@@ -22,7 +22,7 @@ namespace Server.Items
 			Attributes.WeaponSpeed = 20;
 			WeaponAttributes.HitHarm = 23;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_TalonBite( Serial serial ) : base( serial )

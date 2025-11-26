@@ -14,7 +14,7 @@ namespace Server.Items
 			Attributes.BonusStr = 21;
 			SkillBonuses.SetValues( 0, SkillName.FistFighting, 30 );
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_BeltofHercules( Serial serial ) : base( serial )

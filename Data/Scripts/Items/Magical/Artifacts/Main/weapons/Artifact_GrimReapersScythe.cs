@@ -21,7 +21,7 @@ namespace Server.Items
 			AccuracyLevel = WeaponAccuracyLevel.Supremely;
  	 	    Slayer = SlayerName.Repond;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_GrimReapersScythe( Serial serial ) : base( serial )

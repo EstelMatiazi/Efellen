@@ -21,7 +21,7 @@ namespace Server.Items
 			Attributes.BonusDex = 5;
 			Attributes.WeaponDamage = 8;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_Retort( Serial serial ) : base( serial )

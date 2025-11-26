@@ -21,7 +21,7 @@ namespace Server.Items
 			ArmorAttributes.MageArmor = 1;
 			EnergyBonus = 10;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_ArmorOfInsight( Serial serial ) : base( serial )

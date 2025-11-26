@@ -70,7 +70,7 @@ namespace Server.Items
 		public ArcheryButte( int itemID ) : base( itemID )
 		{
 			MinSkill = -25.0;
-			MaxSkill = MySettings.S_TrainDummies;
+			MaxSkill = 25.0;
 		}
 
 		public ArcheryButte( Serial serial ) : base( serial )

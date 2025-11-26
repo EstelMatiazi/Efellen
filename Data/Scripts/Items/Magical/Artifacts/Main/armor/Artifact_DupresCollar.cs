@@ -22,7 +22,7 @@ namespace Server.Items
 			Attributes.Luck = 60;
 			Attributes.DefendChance = 20;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_DupresCollar( Serial serial ) : base( serial )

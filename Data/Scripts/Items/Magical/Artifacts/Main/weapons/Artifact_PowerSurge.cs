@@ -16,7 +16,7 @@ namespace Server.Items
             Attributes.Luck = 50;
 			Resistances.Energy = 16;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_PowerSurge( Serial serial ) : base( serial )

@@ -27,7 +27,7 @@ namespace Server.Items
 			SkillBonuses.SetValues( 0, SkillName.MagicResist, 10 );
 			Attributes.Luck = 40;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_ShroudOfDeciet( Serial serial ) : base( serial )

@@ -21,7 +21,7 @@ namespace Server.Items
 			Attributes.RegenHits = 15;
 			Attributes.RegenStam = 15;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_TunicOfTheFallenKing( Serial serial ) : base( serial )

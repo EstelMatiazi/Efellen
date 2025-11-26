@@ -32,7 +32,7 @@ namespace Server.Spells.Chivalry
 			if ( !base.CheckCast() )
 				return false;
 
-			if ( Caster.Stam < (int)( 10 * MySettings.S_PlayerLevelMod ) )
+			if ( Caster.Stam < 10 )
 			{
 				Caster.SendMessage( "You are too fatigued to do that now." );
 				return false;
@@ -65,7 +65,7 @@ namespace Server.Spells.Chivalry
 
 			int mana = GetMana();
 
-			if ( Caster.Stam < (int)( 10 * MySettings.S_PlayerLevelMod ) )
+			if ( Caster.Stam < 10 )
 			{
 				Caster.SendMessage( "You are too fatigued to do that now." );
 				return false;

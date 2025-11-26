@@ -15,7 +15,7 @@ namespace Server.Items
 			SkillBonuses.SetValues(0, SkillName.Herding,  10);
 			SkillBonuses.SetValues(1, SkillName.Taming,  10);
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_RobeOfWildLegion( Serial serial ) : base( serial )

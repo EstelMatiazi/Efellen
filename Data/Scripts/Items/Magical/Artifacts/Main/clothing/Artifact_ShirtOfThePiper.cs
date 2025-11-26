@@ -20,7 +20,7 @@ namespace Server.Items
             Attributes.CastSpeed = 1;
             Attributes.CastRecovery = 1;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_ShirtOfThePiper( Serial serial ) : base( serial )

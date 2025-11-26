@@ -37,7 +37,7 @@ namespace Server.Engines.Craft
 			from.CloseGump( typeof( CraftGump ) );
 			from.CloseGump( typeof( CraftGumpItem ) );
 
-			bool canUseBackpackCraftTool = MySettings.S_AllowBackpackCraftTool && tool.IsChildOf(from.Backpack);
+			bool canUseBackpackCraftTool = tool.IsChildOf(from.Backpack);
 
 			if ( tool.Parent == from || canUseBackpackCraftTool )
 			{

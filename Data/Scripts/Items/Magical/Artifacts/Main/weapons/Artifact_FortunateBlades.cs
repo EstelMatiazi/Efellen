@@ -23,7 +23,7 @@ namespace Server.Items
 			Attributes.RegenMana = 5;
 			Attributes.SpellDamage = 15;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_FortunateBlades( Serial serial ) : base( serial )

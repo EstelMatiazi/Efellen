@@ -24,7 +24,7 @@ namespace Server.Items
 			Attributes.RegenStam = 3;
 			Attributes.Luck = 70;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_ShadowDancerCap( Serial serial ) : base( serial )

@@ -22,7 +22,7 @@ namespace Server.Items
 			Attributes.DefendChance = 10;
 			Attributes.Luck = 45;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_HolyKnightsGloves( Serial serial ) : base( serial )

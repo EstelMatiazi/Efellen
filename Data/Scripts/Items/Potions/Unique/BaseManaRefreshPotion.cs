@@ -6,7 +6,7 @@ namespace Server.Items
 {
 	public abstract class BaseManaRefreshPotion : BasePotion
 	{
-		public override string DefaultDescription{ get{ return "These potions will recover around " + (int)(MinMana * MySettings.S_PlayerLevelMod) + " and " + (int)(MaxMana * MySettings.S_PlayerLevelMod) + " of your mana. You must wait 10 seconds before drinking another."; } }
+		public override string DefaultDescription{ get{ return "These potions will recover around " + MinMana + " and " + MaxMana + " of your mana. You must wait 10 seconds before drinking another."; } }
 
 		public abstract int MinMana { get; }
 		public abstract int MaxMana { get; }

@@ -21,7 +21,7 @@ namespace Server.Items
 			Attributes.DefendChance = 15;
 			Attributes.LowerManaCost = 12;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_HelmOfAegis( Serial serial ) : base( serial )

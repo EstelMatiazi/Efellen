@@ -21,7 +21,7 @@ namespace Server.Items
 			Attributes.DefendChance = 10;
 			Attributes.LowerManaCost = 10;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 8, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_DefenderOfTheRealmChestpiece( Serial serial ) : base( serial )

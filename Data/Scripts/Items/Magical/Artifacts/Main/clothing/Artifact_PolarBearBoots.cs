@@ -14,7 +14,7 @@ namespace Server.Items
 			Resistances.Physical = 20;
 			Attributes.Luck = 90;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_PolarBearBoots( Serial serial ) : base( serial )

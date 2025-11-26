@@ -44,21 +44,18 @@ namespace Server.Misc
 
 					bool InsideInn = false;
 
-					if ( MySettings.S_Belly )
-					{
-						if ( m.Region is PublicRegion )
-							InsideInn = true;
-						else if ( m.Region is CrashRegion )
-							InsideInn = true;
-						else if ( m.Region is PrisonArea )
-							InsideInn = true;
-						else if ( m.Region is SafeRegion )
-							InsideInn = true;
-						else if ( m.Region is StartRegion )
-							InsideInn = true;
-						else if ( m.Region is HouseRegion )
-							InsideInn = true;
-					}
+					if ( m.Region is PublicRegion )
+						InsideInn = true;
+					else if ( m.Region is CrashRegion )
+						InsideInn = true;
+					else if ( m.Region is PrisonArea )
+						InsideInn = true;
+					else if ( m.Region is SafeRegion )
+						InsideInn = true;
+					else if ( m.Region is StartRegion )
+						InsideInn = true;
+					else if ( m.Region is HouseRegion )
+						InsideInn = true;
 
 					if ( m.Skills[SkillName.Camping].Value >= Utility.RandomMinMax( 1, 200 ) ){}
 					else if ( InsideInn ){}
@@ -107,21 +104,18 @@ namespace Server.Misc
 
 					bool InsideInn = false;
 
-					if ( MySettings.S_Belly )
-					{
-						if ( m.Region is PublicRegion )
-							InsideInn = true;
-						else if ( m.Region is CrashRegion )
-							InsideInn = true;
-						else if ( m.Region is PrisonArea )
-							InsideInn = true;
-						else if ( m.Region is SafeRegion )
-							InsideInn = true;
-						else if ( m.Region is StartRegion )
-							InsideInn = true;
-						else if ( m.Region is HouseRegion )
-							InsideInn = true;
-					}
+					if ( m.Region is PublicRegion )
+						InsideInn = true;
+					else if ( m.Region is CrashRegion )
+						InsideInn = true;
+					else if ( m.Region is PrisonArea )
+						InsideInn = true;
+					else if ( m.Region is SafeRegion )
+						InsideInn = true;
+					else if ( m.Region is StartRegion )
+						InsideInn = true;
+					else if ( m.Region is HouseRegion )
+						InsideInn = true;
 
 					if ( m.Skills[SkillName.Camping].Value >= Utility.RandomMinMax( 1, 200 ) ){}
 					else if ( InsideInn ){}

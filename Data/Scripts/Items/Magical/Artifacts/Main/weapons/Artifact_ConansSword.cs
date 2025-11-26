@@ -18,7 +18,7 @@ namespace Server.Items
 			SkillBonuses.SetValues( 0, SkillName.Swords, 15 );
 			Slayer = SlayerName.Exorcism;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "Conan's Lost Sword " );
+			Server.Misc.Arty.ArtySetup( this, "Conan's Lost Sword " );
 		}
 
 		public Artifact_ConansSword( Serial serial ) : base( serial )

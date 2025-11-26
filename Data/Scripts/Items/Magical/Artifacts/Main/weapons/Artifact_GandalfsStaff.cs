@@ -28,7 +28,7 @@ namespace Server.Items
 			Attributes.BonusInt = 10;
 			Attributes.SpellChanneling = 1;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "Calls Dragons " );
+			Server.Misc.Arty.ArtySetup( this, "Calls Dragons " );
 		}
 
 		public override void OnDoubleClick( Mobile from )

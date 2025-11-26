@@ -4497,8 +4497,7 @@ namespace Server.Commands
 			{
 				if ( it.Weight == -2 )
 				{
-					if ( MySettings.S_PersistentBlackjack && it is CEOBlackJack ){ /* LEAVE BLACKJACK TABLES ALONE */ }
-					else if ( it is TrashChest ){ /* LEAVE BLACKJACK TABLES ALONE */ }
+					if ( it is TrashChest ){ /* LEAVE BLACKJACK TABLES ALONE */ }
 					else
 						targets.Add( it );
 				}
@@ -5488,7 +5487,6 @@ namespace Server.Commands
 
 			item.Weight = -2;
 
-			if ( item is CEOBlackJack && MySettings.S_PersistentBlackjack ){ item.Delete(); }
 			if ( item is TrashChest ){ item.Delete(); }
 
 			return item;
@@ -16465,14 +16463,7 @@ namespace Server.Scripts.Commands
 			if ( DungeonHomesDecorated == 0 ){ Server.Commands.Monopoly.Monopoly_OnCommand( e ); }
 
 			if ( MySettings.ConsoleLog ){ Console.WriteLine( "Spawn Dungeons..." ); }
-			if(MySettings.S_harderDungeons)
-			{
-				Server.SpawnGenerator.Parse( e.Mobile, "dangers-harder.map" );
-			}
-			else 
-			{
-				Server.SpawnGenerator.Parse( e.Mobile, "dangers.map" );
-			}
+			Server.SpawnGenerator.Parse( e.Mobile, "dangers.map" );
 			if ( MySettings.ConsoleLog ){ Console.WriteLine( "Spawn Land..." ); }
 			Server.SpawnGenerator.Parse( e.Mobile, "land.map" );
 			if ( MySettings.ConsoleLog ){ Console.WriteLine( "Spawn Animals..." ); }
@@ -16486,8 +16477,7 @@ namespace Server.Scripts.Commands
 			if ( MySettings.ConsoleLog ){ Console.WriteLine( "Spawn Towns..." ); }
 			Server.SpawnGenerator.Parse( e.Mobile, "towns.map" );
 			if ( MySettings.ConsoleLog ){ Console.WriteLine( "Spawn Terrors..." ); }
-			if ( MySettings.S_Scary )
-				Server.SpawnGenerator.Parse( e.Mobile, "scary.map" );
+			Server.SpawnGenerator.Parse( e.Mobile, "scary.map" );
 
 			if ( MySettings.ConsoleLog ){ Console.WriteLine( "Spawn Custom..." ); }
 			Server.SpawnGenerator.Parse( e.Mobile, "Spawns.map" );

@@ -15,7 +15,7 @@ namespace Server.Items
 			Attributes.WeaponDamage = 40;
 			WeaponAttributes.SelfRepair = 10;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_ShaMontorrossbow( Serial serial ) : base( serial )

@@ -21,7 +21,7 @@ namespace Server.Items
 			Attributes.AttackChance = 10;
 			Attributes.Luck = 40;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_TotemGloves( Serial serial ) : base( serial )

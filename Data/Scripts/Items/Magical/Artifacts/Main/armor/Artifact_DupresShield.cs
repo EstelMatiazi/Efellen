@@ -22,7 +22,7 @@ namespace Server.Items
 			SkillBonuses.SetValues( 1, SkillName.Parry, 15 );
 			SkillBonuses.SetValues( 2, SkillName.Tactics, 15 );
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_DupresShield( Serial serial ) : base( serial )

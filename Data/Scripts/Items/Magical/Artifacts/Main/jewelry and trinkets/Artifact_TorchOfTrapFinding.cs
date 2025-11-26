@@ -12,7 +12,7 @@ namespace Server.Items
 			Name = "Torch of Trap Burning";
 			SkillBonuses.SetValues(0, SkillName.RemoveTrap, 100);
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_TorchOfTrapFinding( Serial serial ) : base( serial )

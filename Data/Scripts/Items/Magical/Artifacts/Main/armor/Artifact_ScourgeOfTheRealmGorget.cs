@@ -20,7 +20,7 @@ namespace Server.Items
 			Attributes.DefendChance = 7;
 			Attributes.LowerManaCost = 6;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 6, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_ScourgeOfTheRealmGorget( Serial serial ) : base( serial )

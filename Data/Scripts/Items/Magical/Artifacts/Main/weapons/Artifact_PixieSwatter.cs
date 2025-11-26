@@ -20,7 +20,7 @@ namespace Server.Items
 			WeaponAttributes.ResistEnergyBonus = 10;
 			Slayer = SlayerName.Fey;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public override void GetDamageTypes( Mobile wielder, out int phys, out int fire, out int cold, out int pois, out int nrgy, out int chaos, out int direct )

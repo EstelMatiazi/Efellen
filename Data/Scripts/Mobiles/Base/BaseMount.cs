@@ -182,8 +182,7 @@ namespace Server.Mobiles
 				return;
 			}
 
-			int range = 1;
-				if ( MySettings.S_FriendsAvoidHeels ){ range = 5; }
+			int range = 5;
 
 			if ( from.InRange( this, range ) )
 			{

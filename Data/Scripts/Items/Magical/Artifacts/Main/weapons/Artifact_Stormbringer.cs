@@ -19,7 +19,7 @@ namespace Server.Items
 			Attributes.BonusStr = 10;
             Slayer = SlayerName.Repond;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "Elric's Lost Sword " );
+			Server.Misc.Arty.ArtySetup( this, "Elric's Lost Sword " );
 		}
 
 		public Artifact_Stormbringer( Serial serial ) : base( serial )

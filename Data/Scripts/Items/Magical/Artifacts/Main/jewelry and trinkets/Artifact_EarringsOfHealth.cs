@@ -14,7 +14,7 @@ namespace Server.Items
 			Attributes.RegenHits = 10;
 			Attributes.Luck = 75;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_EarringsOfHealth( Serial serial ) : base( serial )

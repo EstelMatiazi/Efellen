@@ -23,7 +23,7 @@ namespace Server.Items
 			Attributes.DefendChance = 5;
 			Attributes.SpellChanneling = 1;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, 10, "" );
+			Server.Misc.Arty.ArtySetup( this, "" );
 		}
 
 		public Artifact_FalseGodsScepter( Serial serial ) : base( serial )
