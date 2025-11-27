@@ -20,7 +20,7 @@ namespace Server.Items
 			Attributes.WeaponSpeed = 15;
 			Attributes.AttackChance = 10;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, "Paralyzes Water creatures." );
+			Server.Misc.Arty.ArtySetup( this, "Paralyzes marine creatures." );
 		}
 
 		public override void OnHit(Mobile attacker, Mobile defender, double damageBonus)
@@ -37,12 +37,12 @@ namespace Server.Items
 			if (!validTarget)
                 return;
 
-            if (Utility.RandomDouble() < 0.45)
+            if (Utility.RandomDouble() < 0.35)
             {
                 if (defender != null && defender.Alive && !defender.Paralyzed)
                 {
                     defender.Paralyze(TimeSpan.FromSeconds(6));
-                    attacker.SendMessage("Your arrow immobilizes your foe!");
+                    attacker.SendMessage("Your attack immobilizes your foe!");
                     m_NextParalyze = DateTime.Now + TimeSpan.FromSeconds(30);
                 }
             }
