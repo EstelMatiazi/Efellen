@@ -12,10 +12,10 @@ namespace Server.Items
 			ItemID = 0x2B68;
 			Name = "Loin Cloth of the Cimmerian";
 			Attributes.BonusStr = 10;
-			Attributes.Luck = 70;
-			SkillBonuses.SetValues( 0, SkillName.MagicResist, 20 );
+			Attributes.Luck = 85;
+			SkillBonuses.SetValues( 0, SkillName.MagicResist, 10 );
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, "Conan's Loin Cloth - 10% Spell Reflect" );
+			Server.Misc.Arty.ArtySetup( this, "Loin Cloth of an ancient Cimmerian" );
 		}
 
 		public Artifact_ConansLoinCloth( Serial serial ) : base( serial )

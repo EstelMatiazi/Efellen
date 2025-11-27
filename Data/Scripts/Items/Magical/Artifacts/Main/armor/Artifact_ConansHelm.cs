@@ -20,7 +20,7 @@ namespace Server.Items
 			Attributes.DefendChance = 20;
 			PhysicalBonus = 15;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, "Conan's Lost Helm - 10% Spell Reflect" );
+			Server.Misc.Arty.ArtySetup( this, "The lost helm of an ancient Cimmerian." );
 		}
 
 		public Artifact_ConansHelm( Serial serial ) : base( serial )
