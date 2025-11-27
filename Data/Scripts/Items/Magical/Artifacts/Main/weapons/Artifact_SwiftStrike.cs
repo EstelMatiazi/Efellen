@@ -15,10 +15,8 @@ namespace Server.Items
 		{
 			Name = "Swift Strike";
 			Hue = 2111;
-			WeaponAttributes.HitLeechHits = 25;
-			WeaponAttributes.HitLeechStam = 25;
-			WeaponAttributes.HitLowerAttack = 25;
-			WeaponAttributes.HitLowerDefend = 25;
+			WeaponAttributes.HitLeechStam = 50;
+			WeaponAttributes.HitLowerAttack = 50;
 			ArtifactLevel = 2;
 			Server.Misc.Arty.ArtySetup( this, "" );
 		}
