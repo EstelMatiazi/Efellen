@@ -23,6 +23,17 @@ namespace Server.Items
 			Server.Misc.Arty.ArtySetup( this, "Calls forth demons" );
 		}
 
+        public override bool OnEquip(Mobile from)
+        {
+            if (from.Karma > 0)
+            {
+                from.SendMessage("This vile implement burns your hands and refuses to be wielded by you!");
+                return false;
+            }
+
+            return base.OnEquip(from);
+        }
+
         public override void OnDoubleClick( Mobile from )
 		{
 			if ( Parent != from )
