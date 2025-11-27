@@ -24,7 +24,7 @@ namespace Server.Items
 
             ArtifactLevel = 2;
 
-            Server.Misc.Arty.ArtySetup(this, "Elric's sword fells the weak.");
+            Server.Misc.Arty.ArtySetup(this, "Stormbringer is a vicious sword that fells the weak.");
         }
 
         public Artifact_Stormbringer(Serial serial) : base(serial)
