@@ -5,7 +5,7 @@ namespace Server.Items
 {
 	public class Artifact_TheDragonSlayer : GiftLance
 	{
-		private DateTime m_NextDragonBuff;
+		private DateTime m_NextArtifactBuff;
 		private bool m_BuffActive;  
 
 		public override int InitMinHits { get { return 80; } }
@@ -24,7 +24,7 @@ namespace Server.Items
 
 			Server.Misc.Arty.ArtySetup(this, "Bane of Dragonkind");
 
-			m_NextDragonBuff = DateTime.MinValue;
+			m_NextArtifactBuff = DateTime.MinValue;
 		}
 
 		public override void OnHit(Mobile attacker, Mobile defender, double damage)
@@ -37,27 +37,27 @@ namespace Server.Items
 			if (defender.Alive || defender.Hits > 0)
 				return;
 
-			if (!IsDragonSlayerEffective(defender))
+			if (!IsSlayerEffective(defender))
 				return;
 
 			if (Utility.RandomDouble() > 0.15)
 				return;
 
-			if (DateTime.UtcNow < m_NextDragonBuff)
+			if (DateTime.UtcNow < m_NextArtifactBuff)
 				return;
 
 			if (m_BuffActive)
 				return;
 
-			ApplyDragonBuff(attacker);
+			ApplyArtifactBuff(attacker);
 
 			attacker.SendMessage(33, "The fallen dragon empowers you!");
 			attacker.PlaySound(0x1E9);
 
-			m_NextDragonBuff = DateTime.UtcNow + TimeSpan.FromMinutes(5.0);
+			m_NextArtifactBuff = DateTime.UtcNow + TimeSpan.FromMinutes(5.0);
 		}
 
-		private bool IsDragonSlayerEffective(Mobile m)
+		private bool IsSlayerEffective(Mobile m)
 		{
 			if (Slayer == SlayerName.DragonSlaying)
 			{
@@ -69,20 +69,20 @@ namespace Server.Items
 			return false;
 		}
 
-		private void ApplyDragonBuff(Mobile m)
+		private void ApplyArtifactBuff(Mobile m)
 		{
 			m_BuffActive = true;
 			m.AddStatMod(new StatMod(StatType.Str, "DragonSlayerStr", 10, TimeSpan.FromMinutes(3)));
 			m.AddStatMod(new StatMod(StatType.Dex, "DragonSlayerDex", 10, TimeSpan.FromMinutes(3)));
-			new DragonBuffEndTimer(this, m).Start();
+			new ArtifactBuffEndTimer(this, m).Start();
 		}
 
-		private class DragonBuffEndTimer : Timer
+		private class ArtifactBuffEndTimer : Timer
 		{
 			private Artifact_TheDragonSlayer m_Item;
 			private Mobile m_Mobile;
 
-			public DragonBuffEndTimer(Artifact_TheDragonSlayer item, Mobile mob)
+			public ArtifactBuffEndTimer(Artifact_TheDragonSlayer item, Mobile mob)
 				: base(TimeSpan.FromMinutes(2.0))
 			{
 				m_Item = item;
@@ -118,7 +118,7 @@ namespace Server.Items
 			base.Serialize(writer);
 			writer.Write((int)0);
 
-			writer.Write(m_NextDragonBuff);
+			writer.Write(m_NextArtifactBuff);
 			writer.Write(m_BuffActive);
 		}
 
@@ -129,7 +129,7 @@ namespace Server.Items
 
 			int version = reader.ReadInt();
 
-			m_NextDragonBuff = reader.ReadDateTime();
+			m_NextArtifactBuff = reader.ReadDateTime();
 			m_BuffActive = reader.ReadBool();
 
 			if (Slayer == SlayerName.None)
