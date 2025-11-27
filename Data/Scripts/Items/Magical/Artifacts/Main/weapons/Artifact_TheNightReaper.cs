@@ -20,8 +20,37 @@ namespace Server.Items
 			Attributes.WeaponSpeed = 25;
 			Attributes.WeaponDamage = 25;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, "" );
+			Server.Misc.Arty.ArtySetup( this, "Culls undead" );
 		}
+
+		public override void OnHit(Mobile attacker, Mobile defender, double damageBonus)
+        {
+            if (attacker == null || defender == null)
+                return;
+
+			bool validTarget = false;
+			SlayerEntry undead = SlayerGroup.GetEntryByName(SlayerName.Silver);
+			if (undead != null && undead.Slays(defender))
+                validTarget = true;
+			if (!validTarget)
+                return;
+
+            if (defender.Hits > 0 && defender.Hits < (defender.HitsMax / 9))
+            {
+                int extra = (int)(defender.HitsMax * 0.25);
+                if (extra < 1)
+                    extra = 1;
+				if (extra > 100)
+					extra = 100;
+
+                defender.Damage(extra, attacker);
+
+                attacker.FixedParticles(0x3728, 10, 10, 5052, 0, 0, EffectLayer.Head);
+                attacker.PlaySound(0x1F1);
+            }
+
+            base.OnHit(attacker, defender, damageBonus);
+        }
 
 		public Artifact_TheNightReaper( Serial serial ) : base( serial )
 		{
