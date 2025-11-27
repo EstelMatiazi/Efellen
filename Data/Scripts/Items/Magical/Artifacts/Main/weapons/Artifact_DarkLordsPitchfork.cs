@@ -1,5 +1,7 @@
 using System;
 using Server;
+using Server.Spells.Eighth;
+using Server.Spells;
 
 namespace Server.Items
 {
@@ -13,13 +15,25 @@ namespace Server.Items
         {
             Name = "Dark Lord's PitchFork";
             Hue = 1157;
-            Attributes.WeaponDamage = 25;
-            WeaponAttributes.HitFireArea = 25;
-            WeaponAttributes.HitFireball = 25;
-            WeaponAttributes.ResistFireBonus = 5;
+            WeaponAttributes.HitFireArea = 50;
+            WeaponAttributes.HitFireball = 50;
+            WeaponAttributes.ResistFireBonus = 15;
             Attributes.SpellChanneling = 1;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, "" );
+			Server.Misc.Arty.ArtySetup( this, "Calls forth demons" );
+		}
+
+        public override void OnDoubleClick( Mobile from )
+		{
+			if ( Parent != from )
+			{
+				from.SendMessage( "You must be holding the pitchfork to summon a Demon." );
+			}
+			else
+			{
+				new SummonDaemonSpell( from, this ).Cast();
+			}
+			return;
 		}
 
         public override void GetDamageTypes( Mobile wielder, out int phys, out int fire, out int cold, out int pois, out int nrgy, out int chaos, out int direct )
