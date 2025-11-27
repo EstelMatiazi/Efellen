@@ -2117,7 +2117,7 @@ namespace Server.Mobiles
 					if ( !Server.Mobiles.AnimalTrainer.AllowMagicSpeed( this, Region.Find( this.Location, this.Map ) ) )
 					{
 						Item shoes = this.FindItemOnLayer( Layer.Shoes );
-						if ( ( shoes is Artifact_BootsofHermes || shoes is Artifact_SprintersSandals || ( shoes is HikingBoots && RaceID > 0 ) ) && shoes.Weight < 5.0 )
+						if ( ( shoes is Artifact_BootsofHermes || ( shoes is HikingBoots && RaceID > 0 ) ) && shoes.Weight < 5.0 )
 						{
 							this.Send(SpeedControl.Disable);
 							shoes.Weight = 5.0;
@@ -2140,11 +2140,6 @@ namespace Server.Mobiles
 					shoes.Weight = 3.0;
 					this.Send(SpeedControl.MountSpeed);
 				}
-				else if ( shoes is Artifact_SprintersSandals && shoes.Weight > 3.0 )
-				{
-					shoes.Weight = 3.0;
-					this.Send(SpeedControl.MountSpeed);
-				}
 				else if ( (shoes is HikingBoots || shoes is LevelHikingBoots || shoes is GiftHikingBoots) && shoes.Weight > 3.0 && RaceID > 0 )
 				{
 					shoes.Weight = 3.0;
@@ -2157,11 +2152,6 @@ namespace Server.Mobiles
 
 				Item shoes = this.FindItemOnLayer( Layer.Shoes );
 				if ( shoes is Artifact_BootsofHermes && shoes.Weight > 3.0 )
-				{
-					shoes.Weight = 3.0;
-					this.Send(SpeedControl.MountSpeed);
-				}
-				else if ( shoes is Artifact_SprintersSandals && shoes.Weight > 3.0 )
 				{
 					shoes.Weight = 3.0;
 					this.Send(SpeedControl.MountSpeed);
@@ -4007,7 +3997,6 @@ namespace Server.Mobiles
 				{
 					Item shoes = pm.FindItemOnLayer( Layer.Shoes );
 					if ( shoes is Artifact_BootsofHermes ){ return true; }
-					else if ( shoes is Artifact_SprintersSandals ){ return true; }
 					else if ( (shoes is HikingBoots || shoes is LevelHikingBoots || shoes is GiftHikingBoots) && pm.RaceID > 0 ){ return true; }
 				}
 				if ( Spells.Mystic.WindRunner.UnderEffect( pm ) )

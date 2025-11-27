@@ -57,7 +57,7 @@ namespace Server.Spells.Jedi
             {
                 Caster.SendMessage( "You cannot use this power while on a mount!" );
             }
-			else if ( shoes is Artifact_BootsofHermes || shoes is Artifact_SprintersSandals )
+			else if ( shoes is Artifact_BootsofHermes )
 			{
                 Caster.SendMessage( "You cannot use this power while wearing those magical shoes!" );
 			}

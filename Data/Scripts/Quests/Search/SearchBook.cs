@@ -67,7 +67,7 @@ namespace Server.Items
 				m_Book = wikipedia;
 				string color = "#d6c382";
 
-				int NumberOfArtifacts = 383; // SEE LISTING BELOW AND MAKE SURE IT MATCHES THE AMOUNT
+				int NumberOfArtifacts = 382; // SEE LISTING BELOW AND MAKE SURE IT MATCHES THE AMOUNT
 				decimal PageCount = NumberOfArtifacts / 16;
 				int TotalBookPages = ( 100000 ) + ( (int)Math.Ceiling( PageCount ) );
 
@@ -604,7 +604,6 @@ namespace Server.Items
 			if ( artifact == arty) { name="Artifact_SpellWovenBritches"; item="Spell Woven Britches"; } arty++;
 			if ( artifact == arty) { name="Artifact_PolarBearMask"; item="Spirit of the Polar Bear"; } arty++;
 			if ( artifact == arty) { name="Artifact_SpiritOfTheTotem"; item="Spirit of the Totem"; } arty++;
-			if ( artifact == arty) { name="Artifact_SprintersSandals"; item="Sprinter's Sandals"; } arty++;
 			if ( artifact == arty) { name="Artifact_StaffOfPower"; item="Staff of Power"; } arty++;
 			if ( artifact == arty) { name="Artifact_StaffOfTheMagi"; item="Staff of the Magi"; } arty++;
 			if ( artifact == arty) { name="Artifact_SerpentCoil"; item="Serpent's Coil"; } arty++;
@@ -633,7 +632,7 @@ namespace Server.Items
 			if ( artifact == arty) { name="Artifact_TunicOfTheFallenKing"; item="Tunic of the Fallen King"; } arty++;
 			if ( artifact == arty) { name="Artifact_TunicOfTheHarrower"; item="Tunic of the Harrower"; } arty++;
 			if ( artifact == arty) { name="Artifact_TyrantOfTheReefs";item="Tyrant of the Reefs";} arty++;
-			if ( artifact == arty) { name="Artifact_BelmontWhip"; item="Vampire Killer"; } arty++;
+			if ( artifact == arty) { name="Artifact_VampireKiller"; item="Vampire Killer"; } arty++;
 			if ( artifact == arty) { name="Artifact_VampiricDaisho"; item="Vampiric Daisho"; } arty++;
 			if ( artifact == arty) { name="Artifact_VioletCourage"; item="Violet Courage"; } arty++;
 			if ( artifact == arty) { name="Artifact_VoiceOfTheFallenKing"; item="Voice of the Fallen King"; } arty++;
