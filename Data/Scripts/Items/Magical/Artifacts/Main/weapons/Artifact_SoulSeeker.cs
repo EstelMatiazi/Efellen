@@ -15,14 +15,33 @@ namespace Server.Items
 			Name = "Soul Seeker";
 			Hue = 0x38C;
 
-			WeaponAttributes.HitLeechStam = 24;
-			WeaponAttributes.HitLeechMana = 24;
-			WeaponAttributes.HitLeechHits = 24;
-			Attributes.WeaponSpeed = 10;
+			WeaponAttributes.HitLeechStam = 30;
+			WeaponAttributes.HitLeechMana = 30;
+			WeaponAttributes.HitLeechHits = 30;
 			Slayer = SlayerName.Repond;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, "" );
+			Server.Misc.Arty.ArtySetup( this, "Soulseeker Devours the weak." );
 		}
+
+		public override void OnHit(Mobile attacker, Mobile defender, double damageBonus)
+        {
+            if (attacker == null || defender == null)
+                return;
+
+            if (defender.Hits > 0 && defender.Hits < (defender.HitsMax / 10))
+            {
+                int extra = (int)(defender.HitsMax * 0.25);
+                if (extra < 1)
+                    extra = 1;
+
+                defender.Damage(extra, attacker);
+
+                attacker.FixedParticles(0x3728, 10, 10, 5052, 0, 0, EffectLayer.Head);
+                attacker.PlaySound(0x1F1);
+            }
+
+            base.OnHit(attacker, defender, damageBonus);
+        }
 
 		public override void GetDamageTypes( Mobile wielder, out int phys, out int fire, out int cold, out int pois, out int nrgy, out int chaos, out int direct )
 		{
