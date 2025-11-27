@@ -8788,7 +8788,8 @@ namespace Server.Mobiles
 				m is EnergyVortex || 
 				m is SummonSkeleton || 
 				m is Swarm || 
-				m is SummonDragon
+				m is SummonDragon ||
+				m is SummonPhoenix
 			)
 				return true;
 

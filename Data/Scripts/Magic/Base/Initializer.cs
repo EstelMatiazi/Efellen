@@ -337,6 +337,8 @@ namespace Server.Spells
 			Register( 704, typeof( Magical.SummonSkeletonSpell ) );
 			Register( 705, typeof( Magical.IdentifySpell ) );
 			Register( 706, typeof( Magical.TravelSpell ) );
+			// new artifact spells
+			Register( 784, typeof( Magical.SummonPhoenixSpell ) );
 
 			// Death Knight Spells
 			Register( 750, typeof( DeathKnight.BanishSpell ) );
@@ -387,6 +389,7 @@ namespace Server.Spells
 			Register( 364, typeof( Song.PoisonThrenodySong ) );
 			Register( 365, typeof( Song.SheepfoeMamboSong ) );
 			Register( 366, typeof( Song.SinewyEtudeSong ) );
+
 		}
 
 		public static void Register( int spellID, Type type )

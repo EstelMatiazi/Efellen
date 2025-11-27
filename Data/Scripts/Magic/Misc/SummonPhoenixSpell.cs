@@ -8,7 +8,7 @@ using Server.Targeting;
 
 namespace Server.Spells.Magical
 {
-	public class SummonDragonSpell : MagicalSpell
+	public class SummonPhoenixSpell : MagicalSpell
 	{
 		private static SpellInfo m_Info = new SpellInfo(
 				"", "", 
@@ -22,7 +22,7 @@ namespace Server.Spells.Magical
 		public override int RequiredMana{ get{ return 30; } }
 		public override TimeSpan CastDelayBase { get { return TimeSpan.FromSeconds( 2.0 ); } }
 		
-		public SummonDragonSpell( Mobile caster, Item scroll ) : base( caster, scroll, m_Info )
+		public SummonPhoenixSpell( Mobile caster, Item scroll ) : base( caster, scroll, m_Info )
 		{
 		}
 
@@ -58,7 +58,7 @@ namespace Server.Spells.Magical
 			{
 				TimeSpan duration;
 				duration = TimeSpan.FromSeconds( 120 );
-				BaseCreature.Summon( new SummonDragon(), false, Caster, new Point3D( p ), 0x212, duration );
+				BaseCreature.Summon( new SummonPhoenix(), false, Caster, new Point3D( p ), 0x212, duration );
 
 				Caster.SendMessage( "You can double click the summon to dispel them." );
 			}
@@ -67,9 +67,9 @@ namespace Server.Spells.Magical
 
 		private class InternalTarget : Target
 		{
-			private SummonDragonSpell m_Owner;
+			private SummonPhoenixSpell m_Owner;
 
-			public InternalTarget( SummonDragonSpell owner ) : base( 12, true, TargetFlags.None )
+			public InternalTarget( SummonPhoenixSpell owner ) : base( 12, true, TargetFlags.None )
 			{
 				m_Owner = owner;
 			}
@@ -100,8 +100,8 @@ namespace Server.Spells.Magical
 
 namespace Server.Mobiles
 {
-	[CorpseName( "a dragon corpse" )]
-	public class SummonDragon : BaseCreature
+	[CorpseName( "smoldering ashes" )]
+	public class SummonPhoenix : BaseCreature
 	{
 		public override bool DeleteCorpseOnDeath { get { return Summoned; } }
 		public override double DispelDifficulty { get { return 900.0; } }
@@ -113,44 +113,47 @@ namespace Server.Mobiles
 		}
 
 		[Constructable]
-		public SummonDragon() : base( AIType.AI_Melee, FightMode.Closest, 10, 1, 0.2, 0.4 )
+		public SummonPhoenix() : base( AIType.AI_Mage, FightMode.Closest, 10, 1, 0.2, 0.4 )
 		{
-			Name = "a dragon";
+			Name = "a Phoenix";
 
-			Body = 0x3D;
-			Hue = 0xB85;
-			BaseSoundID = 362;
+			Body = 0xf3;
+			Hue = 0xB73;
+			BaseSoundID = 0x8F;
 
-			SetStr( 401, 430 );
+			SetStr( 301, 330 );
 			SetDex( 133, 152 );
-			SetInt( 101, 140 );
+			SetInt( 301, 340 );
 
-			SetHits( 241, 258 );
+			SetHits( 201, 208 );
 
-			SetDamage( 11, 17 );
+			SetDamage( 15, 21 );
 
-			SetDamageType( ResistanceType.Physical, 80 );
-			SetDamageType( ResistanceType.Fire, 20 );
+			SetDamageType( ResistanceType.Fire, 100 );
 
 			SetResistance( ResistanceType.Physical, 45, 50 );
-			SetResistance( ResistanceType.Fire, 50, 60 );
-			SetResistance( ResistanceType.Cold, 40, 50 );
-			SetResistance( ResistanceType.Poison, 20, 30 );
-			SetResistance( ResistanceType.Energy, 30, 40 );
+			SetResistance( ResistanceType.Fire, 60, 70 );
+			SetResistance( ResistanceType.Cold, 30, 40 );
+			SetResistance( ResistanceType.Poison, 45, 50 );
+			SetResistance( ResistanceType.Energy, 45, 50 );
 
-			SetSkill( SkillName.MagicResist, 65.1, 80.0 );
-			SetSkill( SkillName.Tactics, 65.1, 90.0 );
-			SetSkill( SkillName.FistFighting, 65.1, 80.0 );
+			SetSkill( SkillName.Psychology, 90.2, 100.0 );
+			SetSkill( SkillName.Magery, 90.2, 100.0 );
+			SetSkill( SkillName.Meditation, 75.1, 100.0 );
+			SetSkill( SkillName.MagicResist, 86.0, 135.0 );
+			SetSkill( SkillName.Tactics, 80.1, 90.0 );
+			SetSkill( SkillName.FistFighting, 90.1, 100.0 );
 
 			Fame = 0;
 			Karma = 0;
 
 			VirtualArmor = 50;
-			ControlSlots = 3;
+			Tamable = false;
+            ControlSlots = 3;
 		}
 
 		public override bool ReacquireOnMovement{ get{ return true; } }
-		public override bool HasBreath{ get{ return true; } } // fire breath enabled
+		public override bool HasBreath{ get{ return true; } }
 
 		public override void OnThink()
 		{
@@ -178,7 +181,7 @@ namespace Server.Mobiles
 			base.OnThink();
 		}
 
-		public SummonDragon( Serial serial ) : base( serial )
+		public SummonPhoenix( Serial serial ) : base( serial )
 		{
 		}
 
