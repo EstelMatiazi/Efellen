@@ -60,6 +60,8 @@ namespace Server.Items
                 int extra = (int)(defender.HitsMax * 0.25);
                 if (extra < 1)
                     extra = 1;
+                else if (extra > 50)
+                    extra = 50;
 
                 defender.Damage(extra, attacker);
 
