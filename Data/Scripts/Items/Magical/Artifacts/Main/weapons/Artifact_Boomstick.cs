@@ -1,6 +1,8 @@
 using System;
 using Server;
 using Server.Items;
+using Server.Spells.Sixth;
+using Server.Spells;
 
 namespace Server.Items
 {
@@ -15,13 +17,24 @@ namespace Server.Items
 			Name = "Boomstick";
 			Hue = 0x25;
 			Attributes.SpellChanneling = 1;
-			Attributes.RegenMana = 3;
 			Attributes.CastSpeed = 2;
-			Attributes.CastRecovery = 2;
 			Attributes.LowerRegCost = 20;
-			Attributes.SpellDamage = 8;
+			Attributes.SpellDamage = 20;
 			ArtifactLevel = 2;
 			Server.Misc.Arty.ArtySetup( this, "" );
+		}
+
+		public override void OnDoubleClick( Mobile from )
+		{
+			if ( Parent != from )
+			{
+				from.SendMessage( "You must be holding the staff to unleash an energy bolt." );
+			}
+			else
+			{
+				new EnergyBoltSpell( from, this ).Cast();
+			}
+			return;
 		}
 
 		public override void GetDamageTypes( Mobile wielder, out int phys, out int fire, out int cold, out int pois, out int nrgy, out int chaos, out int direct )
