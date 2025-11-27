@@ -93,6 +93,17 @@ namespace Server.Items
 			}
     	}
 
+		public override bool OnEquip(Mobile from)
+        {
+            if (from.Karma < 0)
+            {
+                from.SendMessage("This holy blade burns your hands and refuses to be wielded by you!");
+                return false;
+            }
+
+            return base.OnEquip(from);
+        }
+
 		public Artifact_HolySword(Serial serial) : base(serial)
 		{
 		}

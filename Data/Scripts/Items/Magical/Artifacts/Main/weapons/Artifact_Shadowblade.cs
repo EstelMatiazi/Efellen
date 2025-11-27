@@ -18,16 +18,11 @@ namespace Server.Items
             ItemID = 0xF61;
             Hue = 1899;
 
-            Attributes.AttackChance = 5;
-            Attributes.BonusDex = 2;
-            Attributes.CastSpeed = 1;
+            Attributes.AttackChance = 10;
             Attributes.SpellChanneling = 1;
-            Attributes.SpellDamage = 21;
-
-            WeaponAttributes.HitFireball = 10;
-            WeaponAttributes.HitLeechMana = 10;
-            WeaponAttributes.HitLeechStam = 10;
-
+            Attributes.SpellDamage = 20;
+            WeaponAttributes.HitFireball = 25;
+            WeaponAttributes.HitLeechMana = 25;
             ArtifactLevel = 2;
             Server.Misc.Arty.ArtySetup(this, "Reaps the Light");
         }
@@ -56,7 +51,6 @@ namespace Server.Items
 
                 m_NextAoE = DateTime.UtcNow + TimeSpan.FromSeconds(seconds);
 
-                // Base damage scales with NEGATIVE karma (inverted)
                 int minDmg = (-attacker.Karma) / 777; // 19 at -15k
                 int maxDmg = (-attacker.Karma) / 555; // 27 at -15k
 
@@ -89,7 +83,7 @@ namespace Server.Items
                     if (attacker.Guild != null && mob.Guild != null && attacker.Guild == mob.Guild)
                         continue;
 
-                    // only smites *good* targets
+                    // only smites good targets
                     if (mob.Karma < 0)
                         continue;
 
@@ -115,6 +109,17 @@ namespace Server.Items
                     }
                 }
             }
+        }
+
+		public override bool OnEquip(Mobile from)
+        {
+            if (from.Karma > 0)
+            {
+                from.SendMessage("This vile blade burns your hands and refuses to be wielded by you!");
+                return false;
+            }
+
+            return base.OnEquip(from);
         }
 
         public Artifact_ShadowBlade(Serial serial) : base(serial)
