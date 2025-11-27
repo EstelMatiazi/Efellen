@@ -17,7 +17,7 @@ namespace Server.Items
 			Hue = 0x4AC;
 			Attributes.Luck = 125;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, "" );
+			Server.Misc.Arty.ArtySetup( this, "Brings the dead back to life" );
 		}
 
 		public override void OnDoubleClick( Mobile from )
