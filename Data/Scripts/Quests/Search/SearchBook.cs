@@ -491,7 +491,7 @@ namespace Server.Items
 			if ( artifact == arty) { name="Artifact_MelisandesCorrodedHatchet"; item="Melisande's Corroded Hatchet"; } arty++;
 			if ( artifact == arty) { name="Artifact_GandalfsHat"; item="Merlin's Mystical Hat"; } arty++;
 			if ( artifact == arty) { name="Artifact_GandalfsRobe"; item="Merlin's Mystical Robe"; } arty++;
-			if ( artifact == arty) { name="Artifact_GandalfsStaff"; item="Merlin's Mystical Staff"; } arty++;
+			if ( artifact == arty) { name="Artifact_StaffOfTheWyrmSpeaker"; item="Merlin's Mystical Staff"; } arty++;
 			if ( artifact == arty) { name="Artifact_MidnightBracers"; item="Midnight Bracers"; } arty++;
 			if ( artifact == arty) { name="Artifact_MidnightGloves"; item="Midnight Gloves"; } arty++;
 			if ( artifact == arty) { name="Artifact_MidnightHelm"; item="Midnight Helm"; } arty++;

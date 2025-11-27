@@ -31,7 +31,7 @@ namespace Server.Items
 			if (attacker == null || defender == null)
 				return;
 			//only works for people serious about the knight business
-			if (attacker.Skills[SkillName.Knightship].Value > 75.0 && attacker.Karma > 777)
+			if (attacker.Skills[SkillName.Knightship].Value > 75.0 && attacker.Karma > 7777)
 			{
 				if (DateTime.UtcNow < m_NextAoE)
     	        return;

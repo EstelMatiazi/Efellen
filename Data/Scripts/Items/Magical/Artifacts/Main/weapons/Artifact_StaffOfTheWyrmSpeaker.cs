@@ -5,7 +5,7 @@ using Server.Targeting;
 
 namespace Server.Items
 {
-	public class Artifact_GandalfsStaff : GiftQuarterStaff
+	public class Artifact_StaffOfTheWyrmSpeaker : GiftQuarterStaff
 	{
 		public DateTime TimeUsed;
 
@@ -16,19 +16,17 @@ namespace Server.Items
 		public override int InitMaxHits{ get{ return 160; } }
 
 		[Constructable]
-		public Artifact_GandalfsStaff()
+		public Artifact_StaffOfTheWyrmSpeaker()
 		{
 			Hue = 0xB85;
-			Name = "Merlin's Mystical Staff";
-			SkillBonuses.SetValues( 0, SkillName.Psychology, 10 );
-			SkillBonuses.SetValues( 1, SkillName.Magery, 10 );
-			SkillBonuses.SetValues( 2, SkillName.MagicResist, 10 );
-			SkillBonuses.SetValues( 3, SkillName.Meditation, 10 );
-			Attributes.RegenMana = 7;
+			Name = "Staff of the Wyrmspeaker";
+			SkillBonuses.SetValues( 1, SkillName.Magery, 15 );
+			SkillBonuses.SetValues( 2, SkillName.MagicResist, 15 );
+			Attributes.RegenMana = 10;
 			Attributes.BonusInt = 10;
 			Attributes.SpellChanneling = 1;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, "Calls Dragons" );
+			Server.Misc.Arty.ArtySetup( this, "Calls forth Dragons" );
 		}
 
 		public override void OnDoubleClick( Mobile from )
@@ -38,7 +36,7 @@ namespace Server.Items
 			long ticksNow = TimeNow.Ticks;
 			int minsThen = (int)TimeSpan.FromTicks(ticksThen).TotalMinutes;
 			int minsNow = (int)TimeSpan.FromTicks(ticksNow).TotalMinutes;
-			int CanUseMagic = 120 - ( minsNow - minsThen );
+			int CanUseMagic = 60 - ( minsNow - minsThen );
 
 			if ( Parent != from )
 			{
@@ -59,7 +57,7 @@ namespace Server.Items
 			}
 		}
 
-		public Artifact_GandalfsStaff( Serial serial ) : base( serial )
+		public Artifact_StaffOfTheWyrmSpeaker( Serial serial ) : base( serial )
 		{
 		}
 		
