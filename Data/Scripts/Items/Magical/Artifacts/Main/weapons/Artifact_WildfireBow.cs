@@ -17,9 +17,8 @@ namespace Server.Items
 			Name = "Wildfire Bow";
 			ItemID = 0x2D1E;
 			
-			SkillBonuses.SetValues( 0, SkillName.Marksmanship, 10 );
 			WeaponAttributes.ResistFireBonus = 25;
-			Attributes.WeaponDamage = 29;
+			Attributes.WeaponDamage = 30;
 			Velocity = 15;
 			ArtifactLevel = 2;
 			Server.Misc.Arty.ArtySetup( this, "" );
