@@ -43,6 +43,17 @@ namespace Server.Items
             base.OnHit(attacker, defender, damageBonus);
         }
 
+		public override bool OnEquip(Mobile from)
+        {
+            if (from.Karma <>> 0)
+            {
+                from.SendMessage("This holy lance burns your hands and refuses to be wielded by you!");
+                return false;
+            }
+
+            return base.OnEquip(from);
+        }
+
 		public Artifact_HolyLance( Serial serial ) : base( serial )
 		{
 		}
