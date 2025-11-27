@@ -35,6 +35,25 @@ namespace Server.Items
         {
             if (attacker == null || defender == null)
                 return;
+            
+            if (Utility.RandomDouble() < 0.05)
+            {
+                int baseDmg = Utility.RandomMinMax(1, 5);
+
+                int karma = attacker.Karma;
+                if (karma < 0)
+                    karma = 0;
+
+                int karmaDmg = 5 + (int)(20.0 * ((double)karma / 15000.0)); //5-25
+                if (karmaDmg > 25)
+                    karmaDmg = 25;
+
+                int total = baseDmg + karmaDmg;
+
+                attacker.Damage(total, attacker);
+                attacker.PublicOverheadMessage(MessageType.Regular, 0x486, false, "*Stormbringer betrays you!*");
+                attacker.PlaySound(0x1F1);
+            }
 
             if (defender.Hits > 0 && defender.Hits < (defender.HitsMax / 5))
             {
