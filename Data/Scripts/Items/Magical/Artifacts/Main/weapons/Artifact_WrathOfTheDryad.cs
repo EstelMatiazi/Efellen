@@ -15,10 +15,30 @@ namespace Server.Items
 			Hue = 0x29C;
 			WeaponAttributes.HitLeechMana = 30;
 			WeaponAttributes.HitLightning = 30;
-			Attributes.AttackChance = 12;
+			Attributes.AttackChance = 15;
+			Attributes.SpellChanneling = 1;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, "" );
+			Server.Misc.Arty.ArtySetup( this, "Nature's wrathful scorn" );
 		}
+
+		public override void OnHit(Mobile attacker, Mobile defender, double damage)
+        {
+            base.OnHit(attacker, defender, damage);
+
+            if (attacker == null || defender == null)
+                return;
+
+            if (!defender.Alive || defender.Hits <= 0)
+            {
+                if (Utility.Random(100) < 15)
+                {
+                    int mana = Utility.RandomMinMax(15, 35);
+                    attacker.Mana += mana;
+
+                    attacker.SendMessage(33, "Wrath empowers you!");
+                }
+            }
+        }
 
 		public override void GetDamageTypes( Mobile wielder, out int phys, out int fire, out int cold, out int pois, out int nrgy, out int chaos, out int direct )
 		{
