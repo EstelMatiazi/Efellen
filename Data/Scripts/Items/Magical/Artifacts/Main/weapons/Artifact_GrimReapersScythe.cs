@@ -24,26 +24,26 @@ namespace Server.Items
 			Server.Misc.Arty.ArtySetup( this, "Reaps souls." );
 		}
 
-		public override void OnHit(Mobile attacker, Mobile defender, double damageBonus)
+		public override void OnHit(Mobile attacker, Mobile defender, double damage)
         {
+            base.OnHit(attacker, defender, damage);
+
             if (attacker == null || defender == null)
                 return;
 
-            if (defender.Hits > 0 && defender.Hits < (defender.HitsMax / 10))
+            if (!defender.Alive || defender.Hits <= 0)
             {
-                int extra = (int)(defender.HitsMax * 0.25);
-                if (extra < 1)
-                    extra = 1;
-				else if (extra > 25)
-					extra = 25;
+                if (Utility.Random(100) < 15)
+                {
+                    int hits = Utility.RandomMinMax(5, 25);
+                    int mana = Utility.RandomMinMax(5, 15);
 
-                attacker.Heal(extra, attacker);
+                    attacker.Hits += hits;
+                    attacker.Mana += mana;
 
-                attacker.FixedParticles(0x3728, 10, 10, 5052, 0, 0, EffectLayer.Head);
-                attacker.PlaySound(0x1F1);
+                    attacker.SendMessage(33, "Grim Reaper's Scythe devours the enemy's soul!");
+                }
             }
-
-            base.OnHit(attacker, defender, damageBonus);
         }
 
 		public Artifact_GrimReapersScythe( Serial serial ) : base( serial )
