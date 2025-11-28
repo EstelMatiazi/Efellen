@@ -18,7 +18,7 @@ namespace Server.Items
 			Attributes.AttackChance = 10;
 			Attributes.WeaponSpeed = 12;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, "" );
+			Server.Misc.Arty.ArtySetup( this, "Powerful criticals" );
 		}
 
 		public override void OnHit(Mobile attacker, Mobile defender, double damageBonus)

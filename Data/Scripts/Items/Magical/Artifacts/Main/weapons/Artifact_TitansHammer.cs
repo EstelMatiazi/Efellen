@@ -19,7 +19,6 @@ namespace Server.Items
 			WeaponAttributes.HitEnergyArea = 50;
 			Attributes.BonusStr = 15;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, "" );
 			Server.Misc.Arty.ArtySetup( this, "Lightning dances in its wake" );
 			m_NextArtifactAttackAllowed = DateTime.MinValue;
 		}

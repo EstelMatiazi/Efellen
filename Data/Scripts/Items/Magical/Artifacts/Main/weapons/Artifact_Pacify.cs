@@ -21,7 +21,7 @@ namespace Server.Items
 			Attributes.WeaponSpeed = 25;
 			WeaponAttributes.HitLeechHits = 50;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, "" );
+			Server.Misc.Arty.ArtySetup( this, "Immobilizes foes" );
 		}
 
 		public override void OnHit(Mobile attacker, Mobile defender, double damageBonus)

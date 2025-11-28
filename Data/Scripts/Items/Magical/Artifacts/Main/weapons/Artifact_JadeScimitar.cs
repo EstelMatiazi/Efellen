@@ -24,7 +24,7 @@ namespace Server.Items
 			WeaponAttributes.HitPhysicalArea = 20;
 			WeaponAttributes.HitPoisonArea = 20;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, "" );
+			Server.Misc.Arty.ArtySetup( this, "Bursts with power" );
 			m_NextArtifactAttackAllowed = DateTime.MinValue;
 		}
 

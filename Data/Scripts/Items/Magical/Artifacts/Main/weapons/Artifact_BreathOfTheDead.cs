@@ -20,7 +20,7 @@ namespace Server.Items
 			Slayer = SlayerName.Silver;
 			Attributes.SpellChanneling = 1;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, "" );
+			Server.Misc.Arty.ArtySetup( this, "Grants undead final respite" );
 			m_NextArtifactBuff = DateTime.MinValue;
 		}
 

@@ -1445,7 +1445,6 @@ namespace Server.Mobiles
 			if (	( dropped is Artifact_DupresCollar && this.Name == "Dupre" ) || 
 					( dropped is Artifact_DupresShield && this.Name == "Dupre" ) || 
 					( dropped is GwennosHarp && this.Name == "Gwenno" ) || 
-					( dropped is Artifact_ShaMontorrossbow && this.Name == "Shamino" ) || 
 					( dropped is IolosLute && this.Name == "Iolo" )
 				)
 			{

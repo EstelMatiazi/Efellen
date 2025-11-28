@@ -67,7 +67,7 @@ namespace Server.Items
 				m_Book = wikipedia;
 				string color = "#d6c382";
 
-				int NumberOfArtifacts = 355; // SEE LISTING BELOW AND MAKE SURE IT MATCHES THE AMOUNT
+				int NumberOfArtifacts = 354; // SEE LISTING BELOW AND MAKE SURE IT MATCHES THE AMOUNT
 				decimal PageCount = NumberOfArtifacts / 16;
 				int TotalBookPages = ( 100000 ) + ( (int)Math.Ceiling( PageCount ) );
 
@@ -499,7 +499,6 @@ namespace Server.Items
 			if ( artifact == arty) { name="Artifact_NatureMasterGloves"; item="Gloves of the Nature's Master";} arty++;
 			if ( artifact == arty) { name="Artifact_ANecromancerShroud"; item="Necromancer Shroud"; } arty++;
 			if ( artifact == arty) { name="Artifact_TheNightReaper"; item="Night Reaper"; } arty++;
-			if ( artifact == arty) { name="Artifact_NordicVikingSword"; item="Nordic Dragon Blade"; } arty++;
 			if ( artifact == arty) { name="Artifact_VampiresRobe"; item="Nosferatu's Robe"; } arty++;
 			if ( artifact == arty) { name="Artifact_NoxBow"; item="Nox Ranger's Light Croosbow"; } arty++;
 			if ( artifact == arty) { name="Artifact_NoxNightlight"; item="Nox Nightlight"; } arty++;
@@ -569,7 +568,6 @@ namespace Server.Items
 			if ( artifact == arty) { name="Artifact_ShadowDancerGorget"; item="Shadow Dancer Gorget"; } arty++;
 			if ( artifact == arty) { name="Artifact_ShadowDancerLeggings"; item="Shadow Dancer Leggings"; } arty++;
 			if ( artifact == arty) { name="Artifact_ShadowDancerTunic"; item="Shadow Dancer Tunic"; } arty++;
-			if ( artifact == arty) { name="Artifact_ShaMontorrossbow"; item="Shamino's Crossbow"; } arty++;
 			if ( artifact == arty) { name="Artifact_ShardThrasher"; item="Shard Thrasher"; } arty++;
 			if ( artifact == arty) { name="Artifact_ShieldOfInvulnerability"; item="Shield of Invulnerability"; } arty++;
 			if ( artifact == arty) { name="Artifact_ShimmeringTalisman"; item="Shimmering Talisman"; } arty++;
@@ -586,7 +584,6 @@ namespace Server.Items
 			if ( artifact == arty) { name="Artifact_SerpentCoil"; item="Serpent's Coil"; } arty++;
 			if ( artifact == arty) { name="Artifact_StitchersMittens"; item="Stitcher's Mittens"; } arty++;
 			if ( artifact == arty) { name="Artifact_Stormbringer"; item="Stormbringer"; } arty++;
-			if ( artifact == arty) { name="Artifact_Subdue"; item="Subdue"; } arty++;
 			if ( artifact == arty) { name="Artifact_GlassSword"; item="Sword of Shattered Hopes"; } arty++;
 			if ( artifact == arty) { name="Artifact_TalismanOfTheAlbatroz";item="Talisman of the Albatroz";} arty++;
 			if ( artifact == arty) { name="Artifact_TalonBite"; item="Talon Bite"; } arty++;

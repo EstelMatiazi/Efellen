@@ -21,7 +21,7 @@ namespace Server.Items
 			Attributes.LowerRegCost = 20;
 			Attributes.SpellDamage = 20;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, "" );
+			Server.Misc.Arty.ArtySetup( this, "Casts energy bolts" );
 		}
 
 		public override void OnDoubleClick( Mobile from )
