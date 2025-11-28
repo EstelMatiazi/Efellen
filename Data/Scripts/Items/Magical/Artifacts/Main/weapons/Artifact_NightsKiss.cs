@@ -17,7 +17,7 @@ namespace Server.Items
 			WeaponAttributes.HitLeechHits = 40;
 			Slayer = SlayerName.Repond;
 			Attributes.WeaponSpeed = 10;
-			Attributes.WeaponDamage = 11;
+			Attributes.WeaponDamage = 15;
 			ArtifactLevel = 2;
 			Server.Misc.Arty.ArtySetup( this, "" );
 		}

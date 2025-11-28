@@ -14,9 +14,9 @@ namespace Server.Items
 			Hue = 0x483;
 			Name = "Robin Hood's Bow";
 			ItemID = 0x13B2;
+			Attributes.Luck = 50;
 			SkillBonuses.SetValues( 0, SkillName.Marksmanship, 25 );
-			AccuracyLevel = WeaponAccuracyLevel.Supremely;
-			Attributes.AttackChance = 6;
+			Attributes.AttackChance = 10;
 			ArtifactLevel = 2;
 			Server.Misc.Arty.ArtySetup( this, "" );
 		}

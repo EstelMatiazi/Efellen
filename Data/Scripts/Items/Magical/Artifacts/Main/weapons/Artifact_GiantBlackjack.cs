@@ -14,9 +14,8 @@ namespace Server.Items
 			Hue = 0x497;
 			ItemID = 0x13B4;
 			Name = "Giant Blackjack";
-			Attributes.BonusStr = 5;
-			SkillBonuses.SetValues( 0, SkillName.Bludgeoning, 25 );
-			AccuracyLevel = WeaponAccuracyLevel.Supremely;
+			Attributes.BonusStr = 25;
+			SkillBonuses.SetValues( 0, SkillName.Bludgeoning, 20 );
 			ArtifactLevel = 2;
 			Server.Misc.Arty.ArtySetup( this, "" );
 		}

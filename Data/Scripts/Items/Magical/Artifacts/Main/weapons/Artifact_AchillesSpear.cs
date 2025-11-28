@@ -14,7 +14,7 @@ namespace Server.Items
 			Hue = 0xB1B;
 			Name = "Achille's Spear";
 			ItemID = 0xF62;
-			SkillBonuses.SetValues( 0, SkillName.Fencing, 25 );
+			SkillBonuses.SetValues( 0, SkillName.Tactics, 25 );
 			Attributes.AttackChance = 15;
 			Attributes.WeaponDamage = 15;
 			ArtifactLevel = 2;

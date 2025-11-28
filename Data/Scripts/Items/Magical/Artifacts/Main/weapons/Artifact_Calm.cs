@@ -16,9 +16,7 @@ namespace Server.Items
 			Name = "Calm";
 			Hue = 0x2cb;
 			ItemID = 0x143E;
-			AccuracyLevel = WeaponAccuracyLevel.Supremely;
-			DamageLevel = WeaponDamageLevel.Vanq;
-			Attributes.WeaponSpeed = 22;
+			Attributes.WeaponSpeed = 20;
 			WeaponAttributes.HitLeechMana = 50;
 			Attributes.SpellChanneling = 1;
 			WeaponAttributes.UseBestSkill = 1;

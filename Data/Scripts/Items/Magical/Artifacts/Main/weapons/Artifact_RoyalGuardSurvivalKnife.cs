@@ -17,7 +17,7 @@ namespace Server.Items
 			ItemID = 0x2674;
 			Attributes.SpellChanneling = 1;
 			WeaponAttributes.UseBestSkill = 1;
-			Attributes.Luck = 140;
+			Attributes.Luck = 110;
 			Attributes.EnhancePotions = 25;
 			ArtifactLevel = 2;
 			Server.Misc.Arty.ArtySetup( this, "" );

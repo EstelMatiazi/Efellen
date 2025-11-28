@@ -16,9 +16,8 @@ namespace Server.Items
 			ItemID = 0x26CE;
 			Weight = 5.0;
 			Hue = 91;
-			WeaponAttributes.HitDispel = 15;
+			WeaponAttributes.HitDispel = 30;
 			Attributes.WeaponSpeed = 30;
-			Attributes.WeaponDamage = 10;
 			WeaponAttributes.ResistFireBonus = 15;
 			MinDamage = 15;
 			MaxDamage = 20;

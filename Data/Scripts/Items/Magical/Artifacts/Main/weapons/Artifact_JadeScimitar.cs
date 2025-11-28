@@ -16,13 +16,11 @@ namespace Server.Items
 			Name = "Jade Scimitar";
 			Hue = 2964;
 			ItemID = 0x13B6;
-			WeaponAttributes.HitColdArea = 10;
-			WeaponAttributes.HitEnergyArea = 10;
-			WeaponAttributes.HitFireArea = 10;
-			WeaponAttributes.HitPhysicalArea = 10;
-			WeaponAttributes.HitPoisonArea = 10;
-			WeaponAttributes.UseBestSkill = 1;
-			Attributes.AttackChance = 14;
+			WeaponAttributes.HitColdArea = 20;
+			WeaponAttributes.HitEnergyArea = 20;
+			WeaponAttributes.HitFireArea = 20;
+			WeaponAttributes.HitPhysicalArea = 20;
+			WeaponAttributes.HitPoisonArea = 20;
 			ArtifactLevel = 2;
 			Server.Misc.Arty.ArtySetup( this, "" );
 		}

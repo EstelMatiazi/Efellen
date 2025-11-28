@@ -16,9 +16,8 @@ namespace Server.Items
 			ItemID = 0x1403;
 			WeaponAttributes.HitLowerDefend = 30;
 			WeaponAttributes.HitLightning = 30;
-			Attributes.AttackChance = 5;
 			Attributes.WeaponDamage = 20;
-			WeaponAttributes.ResistPhysicalBonus = 15;
+			WeaponAttributes.ResistPhysicalBonus = 10;
 			ArtifactLevel = 2;
 			Server.Misc.Arty.ArtySetup( this, "" );
 		}

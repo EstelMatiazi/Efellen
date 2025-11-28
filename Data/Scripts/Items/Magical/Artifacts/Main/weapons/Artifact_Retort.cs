@@ -15,11 +15,9 @@ namespace Server.Items
 		{
 			Name = "Retort";
 			Hue = 910;
-			WeaponAttributes.HitLeechHits = 20;
-			WeaponAttributes.HitLeechStam = 20;
-			WeaponAttributes.HitLowerDefend = 30;
-			Attributes.BonusDex = 5;
-			Attributes.WeaponDamage = 8;
+			WeaponAttributes.HitLeechHits = 40;
+			WeaponAttributes.HitLowerDefend = 40;
+			Attributes.BonusDex = 10;
 			ArtifactLevel = 2;
 			Server.Misc.Arty.ArtySetup( this, "" );
 		}

@@ -16,13 +16,10 @@ namespace Server.Items
 			Name = "Kami-Naris Indestructable Axe";
 			Hue = 1161;
 			ItemID = 0xF4B;
-			WeaponAttributes.DurabilityBonus = 75;
-			WeaponAttributes.HitFireArea = 15;
+			WeaponAttributes.HitFireArea = 30;
 			WeaponAttributes.HitHarm = 20;
-			WeaponAttributes.HitLeechHits = 15;
-			WeaponAttributes.HitLeechStam = 15;
-			WeaponAttributes.HitLightning = 15;
-			WeaponAttributes.SelfRepair = 5;
+			WeaponAttributes.HitLightning = 30;
+			WeaponAttributes.SelfRepair = 10;
 			ArtifactLevel = 2;
 			Server.Misc.Arty.ArtySetup( this, "" );
 		}

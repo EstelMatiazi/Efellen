@@ -12,9 +12,8 @@ namespace Server.Items
 			Name = "Cold Forged Blade";
 			WeaponAttributes.HitHarm = 40;
 			Attributes.SpellChanneling = 1;
-			Attributes.NightSight = 1;
-			Attributes.WeaponSpeed = 19;
-			Attributes.WeaponDamage = 9;
+			Slayer = SlayerName.Fey;
+			Attributes.WeaponSpeed = 20;
 
 			Hue = this.GetElementalDamageHue();
 			ArtifactLevel = 2;

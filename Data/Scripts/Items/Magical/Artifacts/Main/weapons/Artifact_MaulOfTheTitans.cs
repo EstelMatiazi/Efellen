@@ -15,10 +15,8 @@ namespace Server.Items
 		{
 			Name = "Maul of the Titans";
 			Hue = 0xB89;
-			SkillBonuses.SetValues(1, SkillName.Bludgeoning, 20);
-			MinDamage = MinDamage + 5;
-			MaxDamage = MaxDamage + 10;
-			Attributes.BonusStr = 12;
+			SkillBonuses.SetValues(1, SkillName.Bludgeoning, 25);
+			Attributes.BonusStr = 25;
 			ArtifactLevel = 2;
 			Server.Misc.Arty.ArtySetup( this, "" );
 		}

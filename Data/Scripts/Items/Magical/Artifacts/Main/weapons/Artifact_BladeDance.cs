@@ -14,9 +14,9 @@ namespace Server.Items
 		{
 			Name = "Blade Dance";
 			Hue = 0x66C;
-			Attributes.BonusMana = 8;
+			Attributes.BonusMana = 10;
 			Attributes.SpellChanneling = 1;
-			Attributes.WeaponDamage = 35;
+			Attributes.WeaponDamage = 30;
 			WeaponAttributes.HitLeechMana = 20;
 			WeaponAttributes.UseBestSkill = 1;
 			ArtifactLevel = 2;

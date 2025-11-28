@@ -16,9 +16,7 @@ namespace Server.Items
 			Hue = 0x284;
 
 			Attributes.AttackChance = 15;
-			Attributes.DefendChance = 5;
-			Attributes.WeaponSpeed = 10;
-			Attributes.WeaponDamage = 10;
+			Attributes.WeaponDamage = 30;
 			ArtifactLevel = 2;
 			Server.Misc.Arty.ArtySetup( this, "" );
 		}

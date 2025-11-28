@@ -13,8 +13,7 @@ namespace Server.Items
         {
             Name = "Anger of the Gods";
 			ItemID = 0xF5E;
-            Attributes.AttackChance = 11;
-            Attributes.DefendChance = 5;
+            Attributes.AttackChance = 15;
             WeaponAttributes.HitHarm = 20;
             WeaponAttributes.HitLeechMana = 15;
             WeaponAttributes.HitLowerAttack = 15;

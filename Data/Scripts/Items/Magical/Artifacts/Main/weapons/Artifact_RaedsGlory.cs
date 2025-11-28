@@ -15,10 +15,9 @@ namespace Server.Items
 			Name = "Raed's Glory";
 			ItemID = 0x2D23;
 			Hue = 0x1E6;
-			Attributes.BonusMana = 8;
 			Attributes.SpellChanneling = 1;
 			Attributes.WeaponSpeed = 20;
-			WeaponAttributes.HitLeechHits = 42;
+			WeaponAttributes.HitLeechHits = 50;
 			ArtifactLevel = 2;
 			Server.Misc.Arty.ArtySetup( this, "" );
 		}

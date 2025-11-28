@@ -14,10 +14,9 @@ namespace Server.Items
 			Hue = 0x485;
 			Name = "Axe of the Minotaur";
 			ItemID = 0x13FB;
-			SkillBonuses.SetValues( 0, SkillName.Swords, 25 );
 			Attributes.AttackChance = 10;
 			Attributes.WeaponDamage = 10;
-			WeaponAttributes.HitPhysicalArea = 25;
+			WeaponAttributes.HitPhysicalArea = 50;
 			ArtifactLevel = 2;
 			Server.Misc.Arty.ArtySetup( this, "" );
 		}

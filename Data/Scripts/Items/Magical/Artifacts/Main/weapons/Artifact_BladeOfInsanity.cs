@@ -15,9 +15,7 @@ namespace Server.Items
 			Hue = 0x76D;
 			ItemID = 0x13FF;
 			WeaponAttributes.HitLeechStam = 50;
-			Attributes.RegenStam = 2;
-			Attributes.WeaponSpeed = 10;
-			Attributes.WeaponDamage = 16;
+			Attributes.WeaponSpeed = 25;
 			ArtifactLevel = 2;
 			Server.Misc.Arty.ArtySetup( this, "" );
 		}

@@ -16,8 +16,7 @@ namespace Server.Items
 			ItemID = 0x143E;
 			WeaponAttributes.HitFireArea = 25;
 			WeaponAttributes.HitFireball = 25;
-			Attributes.WeaponSpeed = 15;
-			Attributes.WeaponDamage = 8;
+			Attributes.WeaponSpeed = 20;
 			WeaponAttributes.ResistFireBonus = 10;
 			ArtifactLevel = 2;
 			Server.Misc.Arty.ArtySetup( this, "" );

@@ -15,10 +15,9 @@ namespace Server.Items
 			Name = "Bonesmasher";
 			Hue = 0x482;
 			ItemID = 0x2D24;
-			SkillBonuses.SetValues( 0, SkillName.Bludgeoning, 10.0 );
 			WeaponAttributes.HitLeechMana = 40;
 			WeaponAttributes.HitLeechStam = 40;
-			Attributes.BonusStr = 3;
+			Attributes.BonusStr = 10;
 			ArtifactLevel = 2;
 			Server.Misc.Arty.ArtySetup( this, "" );
 		}

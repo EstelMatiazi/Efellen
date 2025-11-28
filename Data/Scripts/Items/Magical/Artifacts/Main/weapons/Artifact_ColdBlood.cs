@@ -15,7 +15,7 @@ namespace Server.Items
 			ItemID = 0x2AB6;
 			Name = "Cold Blood";
 			Attributes.WeaponSpeed = 40;
-			Attributes.BonusHits = 6;
+			Attributes.BonusHits = 10;
 			ArtifactLevel = 2;
 			Server.Misc.Arty.ArtySetup( this, "" );
 		}

@@ -17,10 +17,8 @@ namespace Server.Items
 			Hue = 0x835;
 
 			Attributes.SpellChanneling = 1;
-			Attributes.AttackChance = 10;
-			Attributes.WeaponSpeed = 23;
-			WeaponAttributes.HitLeechMana = 33;
-			WeaponAttributes.UseBestSkill = 1;
+			Attributes.WeaponSpeed = 25;
+			WeaponAttributes.HitLeechHits = 50;
 			ArtifactLevel = 2;
 			Server.Misc.Arty.ArtySetup( this, "" );
 		}

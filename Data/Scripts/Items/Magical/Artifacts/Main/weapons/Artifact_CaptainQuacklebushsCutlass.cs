@@ -14,11 +14,9 @@ namespace Server.Items
 			Name = "Captain Quacklebush's Cutlass";
 			Hue = 0x66C;
 			ItemID = 0x1441;
-			Attributes.BonusDex = 5;
+			Attributes.BonusDex = 15;
 			Attributes.AttackChance = 10;
 			Attributes.WeaponSpeed = 20;
-			Attributes.WeaponDamage = 16;
-			WeaponAttributes.UseBestSkill = 1;
 			ArtifactLevel = 2;
 			Server.Misc.Arty.ArtySetup( this, "" );
 		}

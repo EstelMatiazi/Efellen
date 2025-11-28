@@ -12,8 +12,7 @@ namespace Server.Items
 			Name = "Luminous Rune Blade";
 
 			WeaponAttributes.HitLightning = 40;
-			WeaponAttributes.SelfRepair = 5;
-			Attributes.NightSight = 1;
+			WeaponAttributes.SelfRepair = 10;
 			Attributes.WeaponSpeed = 10;
 			Attributes.WeaponDamage = 20;
 			Hue = this.GetElementalDamageHue();

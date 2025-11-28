@@ -12,12 +12,11 @@ namespace Server.Items
 			Hue = 0x48D;
 			Name = "Rune Carving Knife";
 			ItemID = 0x2677;
-
+			Attributes.SpellChanneling = 1;
 			WeaponAttributes.HitLeechMana = 40;
-			Attributes.RegenStam = 5;
 			Attributes.LowerManaCost = 10;
 			Attributes.WeaponSpeed = 10;
-			Attributes.WeaponDamage = 11;
+			Attributes.WeaponDamage = 10;
 			ArtifactLevel = 2;
 			Server.Misc.Arty.ArtySetup( this, "" );
 		}
