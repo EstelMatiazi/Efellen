@@ -509,7 +509,7 @@ namespace Server.Items
 			animal.Opposition = new SlayerGroup[]{ };
 			animal.FoundOn = new Type[]{ };
 			animal.Super = new SlayerEntry( SlayerName.AnimalHunter, 
-				typeof( SummonDireBear )
+				typeof( SummonDireBear ),
 				typeof( MysticalFox ), 
 				typeof( BlackBear ), 
 				typeof( SabreclawCub ), 
