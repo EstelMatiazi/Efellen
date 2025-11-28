@@ -16,7 +16,6 @@ namespace Server.Items
             Name = "Long Shot";
             Hue = 1195;
             ItemID = 0x13B2;
-
             Attributes.AttackChance = 30;
             Attributes.SpellChanneling = 1;
             Velocity = 30;
