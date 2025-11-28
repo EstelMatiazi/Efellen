@@ -4,6 +4,7 @@ using Server.Items;
 using Server.Mobiles;
 using Server.Network;
 using Server.Engines.PartySystem;
+using Server.EffectsUtil;
 
 namespace Server.Items
 {
@@ -50,7 +51,6 @@ namespace Server.Items
                 double seconds = 120.0 - (skill * (90.0 / 125.0)); // 120secs cooldown at 0 skill, 30 secs cooldown at 125 skill
 
                 m_NextAoE = DateTime.UtcNow + TimeSpan.FromSeconds(seconds);
-
                 int minDmg = (-attacker.Karma) / 777; // 19 at -15k
                 int maxDmg = (-attacker.Karma) / 555; // 27 at -15k
 
@@ -102,12 +102,11 @@ namespace Server.Items
                     if (dmg > 0)
                     {
                         AOS.Damage(mob, attacker, dmg, 0, 0, 0, 0, 100);//nrgy damage
-                        mob.FixedParticles(0x373A, 20, 10, 5044, 0, 0, EffectLayer.Head);
                         mob.PlaySound(0x1FE);
-
-                        attacker.SendMessage("Your Shadow Blade erupts with soul-devouring darkness!");
-                    }
+                     }
                 }
+                attacker.SendMessage("Your Shadow Blade erupts with vile darkness!");
+				SlamVisuals.SlamVisual(attacker, 8, 0x36B0, 1315);
             }
         }
 

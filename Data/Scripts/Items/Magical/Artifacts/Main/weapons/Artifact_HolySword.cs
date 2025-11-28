@@ -4,6 +4,7 @@ using Server.Items;
 using Server.Mobiles;
 using Server.Network;
 using Server.Engines.PartySystem;
+using Server.EffectsUtil;
 
 namespace Server.Items
 {
@@ -41,7 +42,6 @@ namespace Server.Items
     	    	    return;
     	    	double seconds = 120.0 - (skill * (90.0 / 125.0)); // 120secs cooldown at 0 skill, 30 secs cooldown at 125 skill
     	    	m_NextAoE = DateTime.UtcNow + TimeSpan.FromSeconds(seconds);
-				m_NextAoE = DateTime.UtcNow + TimeSpan.FromSeconds(1);
 				int minDmg = attacker.Karma / 777; // 19 base min damage at 15k karma
 		    	int maxDmg = attacker.Karma / 555; // 27 base max damage at 15k karma
 		    	if (minDmg < 0) minDmg = 0;
@@ -84,12 +84,11 @@ namespace Server.Items
 					if (dmg > 0)
 					{
 						AOS.Damage(mob, attacker, dmg, 0, 100, 0, 0, 0);
-						// Fire effect + sound
-						mob.FixedParticles(0x36BD, 20, 10, 5044, 1161, 0, EffectLayer.Waist);
 						mob.PlaySound(0x208);
-    					attacker.SendMessage("Your Holy Sword unleashes a burst of divine fire!");
        				}
     	    	}
+    			attacker.SendMessage("Your Holy Sword unleashes a burst of divine fire!");
+				SlamVisuals.SlamVisual(attacker, 8, 0x36B0, 1153);
 			}
     	}
 
