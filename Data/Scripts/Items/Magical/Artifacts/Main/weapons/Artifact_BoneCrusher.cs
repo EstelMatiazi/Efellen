@@ -18,8 +18,20 @@ namespace Server.Items
 			Attributes.BonusStr = 10;
 			Attributes.WeaponDamage = 10;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, "" );
+			Server.Misc.Arty.ArtySetup( this, "Powerful criticals" );
 		}
+
+		public override void OnHit(Mobile attacker, Mobile defender, double damageBonus)
+		{
+		    if (Utility.RandomDouble() < 0.15)
+		    {
+		        damageBonus += 0.35;
+		        attacker.SendMessage("Your strike pierces through your enemy!");
+		        attacker.PlaySound(0x20F);
+		    }
+		    base.OnHit(attacker, defender, damageBonus);
+		}
+
 		public Artifact_BoneCrusher( Serial serial ) : base( serial )
 		{
 		}

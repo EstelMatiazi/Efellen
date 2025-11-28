@@ -17,8 +17,26 @@ namespace Server.Items
 			Attributes.WeaponSpeed = 40;
 			Attributes.BonusHits = 10;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, "" );
+			Server.Misc.Arty.ArtySetup( this, "Feasts on the fallen" );
 		}
+
+		public override void OnHit(Mobile attacker, Mobile defender, double damage)
+        {
+            base.OnHit(attacker, defender, damage);
+
+            if (attacker == null || defender == null)
+                return;
+
+            if (!defender.Alive || defender.Hits <= 0)
+            {
+                if (Utility.Random(100) < 15)
+                {
+                    int hits = Utility.RandomMinMax(10, 35);
+                    attacker.Hits += hits;
+                    attacker.SendMessage(33, "Cold Blood feasts on the fallen enemy!");
+                }
+            }
+        }
 
 		public override void GetDamageTypes( Mobile wielder, out int phys, out int fire, out int cold, out int pois, out int nrgy, out int chaos, out int direct )
 		{

@@ -21,7 +21,18 @@ namespace Server.Items
 			Attributes.SpellChanneling = 1;
 			WeaponAttributes.UseBestSkill = 1;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, "" );
+			Server.Misc.Arty.ArtySetup( this, "Powerful criticals" );
+		}
+
+		public override void OnHit(Mobile attacker, Mobile defender, double damageBonus)
+		{
+		    if (Utility.RandomDouble() < 0.10)
+		    {
+		        damageBonus += 0.45;
+		        attacker.SendMessage("Your strike pierces through your enemy!");
+		        attacker.PlaySound(0x20F);
+		    }
+		    base.OnHit(attacker, defender, damageBonus);
 		}
 
 		public Artifact_Calm( Serial serial ) : base( serial )

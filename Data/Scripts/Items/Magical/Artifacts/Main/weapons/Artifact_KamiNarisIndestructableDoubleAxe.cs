@@ -16,12 +16,22 @@ namespace Server.Items
 			Name = "Kami-Naris Indestructable Axe";
 			Hue = 1161;
 			ItemID = 0xF4B;
-			WeaponAttributes.HitFireArea = 30;
-			WeaponAttributes.HitHarm = 20;
-			WeaponAttributes.HitLightning = 30;
+			WeaponAttributes.HitFireArea = 40;
+			WeaponAttributes.HitLightning = 40;
 			WeaponAttributes.SelfRepair = 10;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, "" );
+			Server.Misc.Arty.ArtySetup( this, "Powerful criticals" );
+		}
+
+		public override void OnHit(Mobile attacker, Mobile defender, double damageBonus)
+		{
+		    if (Utility.RandomDouble() < 0.15)
+		    {
+		        damageBonus += 0.35;
+		        attacker.SendMessage("Your strike pierces through your enemy!");
+		        attacker.PlaySound(0x20F);
+		    }
+		    base.OnHit(attacker, defender, damageBonus);
 		}
 
 		public Artifact_KamiNarisIndestructableDoubleAxe( Serial serial ) : base( serial )

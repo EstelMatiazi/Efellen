@@ -67,7 +67,7 @@ namespace Server.Items
 				m_Book = wikipedia;
 				string color = "#d6c382";
 
-				int NumberOfArtifacts = 360; // SEE LISTING BELOW AND MAKE SURE IT MATCHES THE AMOUNT
+				int NumberOfArtifacts = 355; // SEE LISTING BELOW AND MAKE SURE IT MATCHES THE AMOUNT
 				decimal PageCount = NumberOfArtifacts / 16;
 				int TotalBookPages = ( 100000 ) + ( (int)Math.Ceiling( PageCount ) );
 
@@ -308,7 +308,6 @@ namespace Server.Items
 			if ( artifact == arty) { name="Artifact_BlazeOfDeath"; item="Blaze of Death"; } arty++;
 			if ( artifact == arty) { name="Artifact_BloodwoodSpirit"; item="Bloodwood Spirit"; } arty++;
 			if ( artifact == arty) { name="Artifact_BoneCrusher"; item="Bone Crusher"; } arty++;
-			if ( artifact == arty) { name="Artifact_Bonesmasher"; item="Bonesmasher"; } arty++;
 			if ( artifact == arty) { name="Arty_BookOfKnowledge"; item="Book Of Knowledge"; } arty++;
 			if ( artifact == arty) { name="Artifact_Boomstick"; item="Boomstick"; } arty++;
 			if ( artifact == arty) { name="Artifact_BootsofHermes"; item="Boots of Hermes"; } arty++;
@@ -500,7 +499,6 @@ namespace Server.Items
 			if ( artifact == arty) { name="Artifact_NatureMasterGloves"; item="Gloves of the Nature's Master";} arty++;
 			if ( artifact == arty) { name="Artifact_ANecromancerShroud"; item="Necromancer Shroud"; } arty++;
 			if ( artifact == arty) { name="Artifact_TheNightReaper"; item="Night Reaper"; } arty++;
-			if ( artifact == arty) { name="Artifact_NightsKiss"; item="Night's Kiss"; } arty++;
 			if ( artifact == arty) { name="Artifact_NordicVikingSword"; item="Nordic Dragon Blade"; } arty++;
 			if ( artifact == arty) { name="Artifact_VampiresRobe"; item="Nosferatu's Robe"; } arty++;
 			if ( artifact == arty) { name="Artifact_NoxBow"; item="Nox Ranger's Light Croosbow"; } arty++;
@@ -541,7 +539,6 @@ namespace Server.Items
 			if ( artifact == arty) { name="Artifact_ResilientBracer"; item="Resillient Bracer"; } arty++;
 			if ( artifact == arty) { name="Artifact_Retort"; item="Retort"; } arty++;
 			if ( artifact == arty) { name="Artifact_ReachOfTheDepths";item="Reach of the Depths";} arty++;
-			if ( artifact == arty) { name="Artifact_RighteousAnger"; item="Righteous Anger"; } arty++;
 			if ( artifact == arty) { name="Artifact_RingOfHealth"; item="Ring of Health"; } arty++;
 			if ( artifact == arty) { name="Artifact_RingOfProtection"; item="Ring of Protection"; } arty++;
 			if ( artifact == arty) { name="Artifact_RingOfTheElements"; item="Ring of the Elements"; } arty++;
@@ -561,7 +558,6 @@ namespace Server.Items
 			if ( artifact == arty) { name="Artifact_RobinHoodsFeatheredHat"; item="Robin Hood's Feathered Hat"; } arty++;
 			if ( artifact == arty) { name="Artifact_RodOfResurrection"; item="Rod Of Resurrection"; } arty++;
 			if ( artifact == arty) { name="Artifact_LieutenantOfTheBritannianRoyalGuard"; item="Royal Guard Sash"; } arty++;
-			if ( artifact == arty) { name="Artifact_RoyalGuardSurvivalKnife"; item="Royal Guard Survival Knife"; } arty++;
 			if ( artifact == arty) { name="Artifact_RoyalGuardsGorget"; item="Royal Guardian's Gorget"; } arty++;
 			if ( artifact == arty) { name="Artifact_RoyalGuardsChestplate"; item="Royal Guard's Chest Plate"; } arty++;
 			if ( artifact == arty) { name="Artifact_LeggingsOfEmbers"; item="Royal Leggings of Embers"; } arty++;
@@ -591,7 +587,6 @@ namespace Server.Items
 			if ( artifact == arty) { name="Artifact_StitchersMittens"; item="Stitcher's Mittens"; } arty++;
 			if ( artifact == arty) { name="Artifact_Stormbringer"; item="Stormbringer"; } arty++;
 			if ( artifact == arty) { name="Artifact_Subdue"; item="Subdue"; } arty++;
-			if ( artifact == arty) { name="Artifact_SwiftStrike"; item="Swift Strike"; } arty++;
 			if ( artifact == arty) { name="Artifact_GlassSword"; item="Sword of Shattered Hopes"; } arty++;
 			if ( artifact == arty) { name="Artifact_TalismanOfTheAlbatroz";item="Talisman of the Albatroz";} arty++;
 			if ( artifact == arty) { name="Artifact_TalonBite"; item="Talon Bite"; } arty++;

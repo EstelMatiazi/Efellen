@@ -18,8 +18,20 @@ namespace Server.Items
 			Attributes.AttackChance = 15;
 			Attributes.WeaponDamage = 15;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, "" );
+			Server.Misc.Arty.ArtySetup( this, "Deadly sharpness" );
 		}
+
+		public override void OnHit(Mobile attacker, Mobile defender, double damageBonus)
+		{
+		    if (Utility.RandomDouble() < 0.15)
+		    {
+		        damageBonus += 0.35;
+		        attacker.SendMessage("Your strike pierces through your enemy!");
+		        attacker.PlaySound(0x20F);
+		    }
+		    base.OnHit(attacker, defender, damageBonus);
+		}
+
 
 		public Artifact_AchillesSpear( Serial serial ) : base( serial )
 		{

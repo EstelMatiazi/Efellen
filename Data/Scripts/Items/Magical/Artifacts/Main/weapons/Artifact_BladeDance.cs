@@ -20,8 +20,27 @@ namespace Server.Items
 			WeaponAttributes.HitLeechMana = 20;
 			WeaponAttributes.UseBestSkill = 1;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, "" );
+			Server.Misc.Arty.ArtySetup( this, "Drains energy" );
 		}
+
+		public override void OnHit(Mobile attacker, Mobile defender, double damage)
+        {
+            base.OnHit(attacker, defender, damage);
+
+            if (attacker == null || defender == null)
+                return;
+
+            if (!defender.Alive || defender.Hits <= 0)
+            {
+                if (Utility.Random(100) < 15)
+                {
+                    int mana = Utility.RandomMinMax(10, 35);
+				    attacker.Mana += mana;
+				    attacker.SendMessage(33, "Blade Dance devour the energy of the fallen enemy!");
+                }
+            }
+        }
+
 		public Artifact_BladeDance( Serial serial ) : base( serial )
 		{
 		}

@@ -16,13 +16,23 @@ namespace Server.Items
 			ItemID = 0x26CE;
 			Weight = 5.0;
 			Hue = 91;
-			WeaponAttributes.HitDispel = 30;
+			WeaponAttributes.HitDispel = 50;
 			Attributes.WeaponSpeed = 30;
-			WeaponAttributes.ResistFireBonus = 15;
 			MinDamage = 15;
 			MaxDamage = 20;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, "Glass Sword " );
+			Server.Misc.Arty.ArtySetup( this, "Powerful criticals" );
+		}
+
+		public override void OnHit(Mobile attacker, Mobile defender, double damageBonus)
+		{
+		    if (Utility.RandomDouble() < 0.15)
+		    {
+		        damageBonus += 0.35;
+		        attacker.SendMessage("Your strike pierces through your enemy!");
+		        attacker.PlaySound(0x20F);
+		    }
+		    base.OnHit(attacker, defender, damageBonus);
 		}
 
 		public Artifact_GlassSword( Serial serial ) : base( serial )

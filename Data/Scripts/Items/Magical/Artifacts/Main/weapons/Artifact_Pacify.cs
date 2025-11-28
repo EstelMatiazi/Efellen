@@ -5,6 +5,7 @@ namespace Server.Items
 {
 	public class Artifact_Pacify : GiftPike
 	{
+		private DateTime m_NextParalyze;
 		public override int InitMinHits{ get{ return 80; } }
 		public override int InitMaxHits{ get{ return 160; } }
 
@@ -22,6 +23,25 @@ namespace Server.Items
 			ArtifactLevel = 2;
 			Server.Misc.Arty.ArtySetup( this, "" );
 		}
+
+		public override void OnHit(Mobile attacker, Mobile defender, double damageBonus)
+        {
+            base.OnHit(attacker, defender, damageBonus);
+
+            if (DateTime.Now < m_NextParalyze)
+                return;
+
+
+            if (Utility.RandomDouble() < 0.25)
+            {
+                if (defender != null && defender.Alive && !defender.Paralyzed)
+                {
+                    defender.Paralyze(TimeSpan.FromSeconds(9));
+                    attacker.SendMessage("Your blow immobilizes your foe!");
+                    m_NextParalyze = DateTime.Now + TimeSpan.FromSeconds(90);
+                }
+            }
+        }
 
 		public Artifact_Pacify( Serial serial ) : base( serial )
 		{
