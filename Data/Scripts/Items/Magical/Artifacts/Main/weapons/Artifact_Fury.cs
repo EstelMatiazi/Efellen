@@ -1,10 +1,13 @@
 using System;
 using Server;
+using System.Collections;
+using Server.Spells.Chivalry;
 
 namespace Server.Items
 {
     public class Artifact_Fury : GiftKatana
 	{
+         private Hashtable m_Cooldowns;
 		public override int InitMinHits{ get{ return 80; } }
 		public override int InitMaxHits{ get{ return 160; } }
 
@@ -19,30 +22,72 @@ namespace Server.Items
             Attributes.ReflectPhysical = 25;
             Hue = 1357;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, "A blade eager of neverending war" );
+			Server.Misc.Arty.ArtySetup( this, "Brings forth Divine Fury" );
+            m_Cooldowns = new Hashtable();
 		}
 
-        public override void OnHit(Mobile attacker, Mobile defender, double damage)
+        private bool CanCast(Mobile m)
         {
-            base.OnHit(attacker, defender, damage);
+            if (m == null)
+                return false;
+
+            DateTime next;
+
+            if (m_Cooldowns[m] == null)
+                return true;
+
+            try
+            {
+                next = (DateTime)m_Cooldowns[m];
+            }
+            catch
+            {
+                return true;
+            }
+
+            return DateTime.UtcNow >= next;
+        }
+
+        private void StartCooldown(Mobile m)
+        {
+            m_Cooldowns[m] = DateTime.UtcNow + TimeSpan.FromMinutes(1.0);
+        }
+
+        public override void OnHit(Mobile attacker, Mobile defender, double damageBonus)
+        {
+            base.OnHit(attacker, defender, damageBonus);
 
             if (attacker == null || defender == null)
                 return;
 
-            if (!defender.Alive || defender.Hits <= 0)
+            if (Utility.RandomDouble() < 0.15)
             {
-                if (Utility.Random(100) < 15)
+                if (CanCast(attacker))
                 {
-                    int stam = Utility.RandomMinMax(5, 25);
-                    int mana = Utility.RandomMinMax(5, 15);
-
-                    attacker.Stam += stam;
-                    attacker.Mana += mana;
-
-                    attacker.SendMessage(33, "Fury empowers you!");
+                    new DivineFurySpell(attacker, this).Cast();
+                    StartCooldown(attacker);
+                    attacker.SendMessage("Fury empowers you!");
                 }
             }
         }
+
+        public override void OnDoubleClick( Mobile from )
+		{
+			if (Parent != from)
+            {
+                from.SendMessage("You must be holding Fury to invoke its power.");
+            }
+            else
+            {
+                if (CanCast(from))
+                {
+                    new DivineFurySpell(from, this).Cast();
+                    StartCooldown(from);
+                }
+                else
+                    from.SendMessage("Fury is still recharging.");
+            }
+		}
 
 
         public override void GetDamageTypes( Mobile wielder, out int phys, out int fire, out int cold, out int pois, out int nrgy, out int chaos, out int direct )
@@ -59,16 +104,40 @@ namespace Server.Items
             : base( serial )
         {
         }
-        public override void Serialize( GenericWriter writer )
+        public override void Serialize(GenericWriter writer)
         {
-            base.Serialize( writer );
-            writer.Write( (int)0 );
+            base.Serialize(writer);
+
+            writer.Write((int)1); // version
+
+            // Save cooldowns
+            writer.Write(m_Cooldowns.Count);
+            foreach (DictionaryEntry entry in m_Cooldowns)
+            {
+                writer.Write((Mobile)entry.Key);
+                writer.Write((DateTime)entry.Value);
+            }
         }
-        public override void Deserialize( GenericReader reader )
+
+        public override void Deserialize(GenericReader reader)
         {
-            base.Deserialize( reader );
-			ArtifactLevel = 2;
+            base.Deserialize(reader);
             int version = reader.ReadInt();
+            m_Cooldowns = new Hashtable();
+
+            if (version >= 1)
+            {
+                int count = reader.ReadInt();
+                for (int i = 0; i < count; i++)
+                {
+                    Mobile m = reader.ReadMobile();
+                    DateTime next = reader.ReadDateTime();
+
+                    if (m != null)
+                        m_Cooldowns[m] = next;
+                }
+            }
+            ArtifactLevel = 2;
         }
     }
 }
