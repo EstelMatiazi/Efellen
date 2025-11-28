@@ -22,7 +22,7 @@ namespace Server.Items
 			WeaponAttributes.ResistEnergyBonus = 30;
 			ArtifactLevel = 2;
 
-			Server.Misc.Arty.ArtySetup(this, "Bane of Dragonkind");
+			Server.Misc.Arty.ArtySetup(this, "Bane of Dragon kind");
 
 			m_NextArtifactBuff = DateTime.MinValue;
 		}
@@ -72,8 +72,8 @@ namespace Server.Items
 		private void ApplyArtifactBuff(Mobile m)
 		{
 			m_BuffActive = true;
-			m.AddStatMod(new StatMod(StatType.Str, "DragonSlayerStr", 10, TimeSpan.FromMinutes(3)));
-			m.AddStatMod(new StatMod(StatType.Dex, "DragonSlayerDex", 10, TimeSpan.FromMinutes(3)));
+			m.AddStatMod(new StatMod(StatType.Str, "ArtifactSlayerStr", 10, TimeSpan.FromMinutes(3)));
+			m.AddStatMod(new StatMod(StatType.Dex, "ArtifactSlayerDex", 10, TimeSpan.FromMinutes(3)));
 			new ArtifactBuffEndTimer(this, m).Start();
 		}
 
@@ -94,8 +94,8 @@ namespace Server.Items
 			{
 				if (m_Mobile != null)
 				{
-					m_Mobile.RemoveStatMod("DragonSlayerStr");
-					m_Mobile.RemoveStatMod("DragonSlayerDex");
+					m_Mobile.RemoveStatMod("ArtifactSlayerStr");
+					m_Mobile.RemoveStatMod("ArtifactSlayerDex");
 				}
 
 				if (m_Item != null)

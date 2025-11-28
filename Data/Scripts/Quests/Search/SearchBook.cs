@@ -67,7 +67,7 @@ namespace Server.Items
 				m_Book = wikipedia;
 				string color = "#d6c382";
 
-				int NumberOfArtifacts = 362; // SEE LISTING BELOW AND MAKE SURE IT MATCHES THE AMOUNT
+				int NumberOfArtifacts = 360; // SEE LISTING BELOW AND MAKE SURE IT MATCHES THE AMOUNT
 				decimal PageCount = NumberOfArtifacts / 16;
 				int TotalBookPages = ( 100000 ) + ( (int)Math.Ceiling( PageCount ) );
 
@@ -556,7 +556,6 @@ namespace Server.Items
 			if ( artifact == arty) { name="Artifact_RobeofLithos"; item="Robe of the Mountain King"; } arty++;
 			if ( artifact == arty) { name="Artifact_RobeofStratos"; item="Robe of the Mystic Voice"; } arty++;
 			if ( artifact == arty) { name="Artifact_RobeOfTreason"; item="Robe Of Treason"; } arty++;
-			if ( artifact == arty) { name="Artifact_RobinHoodsBow"; item="Robin Hood's Bow"; } arty++;
 			if ( artifact == arty) { name="Artifact_RobeOfWilds"; item="Robe of the Wilds";} arty++;
 			if ( artifact == arty) { name="Artifact_RobeOfWildLegion"; item="Robe of the Wild Legion";} arty++;
 			if ( artifact == arty) { name="Artifact_RobinHoodsFeatheredHat"; item="Robin Hood's Feathered Hat"; } arty++;
@@ -580,7 +579,6 @@ namespace Server.Items
 			if ( artifact == arty) { name="Artifact_ShimmeringTalisman"; item="Shimmering Talisman"; } arty++;
 			if ( artifact == arty) { name="Artifact_ShirtOfThePiper"; item="Shirt of the Pied Piper";} arty++;
 			if ( artifact == arty) { name="Artifact_ShroudOfDeciet"; item="Shroud of Deceit"; } arty++;
-			if ( artifact == arty) { name="Artifact_SilvanisFeywoodBow"; item="Silvani's Feywood Bow"; } arty++;
 			if ( artifact == arty) { name="Artifact_TheDragonSlayer"; item="Slayer of Dragons"; } arty++;
 			if ( artifact == arty) { name="Artifact_SongWovenMantle"; item="Song Woven Mantle"; } arty++;
 			if ( artifact == arty) { name="Artifact_SoulSeeker"; item="Soul Seeker"; } arty++;
