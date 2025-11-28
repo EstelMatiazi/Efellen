@@ -339,6 +339,7 @@ namespace Server.Spells
 			Register( 706, typeof( Magical.TravelSpell ) );
 			// new artifact spells
 			Register( 784, typeof( Magical.SummonPhoenixSpell ) );
+			Register(785, typeof( Magical.SummonDireBearSpell ) );
 
 			// Death Knight Spells
 			Register( 750, typeof( DeathKnight.BanishSpell ) );
