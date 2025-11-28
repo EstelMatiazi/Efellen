@@ -1,6 +1,6 @@
-# Secrets of Sosaria Manual
+# Efellen Manual
 
-![Secrets of Sosaria Title Image](Images/title-artwork.png)
+![Efellen Title Image](Images/title-artwork.png)
 
 ## Table of Contents
 
@@ -18,7 +18,7 @@
 
 ## Overview
 
-Secrets of Sosaria is a single or multi-player adventure game that was based on
+Efellen is a single or multi-player adventure game that was based on
 the work of the elusive maker for over a decade. The world consists of elements
 of ideas, graphics, maps, and animations from various sources. The overall
 scripting is based on RunUO, but heavily modified to create a new and unique
@@ -30,7 +30,7 @@ archetypes have been enhanced, providing new ways to play and enjoy the game.
 The landscape has been changed to provide players a huge area to explore.
 
 This version is an altered version of the makers original game. It is branded as
-the "Secrets of Sosaria" to pay homage to Garriott's first games. It takes place
+the "Efellen" to pay homage to the creator's old ttrpg setting. It takes place
 in an alternate universe to Garriott's games, shortly after the events of his
 third game called Exodus. You can create a character that tries to make their
 way through many lands. You will have to find a way to feed yourself, and
@@ -128,7 +128,7 @@ goal of the game is what you set for yourself.
 
 ## Server Setup
 
-Secrets of Sosaria was created using RunUO emulation technology, and thus needs
+Efellen was created using RunUO emulation technology, and thus needs
 a server to play whether single or multi-player. This requires a Windows
 operating system with the .NET Framework installed. To begin setting up the
 server, download the server package. The server is in a folder labeled `World`.
@@ -241,7 +241,7 @@ for adventure.
 
 You never want to play the game using the Admin account, because the world just
 doesn't care about the characters within that account. Logging in as a player
-will expose you to the dangers and treasure of the Secrets of Sosaria. This game
+will expose you to the dangers and treasure of the Efellen. This game
 will automatically create accounts for you, so all you have to do is choose your
 own account name and password. Enter that information into the login window (as
 described in [Administrator Login](#administrator-login)) and press
@@ -263,7 +263,7 @@ this manual.
 ![Game interface](Images/game-interface-example.png)
 
 After you create your adventurer, you can enter the world and begin exploring.
-That is all you need to know to play the Secrets of Sosaria. You can continue
+That is all you need to know to play Efellen. You can continue
 onward in this manual if you want some additional information.
 
 > [!NOTE] You begin in a dark forest by a gypsy tent, so look around a bit and
@@ -390,7 +390,7 @@ for those that play this in a single player environment.
 
 ## Backups & Restores
 
-Whenever the Secrets of Sosaria saves itself, it will create a backup set of
+Whenever Efellen saves itself, it will create a backup set of
 information in the `World/Backups` folder. The system keeps the 6 latest
 backups. If you ever run into an unrecoverable game system disaster, you can go
 into this `Backups` folder to obtain one of your prior versions. To do this,
@@ -398,7 +398,7 @@ start by deleting the `Saves` folder in the `World` directory. Then go into your
 `Backups` folder and grab the particular version you want within the `Automatic`
 directory. This is usually the one called "Most Recent…". Copy this directory
 into the `World` folder. Then go into your `World` folder and rename the copied
-folder to `Saves`. You can then start Secrets of Sosaria and the world will be
+folder to `Saves`. You can then start Efellen and the world will be
 from that point in time. You do not need to only grab the most recent backup,
 but instead can choose one of the other backups you captured if you want to go
 back further.
@@ -438,7 +438,7 @@ mono World.exe
 
 ## Multi-Player
 
-This manual cannot go into great detail about the Secrets of Sosaria in a
+This manual cannot go into great detail about Efellen in a
 multi-player environment. This is mostly due to one's home network design and
 router manufacturer. One would need a basic understanding of IP addresses and
 firewalls to successfully setup a public server.
@@ -455,7 +455,7 @@ would configure their `settings.json` file to use the IP address shown in
 yellow. So in this example, they would use `192.168.141.1` instead of the local
 `127.0.0.1` address.
 
-Making the Secrets of Sosaria server visible over the Internet requires more
+Making Efellen visible over the Internet requires more
 configuration. Your home's router needs to have some traffic rules established
 to allow the Internet to communicate with port `2593` of your Windows computer
 hosting the server.
@@ -529,7 +529,7 @@ private static IPAddress FindPublicAddress()
 ```
 
 Below is an example of a D-Link router, and how a port forwarding rule would
-look like to have someone on the Internet connect to your Secrets of Sosaria
+look like to have someone on the Internet connect to your Efellen
 server. Every router is unique, however, so you will either need to figure out
 how your router functions in this manner or seek help from the router's user
 manual.
@@ -581,4 +581,4 @@ So, we decided to branch it off again and thus rebrand it as requested by the
 original designer. By doing this, we can fix any newly discovered issues and
 also make improvements that may be suggested in the spirit of the original
 vision. We ask if this version is branched, that you rebrand your game to
-something other than "Secrets of Sosaria".
+something other than "Efellen".
