@@ -15,14 +15,30 @@ namespace Server.Items
 		{
 			Name = "Retort";
 			Hue = 910;
-			WeaponAttributes.HitLeechHits = 20;
-			WeaponAttributes.HitLeechStam = 20;
-			WeaponAttributes.HitLowerDefend = 30;
-			Attributes.BonusDex = 5;
-			Attributes.WeaponDamage = 8;
+			WeaponAttributes.HitLeechHits = 40;
+			WeaponAttributes.HitLowerDefend = 40;
+			Attributes.BonusDex = 10;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, "" );
+			Server.Misc.Arty.ArtySetup( this, "Has the last word" );
 		}
+
+		public override void OnHit(Mobile attacker, Mobile defender, double damage)
+        {
+            base.OnHit(attacker, defender, damage);
+
+            if (attacker == null || defender == null)
+                return;
+
+            if (!defender.Alive || defender.Hits <= 0)
+            {
+                if (Utility.Random(100) < 15)
+                {
+                    int stam = Utility.RandomMinMax(10, 35);
+				    attacker.Stam += stam;
+				    attacker.SendMessage(33, "Retort saps the will of the fallen enemy!");
+                }
+            }
+        }
 
 		public Artifact_Retort( Serial serial ) : base( serial )
 		{

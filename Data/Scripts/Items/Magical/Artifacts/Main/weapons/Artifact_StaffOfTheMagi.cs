@@ -15,11 +15,9 @@ namespace Server.Items
 			ItemID = 0x2AAC;
 			WeaponAttributes.MageWeapon = 30;
 			Attributes.SpellChanneling = 1;
-			Attributes.CastSpeed = 1;
-			Attributes.SpellDamage = 30;
-			Attributes.WeaponDamage = 20;
+			Attributes.SpellDamage = 50;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, "" );
+			Server.Misc.Arty.ArtySetup( this, "Glows with arcane power." );
 		}
 
 		public override void GetDamageTypes( Mobile wielder, out int phys, out int fire, out int cold, out int pois, out int nrgy, out int chaos, out int direct )

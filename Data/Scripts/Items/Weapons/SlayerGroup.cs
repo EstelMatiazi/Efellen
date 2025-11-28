@@ -473,6 +473,7 @@ namespace Server.Items
 				typeof( Ostrich ), 
 				typeof( AxeBeakRiding ), 
 				typeof( Phoenix ), 
+				typeof( SummonPhoenix),
 				typeof( SnowHarpy ), 
 				typeof( StoneHarpy ), 
 				typeof( SwampBird ), 
@@ -508,6 +509,7 @@ namespace Server.Items
 			animal.Opposition = new SlayerGroup[]{ };
 			animal.FoundOn = new Type[]{ };
 			animal.Super = new SlayerEntry( SlayerName.AnimalHunter, 
+				typeof( SummonDireBear ),
 				typeof( MysticalFox ), 
 				typeof( BlackBear ), 
 				typeof( SabreclawCub ), 
@@ -1027,6 +1029,7 @@ namespace Server.Items
 						typeof( TitanPyros ), 
 						typeof( Sunlyte ), 
 						typeof( Phoenix ), 
+						typeof( SummonPhoenix),
 						typeof( FireSteed ),
 						typeof( FireGiant ),
 						typeof( ElementalLordFire ),
@@ -1327,7 +1330,7 @@ namespace Server.Items
 				typeof( GrayDragon ), 
 				typeof( VolcanicDragon ), 
 				typeof( AshDragon ), 
-				typeof( SummonDragon ), 
+				typeof( SummonDragon ),
 				typeof( ZombieDragon ), 
 				typeof( DragonGhost ), 
 				typeof( GhostDragyn ), 

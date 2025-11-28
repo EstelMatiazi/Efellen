@@ -60,7 +60,7 @@ namespace Server.Spells.Magical
 				duration = TimeSpan.FromSeconds( 120 );
 				BaseCreature.Summon( new SummonDragon(), false, Caster, new Point3D( p ), 0x212, duration );
 
-				Caster.SendMessage( "You can double click the summoned to dispel them." );
+				Caster.SendMessage( "You can double click the summon to dispel them." );
 			}
 			FinishSequence();
 		}

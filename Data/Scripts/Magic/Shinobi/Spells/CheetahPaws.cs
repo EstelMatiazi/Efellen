@@ -54,7 +54,7 @@ namespace Server.Spells.Shinobi
             {
                 Caster.SendMessage( "You cannot use this ability while on a mount!" );
             }
-			else if ( shoes is Artifact_BootsofHermes || shoes is Artifact_SprintersSandals )
+			else if ( shoes is Artifact_BootsofHermes )
 			{
                 Caster.SendMessage( "You cannot use this ability while wearing those magical shoes!" );
 			}

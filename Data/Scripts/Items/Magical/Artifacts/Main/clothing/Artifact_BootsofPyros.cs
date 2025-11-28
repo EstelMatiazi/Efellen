@@ -13,12 +13,12 @@ namespace Server.Items
 			ItemID = 0x2FC4;
 			Name = "Boots of the Daemon King";
 			Hue = 0x981;
-			Resistances.Fire = 15;
+			Resistances.Fire = 20;
 			Attributes.CastRecovery = 1;
 			Attributes.CastSpeed = 1;
-			Attributes.LowerManaCost = 12;
-			Attributes.LowerRegCost = 12;
-			SkillBonuses.SetValues(0, SkillName.Elementalism, 15);
+			Attributes.LowerManaCost = 15;
+			Attributes.LowerRegCost = 15;
+			SkillBonuses.SetValues(0, SkillName.Elementalism, 10);
 			SkillBonuses.SetValues(1, SkillName.Focus, 10);
 			SkillBonuses.SetValues(2, SkillName.Meditation, 10);
 			ArtifactLevel = 2;

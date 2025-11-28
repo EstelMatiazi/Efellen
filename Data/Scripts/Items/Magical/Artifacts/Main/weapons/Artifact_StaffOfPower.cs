@@ -13,14 +13,14 @@ namespace Server.Items
 		{
 			Name = "Staff of Power";
 			ItemID = 0x0DF1;
-			WeaponAttributes.MageWeapon = 15;
+			WeaponAttributes.MageWeapon = 30;
 			Attributes.SpellChanneling = 1;
 			Attributes.SpellDamage = 20;
 			Attributes.CastRecovery = 2;
 			Attributes.LowerManaCost = 20;
 			Attributes.CastSpeed = 2;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, "" );
+			Server.Misc.Arty.ArtySetup( this, "Shivers with arcane power" );
 		}
 
 		public Artifact_StaffOfPower( Serial serial ) : base( serial )

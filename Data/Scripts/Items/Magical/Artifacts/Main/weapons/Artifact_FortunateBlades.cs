@@ -17,13 +17,21 @@ namespace Server.Items
 			Hue = 2213;
 			WeaponAttributes.MageWeapon = 30;
 			Attributes.SpellChanneling = 1;
-			Attributes.CastSpeed = 1;
-			WeaponAttributes.SelfRepair = 5;
-			Attributes.Luck = 45;
-			Attributes.RegenMana = 5;
-			Attributes.SpellDamage = 15;
+			Attributes.Luck = 85;
+			Attributes.SpellDamage = 20;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, "" );
+			Server.Misc.Arty.ArtySetup( this, "Powerful criticals" );
+		}
+
+		public override void OnHit(Mobile attacker, Mobile defender, double damageBonus)
+		{
+		    if (Utility.RandomDouble() < 0.15)
+		    {
+		        damageBonus += 0.35;
+		        attacker.SendMessage("Your strike pierces through your enemy!");
+		        attacker.PlaySound(0x20F);
+		    }
+		    base.OnHit(attacker, defender, damageBonus);
 		}
 
 		public Artifact_FortunateBlades( Serial serial ) : base( serial )

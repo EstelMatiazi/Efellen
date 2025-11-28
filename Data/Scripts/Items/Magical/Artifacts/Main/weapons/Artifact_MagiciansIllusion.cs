@@ -14,17 +14,25 @@ namespace Server.Items
             Name = "Magician's Illusion";
             Hue = 1072;
 			ItemID = 0x26BF;
-            WeaponAttributes.HitLightning = 15;
-            WeaponAttributes.HitLowerAttack = 15;
-            WeaponAttributes.SelfRepair = 5;
-            SkillBonuses.SetValues( 0, SkillName.Magery, 5.0 );
-            Attributes.BonusMana = 10;
+            WeaponAttributes.HitLightning = 25;
+            SkillBonuses.SetValues( 0, SkillName.Magery, 10.0 );
+            Attributes.BonusMana = 20;
             Attributes.ReflectPhysical = 15;
             Attributes.SpellChanneling = 1;
-            Attributes.SpellDamage = 15;
             IntRequirement = 100;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, "" );
+			Server.Misc.Arty.ArtySetup( this, "Powerful criticals" );
+		}
+
+        public override void OnHit(Mobile attacker, Mobile defender, double damageBonus)
+		{
+		    if (Utility.RandomDouble() < 0.15)
+		    {
+		        damageBonus += 0.35;
+		        attacker.SendMessage("Your strike pierces through your enemy!");
+		        attacker.PlaySound(0x20F);
+		    }
+		    base.OnHit(attacker, defender, damageBonus);
 		}
 
         public override void GetDamageTypes( Mobile wielder, out int phys, out int fire, out int cold, out int pois, out int nrgy, out int chaos, out int direct )

@@ -16,10 +16,10 @@ namespace Server.Items
 			Name = "Dagger of Venom";
 			Hue = 0x4F6;
 			ItemID = 0x2677;
-			AccuracyLevel = WeaponAccuracyLevel.Supremely;
 			DamageLevel = WeaponDamageLevel.Vanq;
 			Attributes.AttackChance = 10;
 			Attributes.BonusDex = 10;
+			SkillBonuses.SetValues( 0, SkillName.Poisoning, 10 );
 			AosElementDamages.Physical = 50;
 			AosElementDamages.Poison = 50;
 			ArtifactLevel = 2;

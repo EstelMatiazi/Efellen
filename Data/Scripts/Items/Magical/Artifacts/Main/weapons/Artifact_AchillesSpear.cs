@@ -14,12 +14,24 @@ namespace Server.Items
 			Hue = 0xB1B;
 			Name = "Achille's Spear";
 			ItemID = 0xF62;
-			SkillBonuses.SetValues( 0, SkillName.Fencing, 25 );
+			SkillBonuses.SetValues( 0, SkillName.Tactics, 25 );
 			Attributes.AttackChance = 15;
 			Attributes.WeaponDamage = 15;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, "" );
+			Server.Misc.Arty.ArtySetup( this, "Deadly sharpness" );
 		}
+
+		public override void OnHit(Mobile attacker, Mobile defender, double damageBonus)
+		{
+		    if (Utility.RandomDouble() < 0.15)
+		    {
+		        damageBonus += 0.35;
+		        attacker.SendMessage("Your strike pierces through your enemy!");
+		        attacker.PlaySound(0x20F);
+		    }
+		    base.OnHit(attacker, defender, damageBonus);
+		}
+
 
 		public Artifact_AchillesSpear( Serial serial ) : base( serial )
 		{

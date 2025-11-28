@@ -15,7 +15,7 @@ namespace Server.Items
 		{
 			Name = "Robe Of Teleportation";
 			Hue = Utility.RandomColor( 0 );
-			Attributes.Luck = 125;
+			Attributes.Luck = 150;
 			ArtifactLevel = 2;
 			Server.Misc.Arty.ArtySetup( this, "(Use to Teleport) " );
 		}

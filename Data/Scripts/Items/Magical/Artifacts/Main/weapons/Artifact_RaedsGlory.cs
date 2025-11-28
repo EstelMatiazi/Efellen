@@ -15,12 +15,22 @@ namespace Server.Items
 			Name = "Raed's Glory";
 			ItemID = 0x2D23;
 			Hue = 0x1E6;
-			Attributes.BonusMana = 8;
 			Attributes.SpellChanneling = 1;
 			Attributes.WeaponSpeed = 20;
-			WeaponAttributes.HitLeechHits = 42;
+			WeaponAttributes.HitLeechHits = 50;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, "" );
+			Server.Misc.Arty.ArtySetup( this, "Powerful criticals" );
+		}
+
+		public override void OnHit(Mobile attacker, Mobile defender, double damageBonus)
+		{
+		    if (Utility.RandomDouble() < 0.15)
+		    {
+		        damageBonus += 0.35;
+		        attacker.SendMessage("Your strike pierces through your enemy!");
+		        attacker.PlaySound(0x20F);
+		    }
+		    base.OnHit(attacker, defender, damageBonus);
 		}
 
 		public Artifact_RaedsGlory( Serial serial ) : base( serial )

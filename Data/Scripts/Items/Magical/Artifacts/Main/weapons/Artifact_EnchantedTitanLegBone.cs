@@ -16,11 +16,21 @@ namespace Server.Items
 			ItemID = 0x1403;
 			WeaponAttributes.HitLowerDefend = 30;
 			WeaponAttributes.HitLightning = 30;
-			Attributes.AttackChance = 5;
 			Attributes.WeaponDamage = 20;
-			WeaponAttributes.ResistPhysicalBonus = 15;
+			WeaponAttributes.ResistPhysicalBonus = 10;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, "" );
+			Server.Misc.Arty.ArtySetup( this, "Powerful criticals" );
+		}
+
+		public override void OnHit(Mobile attacker, Mobile defender, double damageBonus)
+		{
+		    if (Utility.RandomDouble() < 0.15)
+		    {
+		        damageBonus += 0.35;
+		        attacker.SendMessage("Your strike pierces through your enemy!");
+		        attacker.PlaySound(0x20F);
+		    }
+		    base.OnHit(attacker, defender, damageBonus);
 		}
 
 		public Artifact_EnchantedTitanLegBone( Serial serial ) : base( serial )

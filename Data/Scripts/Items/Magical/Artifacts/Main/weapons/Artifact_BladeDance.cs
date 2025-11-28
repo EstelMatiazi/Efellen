@@ -14,14 +14,33 @@ namespace Server.Items
 		{
 			Name = "Blade Dance";
 			Hue = 0x66C;
-			Attributes.BonusMana = 8;
+			Attributes.BonusMana = 10;
 			Attributes.SpellChanneling = 1;
-			Attributes.WeaponDamage = 35;
+			Attributes.WeaponDamage = 30;
 			WeaponAttributes.HitLeechMana = 20;
 			WeaponAttributes.UseBestSkill = 1;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, "" );
+			Server.Misc.Arty.ArtySetup( this, "Drains energy" );
 		}
+
+		public override void OnHit(Mobile attacker, Mobile defender, double damage)
+        {
+            base.OnHit(attacker, defender, damage);
+
+            if (attacker == null || defender == null)
+                return;
+
+            if (!defender.Alive || defender.Hits <= 0)
+            {
+                if (Utility.Random(100) < 15)
+                {
+                    int mana = Utility.RandomMinMax(10, 35);
+				    attacker.Mana += mana;
+				    attacker.SendMessage(33, "Blade Dance devour the energy of the fallen enemy!");
+                }
+            }
+        }
+
 		public Artifact_BladeDance( Serial serial ) : base( serial )
 		{
 		}

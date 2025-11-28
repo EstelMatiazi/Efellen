@@ -64,7 +64,7 @@ namespace Server
 			if ( m.FindItemOnLayer( Layer.Shoes ) != null )
 			{
 				Item shoes = m.FindItemOnLayer( Layer.Shoes );
-				if ( shoes is Artifact_BootsofHermes || shoes is Artifact_SprintersSandals || ( shoes is HikingBoots && m.RaceID > 0 ) )
+				if ( shoes is Artifact_BootsofHermes || ( shoes is HikingBoots && m.RaceID > 0 ) )
 				{
 					if ( MySettings.S_NoMountsInCertainRegions && Server.Mobiles.AnimalTrainer.IsNoMountRegion( m, Region.Find( m.Location, m.Map ) ) )
 					{

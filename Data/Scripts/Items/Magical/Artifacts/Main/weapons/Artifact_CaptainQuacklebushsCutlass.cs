@@ -11,16 +11,25 @@ namespace Server.Items
 		[Constructable]
 		public Artifact_CaptainQuacklebushsCutlass()
 		{
-			Name = "Captain Quacklebush's Cutlass";
+			Name = "Captain's Cutlass";
 			Hue = 0x66C;
 			ItemID = 0x1441;
-			Attributes.BonusDex = 5;
+			Attributes.BonusDex = 15;
 			Attributes.AttackChance = 10;
 			Attributes.WeaponSpeed = 20;
-			Attributes.WeaponDamage = 16;
-			WeaponAttributes.UseBestSkill = 1;
 			ArtifactLevel = 2;
-			Server.Misc.Arty.ArtySetup( this, "" );
+			Server.Misc.Arty.ArtySetup( this, "Powerful criticals" );
+		}
+
+		public override void OnHit(Mobile attacker, Mobile defender, double damageBonus)
+		{
+		    if (Utility.RandomDouble() < 0.15)
+		    {
+		        damageBonus += 0.35;
+		        attacker.SendMessage("Your strike pierces through your enemy!");
+		        attacker.PlaySound(0x20F);
+		    }
+		    base.OnHit(attacker, defender, damageBonus);
 		}
 
 		public Artifact_CaptainQuacklebushsCutlass( Serial serial ) : base( serial )
