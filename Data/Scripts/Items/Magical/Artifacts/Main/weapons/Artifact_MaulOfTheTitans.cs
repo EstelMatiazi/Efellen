@@ -41,8 +41,8 @@ namespace Server.Items
     	    	    return;
     	    	double seconds = 120.0 - (skill * (90.0 / 125.0)); // 120secs cooldown at 0 skill, 30 secs cooldown at 125 skill
     	    	m_NextAoE = DateTime.UtcNow + TimeSpan.FromSeconds(seconds);
-				int minDmg = attacker.Str / 13; // 13 base min damage at 15k karma
-		    	int maxDmg = attacker.Str / 6; // 25 base max damage at 15k karma
+				int minDmg = attacker.Str / 13; // 13 base min damage at 150 str
+		    	int maxDmg = attacker.Str / 6; // 25 base max damage at 150 str
 		    	if (minDmg < 0) minDmg = 0;
 		    	if (maxDmg < 0) maxDmg = 0;
 		    	if (maxDmg < minDmg) maxDmg = minDmg;
@@ -84,7 +84,7 @@ namespace Server.Items
 					int dmg = Utility.RandomMinMax(minDmg + bonus, maxDmg + bonus);
 					if (dmg > 0)
 					{
-						AOS.Damage(mob, attacker, dmg, 0, 100, 0, 0, 0);
+						AOS.Damage(mob, attacker, dmg, 100, 0, 0, 0, 0);
 						mob.PlaySound(0x208);
        				}
     	    	}
