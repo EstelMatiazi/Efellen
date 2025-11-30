@@ -30,8 +30,6 @@ namespace Server.Items
 				else if ( m.Region.IsPartOf( "the Moon's Core" ) ){ keyword = "Ultimum Potentiae"; }
 				else if ( m.Region.IsPartOf( "the Black Magic Guild" ) ){ keyword = "Kas"; }
 				else if ( m.Region.IsPartOf( "the Tomb of Kas the Bloody Handed" ) ){ keyword = "Mortem Mangone"; }
-				else if ( m.Region.IsPartOf( "the Tomb of Malak the Syth Lord" ) ){ keyword = "Anakasu Arrii Venaal"; }
-				else if ( m.Region.IsPartOf( "the Tomb of Zoda the Jedi Master" ) ){ keyword = "Oh Beh Wahn"; }
 				else if ( m.Region.IsPartOf( "Dungeon Rock" ) ){ keyword = "Vas An Ort Ailem"; }
 				else if ( m.Region.IsPartOf( "the Lost Graveyard" ) ){ keyword = "Cryst An Immortalis"; }
 				else if ( m.Map == Map.SerpentIsland && m.Region.IsPartOf( "the Ethereal Void" ) ){ keyword = "balance"; }
@@ -69,27 +67,6 @@ namespace Server.Items
 
 				if ( e.Speech.ToLower().IndexOf( keyword.ToLower() ) >= 0 )
 					isMatch = true;
-
-				// JEDI CHECK
-				if ( !isMatch && m.Karma >= 0 && m.Skills[SkillName.Psychology].Base > 0 && Server.Misc.GetPlayerInfo.isJedi(m,false) && this.Name == "Priest Grave" )
-				{
-					if ( this.X == 3082 ){ keyword = "jacen sollo"; }
-					else if ( this.X == 805 ){ keyword = "kiadi mundia"; }
-					else if ( this.X == 981 ){ keyword = "kip fisto"; }
-					else if ( this.X == 3249 ){ keyword = "marra jade"; }
-					else if ( this.X == 1398 ){ keyword = "numi sunrider"; }
-					else if ( this.X == 2983 ){ keyword = "plo kune"; }
-					else if ( this.X == 4378 ){ keyword = "kyle katran"; }
-					else if ( this.X == 2697 ){ keyword = "kyp duron"; }
-					else if ( this.X == 4167 ){ keyword = "ganer rhysode"; }
-					else if ( this.X == 6642 ){ keyword = "coran horn"; }
-
-					if ( e.Speech.ToLower().IndexOf( keyword.ToLower() ) >= 0 )
-					{
-						isMatch = true;
-						priestCheck = false;
-					}
-				}
 
 				if ( !isMatch )
 					return;
@@ -221,37 +198,6 @@ namespace Server.Items
 						}
 					}
 
-					if ( m.Karma <= 0 && m.Skills[SkillName.Psychology].Base > 0 && Server.Misc.GetPlayerInfo.isSyth(m,false) )
-					{
-						string syth = "";
-
-						if ( this.Name == "Dzwol Hyal" && this.Name == keyword ){ syth = "SythDatacron01"; ArrayList targets = new ArrayList(); foreach ( Item item in World.Items.Values ) { if ( item is SythDatacron01 ) { targets.Add( item ); } } for ( int i = 0; i < targets.Count; ++i ) { Item item = ( Item )targets[ i ]; item.Delete(); } }
-						else if ( this.Name == "Zayin Kun" && this.Name == keyword ){ syth = "SythDatacron02"; ArrayList targets = new ArrayList(); foreach ( Item item in World.Items.Values ) { if ( item is SythDatacron02 ) { targets.Add( item ); } } for ( int i = 0; i < targets.Count; ++i ) { Item item = ( Item )targets[ i ]; item.Delete(); } }
-						else if ( this.Name == "Rhak Skuri" && this.Name == keyword ){ syth = "SythDatacron03"; ArrayList targets = new ArrayList(); foreach ( Item item in World.Items.Values ) { if ( item is SythDatacron03 ) { targets.Add( item ); } } for ( int i = 0; i < targets.Count; ++i ) { Item item = ( Item )targets[ i ]; item.Delete(); } }
-						else if ( this.Name == "Chwit Sutta" && this.Name == keyword ){ syth = "SythDatacron04"; ArrayList targets = new ArrayList(); foreach ( Item item in World.Items.Values ) { if ( item is SythDatacron04 ) { targets.Add( item ); } } for ( int i = 0; i < targets.Count; ++i ) { Item item = ( Item )targets[ i ]; item.Delete(); } }
-						else if ( this.Name == "Qyasik Tukata" && this.Name == keyword ){ syth = "SythDatacron05"; ArrayList targets = new ArrayList(); foreach ( Item item in World.Items.Values ) { if ( item is SythDatacron05 ) { targets.Add( item ); } } for ( int i = 0; i < targets.Count; ++i ) { Item item = ( Item )targets[ i ]; item.Delete(); } }
-						else if ( this.Name == "Sutta Wo" && this.Name == keyword ){ syth = "SythDatacron06"; ArrayList targets = new ArrayList(); foreach ( Item item in World.Items.Values ) { if ( item is SythDatacron06 ) { targets.Add( item ); } } for ( int i = 0; i < targets.Count; ++i ) { Item item = ( Item )targets[ i ]; item.Delete(); } }
-						else if ( this.Name == "Taral Wai" && this.Name == keyword ){ syth = "SythDatacron07"; ArrayList targets = new ArrayList(); foreach ( Item item in World.Items.Values ) { if ( item is SythDatacron07 ) { targets.Add( item ); } } for ( int i = 0; i < targets.Count; ++i ) { Item item = ( Item )targets[ i ]; item.Delete(); } }
-						else if ( this.Name == "Wai Kusk" && this.Name == keyword ){ syth = "SythDatacron08"; ArrayList targets = new ArrayList(); foreach ( Item item in World.Items.Values ) { if ( item is SythDatacron08 ) { targets.Add( item ); } } for ( int i = 0; i < targets.Count; ++i ) { Item item = ( Item )targets[ i ]; item.Delete(); } }
-						else if ( this.Name == "Derriphan Tyuk" && this.Name == keyword ){ syth = "SythDatacron09"; ArrayList targets = new ArrayList(); foreach ( Item item in World.Items.Values ) { if ( item is SythDatacron09 ) { targets.Add( item ); } } for ( int i = 0; i < targets.Count; ++i ) { Item item = ( Item )targets[ i ]; item.Delete(); } }
-						else if ( this.Name == "Itsu Sutta" && this.Name == keyword ){ syth = "SythDatacron10"; ArrayList targets = new ArrayList(); foreach ( Item item in World.Items.Values ) { if ( item is SythDatacron10 ) { targets.Add( item ); } } for ( int i = 0; i < targets.Count; ++i ) { Item item = ( Item )targets[ i ]; item.Delete(); } }
-
-						if ( syth != "" )
-						{
-							Item cron = null;
-							Type itemType = ScriptCompiler.FindTypeByName( syth );
-
-							if ( itemType != null )
-							{
-								cron = (Item)Activator.CreateInstance( itemType );
-								m.AddToBackpack ( cron );
-								m.SendMessage( "You have the mysticron of " + this.Name + "!" );
-								Point3D sythL = new Point3D( m.X+1, m.Y+1, m.Z+5 );
-								Effects.SendLocationParticles( EffectItem.Create( sythL, m.Map, EffectItem.DefaultDuration ), 0x3789, 10, 32, 5032 );
-								Effects.PlaySound( m.Location, m.Map, 0x1F8 );
-							}
-						}
-					}
 				}
 				else if ( m.Region.IsPartOf( "the Black Magic Guild" ) ) // DEATH KNIGHT DEMON FRIEND
 				{
@@ -713,70 +659,6 @@ namespace Server.Items
 
 						Effects.SendLocationParticles( EffectItem.Create( m.Location, m.Map, EffectItem.DefaultDuration ), 0x376A, 9, 32, 5008 );
 						Effects.PlaySound( m.Location, m.Map, 0x1ED );
-					}
-				}
-				else if ( m.Region.IsPartOf( "the Tomb of Malak the Syth Lord" ) ) // SYTH TOMB
-				{
-					ArrayList targets = new ArrayList();
-					foreach ( Item item in World.Items.Values )
-					{
-						if ( item is SythSpellbook )
-						{
-							SythSpellbook book = (SythSpellbook)item;
-							if ( book.owner == m )
-							{
-								targets.Add( item );
-							}
-						}
-					}
-					for ( int i = 0; i < targets.Count; ++i )
-					{
-						Item item = ( Item )targets[ i ];
-						item.Delete();
-					}
-
-					if ( m.Karma < 0 && m.Skills[SkillName.Psychology].Base > 0 )
-					{
-						SythSpellbook book = new SythSpellbook( (ulong)0, m );
-						m.AddToBackpack ( book );
-						m.SendMessage( "You have obtained Malak's Datacron of Syth Knowledge." );
-
-						LoggingFunctions.LogGenericQuest( m, "has obtained Malak's Datacron of Syth Knowledge" );
-
-						Effects.SendLocationParticles( EffectItem.Create( m.Location, m.Map, EffectItem.DefaultDuration ), 0x3789, 10, 32, 5032 );
-						Effects.PlaySound( m.Location, m.Map, 0x1F8 );
-					}
-				}
-				else if ( m.Region.IsPartOf( "the Tomb of Zoda the Jedi Master" ) ) // JEDI TOMB
-				{
-					ArrayList targets = new ArrayList();
-					foreach ( Item item in World.Items.Values )
-					{
-						if ( item is JediSpellbook )
-						{
-							JediSpellbook book = (JediSpellbook)item;
-							if ( book.owner == m )
-							{
-								targets.Add( item );
-							}
-						}
-					}
-					for ( int i = 0; i < targets.Count; ++i )
-					{
-						Item item = ( Item )targets[ i ];
-						item.Delete();
-					}
-
-					if ( m.Karma >= 2500 && m.Skills[SkillName.Psychology].Base >= 25 )
-					{
-						JediSpellbook book = new JediSpellbook( (ulong)0, m );
-						m.AddToBackpack ( book );
-						m.SendMessage( "You have obtained Zoda's Datacron of Jedi Wisdom." );
-
-						LoggingFunctions.LogGenericQuest( m, "has obtained Zoda's Datacron of Jedi Wisdom" );
-
-						Effects.SendLocationParticles( EffectItem.Create( m.Location, m.Map, EffectItem.DefaultDuration ), 0x3789, 10, 32, 5032 );
-						Effects.PlaySound( m.Location, m.Map, 0x1FF );
 					}
 				}
 				else if ( m.Region.IsPartOf( "the Altar of Golden Rangers" ) || m.Region.IsPartOf( "the Ranger Outpost" ) ) // GOLDEN RANGER

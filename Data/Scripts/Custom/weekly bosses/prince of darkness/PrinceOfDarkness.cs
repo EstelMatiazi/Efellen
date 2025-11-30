@@ -11,6 +11,7 @@ using Server.Commands;
 using Server.Commands.Generic;
 using Server.Spells.Necromancy;
 using Server.Spells;
+using Server.EffectsUtil;
 
 namespace Server.Mobiles
 {
@@ -149,8 +150,6 @@ namespace Server.Mobiles
 
 								int damage = Utility.RandomMinMax( 33, 44 );
 								AOS.Damage( m, this, damage, 0, 0, 100, 0, 0 );
-
-								m.FixedParticles( 0x374A, 10, 15, 5013, 0x481, 0, EffectLayer.Waist );
 								m.PlaySound( 0x1FB );
 								int resist = (int)(m.Skills.MagicResist.Value);
 								// 2s at 125, 8s at 0 magic resist
@@ -158,6 +157,7 @@ namespace Server.Mobiles
 								m.Paralyze( TimeSpan.FromSeconds( getParalyzeDuration( m ) ) );
 							}
 						}
+						SlamVisuals.SlamVisual(this, 6, 0x36B0, 0x497);
 						eable.Free();
 						break;
 					}
@@ -196,6 +196,7 @@ namespace Server.Mobiles
 								}
 							}
 						}
+						SlamVisuals.SlamVisual(this, 6, 0x36B0, 0x497);
 						eable.Free();
 						break;
 					}
@@ -224,6 +225,7 @@ namespace Server.Mobiles
 								m.Paralyze( TimeSpan.FromSeconds( getParalyzeDuration( m ) + Utility.RandomMinMax(1,3 ) ) );
 							}
 						}
+						SlamVisuals.SlamVisual(this, 6, 0x36B0, 0x25);
 						eable.Free();
 						break;
 					}
