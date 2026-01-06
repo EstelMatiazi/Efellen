@@ -62,6 +62,8 @@ namespace Server.Companions.Core
             if (m_Contract.RemainingTime < TimeSpan.Zero)
                 m_Contract.RemainingTime = TimeSpan.Zero;
 
+            m_Contract.UpdateTooltipTime();
+            
             string message;
             if (ShouldWarn(out message))
             {
@@ -75,8 +77,10 @@ namespace Server.Companions.Core
             }
         }
 
-        public bool AddTime(int goldAmount)
+        public bool AddTime(int goldAmount, out int goldUsed)
         {
+            goldUsed = 0;
+
             if (goldAmount <= 0)
                 return false;
 
@@ -84,32 +88,32 @@ namespace Server.Companions.Core
             if (goldPerHour <= 0)
                 return false;
 
-            double hoursToAdd = (double)goldAmount / goldPerHour;
-            TimeSpan timeToAdd = TimeSpan.FromHours(hoursToAdd);
+            double hoursAvailable = (MaxDuration - m_Contract.RemainingTime).TotalHours;
 
-            TimeSpan newTime = m_Contract.RemainingTime + timeToAdd;
-            
-            if (newTime > MaxDuration)
+            if (hoursAvailable <= 0)
             {
-                TimeSpan excessTime = newTime - MaxDuration;
-                double excessHours = excessTime.TotalHours;
-                int refundAmount = (int)(excessHours * goldPerHour);
-
-                m_Contract.RemainingTime = MaxDuration;
-
-                CompanionMobile companion = m_Contract.GetCompanion();
-                if (companion != null && !companion.Deleted)
-                {
-                    CompanionAlignment align = companion.Alignment;
-                    companion.Say(GetMaxTimeMessage(align));
-                }
-
+                goldUsed = 0;
                 return false;
             }
 
-            m_Contract.RemainingTime = newTime;
+            double hoursPaid = (double)goldAmount / goldPerHour;
+            double hoursAdded = Math.Min(hoursPaid, hoursAvailable);
+
+            TimeSpan timeAdded = TimeSpan.FromHours(hoursAdded);
+            m_Contract.RemainingTime += timeAdded;
+
+            goldUsed = (int)Math.Ceiling(hoursAdded * goldPerHour);
+
             return true;
         }
+
+        public bool AddTime(int goldAmount)
+        {
+            int dummy;
+            return AddTime(goldAmount, out dummy);
+        }
+
+
 
         public int GetGoldToFill()
         {

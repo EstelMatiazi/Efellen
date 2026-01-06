@@ -38,8 +38,8 @@ namespace Server.Companions.Core
         public CompanionAlignment Alignment
         {
             get { return new CompanionAlignment(m_OrderAxis, m_MoralAxis); }
-            set 
-            { 
+            set
+            {
                 m_OrderAxis = value.Order;
                 m_MoralAxis = value.Moral;
             }
@@ -148,13 +148,13 @@ namespace Server.Companions.Core
         public override void OnThink()
         {
             base.OnThink();
-        
+
             if (ContractSerial == Serial.MinusOne)
                 return;
-        
+
             CompanionContract contract =
                 World.FindItem(ContractSerial) as CompanionContract;
-        
+
             if (contract != null)
                 contract.Tick();
         }
@@ -198,21 +198,19 @@ namespace Server.Companions.Core
             return m_BaseIntelligence;
         }
 
-        public void GainExperience(int fame)
+        public void GainExperience(int amount)
         {
-            if (fame <= 0 || m_Level >= 20)
+            if (amount <= 0 || m_Level >= 20)
                 return;
 
-            m_Experience += fame;
+            m_Experience += amount;
 
             CompanionContract contract = GetContract();
             if (contract != null)
                 contract.OnCompanionGainedExperience(m_Experience);
 
-            if (m_Owner != null)
-                m_Owner.SendMessage("Your companion " + Name + " gains " + fame.ToString() + " experience!");
-
             CheckLevelUp();
+            InvalidateProperties();
         }
 
         private void CheckLevelUp()
@@ -254,8 +252,80 @@ namespace Server.Companions.Core
                 contract.RecalculateTimerCost();
             }
 
+            PlayLevelUpEffect();
+            PlayLevelUpSound();
+
             OnLevelChanged();
+            InvalidateProperties();
         }
+
+        private int GetLevelUpHue(CompanionAlignment alignment)
+        {
+             if (alignment.Order == OrderAxis.Lawful && alignment.Moral == MoralAxis.Good)
+                return 0x47E; // gold-white
+
+            if (alignment.Order == OrderAxis.Lawful && alignment.Moral == MoralAxis.Neutral)
+                return 0x47E; // gold-white
+
+            if (alignment.Order == OrderAxis.Lawful && alignment.Moral == MoralAxis.Evil)
+               return 0x47E; // gold-white
+
+            // Neutral
+            if (alignment.Order == OrderAxis.Neutral && alignment.Moral == MoralAxis.Good)
+                return 0x47E; // gold-white
+
+            if (alignment.Order == OrderAxis.Neutral && alignment.Moral == MoralAxis.Neutral)
+                return 0x47E; // gold-white
+
+            if (alignment.Order == OrderAxis.Neutral && alignment.Moral == MoralAxis.Evil)
+               return 0x47E; // gold-white
+
+            // Chaotic
+            if (alignment.Order == OrderAxis.Chaotic && alignment.Moral == MoralAxis.Good)
+              return 0x47E; // gold-white
+
+            if (alignment.Order == OrderAxis.Chaotic && alignment.Moral == MoralAxis.Neutral)
+               return 0x47E; // gold-white
+
+            if (alignment.Order == OrderAxis.Chaotic && alignment.Moral == MoralAxis.Evil)
+               return 0x47E; // gold-white
+
+            return 0;
+        }
+
+        private void PlayLevelUpEffect()
+        {
+            CompanionAlignment alignment = Alignment;
+            int hue = GetLevelUpHue(alignment);
+
+            Effects.SendTargetParticles(
+                this,
+                0x373A,      // PS particle effect
+                35,          // speed
+                90,          // duration
+                5052,        // effect ID 
+                hue,
+                0,
+                EffectLayer.Waist,
+                0x100
+            );
+
+            Effects.SendLocationEffect(
+                Location,
+                Map,
+                0x376A,      // ground ring
+                20,
+                hue
+            );
+        }
+
+        private void PlayLevelUpSound()
+        {
+            PlaySound(0x1F2);
+        }
+
+
+
 
         private void UpdateAllStats()
         {
@@ -359,6 +429,131 @@ namespace Server.Companions.Core
             return item as CompanionContract;
         }
 
+        public override bool OnDragDrop(Mobile from, Item dropped)
+        {
+            if (from == null || dropped == null)
+                return false;
+
+            CompanionContract contract = GetContract();
+            if (contract == null)
+                return false;
+
+            int goldValue = GetGoldValue(dropped);
+
+            if (goldValue <= 0)
+                return false;
+
+            bool success = contract.AddGold(goldValue);
+
+            if (success)
+            {
+                Say(GetPaymentAcceptedMessage(Alignment));
+                dropped.Delete();
+            }
+            else
+            {
+                Say(GetPaymentRefusedMessage(Alignment));
+            }
+
+
+            return true;
+        }
+
+        private int GetGoldValue(Item dropped)
+        {
+            int nAmount = dropped.Amount;
+            int nGold = 0;
+
+            if (dropped is DDSilver)
+                nGold = (int)Math.Floor(nAmount / 5.0);
+            else if (dropped is DDCopper)
+                nGold = (int)Math.Floor(nAmount / 10.0);
+            else if (dropped is DDJewels)
+                nGold = nAmount * 2;
+            else if (dropped is DDXormite)
+                nGold = nAmount * 3;
+            else if (dropped is Crystals)
+                nGold = nAmount * 5;
+            else if (dropped is Gold)
+                nGold = nAmount;
+            else if (dropped is DDGemstones)
+                nGold = nAmount * 2;
+            else if (dropped is DDGoldNuggets)
+                nGold = nAmount;
+
+            return nGold;
+        }
+
+        private string GetPaymentAcceptedMessage(CompanionAlignment alignment)
+        {
+            // Lawful
+            if (alignment.Order == OrderAxis.Lawful && alignment.Moral == MoralAxis.Good)
+                return "Thank you. A contract honored is a bond strengthened.";
+
+            if (alignment.Order == OrderAxis.Lawful && alignment.Moral == MoralAxis.Neutral)
+                return "Payment acknowledged. The terms are satisfied.";
+
+            if (alignment.Order == OrderAxis.Lawful && alignment.Moral == MoralAxis.Evil)
+                return "Good. Order is maintained… for now.";
+
+            // Neutral
+            if (alignment.Order == OrderAxis.Neutral && alignment.Moral == MoralAxis.Good)
+                return "I appreciate it. Let’s keep going.";
+
+            if (alignment.Order == OrderAxis.Neutral && alignment.Moral == MoralAxis.Neutral)
+                return "Fair enough. Let’s continue.";
+
+            if (alignment.Order == OrderAxis.Neutral && alignment.Moral == MoralAxis.Evil)
+                return "Hmph. You’ll do… for now.";
+
+            // Chaotic
+            if (alignment.Order == OrderAxis.Chaotic && alignment.Moral == MoralAxis.Good)
+                return "Nice! Let’s make this worth it!";
+
+            if (alignment.Order == OrderAxis.Chaotic && alignment.Moral == MoralAxis.Neutral)
+                return "Heh! That’ll keep me around!";
+
+            if (alignment.Order == OrderAxis.Chaotic && alignment.Moral == MoralAxis.Evil)
+                return "Gold talks. You live… for now.";
+
+            return "Payment received.";
+        }
+
+        private string GetPaymentRefusedMessage(CompanionAlignment alignment)
+        {
+            // Lawful
+            if (alignment.Order == OrderAxis.Lawful && alignment.Moral == MoralAxis.Good)
+                return "I cannot accept more than our agreement allows.";
+
+            if (alignment.Order == OrderAxis.Lawful && alignment.Moral == MoralAxis.Neutral)
+                return "The contract is at its limit.";
+
+            if (alignment.Order == OrderAxis.Lawful && alignment.Moral == MoralAxis.Evil)
+                return "No excess. Waste nothing.";
+
+            // Neutral
+            if (alignment.Order == OrderAxis.Neutral && alignment.Moral == MoralAxis.Good)
+                return "I’m set for now, but thank you.";
+
+            if (alignment.Order == OrderAxis.Neutral && alignment.Moral == MoralAxis.Neutral)
+                return "That’s enough for now.";
+
+            if (alignment.Order == OrderAxis.Neutral && alignment.Moral == MoralAxis.Evil)
+                return "Keep it. I don’t need it… yet.";
+
+            // Chaotic
+            if (alignment.Order == OrderAxis.Chaotic && alignment.Moral == MoralAxis.Good)
+                return "Whoa! I’m good for now!";
+
+            if (alignment.Order == OrderAxis.Chaotic && alignment.Moral == MoralAxis.Neutral)
+                return "Easy there! No more!";
+
+            if (alignment.Order == OrderAxis.Chaotic && alignment.Moral == MoralAxis.Evil)
+                return "I don’t need charity.";
+
+            return "I can’t take any more.";
+        }
+
         public override void OnDeath(Container c)
         {
             base.OnDeath(c);
@@ -375,15 +570,29 @@ namespace Server.Companions.Core
             base.GetProperties(list);
 
             list.Add("Level " + m_Level.ToString() + " " + m_Class.ToString());
-            
-            CompanionAlignment align = new CompanionAlignment(m_OrderAxis, m_MoralAxis);
-            list.Add("Alignment: " + align.ToString());
+
+            long nextLevelExp = CompanionExperience.GetExperienceForNextLevel(m_Level);
+            double progress = CompanionExperience.GetLevelProgress(m_Level, m_Experience);
+            int percent = (int)(progress * 100.0);
+            if (m_Level >= 20 || nextLevelExp == long.MaxValue)
+            {
+                list.Add("Experience: " + m_Experience.ToString() + " (MAX)");
+            }
+            else
+            {
+                list.Add(
+                "Experience: " +
+                m_Experience +
+                " / " +
+                nextLevelExp +
+                " (" + percent + "%)"
+            );
+            }
+
 
             if (m_Owner != null)
-                list.Add("Owner: " + m_Owner.Name);
+                list.Add("Party Leader: " + m_Owner.Name);
 
-            if (m_IsUnique)
-                list.Add(1153, "Unique Companion");
         }
 
         public override bool CanBeControlledBy(Mobile m)

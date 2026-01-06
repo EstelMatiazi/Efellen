@@ -119,7 +119,7 @@ namespace Server.Companions.Systems
 
             if (owner == null)
                 return companions;
-            // hacky as all hell, TODO: unfuck this
+            
             IPooledEnumerable eable = owner.GetMobilesInRange(50);
             foreach (Mobile m in eable)
             {

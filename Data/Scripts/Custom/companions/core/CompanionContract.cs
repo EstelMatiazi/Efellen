@@ -58,6 +58,8 @@ namespace Server.Companions.Core
         private bool m_IsDead;
         private CompanionTimerHelper m_Timer;
 
+        private int m_LastTooltipMinute = -1;
+
         [CommandProperty(AccessLevel.GameMaster)]
         public Mobile Owner
         {
@@ -466,23 +468,49 @@ namespace Server.Companions.Core
             if (amount <= 0)
                 return false;
 
-            bool success = m_Timer.AddTime(amount);
+            int goldUsed;
+            bool success = m_Timer.AddTime(amount, out goldUsed);
+
+            int refund = amount - goldUsed;
 
             if (m_Owner != null)
             {
-                if (success)
+                if (goldUsed > 0)
                 {
-                    double hoursAdded = (double)amount / m_Timer.GoldPerHour;
-                    m_Owner.SendMessage(m_CompanionName + "shall adventure with you for " + hoursAdded.ToString("F1") + " more hours.");
+                    double hoursAdded = (double)goldUsed / m_Timer.GoldPerHour;
+                    m_Owner.SendMessage(
+                        m_CompanionName + " shall adventure with you for " +
+                        hoursAdded.ToString("F1") + " more hours."
+                    );
                 }
-                else
+
+                if (refund > 0)
+                {
+                    m_Owner.AddToBackpack(new Gold(refund));
+                    m_Owner.SendMessage("You receive " + refund + " gold back.");
+                }
+
+                if (!success && goldUsed == 0)
                 {
                     m_Owner.SendMessage(m_CompanionName + " cannot carry any more treasure.");
                 }
             }
 
-            return success;
+            return goldUsed > 0;
         }
+
+        public void UpdateTooltipTime()
+        {
+            int currentMinute = (int)m_RemainingTime.TotalMinutes;
+        
+            if (currentMinute != m_LastTooltipMinute)
+            {
+                m_LastTooltipMinute = currentMinute;
+                InvalidateProperties();
+            }
+        }
+
+
 
         public override bool OnDragDrop(Mobile from, Item dropped)
         {

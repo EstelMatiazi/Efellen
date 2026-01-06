@@ -17,6 +17,7 @@ using Server.Spells.Elementalism;
 using System.Text;
 using Server;
 using System.IO;
+using Server.Companions.Core;
 
 namespace Server.Mobiles
 {
@@ -8435,6 +8436,15 @@ public virtual int BreathComputeDamage()
 		{
 			if ( m_Paragon && Paragon.CheckArtifactChance( mob, this ) )
 				Paragon.GiveArtifactTo( mob );
+			
+			if (mob == null || Fame <= 0)
+		        return;		
+
+		    // Players never grant XP
+		    if (mob is PlayerMobile == false)
+		        return;		
+
+		    CompanionExperienceHelper.TryGrantCompanionXP(mob, Fame);
 		}
 
 		public override void OnDeath( Container c )
