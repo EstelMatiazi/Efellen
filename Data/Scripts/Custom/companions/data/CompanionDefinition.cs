@@ -68,7 +68,7 @@ namespace Server.Companions.Data
             wizard.Class = CompanionClass.Wizard;
             wizard.BaseStr = 30; wizard.BaseDex = 40; wizard.BaseInt = 80;
             wizard.StrPerLevel = 5; wizard.DexPerLevel = 5; wizard.IntPerLevel = 25;
-            wizard.HpCap = 600;
+            wizard.HpCap = 400;
             wizard.BaseDamageMin = 2; wizard.BaseDamageMax = 7; wizard.DamageLevelsPerPoint = 4;
             wizard.GoodResists.Add(ResistanceType.Energy);
             wizard.MediumResists.Add(ResistanceType.Fire);
@@ -97,7 +97,6 @@ namespace Server.Companions.Data
             fighter.PoorResists.Add(ResistanceType.Poison);
             fighter.FastSkills.Add(SkillName.Swords);
             fighter.FastSkills.Add(SkillName.Bludgeoning);
-            fighter.FastSkills.Add(SkillName.Fencing);
             fighter.FastSkills.Add(SkillName.Tactics);
             fighter.FastSkills.Add(SkillName.Parry);
             fighter.MediumSkills.Add(SkillName.MagicResist);
@@ -121,7 +120,7 @@ namespace Server.Companions.Data
             druid.FastSkills.Add(SkillName.Spiritualism);
             druid.FastSkills.Add(SkillName.Magery);
             druid.MediumSkills.Add(SkillName.Meditation);
-            druid.MediumSkills.Add(SkillName.MagicResist);
+            druid.MediumSkills.Add(SkillName.Healing);
             druid.MediumSkills.Add(SkillName.Bludgeoning);
             druid.MediumSkills.Add(SkillName.Swords);
             druid.MediumSkills.Add(SkillName.Tactics);
@@ -133,7 +132,7 @@ namespace Server.Companions.Data
             rogue.Class = CompanionClass.Rogue;
             rogue.BaseStr = 40; rogue.BaseDex = 60; rogue.BaseInt = 50;
             rogue.StrPerLevel = 10; rogue.DexPerLevel = 15; rogue.IntPerLevel = 10;
-            rogue.HpCap = 750;
+            rogue.HpCap = 600;
             rogue.BaseDamageMin = 3; rogue.BaseDamageMax = 8; rogue.DamageLevelsPerPoint = 3;
             rogue.GoodResists.Add(ResistanceType.Fire);
             rogue.MediumResists.Add(ResistanceType.Physical);
@@ -155,7 +154,7 @@ namespace Server.Companions.Data
             monk.Class = CompanionClass.Monk;
             monk.BaseStr = 50; monk.BaseDex = 50; monk.BaseInt = 50;
             monk.StrPerLevel = 10; monk.DexPerLevel = 15; monk.IntPerLevel = 10;
-            monk.HpCap = 750;
+            monk.HpCap = 800;
             monk.BaseDamageMin = 3; monk.BaseDamageMax = 8; monk.DamageLevelsPerPoint = 3;
             monk.MediumResists.Add(ResistanceType.Energy);
             monk.MediumResists.Add(ResistanceType.Poison);
@@ -175,7 +174,7 @@ namespace Server.Companions.Data
             barbarian.Class = CompanionClass.Barbarian;
             barbarian.BaseStr = 80; barbarian.BaseDex = 50; barbarian.BaseInt = 10;
             barbarian.StrPerLevel = 20; barbarian.DexPerLevel = 10; barbarian.IntPerLevel = 5;
-            barbarian.HpCap = 1100;
+            barbarian.HpCap = 1200;
             barbarian.BaseDamageMin = 4; barbarian.BaseDamageMax = 9; barbarian.DamageLevelsPerPoint = 2;
             barbarian.GoodResists.Add(ResistanceType.Physical);
             barbarian.MediumResists.Add(ResistanceType.Fire);
@@ -194,7 +193,7 @@ namespace Server.Companions.Data
             ranger.Class = CompanionClass.Ranger;
             ranger.BaseStr = 50; ranger.BaseDex = 70; ranger.BaseInt = 30;
             ranger.StrPerLevel = 10; ranger.DexPerLevel = 15; ranger.IntPerLevel = 10;
-            ranger.HpCap = 900;
+            ranger.HpCap = 800;
             ranger.BaseDamageMin = 4; ranger.BaseDamageMax = 9; ranger.DamageLevelsPerPoint = 2;
             ranger.GoodResists.Add(ResistanceType.Cold);
             ranger.GoodResists.Add(ResistanceType.Fire);
@@ -258,7 +257,7 @@ namespace Server.Companions.Data
             sorcerer.Class = CompanionClass.Sorcerer;
             sorcerer.BaseStr = 35; sorcerer.BaseDex = 45; sorcerer.BaseInt = 70;
             sorcerer.StrPerLevel = 5; sorcerer.DexPerLevel = 10; sorcerer.IntPerLevel = 20;
-            sorcerer.HpCap = 600;
+            sorcerer.HpCap = 400;
             sorcerer.BaseDamageMin = 2; sorcerer.BaseDamageMax = 7; sorcerer.DamageLevelsPerPoint = 4;
             sorcerer.GoodResists.Add(ResistanceType.Energy);
             sorcerer.MediumResists.Add(ResistanceType.Fire);
@@ -278,7 +277,7 @@ namespace Server.Companions.Data
             bard.Class = CompanionClass.Bard;
             bard.BaseStr = 40; bard.BaseDex = 60; bard.BaseInt = 50;
             bard.StrPerLevel = 10; bard.DexPerLevel = 10; bard.IntPerLevel = 15;
-            bard.HpCap = 700;
+            bard.HpCap = 600;
             bard.BaseDamageMin = 3; bard.BaseDamageMax = 8; bard.DamageLevelsPerPoint = 3;
             bard.MediumResists.Add(ResistanceType.Fire);
             bard.MediumResists.Add(ResistanceType.Cold);
