@@ -236,7 +236,7 @@ namespace Server.Companions.Core
                 return false;
             }
 
-            if (m_CompanionClass == 0)
+            if (m_CompanionClass < 0)
             {
                 from.SendMessage("This contract has no companion data.");
                 return false;

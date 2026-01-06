@@ -414,7 +414,6 @@ namespace Server.Companions.Core
                 SetResistance(type, value);
             }
         }
-
         private void OnLevelChanged()
         {
             InvalidateProperties();

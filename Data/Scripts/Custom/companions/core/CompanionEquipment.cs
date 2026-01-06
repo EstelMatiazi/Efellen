@@ -17,10 +17,11 @@ namespace Server.Companions.Core
             RemoveExistingEquipment(mob);
 
             ApplyArmor(mob, c);
-            ApplyWeapon(mob, c);
+            ApplyWeapon(mob, c, c.CompanionClass,mob.Level / 4 );
+            ApplyHelmet(mob, c, c.CompanionClass,mob.Level / 4 );
             ApplyShield(mob, c, c.CompanionClass,mob.Level / 4 );
-            ApplyCloak(mob, c);
-            ApplyBoots(mob);
+            ApplyFinishingGear(mob,c,mob.Level / 4 );
+            ApplyBoots(mob,c,mob.Level / 4 );
 
             if (c.CompanionGearTier >= 4)
                 ApplyAlignmentEffects(mob, c);
@@ -136,19 +137,75 @@ namespace Server.Companions.Core
             typeof(ScalyArms),typeof(ScalyChest),typeof(ScalyGloves),typeof(ScalyGorget),typeof(ScalyLegs)
         };
         #endregion
-        #region helmets and shields
-        private static readonly Type[] Helmets =
+        #region helmets, clothes and shields
+        private static readonly Type[] Boots = new Type[]
         {
-            typeof(Bascinet), typeof(CloseHelm), typeof(DreadHelm),
-            typeof(Helmet), typeof(NorseHelm),
-            typeof(PlateHelm), typeof(RoyalHelm),
-            typeof(ScalyHelm), typeof(ScaledHelm),
-            typeof(BearCap), typeof(DeerCap),
-            typeof(StagCap), typeof(WolfCap),
-            typeof(OniwabanHood), typeof(OrcHelm),
-            typeof(SavageHelm),typeof(DragonHelm),
-            typeof(DrakboneHelm)
+            typeof(LeatherBoots),
+            typeof(LeatherThighBoots),
+            typeof(LeatherSoftBoots),
+            typeof(BarbarianBoots),
+            typeof(ElvenBoots),
+            typeof(Sandals),
+            typeof(Boots),
+            typeof(Shoes),
+            typeof(ThighBoots)
         };
+
+        private static readonly Type[] LowTierCasterRobes = new Type[]
+        {
+            typeof(DragonRobe),
+            typeof(FancyRobe),
+            typeof(CultistRobe),
+            typeof(OrnateRobe),
+            typeof(MagistrateRobe),
+            typeof(RoyalRobe),
+            typeof(SorcererRobe),
+            typeof(ScholarRobe),
+            typeof(ExquisiteRobe),
+            typeof(ProphetRobe),
+            typeof(FormalRobe)
+        };
+
+
+
+
+        private static readonly Type[] WizardHats = new Type[]
+        {
+            typeof(ClothHood),
+            typeof(HoodedMantle),
+            typeof(ClothCowl),
+            typeof(WitchHat),
+            typeof(FloppyHat),
+            typeof(WideBrimHat),
+            typeof(StrawHat),
+            typeof(WizardsHat),
+            typeof(JewelryCirclet)
+        };
+
+        private static readonly Type[] DruidHelms = new Type[]
+        {
+            typeof(HornedTribalMask),
+            typeof(BearCap),
+            typeof(DeerCap),
+            typeof(WolfCap),
+            typeof(StagCap)
+        };
+
+        private static readonly Type[] LightHeadwear = new Type[]
+        {
+            typeof(ClothNinjaHood),
+            typeof(SkullCap),
+            typeof(Bandana)
+        };
+
+        private static readonly Type[] RogueFancyHats = new Type[]
+        {
+            typeof(Bonnet),
+            typeof(FeatheredHat),
+            typeof(TricorneHat),
+            typeof(PirateHat)
+        };
+
 
         private static readonly Type[] Shields =
         {
@@ -162,7 +219,71 @@ namespace Server.Companions.Core
             typeof(SunShield), typeof(DarkShield)
         };
         #endregion
+        #region weapons
+        #endregion
+        private static readonly Type[] OneHandSwordWeapons = new Type[]
+        {
+            typeof(BoneHarvester),
+            typeof(Broadsword),
+            typeof(Cutlass),
+            typeof(ElvenMachete),
+            typeof(ElvenSpellblade),
+            typeof(Longsword),
+            typeof(RadiantScimitar),
+            typeof(RoyalSword),
+            typeof(Scimitar),
+            typeof(ShortSword),
+            typeof(ThinLongsword),
+            typeof(VikingSword),
+            typeof(Leafblade),
+            typeof(WarAxe),
+            typeof(OrnateAxe)
+        };
+        private static readonly Type[] TwoHandSwordWeapons = new Type[]
+        {
+            typeof(Claymore),
+            typeof(Bardiche),
+            typeof(Scythe),
+            typeof(NoDachi),
+            typeof(TwoHandedAxe),
+            typeof(LargeBattleAxe),
+            typeof(Hatchet),
+            typeof(ExecutionersAxe),
+            typeof(DoubleAxe),
+            typeof(BattleAxe),
+            typeof(Axe)
+        };
 
+        private static readonly Type[] OneHandBluntWeapons = new Type[]
+        {
+            typeof(DiamondMace),
+            typeof(HammerPick),
+            typeof(Mace),
+            typeof(Maul),
+            typeof(Scepter),
+            typeof(SpikedClub),
+            typeof(WarMace),
+            typeof(Whips),
+            typeof(Club)
+        };
+
+        private static readonly Type[] FencingWeapons = new Type[]
+        {
+            typeof(Kryss),
+            typeof(Sai),
+            typeof(AssassinSpike),
+            typeof(Dagger)
+        };
+
+        private static readonly Type[] WizardWeapons = new Type[]
+        {
+            typeof(BlackStaff),
+            typeof(GlacialStaff),
+            typeof(GnarledStaff),
+            typeof(QuarterStaff),
+            typeof(WildStaff),
+            typeof(Scepter)
+        };
         #region hues
         private static readonly int[] LawfulGoodHues =
         {
@@ -248,11 +369,6 @@ namespace Server.Companions.Core
         };
         #endregion
 
-
-
-        /* =========================================================
-         * ARMOR APPLICATION
-         * ========================================================= */
         #region core equipment application
         private static void ApplyArmor(CompanionMobile mob, CompanionContract c)
         {
@@ -263,7 +379,7 @@ namespace Server.Companions.Core
             switch (c.CompanionClass)
             {
                 case CompanionClass.Monk:
-                case CompanionClass.Mage:
+                case CompanionClass.Wizard:
                 case CompanionClass.Sorcerer:
                     return;
             }
@@ -275,15 +391,10 @@ namespace Server.Companions.Core
                 return;
             
             CompanionAlignment alignment = mob.Alignment;
-            bool chaotic = alignment.GetIsChaotic();
-            int uniformHue = chaotic ? 0 : GetUniformHue(alignment);
+            int uniformHue = GetUniformHue(alignment);
             for (int i = 0; i < armorSet.Length; i++)
             {
-                int hue = chaotic
-                    ? GetRandomPieceHue(alignment)
-                    : uniformHue;
-
-                AddArmor(armorSet[i], mob, hue);
+                AddArmor(armorSet[i], mob, uniformHue);
             }
         }
 
@@ -296,7 +407,7 @@ namespace Server.Companions.Core
             switch (c.CompanionClass)
             {
                 case CompanionClass.Fighter:
-                    if (tier == 1) return ChainArmor;
+                    if (tier <= 1) return ChainArmor;
                     if (tier == 2) return RingmailArmor;
                     if (tier == 3) 
                     {
@@ -330,13 +441,13 @@ namespace Server.Companions.Core
                     return evil ? BoneArmor : DragonArmor; 
 
                 case CompanionClass.Barbarian:
-                    if (tier == 1) return null;
+                    if (tier <= 1) return null;
                     if (tier == 2) return LeatherArmor;
                     if (tier <= 4) return StuddedArmor;
                     return evil ? BoneArmor : ScalyArmor;
 
                 case CompanionClass.Paladin:
-                    if (tier == 1) return ChainArmor;
+                    if (tier <= 1) return ChainArmor;
                     if (tier == 2) return RingmailArmor;
                     if (tier == 3) return PlateArmor;
                     if (tier == 4) return Utility.RandomBool() ? PlateArmor : RoyalArmor;
@@ -348,7 +459,7 @@ namespace Server.Companions.Core
                     return evil ? DrakboneArmor : ScalyArmor;
 
                 case CompanionClass.Ranger:
-                    if (tier == 1) return LeatherArmor;
+                    if (tier <= 1) return LeatherArmor;
                     if (tier <= 3) return Utility.RandomBool() ? LeatherNinjaArmor : SavageArmor;
                     return RangerArmor;
 
@@ -370,28 +481,106 @@ namespace Server.Companions.Core
             return null;
         }
 
-        /* =========================================================
-         * WEAPONS / SHIELDS
-         * ========================================================= */
-
-        private static void ApplyWeapon(CompanionMobile mob, CompanionContract c)
+        private static void ApplyWeapon(CompanionMobile mob,CompanionContract c,CompanionClass cClass,int tier)
         {
-            if (c.CompanionWeaponID <= 0)
+            if (mob == null || mob.Deleted)
                 return;
 
-            Item weapon;
+            // monks do not use weapons
+            if (cClass == CompanionClass.Monk)
+                return;
 
-            switch (c.CompanionWeaponType)
+            CompanionAlignment alignment = mob.Alignment;
+
+            int hue = GetUniformHue(alignment);
+
+            switch (cClass)
             {
-                case 2: weapon = new GnarledStaff(); break;
-                case 3: weapon = new Bow(); break;
-                default: weapon = new Longsword(); break;
-            }
+                case CompanionClass.Wizard:
+                case CompanionClass.Sorcerer:
+                    AddWeapon(GetRandomWeapon(WizardWeapons), mob, hue);
+                    break;
 
-            weapon.ItemID = c.CompanionWeaponID;
-            weapon.Movable = false;
-            weapon.LootType = LootType.Blessed;
-            mob.AddItem(weapon);
+                case CompanionClass.Druid:
+                    ApplyDruidWeapon(mob, tier, hue);
+                    break;
+
+                case CompanionClass.Cleric:
+                    AddWeapon(GetRandomWeapon(OneHandBluntWeapons), mob, hue);
+                    break;
+
+                case CompanionClass.Barbarian:
+                    AddWeapon(GetRandomWeapon(TwoHandSwordWeapons), mob, hue);
+                    break;
+
+                case CompanionClass.Ranger:
+                    ApplyRangerWeapon(mob, tier, hue);
+                    break;
+
+                case CompanionClass.Fighter:
+                    ApplyFighterWeapon(mob, hue);
+                    break;
+
+                case CompanionClass.Paladin:
+                    ApplyPaladinWeapon(mob, tier, hue);
+                    break;
+
+                case CompanionClass.Bard:
+                    ApplyBardWeapon(mob, tier, hue);
+                    break;
+
+                case CompanionClass.Rogue:
+                    AddWeapon(GetRandomWeapon(FencingWeapons), mob, hue);
+                    break;
+            }
+        }
+
+        private static void ApplyHelmet(CompanionMobile mob,CompanionContract c,CompanionClass cClass,int tier)
+        {
+            if (mob == null || mob.Deleted)
+                return;
+
+            CompanionAlignment alignment = mob.Alignment;
+
+            int hue = GetUniformHue(alignment);
+
+            switch (cClass)
+            {
+                case CompanionClass.Wizard:
+                    ApplyWizardHelmet(mob, tier, alignment, hue);
+                    break;
+
+                case CompanionClass.Druid:
+                    AddHelmet(GetRandomType(DruidHelms), mob, hue);
+                    break;
+
+                case CompanionClass.Monk:
+                case CompanionClass.Rogue:
+                case CompanionClass.Ranger:
+                    AddHelmet(GetRandomType(LightHeadwear), mob, hue);
+                    break;
+
+                case CompanionClass.Bard:
+                case CompanionClass.Sorcerer:
+                    AddHelmet(GetRandomType(RogueFancyHats), mob, hue);
+                    break;
+
+                case CompanionClass.Paladin:
+                    ApplyPaladinHelmet(mob, tier, hue);
+                    break;
+
+                case CompanionClass.Fighter:
+                    ApplyFighterHelmet(mob, tier, alignment, hue);
+                    break;
+
+                case CompanionClass.Barbarian:
+                    ApplyBarbarianHelmet(mob, tier, alignment, hue);
+                    break;
+
+                case CompanionClass.Cleric:
+                    ApplyClericHelmet(mob, tier, hue);
+                    break;
+            }
         }
 
         private static void AddShield(Type shieldType, Mobile mob, int hue)
@@ -410,6 +599,116 @@ namespace Server.Companions.Core
             mob.AddItem(shield);
         }
 
+        private static void AddClothing(Type type, Mobile mob, int hue)
+        {
+            if (type == null || mob == null)
+                return;
+
+            Item item = Activator.CreateInstance(type) as Item;
+            if (item == null)
+                return;
+
+            item.Hue = hue;
+            item.Movable = false;
+            item.LootType = LootType.Blessed;
+
+            mob.AddItem(item);
+        }
+
+        private static void ApplyFinishingGear(CompanionMobile mob,CompanionContract c,int tier)
+        {
+            CompanionAlignment alignment = mob.Alignment;
+            int hue = GetUniformHue(alignment);
+
+            switch (c.CompanionClass)
+            {
+                case CompanionClass.Barbarian:
+                    AddClothing(typeof(LoinCloth), mob, hue);
+                    if (tier >= 3)
+                        AddClothing(typeof(RoyalLoinCloth), mob, hue);
+                    break;
+
+                case CompanionClass.Bard:
+                    if (tier >= 2)
+                    {
+                        AddClothing(typeof(PirateCoat), mob, hue);
+                        AddClothing(typeof(BodySash), mob, hue);
+                        AddClothing(typeof(Cloak), mob, hue);
+                    }
+                    if (tier >= 4)
+                        AddClothing(typeof(RoyalCape), mob, hue);
+                    break;
+
+                case CompanionClass.Cleric:
+                    if (tier >= 3)
+                    {
+                        if (alignment.GetIsEvil())
+                            AddClothing(typeof(ChaosRobe), mob, hue);
+                        else
+                            AddClothing(typeof(GildedLightRobe), mob, hue);
+                    }
+                    break;
+
+                case CompanionClass.Druid:
+                    if (tier == 3)
+                        AddClothing(typeof(VagabondRobe), mob, hue);
+                    else if (tier >= 4)
+                        AddClothing(typeof(SpiderRobe), mob, hue);
+                    break;
+
+                case CompanionClass.Fighter:
+                    AddClothing(typeof(Cloak), mob, hue);
+                    break;
+
+                case CompanionClass.Monk:
+                    if (tier <= 1)
+                        AddClothing(typeof(ScholarRobe), mob, hue);
+                    else if (tier == 2)
+                        AddClothing(typeof(SageRobe), mob, hue);
+                    else if (tier == 3)
+                        AddClothing(typeof(MagistrateRobe), mob, hue);
+                    else
+                        AddClothing(typeof(ProphetRobe), mob, hue);
+                    break;
+
+                case CompanionClass.Paladin:
+                    if (tier >= 4)
+                        AddClothing(typeof(RoyalCape), mob, hue);
+                    break;
+
+                case CompanionClass.Ranger:
+                    AddClothing(typeof(Cloak), mob, hue);
+                    break;
+
+                case CompanionClass.Rogue:
+                    if (tier >= 3)
+                        AddClothing(typeof(AssassinRobe), mob, hue);
+                    else if (tier >= 2)
+                        AddClothing(typeof(PirateCoat), mob, hue);
+                    break;
+
+                case CompanionClass.Sorcerer:
+                case CompanionClass.Wizard:
+                    ApplyCasterRobe(mob, tier, alignment, hue);
+                    break;
+            }
+        }
+
+        private static void ApplyCasterRobe(Mobile mob,int tier,CompanionAlignment alignment,int hue)
+        {
+            if (tier < 4)
+            {
+                AddClothing(GetRandomType(LowTierCasterRobes), mob, hue);
+            }
+            else
+            {
+                if (alignment.GetIsEvil())
+                    AddClothing(typeof(GildedDarkRobe), mob, hue);
+                else
+                    AddClothing(typeof(ArchmageRobe), mob, hue);
+            }
+        }
+
         private static void ApplyShield(CompanionMobile mob,CompanionContract c,CompanionClass cClass,int tier)
         {
             if (mob == null || mob.Deleted)
@@ -417,9 +716,7 @@ namespace Server.Companions.Core
 
             CompanionAlignment alignment = mob.Alignment;
 
-            int hue = alignment.GetIsChaotic()
-                ? GetRandomPieceHue(alignment)
-                : GetUniformHue(alignment);
+            int hue = GetUniformHue(alignment);
 
             switch (cClass)
             {
@@ -473,7 +770,7 @@ namespace Server.Companions.Core
         {
             Type shield;
 
-            if (tier == 1)
+            if (tier <= 1)
                 shield = typeof(BronzeShield);
             else if (tier == 2)
                 shield = typeof(HeaterShield);
@@ -503,7 +800,7 @@ namespace Server.Companions.Core
         {
             Type shield;
 
-            if (tier == 1)
+            if (tier <= 1)
                 shield = typeof(BronzeShield);
             else if (tier == 2)
                 shield = typeof(HeaterShield);
@@ -514,6 +811,183 @@ namespace Server.Companions.Core
 
             AddShield(shield, mob, hue);
         }
+
+        private static void ApplyDruidWeapon(Mobile mob, int tier, int hue)
+        {
+            Type weapon;
+
+            if (tier >= 4)
+                weapon = typeof(ElvenSpellblade);
+            else
+            {
+                Type[] druidWeapons = new Type[]
+                {
+                    typeof(Scimitar),
+                    typeof(Whips),
+                    typeof(Club),
+                    typeof(SpikedClub),
+                    typeof(Scepter),
+                    typeof(BoneHarvester)
+                };
+
+                weapon = GetRandomWeapon(druidWeapons);
+            }
+
+            AddWeapon(weapon, mob, hue);
+        }
+        private static void ApplyRangerWeapon(Mobile mob, int tier, int hue)
+        {
+            Type weapon;
+
+            if (tier <= 1)
+                weapon = typeof(Bow);
+            else if (tier == 2)
+                weapon = typeof(CompositeBow);
+            else if (tier == 3)
+                weapon = typeof(ElvenCompositeLongbow);
+            else
+                weapon = typeof(MagicalShortbow);
+
+            AddWeapon(weapon, mob, hue);
+        }
+        private static void ApplyFighterWeapon(Mobile mob, int hue)
+        {
+            Type[] pool = Utility.RandomBool()
+                ? OneHandSwordWeapons
+                : OneHandBluntWeapons;
+
+            AddWeapon(GetRandomWeapon(pool), mob, hue);
+        }
+        private static void ApplyPaladinWeapon(Mobile mob, int tier, int hue)
+        {
+            Type weapon = tier >= 4
+                ? typeof(RoyalSword)
+                : GetRandomWeapon(OneHandSwordWeapons);
+
+            AddWeapon(weapon, mob, hue);
+        }
+
+        private static void ApplyBardWeapon(Mobile mob, int tier, int hue)
+        {
+            Type weapon;        
+
+            if (tier <= 1)
+                weapon = typeof(ShortSword);
+            else if (tier == 2)
+                weapon = typeof(ThinLongsword);
+            else if (tier == 3)
+                weapon = typeof(Leafblade);
+            else
+                weapon = typeof(ElvenMachete);      
+
+            AddWeapon(weapon, mob, hue);
+        }
+
+        private static void ApplyWizardHelmet(Mobile mob,int tier,CompanionAlignment alignment,int hue)
+        {
+            Type helm;
+
+            if (tier >= 4)
+            {
+                if (alignment.GetIsEvil())
+                    helm = typeof(DeadMask);
+                else
+                    helm = typeof(WizardHood);
+            }
+            else
+            {
+                helm = GetRandomType(WizardHats);
+            }
+
+            AddHelmet(helm, mob, hue);
+        }
+
+        private static void ApplyPaladinHelmet(Mobile mob, int tier, int hue)
+        {
+            Type helm;
+
+            if (tier <= 2)
+                helm = typeof(Helmet);
+            else if (tier == 3)
+                helm = typeof(ScaledHelm);
+            else
+                helm = typeof(RoyalHelm);
+
+            AddHelmet(helm, mob, hue);
+        }
+        private static void ApplyFighterHelmet(Mobile mob,int tier,CompanionAlignment alignment,int hue)
+        {
+            Type helm;
+
+            if (tier <= 1)
+                helm = Utility.RandomBool() ? typeof(ClothHood) : typeof(Helmet);
+            else if (tier == 2)
+                helm = Utility.RandomBool() ? typeof(Helmet) : typeof(NorseHelm);
+            else if (tier == 3)
+                helm = Utility.RandomBool() ? typeof(NorseHelm) : typeof(Bascinet);
+            else
+            {
+                if (alignment.GetIsEvil())
+                    helm = Utility.RandomBool() ? typeof(DreadHelm) : typeof(DrakboneHelm);
+                else
+                    helm = typeof(ScaledHelm);
+            }
+
+            AddHelmet(helm, mob, hue);
+        }
+        private static void ApplyBarbarianHelmet(Mobile mob,int tier,CompanionAlignment alignment,int hue)
+        {
+            Type helm = null;
+
+            if (tier == 2)
+            {
+                Type[] options = new Type[]
+                {
+                    typeof(BearCap),
+                    typeof(DeerCap),
+                    typeof(WolfCap),
+                    typeof(StagCap),
+                    typeof(NorseHelm)
+                };
+                helm = GetRandomType(options);
+            }
+            else if (tier == 3)
+                helm = typeof(NorseHelm);
+            else if (tier >= 4)
+            {
+                if (alignment.GetIsEvil())
+                    helm = Utility.RandomBool() ? typeof(DreadHelm) : typeof(DrakboneHelm);
+                else
+                    helm = typeof(ScaledHelm);
+            }
+
+            AddHelmet(helm, mob, hue);
+        }
+        private static void ApplyClericHelmet(Mobile mob, int tier, int hue)
+        {
+            Type helm;
+
+            if (tier <= 1)
+            {
+                Type[] options = new Type[]
+                {
+                    typeof(ClothHood),
+                    typeof(HoodedMantle),
+                    typeof(ClothCowl),
+                    typeof(Helmet)
+                };
+                helm = GetRandomType(options);
+            }
+            else if (tier == 2)
+                helm = typeof(Helmet);
+            else if (tier == 3)
+                helm = Utility.RandomBool() ? typeof(Bascinet) : typeof(CloseHelm);
+            else
+                helm = typeof(JewelryCirclet);
+
+            AddHelmet(helm, mob, hue);
+        }
+
         private static void ApplyCloak(CompanionMobile mob, CompanionContract c)
         {
             if (c.CompanionCloak != 1)
@@ -526,17 +1000,68 @@ namespace Server.Companions.Core
             mob.AddItem(cloak);
         }
 
-        private static void ApplyBoots(Mobile mob)
+        private static void ApplyBoots(CompanionMobile mob, CompanionContract c, int tier)
         {
-            Boots boots = new Boots();
-            boots.Hue = 0x967;
-            boots.Movable = false;
-            boots.LootType = LootType.Blessed;
-            mob.AddItem(boots);
+            if (mob == null || mob.Deleted)
+                return;
+
+            CompanionAlignment alignment = mob.Alignment;
+            int hue = GetUniformHue(alignment);
+
+            // Paladin exception
+            if (c.CompanionClass == CompanionClass.Paladin && tier >= 4)
+            {
+                AddClothing(typeof(RoyalBoots), mob, hue);
+                return;
+            }
+
+            AddClothing(GetRandomType(Boots), mob, hue);
         }
+
         #endregion
 
         #region helpers
+        private static Type GetRandomWeapon(Type[] list)
+        {
+            if (list == null || list.Length == 0)
+                return null;
+
+            return list[Utility.Random(list.Length)];
+        }
+
+        private static void AddWeapon(Type weaponType, Mobile mob, int hue)
+        {
+            if (weaponType == null || mob == null)
+                return;
+
+            BaseWeapon weapon = Activator.CreateInstance(weaponType) as BaseWeapon;
+            if (weapon == null)
+                return;
+
+            weapon.Hue = hue;
+            weapon.Movable = false;
+            weapon.LootType = LootType.Blessed;
+
+            mob.AddItem(weapon);
+        }
+
+        private static void AddHelmet(Type helmType, Mobile mob, int hue)
+        {
+            if (helmType == null || mob == null)
+                return;
+
+            Item helm = Activator.CreateInstance(helmType) as Item;
+            if (helm == null)
+                return;
+
+            helm.Hue = hue;
+            helm.Movable = false;
+            helm.LootType = LootType.Blessed;
+
+            mob.AddItem(helm);
+        }
+
+        
 
 
         private static void AddArmor(Type type, Mobile mob, int hue)
@@ -732,12 +1257,6 @@ namespace Server.Companions.Core
             return hues[Utility.Random(hues.Length)];
         }
 
-        private static int GetRandomPieceHue(CompanionAlignment a)
-        {
-            int[] hues = GetHuePool(a);
-            return hues[Utility.Random(hues.Length)];
-        }
-
         private static Type GetRandomType(Type[] types)
         {
             if (types == null || types.Length == 0)
@@ -745,7 +1264,6 @@ namespace Server.Companions.Core
 
             return types[Utility.Random(types.Length)];
         }
-
 
         private static void ApplyNeutralEffects(CompanionMobile mob)
         {
