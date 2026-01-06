@@ -64,25 +64,25 @@ namespace Server.Companions.Data
         {
             m_Definitions = new Dictionary<CompanionClass, CompanionDefinition>();
 
-            CompanionDefinition mage = new CompanionDefinition();
-            mage.Class = CompanionClass.Mage;
-            mage.BaseStr = 30; mage.BaseDex = 40; mage.BaseInt = 80;
-            mage.StrPerLevel = 5; mage.DexPerLevel = 5; mage.IntPerLevel = 25;
-            mage.HpCap = 600;
-            mage.BaseDamageMin = 2; mage.BaseDamageMax = 7; mage.DamageLevelsPerPoint = 4;
-            mage.GoodResists.Add(ResistanceType.Energy);
-            mage.MediumResists.Add(ResistanceType.Fire);
-            mage.MediumResists.Add(ResistanceType.Cold);
-            mage.PoorResists.Add(ResistanceType.Poison);
-            mage.PoorResists.Add(ResistanceType.Physical);
-            mage.FastSkills.Add(SkillName.Magery);
-            mage.FastSkills.Add(SkillName.Psychology);
-            mage.FastSkills.Add(SkillName.Meditation);
-            mage.MediumSkills.Add(SkillName.MagicResist);
-            mage.MediumSkills.Add(SkillName.Inscribe);
-            mage.MediumSkills.Add(SkillName.Bludgeoning);
-            mage.AllowedAlignments.AddRange(GetAllAlignments());
-            m_Definitions[CompanionClass.Mage] = mage;
+            CompanionDefinition wizard = new CompanionDefinition();
+            wizard.Class = CompanionClass.Wizard;
+            wizard.BaseStr = 30; wizard.BaseDex = 40; wizard.BaseInt = 80;
+            wizard.StrPerLevel = 5; wizard.DexPerLevel = 5; wizard.IntPerLevel = 25;
+            wizard.HpCap = 600;
+            wizard.BaseDamageMin = 2; wizard.BaseDamageMax = 7; wizard.DamageLevelsPerPoint = 4;
+            wizard.GoodResists.Add(ResistanceType.Energy);
+            wizard.MediumResists.Add(ResistanceType.Fire);
+            wizard.MediumResists.Add(ResistanceType.Cold);
+            wizard.PoorResists.Add(ResistanceType.Poison);
+            wizard.PoorResists.Add(ResistanceType.Physical);
+            wizard.FastSkills.Add(SkillName.Magery);
+            wizard.FastSkills.Add(SkillName.Psychology);
+            wizard.FastSkills.Add(SkillName.Meditation);
+            wizard.MediumSkills.Add(SkillName.MagicResist);
+            wizard.MediumSkills.Add(SkillName.Inscribe);
+            wizard.MediumSkills.Add(SkillName.Bludgeoning);
+            wizard.AllowedAlignments.AddRange(GetAllAlignments());
+            m_Definitions[CompanionClass.Wizard] = wizard;
 
             CompanionDefinition fighter = new CompanionDefinition();
             fighter.Class = CompanionClass.Fighter;
@@ -123,7 +123,9 @@ namespace Server.Companions.Data
             druid.MediumSkills.Add(SkillName.Meditation);
             druid.MediumSkills.Add(SkillName.MagicResist);
             druid.MediumSkills.Add(SkillName.Bludgeoning);
+            druid.MediumSkills.Add(SkillName.Swords);
             druid.MediumSkills.Add(SkillName.Tactics);
+            druid.MediumSkills.Add(SkillName.Parry);
             druid.AllowedAlignments.AddRange(GetNeutralAlignments());
             m_Definitions[CompanionClass.Druid] = druid;
 

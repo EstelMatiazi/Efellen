@@ -4,7 +4,7 @@ namespace Server.Companions.Data
 {
     public enum CompanionClass
     {
-        Mage,
+        Wizard,
         Fighter,
         Druid,
         Rogue,

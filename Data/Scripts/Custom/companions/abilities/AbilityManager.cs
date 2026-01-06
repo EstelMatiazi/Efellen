@@ -25,8 +25,8 @@ namespace Server.Companions.Abilities
 
             switch (classType)
             {
-                case CompanionClass.Mage:
-                    // TODO: Add mage abilities
+                case CompanionClass.Wizard:
+                    // TODO: Add wizard abilities
                     break;
                 case CompanionClass.Fighter:
                     // TODO: Add fighter abilities

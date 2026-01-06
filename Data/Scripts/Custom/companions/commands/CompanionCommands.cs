@@ -27,7 +27,7 @@ namespace Server.Companions.Commands
             if (e.Length < 2)
             {
                 from.SendMessage("Usage: CreateCompanion <class> <alignment>");
-                from.SendMessage("Classes: Mage, Fighter, Druid, Rogue, Monk, Barbarian, Ranger, Paladin, Cleric, Sorcerer, Bard");
+                from.SendMessage("Classes: Wizard, Fighter, Druid, Rogue, Monk, Barbarian, Ranger, Paladin, Cleric, Sorcerer, Bard");
                 from.SendMessage("Alignments: LawfulGood, LawfulNeutral, LawfulEvil, NeutralGood, TrueNeutral, NeutralEvil, ChaoticGood, ChaoticNeutral, ChaoticEvil");
                 return;
             }
@@ -39,7 +39,7 @@ namespace Server.Companions.Commands
             }
             catch
             {
-                from.SendMessage("Invalid class. Valid classes are: Mage, Fighter, Druid, Rogue, Monk, Barbarian, Ranger, Paladin, Cleric, Sorcerer, Bard");
+                from.SendMessage("Invalid class. Valid classes are: Wizard, Fighter, Druid, Rogue, Monk, Barbarian, Ranger, Paladin, Cleric, Sorcerer, Bard");
                 return;
             }
 
