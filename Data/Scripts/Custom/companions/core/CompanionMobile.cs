@@ -145,6 +145,21 @@ namespace Server.Companions.Core
             m_Abilities.Initialize(m_Class);
         }
 
+        public override void OnThink()
+        {
+            base.OnThink();
+        
+            if (ContractSerial == Serial.MinusOne)
+                return;
+        
+            CompanionContract contract =
+                World.FindItem(ContractSerial) as CompanionContract;
+        
+            if (contract != null)
+                contract.Tick();
+        }
+
+
         public void UpdateFromContract()
         {
             UpdateAllStats();

@@ -506,7 +506,7 @@ namespace Server.Companions.Core
 
         public void Tick()
         {
-            if (m_IsPaused || !IsActive)
+            if (!IsActive)
                 return;
 
             if (CompanionTimerHelper.IsInSafeZone(m_Owner))
