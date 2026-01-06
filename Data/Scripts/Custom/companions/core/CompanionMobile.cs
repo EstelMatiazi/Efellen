@@ -486,70 +486,68 @@ namespace Server.Companions.Core
 
         private string GetPaymentAcceptedMessage(CompanionAlignment alignment)
         {
-            // Lawful
-            if (alignment.Order == OrderAxis.Lawful && alignment.Moral == MoralAxis.Good)
+            if (alignment.GetIsLawful()  && alignment.GetIsGood())
                 return "Thank you. A contract honored is a bond strengthened.";
 
-            if (alignment.Order == OrderAxis.Lawful && alignment.Moral == MoralAxis.Neutral)
-                return "Payment acknowledged. The terms are satisfied.";
+            if (alignment.GetIsLawful() && alignment.GetIsNeutral())
+                return "Payment acknowledged with gratitude.";
 
-            if (alignment.Order == OrderAxis.Lawful && alignment.Moral == MoralAxis.Evil)
+            if (alignment.GetIsLawful() && alignment.GetIsEvil())
                 return "Good. Order is maintained… for now.";
 
-            // Neutral
-            if (alignment.Order == OrderAxis.Neutral && alignment.Moral == MoralAxis.Good)
+            if (alignment.GetIsNeutral() && alignment.GetIsGood())
                 return "I appreciate it. Let’s keep going.";
 
-            if (alignment.Order == OrderAxis.Neutral && alignment.Moral == MoralAxis.Neutral)
-                return "Fair enough. Let’s continue.";
-
-            if (alignment.Order == OrderAxis.Neutral && alignment.Moral == MoralAxis.Evil)
+            if (alignment.GetIsNeutral() && alignment.GetIsEvil())
                 return "Hmph. You’ll do… for now.";
 
-            // Chaotic
-            if (alignment.Order == OrderAxis.Chaotic && alignment.Moral == MoralAxis.Good)
+            if (alignment.GetIsChaotic() && alignment.GetIsGood())
                 return "Nice! Let’s make this worth it!";
 
-            if (alignment.Order == OrderAxis.Chaotic && alignment.Moral == MoralAxis.Neutral)
+            if (alignment.GetIsChaotic() && alignment.GetIsNeutral())
                 return "Heh! That’ll keep me around!";
 
-            if (alignment.Order == OrderAxis.Chaotic && alignment.Moral == MoralAxis.Evil)
+            if (alignment.GetIsChaotic() && alignment.GetIsEvil())
                 return "Gold talks. You live… for now.";
+            
+            if (alignment.GetIsNeutral())
+                return "Fair enough. Let’s continue.";
 
             return "Payment received.";
         }
 
+
         private string GetPaymentRefusedMessage(CompanionAlignment alignment)
         {
             // Lawful
-            if (alignment.Order == OrderAxis.Lawful && alignment.Moral == MoralAxis.Good)
+            if (alignment.GetIsLawful()  && alignment.GetIsGood())
                 return "I cannot accept more than our agreement allows.";
 
-            if (alignment.Order == OrderAxis.Lawful && alignment.Moral == MoralAxis.Neutral)
+            if (alignment.GetIsLawful() && alignment.GetIsNeutral())
                 return "The contract is at its limit.";
 
-            if (alignment.Order == OrderAxis.Lawful && alignment.Moral == MoralAxis.Evil)
+            if (alignment.GetIsLawful() && alignment.GetIsEvil())
                 return "No excess. Waste nothing.";
 
             // Neutral
-            if (alignment.Order == OrderAxis.Neutral && alignment.Moral == MoralAxis.Good)
+            if (alignment.GetIsNeutral() && alignment.GetIsGood())
                 return "I’m set for now, but thank you.";
 
-            if (alignment.Order == OrderAxis.Neutral && alignment.Moral == MoralAxis.Neutral)
-                return "That’s enough for now.";
-
-            if (alignment.Order == OrderAxis.Neutral && alignment.Moral == MoralAxis.Evil)
+            if (alignment.GetIsNeutral() && alignment.GetIsEvil())
                 return "Keep it. I don’t need it… yet.";
 
             // Chaotic
-            if (alignment.Order == OrderAxis.Chaotic && alignment.Moral == MoralAxis.Good)
+            if (alignment.GetIsChaotic() && alignment.GetIsGood())
                 return "Whoa! I’m good for now!";
 
-            if (alignment.Order == OrderAxis.Chaotic && alignment.Moral == MoralAxis.Neutral)
+            if (alignment.GetIsChaotic() && alignment.GetIsNeutral())
                 return "Easy there! No more!";
 
-            if (alignment.Order == OrderAxis.Chaotic && alignment.Moral == MoralAxis.Evil)
+            if (alignment.GetIsChaotic() && alignment.GetIsEvil())
                 return "I don’t need charity.";
+
+            if (alignment.GetIsNeutral())
+                return "That’s enough for now.";
 
             return "I can’t take any more.";
         }
