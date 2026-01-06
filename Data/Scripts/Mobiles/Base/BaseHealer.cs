@@ -180,166 +180,224 @@ namespace Server.Mobiles
 			base.AddCustomContextEntries( from, list );
 		}
 
-        public void BeginHealing(Mobile from)
-        {
-            if ( Deleted || !from.Alive )
-                return;
+		public void BeginHealing(Mobile from)
+		{
+		    if (Deleted || !from.Alive)
+		        return;
 
-			SayTo(from, "Did one of your henchman suffer a deathly fate? I can resurrect them for you.");
+		    SayTo(from, "Did one of your comrades suffer a deathly fate? I can resurrect them for you.");
 
-            from.Target = new HealingTarget(this);
-        }
+		    from.Target = new HealingTarget(this);
+		}
 
         private class HealingTarget : Target
-        {
-            private BaseHealer m_BaseHealer;
+		{
+		    private BaseHealer m_BaseHealer;
 
-            public HealingTarget(BaseHealer mage) : base(12, false, TargetFlags.None)
-            {
-                m_BaseHealer = mage;
-            }
+		    public HealingTarget(BaseHealer mage) : base(12, false, TargetFlags.None)
+		    {
+		        m_BaseHealer = mage;
+		    }
 
-            protected override void OnTarget(Mobile from, object targeted)
-            {
-				int nCost = 0;
-                if (targeted is HenchmanFighterItem && from.Backpack != null)
-                {
-					Item hench = targeted as Item;
-					HenchmanFighterItem thing = (HenchmanFighterItem)hench;
+		    protected override void OnTarget(Mobile from, object targeted)
+		    {
+		        int nCost = 0;
 
-					nCost = thing.HenchDead;
-					if ( BeggingPose(from) > 0 ) // LET US SEE IF THEY ARE BEGGING
-					{
-						nCost = nCost - (int)( ( from.Skills[SkillName.Begging].Value * 0.005 ) * nCost );
-					}
+		        if (targeted is Server.Companions.Core.CompanionContract && from.Backpack != null)
+		        {
+		            Server.Companions.Core.CompanionContract contract = (Server.Companions.Core.CompanionContract)targeted;
 
-                    Container pack = from.Backpack;
-                    int toConsume = nCost;
+		            if (contract.Owner != from)
+		            {
+		                m_BaseHealer.SayTo(from, "That companion does not belong to you.");
+		                return;
+		            }
 
-                    if ( nCost < 1 )
-                    {
-                        m_BaseHealer.SayTo( from, "Your friend is not dead." );
-                    }
-                    else if (pack.ConsumeTotal(typeof(Gold), toConsume))
-                    {
-						thing.Name = "fighter henchman";
-						thing.HenchDead = 0;
-						thing.InvalidateProperties();
-                        from.SendMessage(String.Format("You pay {0} gold.", toConsume));
-						from.PlaySound( 0x214 );
-						m_BaseHealer.SayTo(from, "Your henchman is back in the land of the living.");
-                    }
-                    else
-                    {
-                        m_BaseHealer.SayTo(from, "It would cost you {0} gold to have them resurrected.", toConsume);
-                        from.SendMessage("You do not have enough gold.");
-                    }
-                }
-                else if (targeted is HenchmanWizardItem && from.Backpack != null)
-                {
-					Item hench = targeted as Item;
-					HenchmanWizardItem thing = (HenchmanWizardItem)hench;
+		            if (!contract.IsDead)
+		            {
+		                m_BaseHealer.SayTo(from, "Your companion is not dead.");
+		                return;
+		            }
 
-					nCost = thing.HenchDead;
-					if ( BeggingPose(from) > 0 ) // LET US SEE IF THEY ARE BEGGING
-					{
-						nCost = nCost - (int)( ( from.Skills[SkillName.Begging].Value * 0.005 ) * nCost );
-					}
+		            nCost = contract.GetResurrectionCost();
 
-                    Container pack = from.Backpack;
-                    int toConsume = nCost;
+		            if (BeggingPose(from) > 0)
+		            {
+		                nCost = nCost - (int)((from.Skills[SkillName.Begging].Value * 0.005) * nCost);
+		            }
 
-                    if ( nCost < 1 )
-                    {
-                        m_BaseHealer.SayTo( from, "Your friend is not dead." );
-                    }
-                    else if (pack.ConsumeTotal(typeof(Gold), toConsume))
-                    {
-						thing.Name = "wizard henchman";
-						thing.HenchDead = 0;
-						thing.InvalidateProperties();
-                        from.SendMessage(String.Format("You pay {0} gold.", toConsume));
-						from.PlaySound( 0x214 );
-						m_BaseHealer.SayTo(from, "Your henchman is back in the land of the living.");
-                    }
-                    else
-                    {
-                        m_BaseHealer.SayTo(from, "It would cost you {0} gold to have them resurrected.", toConsume);
-                        from.SendMessage("You do not have enough gold.");
-                    }
-                }
-                else if (targeted is HenchmanArcherItem && from.Backpack != null)
-                {
-					Item hench = targeted as Item;
-					HenchmanArcherItem thing = (HenchmanArcherItem)hench;
+		            Container pack = from.Backpack;
+		            Container bank = from.BankBox;
+		            int toConsume = nCost;
 
-					nCost = thing.HenchDead;
-					if ( BeggingPose(from) > 0 ) // LET US SEE IF THEY ARE BEGGING
-					{
-						nCost = nCost - (int)( ( from.Skills[SkillName.Begging].Value * 0.005 ) * nCost );
-					}
+		            if (nCost < 1)
+		            {
+		                m_BaseHealer.SayTo(from, "Your companion is not dead.");
+		            }
+		            else
+		            {
+		                bool paid = false;
+		                if (pack != null && pack.ConsumeTotal(typeof(Gold), toConsume))
+		                {
+		                    paid = true;
+		                }
+		                else if (bank != null && bank.ConsumeTotal(typeof(Gold), toConsume))
+		                {
+		                    paid = true;
+		                }
 
-                    Container pack = from.Backpack;
-                    int toConsume = nCost;
+		                if (paid)
+		                {
+		                    contract.Resurrect(m_BaseHealer);
+		                    from.SendMessage(String.Format("You pay {0} gold.", toConsume));
+		                    from.PlaySound(0x214);
+		                    m_BaseHealer.SayTo(from, "Your companion is back in the land of the living.");
+		                }
+		                else
+		                {
+		                    m_BaseHealer.SayTo(from, "It would cost you {0} gold to have them resurrected.", toConsume);
+		                    from.SendMessage("You do not have enough gold.");
+		                }
+		            }
+		        }
+		        else if (targeted is HenchmanFighterItem && from.Backpack != null)
+		        {
+		            Item hench = targeted as Item;
+		            HenchmanFighterItem thing = (HenchmanFighterItem)hench;
 
-                    if ( nCost < 1 )
-                    {
-                        m_BaseHealer.SayTo( from, "Your friend is not dead." );
-                    }
-                    else if (pack.ConsumeTotal(typeof(Gold), toConsume))
-                    {
-						thing.Name = "archer henchman";
-						thing.HenchDead = 0;
-						thing.InvalidateProperties();
-                        from.SendMessage(String.Format("You pay {0} gold.", toConsume));
-						from.PlaySound( 0x214 );
-						m_BaseHealer.SayTo(from, "Your henchman is back in the land of the living.");
-                    }
-                    else
-                    {
-                        m_BaseHealer.SayTo(from, "It would cost you {0} gold to have them resurrected.", toConsume);
-                        from.SendMessage("You do not have enough gold.");
-                    }
-                }
-                else if (targeted is HenchmanMonsterItem && from.Backpack != null)
-                {
-					Item hench = targeted as Item;
-					HenchmanMonsterItem thing = (HenchmanMonsterItem)hench;
+		            nCost = thing.HenchDead;
+		            if (BeggingPose(from) > 0)
+		            {
+		                nCost = nCost - (int)((from.Skills[SkillName.Begging].Value * 0.005) * nCost);
+		            }
 
-					nCost = thing.HenchDead;
-					if ( BeggingPose(from) > 0 ) // LET US SEE IF THEY ARE BEGGING
-					{
-						nCost = nCost - (int)( ( from.Skills[SkillName.Begging].Value * 0.005 ) * nCost );
-					}
+		            Container pack = from.Backpack;
+		            int toConsume = nCost;
 
-                    Container pack = from.Backpack;
-                    int toConsume = nCost;
+		            if (nCost < 1)
+		            {
+		                m_BaseHealer.SayTo(from, "Your friend is not dead.");
+		            }
+		            else if (pack.ConsumeTotal(typeof(Gold), toConsume))
+		            {
+		                thing.Name = "fighter henchman";
+		                thing.HenchDead = 0;
+		                thing.InvalidateProperties();
+		                from.SendMessage(String.Format("You pay {0} gold.", toConsume));
+		                from.PlaySound(0x214);
+		                m_BaseHealer.SayTo(from, "Your henchman is back in the land of the living.");
+		            }
+		            else
+		            {
+		                m_BaseHealer.SayTo(from, "It would cost you {0} gold to have them resurrected.", toConsume);
+		                from.SendMessage("You do not have enough gold.");
+		            }
+		        }
+		        else if (targeted is HenchmanWizardItem && from.Backpack != null)
+		        {
+		            Item hench = targeted as Item;
+		            HenchmanWizardItem thing = (HenchmanWizardItem)hench;
 
-                    if ( nCost < 1 )
-                    {
-                        m_BaseHealer.SayTo( from, "Your friend is not dead." );
-                    }
-                    else if (pack.ConsumeTotal(typeof(Gold), toConsume))
-                    {
-						thing.Name = "creature henchman";
-						thing.HenchDead = 0;
-						thing.InvalidateProperties();
-                        from.SendMessage(String.Format("You pay {0} gold.", toConsume));
-						from.PlaySound( 0x214 );
-						m_BaseHealer.SayTo(from, "Your henchman is back in the land of the living.");
-                    }
-                    else
-                    {
-                        m_BaseHealer.SayTo(from, "It would cost you {0} gold to have them resurrected.", toConsume);
-                        from.SendMessage("You do not have enough gold.");
-                    }
-                }
-				else
-				{
-					m_BaseHealer.SayTo(from, "That does not need my services.");
-				}
-            }
-        }
+		            nCost = thing.HenchDead;
+		            if (BeggingPose(from) > 0)
+		            {
+		                nCost = nCost - (int)((from.Skills[SkillName.Begging].Value * 0.005) * nCost);
+		            }
+
+		            Container pack = from.Backpack;
+		            int toConsume = nCost;
+
+		            if (nCost < 1)
+		            {
+		                m_BaseHealer.SayTo(from, "Your friend is not dead.");
+		            }
+		            else if (pack.ConsumeTotal(typeof(Gold), toConsume))
+		            {
+		                thing.Name = "wizard henchman";
+		                thing.HenchDead = 0;
+		                thing.InvalidateProperties();
+		                from.SendMessage(String.Format("You pay {0} gold.", toConsume));
+		                from.PlaySound(0x214);
+		                m_BaseHealer.SayTo(from, "Your henchman is back in the land of the living.");
+		            }
+		            else
+		            {
+		                m_BaseHealer.SayTo(from, "It would cost you {0} gold to have them resurrected.", toConsume);
+		                from.SendMessage("You do not have enough gold.");
+		            }
+		        }
+		        else if (targeted is HenchmanArcherItem && from.Backpack != null)
+		        {
+		            Item hench = targeted as Item;
+		            HenchmanArcherItem thing = (HenchmanArcherItem)hench;
+
+		            nCost = thing.HenchDead;
+		            if (BeggingPose(from) > 0)
+		            {
+		                nCost = nCost - (int)((from.Skills[SkillName.Begging].Value * 0.005) * nCost);
+		            }
+
+		            Container pack = from.Backpack;
+		            int toConsume = nCost;
+
+		            if (nCost < 1)
+		            {
+		                m_BaseHealer.SayTo(from, "Your friend is not dead.");
+		            }
+		            else if (pack.ConsumeTotal(typeof(Gold), toConsume))
+		            {
+		                thing.Name = "archer henchman";
+		                thing.HenchDead = 0;
+		                thing.InvalidateProperties();
+		                from.SendMessage(String.Format("You pay {0} gold.", toConsume));
+		                from.PlaySound(0x214);
+		                m_BaseHealer.SayTo(from, "Your henchman is back in the land of the living.");
+		            }
+		            else
+		            {
+		                m_BaseHealer.SayTo(from, "It would cost you {0} gold to have them resurrected.", toConsume);
+		                from.SendMessage("You do not have enough gold.");
+		            }
+		        }
+		        else if (targeted is HenchmanMonsterItem && from.Backpack != null)
+		        {
+		            Item hench = targeted as Item;
+		            HenchmanMonsterItem thing = (HenchmanMonsterItem)hench;
+
+		            nCost = thing.HenchDead;
+		            if (BeggingPose(from) > 0)
+		            {
+		                nCost = nCost - (int)((from.Skills[SkillName.Begging].Value * 0.005) * nCost);
+		            }
+
+		            Container pack = from.Backpack;
+		            int toConsume = nCost;
+
+		            if (nCost < 1)
+		            {
+		                m_BaseHealer.SayTo(from, "Your friend is not dead.");
+		            }
+		            else if (pack.ConsumeTotal(typeof(Gold), toConsume))
+		            {
+		                thing.Name = "creature henchman";
+		                thing.HenchDead = 0;
+		                thing.InvalidateProperties();
+		                from.SendMessage(String.Format("You pay {0} gold.", toConsume));
+		                from.PlaySound(0x214);
+		                m_BaseHealer.SayTo(from, "Your henchman is back in the land of the living.");
+		            }
+		            else
+		            {
+		                m_BaseHealer.SayTo(from, "It would cost you {0} gold to have them resurrected.", toConsume);
+		                from.SendMessage("You do not have enough gold.");
+		            }
+		        }
+		        else
+		        {
+		            m_BaseHealer.SayTo(from, "That does not need my services.");
+		        }
+		    }
+		}
 
 		public BaseHealer( Serial serial ) : base( serial )
 		{
