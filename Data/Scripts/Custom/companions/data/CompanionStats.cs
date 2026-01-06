@@ -10,13 +10,13 @@ namespace Server.Companions.Data
         public const int MaxSkillCap = 125;
         public const int FastSkillStart = 49;
         public const int MediumSkillStart = 38;
-        public const int FastSkillGainPerLevel = 4;
-        public const int MediumSkillGainPerLevel = 3;
+        public const int FastSkillGainPerLevel = 3;
+        public const int MediumSkillGainPerLevel = 2;
 
         public static int RollStatGain(int baseGain)
         {
-            double minMultiplier = 0.9;
-            double maxMultiplier = 1.15;
+            double minMultiplier = 0.7;
+            double maxMultiplier = 1.25;
             
             double min = baseGain * minMultiplier;
             double max = baseGain * maxMultiplier;
@@ -63,19 +63,19 @@ namespace Server.Companions.Data
                 // Reaches 70 at level 10: 30 + (40 / 9) per level
                 if (level >= 10)
                     return 70;
-                return baseResist + ((level - 1) * 40 / 9);
+                return baseResist + ((level - 1) * 40 / 9) > 70 ? 70 : baseResist + ((level - 1) * 40 / 9);
             }
             else if (quality == ResistQuality.Medium)
             {
                 // Reaches 70 at level 15: 30 + (40 / 14) per level
                 if (level >= 15)
                     return 70;
-                return baseResist + ((level - 1) * 40 / 14);
+                return baseResist + ((level - 1) * 40 / 14) > 70 ? 70 : baseResist + ((level - 1) * 40 / 14);
             }
             else // Poor
             {
                 // Reaches 60 at level 20: 30 + (30 / 19) per level
-                return baseResist + ((level - 1) * 30 / 19);
+                return baseResist + ((level - 1) * 30 / 19) > 60 ? 60 : baseResist + ((level - 1) * 30 / 19);
             }
         }
 
