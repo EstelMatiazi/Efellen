@@ -13,6 +13,8 @@ namespace Server.Companions.Abilities
         DateTime GetLastUsed();
         void SetLastUsed(DateTime value);
 
+        bool IsMartialSpecial { get; }
+
         bool CanUse(CompanionMobile companion);
         void Use(CompanionMobile companion, Mobile target);
     }
@@ -21,11 +23,16 @@ namespace Server.Companions.Abilities
     {
         private DateTime m_LastUsed;
 
+        public virtual bool IsMartialSpecial
+        {
+            get { return false; }
+        }
+
         public abstract string GetName();
         public abstract string GetDescription();
         public abstract int GetRequiredLevel();
         public abstract TimeSpan GetCooldown();
-        
+
         public DateTime GetLastUsed()
         {
             return m_LastUsed;

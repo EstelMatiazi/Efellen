@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Server;
 using Server.Companions.Core;
 using Server.Companions.Data;
 
@@ -8,149 +9,210 @@ namespace Server.Companions.Abilities
     public class AbilityManager
     {
         private CompanionMobile m_Companion;
-        private List<ICompanionAbility> m_AllAbilities;
-        private Dictionary<int, List<ICompanionAbility>> m_AbilitiesByLevel;
+        private List<CompanionAbilityInstance> m_Abilities;
 
         public AbilityManager(CompanionMobile companion)
         {
             m_Companion = companion;
-            m_AllAbilities = new List<ICompanionAbility>();
-            m_AbilitiesByLevel = new Dictionary<int, List<ICompanionAbility>>();
+            m_Abilities = new List<CompanionAbilityInstance>();
         }
 
-        public void Initialize(CompanionClass classType)
+        public List<CompanionAbilityInstance> Abilities
         {
-            m_AllAbilities.Clear();
-            m_AbilitiesByLevel.Clear();
-
-            switch (classType)
-            {
-                case CompanionClass.Wizard:
-                    // TODO: Add wizard abilities
-                    break;
-                case CompanionClass.Fighter:
-                    // TODO: Add fighter abilities
-                    break;
-                case CompanionClass.Druid:
-                    // TODO: Add druid abilities
-                    break;
-                case CompanionClass.Rogue:
-                    // TODO: Add rogue abilities
-                    break;
-                case CompanionClass.Monk:
-                    // TODO: Add monk abilities
-                    break;
-                case CompanionClass.Barbarian:
-                    // TODO: Add barbarian abilities
-                    break;
-                case CompanionClass.Ranger:
-                    // TODO: Add ranger abilities
-                    break;
-                case CompanionClass.Paladin:
-                    // TODO: Add paladin abilities
-                    break;
-                case CompanionClass.Cleric:
-                    // TODO: Add cleric abilities
-                    break;
-                case CompanionClass.Sorcerer:
-                    // TODO: Add sorcerer abilities
-                    break;
-                case CompanionClass.Bard:
-                    // TODO: Add bard abilities
-                    break;
-            }
-
-            for (int i = 0; i < m_AllAbilities.Count; i++)
-            {
-                ICompanionAbility ability = m_AllAbilities[i];
-                int reqLevel = ability.GetRequiredLevel();
-                
-                if (!m_AbilitiesByLevel.ContainsKey(reqLevel))
-                    m_AbilitiesByLevel[reqLevel] = new List<ICompanionAbility>();
-
-                m_AbilitiesByLevel[reqLevel].Add(ability);
-            }
+            get { return m_Abilities; }
         }
 
-        public void OnLevelUp(int newLevel)
+        public void GenerateInitialAbilities()
         {
-            if (m_AbilitiesByLevel.ContainsKey(newLevel))
+            ClassProgression prog = ProgressionRegistry.Get(m_Companion.Class);
+            if (prog == null)
+                return;
+
+            for (int level = 1; level <= m_Companion.Level; level++)
             {
-                List<ICompanionAbility> unlockedAbilities = m_AbilitiesByLevel[newLevel];
-                
-                if (m_Companion.Owner != null && unlockedAbilities.Count > 0)
-                {
-                    m_Companion.Owner.SendMessage(m_Companion.Name + " has unlocked new abilities!");
-                    
-                    for (int i = 0; i < unlockedAbilities.Count; i++)
-                    {
-                        ICompanionAbility ability = unlockedAbilities[i];
-                        m_Companion.Owner.SendMessage("- " + ability.GetName());
-                    }
-                }
+                int picks = prog.GetFeatsAtLevel(level);
+
+                for (int i = 0; i < picks; i++)
+                    GrantRandomMartialFeat();
             }
+        }
+        public bool HasAbilities()
+        {
+            return m_Abilities.Count > 0;
+        }
+        public void EnsureInitialized()
+        {
+            if (m_Abilities.Count == 0)
+                GenerateInitialAbilities();
+        }
+
+        public List<ICompanionAbility> GetAllAbilities()
+        {
+            List<ICompanionAbility> list = new List<ICompanionAbility>();
+
+            for (int i = 0; i < m_Abilities.Count; i++)
+                list.Add(m_Abilities[i].Definition);
+
+            return list;
         }
 
         public List<ICompanionAbility> GetAvailableAbilities()
         {
-            List<ICompanionAbility> available = new List<ICompanionAbility>();
-            
-            for (int i = 0; i < m_AllAbilities.Count; i++)
+            List<ICompanionAbility> list = new List<ICompanionAbility>();
+
+            for (int i = 0; i < m_Abilities.Count; i++)
             {
-                ICompanionAbility ability = m_AllAbilities[i];
-                if (ability.GetRequiredLevel() <= m_Companion.Level)
-                    available.Add(ability);
+                CompanionAbilityInstance inst = m_Abilities[i];
+
+                if (inst.Definition.GetRequiredLevel() <= m_Companion.Level)
+                    list.Add(inst.Definition);
             }
-            
-            return available;
+
+            return list;
         }
 
         public List<ICompanionAbility> GetUsableAbilities()
         {
-            List<ICompanionAbility> usable = new List<ICompanionAbility>();
-            
-            for (int i = 0; i < m_AllAbilities.Count; i++)
+            List<ICompanionAbility> list = new List<ICompanionAbility>();
+
+            for (int i = 0; i < m_Abilities.Count; i++)
             {
-                ICompanionAbility ability = m_AllAbilities[i];
-                if (ability.CanUse(m_Companion))
-                    usable.Add(ability);
+                CompanionAbilityInstance inst = m_Abilities[i];
+
+                if (inst.CanUse(m_Companion))
+                    list.Add(inst.Definition);
             }
-            
-            return usable;
+
+            return list;
+        }
+
+        
+        public void OnLevelUp(int newLevel)
+        {
+            ClassProgression prog = ProgressionRegistry.Get(m_Companion.Class);
+            if (prog == null)
+                return;
+
+            int picks = prog.GetFeatsAtLevel(newLevel);
+            if (picks <= 0)
+                return;
+
+            for (int i = 0; i < picks; i++)
+                GrantRandomMartialFeat();
+
+            if (m_Companion.Owner != null)
+                m_Companion.Owner.SendMessage(
+                    m_Companion.Name + " has learned new combat techniques."
+                );
+        }
+
+
+        private void GrantRandomMartialFeat()
+        {
+            List<ICompanionAbility> pool =
+                MartialFeatRegistry.GetAvailable(m_Companion);
+
+            for (int i = pool.Count - 1; i >= 0; i--)
+            {
+                if (HasAbility(pool[i].GetType()))
+                    pool.RemoveAt(i);
+            }
+
+            if (pool.Count == 0)
+                return;
+
+            ICompanionAbility chosen = pool[Utility.Random(pool.Count)];
+            m_Abilities.Add(new CompanionAbilityInstance(chosen));
+        }
+
+        private bool HasAbility(Type type)
+        {
+            for (int i = 0; i < m_Abilities.Count; i++)
+            {
+                if (m_Abilities[i].Definition.GetType() == type)
+                    return true;
+            }
+            return false;
         }
 
         public bool UseAbility(string abilityName, Mobile target)
         {
-            ICompanionAbility foundAbility = null;
-            
-            for (int i = 0; i < m_AllAbilities.Count; i++)
+            for (int i = 0; i < m_Abilities.Count; i++)
             {
-                ICompanionAbility ability = m_AllAbilities[i];
-                if (ability.GetName().Equals(abilityName, StringComparison.OrdinalIgnoreCase))
+                CompanionAbilityInstance inst = m_Abilities[i];
+
+                if (!inst.Definition.GetName().Equals(
+                        abilityName,
+                        StringComparison.OrdinalIgnoreCase))
+                    continue;
+
+                if (!inst.CanUse(m_Companion))
                 {
-                    foundAbility = ability;
-                    break;
+                    if (m_Companion.Owner != null)
+                        m_Companion.Owner.SendMessage(
+                            inst.Definition.GetName() + " is not ready yet."
+                        );
+                    return false;
                 }
+
+                inst.Use(m_Companion, target);
+                return true;
             }
 
-            if (foundAbility == null)
-                return false;
+            return false;
+        }
 
-            if (!foundAbility.CanUse(m_Companion))
+        public bool TryUseRandomMartialSpecial(Mobile target)
+        {
+            List<CompanionAbilityInstance> candidates = new List<CompanionAbilityInstance>();
+        
+            for (int i = 0; i < m_Abilities.Count; i++)
             {
-                if (m_Companion.Owner != null)
-                    m_Companion.Owner.SendMessage(foundAbility.GetName() + " is not available right now.");
-                return false;
+                CompanionAbilityInstance inst = m_Abilities[i];
+        
+                if (!inst.Definition.IsMartialSpecial)
+                    continue;
+        
+                if (!inst.CanUse(m_Companion))
+                    continue;
+        
+                candidates.Add(inst);
             }
-
-            foundAbility.Use(m_Companion, target);
+        
+            if (candidates.Count == 0)
+                return false;
+        
+            CompanionAbilityInstance chosen =
+                candidates[Utility.Random(candidates.Count)];
+        
+            chosen.Use(m_Companion, target);
             return true;
         }
 
-        private void AddAbility(ICompanionAbility ability)
+
+
+        public void Serialize(GenericWriter writer)
         {
-            if (ability != null)
-                m_AllAbilities.Add(ability);
+            writer.Write(m_Abilities.Count);
+
+            for (int i = 0; i < m_Abilities.Count; i++)
+                m_Abilities[i].Serialize(writer);
+        }
+
+        public void Deserialize(GenericReader reader)
+        {
+            m_Abilities.Clear();
+
+            int count = reader.ReadInt();
+
+            for (int i = 0; i < count; i++)
+            {
+                CompanionAbilityInstance inst =
+                    CompanionAbilityInstance.Deserialize(reader);
+
+                if (inst != null)
+                    m_Abilities.Add(inst);
+            }
         }
     }
 }

@@ -5,6 +5,8 @@ using Server.Targeting;
 using Server.Companions.Core;
 using Server.Companions.Data;
 using Server.Companions.Systems;
+using Server.Companions.Abilities;
+using System.Collections.Generic;
 
 namespace Server.Companions.Commands
 {
@@ -17,7 +19,85 @@ namespace Server.Companions.Commands
             CommandSystem.Register("CompanionStats", AccessLevel.GameMaster, new CommandEventHandler(CompanionStats_OnCommand));
             CommandSystem.Register("GiveCompanionXP", AccessLevel.GameMaster, new CommandEventHandler(GiveCompanionXP_OnCommand));
             CommandSystem.Register("Rest", AccessLevel.Player, new CommandEventHandler(Rest_OnCommand));
+            CommandSystem.Register("CompanionAbilities", AccessLevel.Player, new CommandEventHandler(CompanionAbilities_OnCommand));
         }
+
+        [Usage("CompanionAbilities")]
+        [Description("Returns a list of abilities in the targetted companion")]
+        private static void CompanionAbilities_OnCommand(CommandEventArgs e)
+        {
+            Mobile from = e.Mobile;
+
+            from.SendMessage("Target a companion to list its abilities.");
+            from.Target = new AbilityTarget();
+        }
+
+        private class AbilityTarget : Target
+        {
+            public AbilityTarget() : base(12, false, TargetFlags.None)
+            {
+            }
+
+            protected override void OnTarget(Mobile from, object targeted)
+            {
+                CompanionMobile companion = targeted as CompanionMobile;
+
+                if (companion == null)
+                {
+                    from.SendMessage("That is not a companion.");
+                    return;
+                }
+
+                AbilityManager mgr = companion.AbilityManager;
+
+                if (mgr == null)
+                {
+                    from.SendMessage("This companion has no ability manager.");
+                    return;
+                }
+
+                SendAbilityList(from, companion, mgr);
+            }
+        }
+
+        private static void SendAbilityList(
+            Mobile viewer,
+            CompanionMobile companion,
+            AbilityManager mgr
+        )
+        {
+            List<ICompanionAbility> abilities = mgr.GetAllAbilities();
+
+            viewer.SendMessage(0x3B2, "=== Abilities for {0} (Level {1}) ===",
+                companion.Name,
+                companion.Level
+            );
+
+            if (abilities.Count == 0)
+            {
+                viewer.SendMessage("No abilities.");
+                return;
+            }
+
+            for (int i = 0; i < abilities.Count; i++)
+            {
+                ICompanionAbility ability = abilities[i];
+
+                bool canUse = ability.CanUse(companion);
+                int reqLevel = ability.GetRequiredLevel();
+
+                string status = canUse ? "Ready" : "Unavailable";
+
+                viewer.SendMessage(
+                    canUse ? 0x59 : 0x21,
+                    "- {0} (Req Lvl {1}) [{2}]",
+                    ability.GetName(),
+                    reqLevel,
+                    status
+                );
+            }
+        }
+
 
         [Usage("CreateCompanion <class> <alignment> [level]")]
         [Description("Creates a companion contract. Example: CreateCompanion Fighter LawfulGood 10")]

@@ -8,6 +8,7 @@ using Server.ContextMenus;
 using Server.Items;
 using Server.Companions.Data;
 using Server.Companions.Systems;
+using Server.Companions.Abilities;
 
 namespace Server.Companions.Core
 {

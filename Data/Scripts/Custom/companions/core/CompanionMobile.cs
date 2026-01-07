@@ -5,6 +5,7 @@ using Server.Mobiles;
 using Server.Items;
 using Server.Companions.Data;
 using Server.Companions.Abilities;
+using Server.Network;
 
 namespace Server.Companions.Core
 {
@@ -25,12 +26,17 @@ namespace Server.Companions.Core
 
         private Serial m_ContractSerial;
 
-        private AbilityManager m_Abilities;
-
         // Healing cooldown tracking
         private DateTime m_NextBandageTime;
         private DateTime m_NextSpiritualismTime;
         private DateTime m_NextPotionTime;
+
+        //ability controller
+        private AbilityManager m_AbilityManager;
+        public AbilityManager AbilityManager
+        {
+            get { return m_AbilityManager; }
+        }
 
         private const double PotionThreshold = 0.40;
 
@@ -98,11 +104,6 @@ namespace Server.Companions.Core
             set { m_CompanionName = value; }
         }
 
-        public AbilityManager Abilities
-        {
-            get { return m_Abilities; }
-        }
-
         public Serial ContractSerial
         {
             get { return m_ContractSerial; }
@@ -126,11 +127,11 @@ namespace Server.Companions.Core
             m_MoralAxis = alignment.Moral;
             m_Owner = owner;
             m_Level = 1;
+            m_AbilityManager = new AbilityManager(this);
+            m_AbilityManager.GenerateInitialAbilities();
             m_Experience = 0;
             m_IsUnique = false;
             m_ContractSerial = Serial.MinusOne;
-
-            m_Abilities = new AbilityManager(this);
 
             CompanionDefinition def = CompanionDefinition.Get(companionClass);
             if (def != null)
@@ -148,8 +149,17 @@ namespace Server.Companions.Core
             {
                 Loyalty = MaxLoyalty;
             }
-
-            m_Abilities.Initialize(m_Class);
+        }
+        
+        public void SayAligned(string message)
+        {
+            int hue = AlignmentHueUtility.GetHue(Alignment);
+            this.PublicOverheadMessage(
+                MessageType.Emote,
+                hue,
+                false,
+                message
+            );
         }
 
         public override void OnThink()
@@ -409,6 +419,10 @@ namespace Server.Companions.Core
             UpdateAllSkills();
             UpdateDamage();
             UpdateResists();
+            if (m_AbilityManager == null)
+                m_AbilityManager = new AbilityManager(this);
+
+            m_AbilityManager.EnsureInitialized();
         }
 
         public void SetBaseStrength(int value)
@@ -484,7 +498,7 @@ namespace Server.Companions.Core
             UpdateDamage();
             UpdateResists();
 
-            m_Abilities.OnLevelUp(m_Level);
+            m_AbilityManager.OnLevelUp(m_Level);
 
             CompanionContract contract = GetContract();
             if (contract != null)
@@ -564,9 +578,6 @@ namespace Server.Companions.Core
         {
             PlaySound(0x1F2);
         }
-
-
-
 
         private void UpdateAllStats()
         {
@@ -787,6 +798,28 @@ namespace Server.Companions.Core
             return "I can’t take any more.";
         }
 
+        public override void OnGaveMeleeAttack(Mobile defender)
+        {
+            base.OnGaveMeleeAttack(defender);
+
+            if (defender == null || defender.Deleted)
+                return;
+
+            if (m_AbilityManager == null)
+                return;
+
+            int chance = m_Level * 2.5;
+
+            if (chance > 50)
+                chance = 50;
+
+            if (Utility.Random(100) >= chance)
+                return;
+
+            m_AbilityManager.TryUseRandomMartialSpecial(defender);
+        }
+
+
         public override void OnDeath(Container c)
         {
             CompanionContract contract = GetContract();
@@ -856,6 +889,13 @@ namespace Server.Companions.Core
             writer.Write(m_BaseIntelligence);
 
             writer.Write((int)m_ContractSerial);
+            bool hasAbilities = m_AbilityManager != null && m_AbilityManager.Abilities.Count > 0;
+            writer.Write(hasAbilities);
+            if (hasAbilities)
+            {
+                m_AbilityManager.Serialize(writer);
+            }
+            
         }
 
         public override void Deserialize(GenericReader reader)
@@ -879,8 +919,21 @@ namespace Server.Companions.Core
 
             m_ContractSerial = (Serial)reader.ReadInt();
 
-            m_Abilities = new AbilityManager(this);
-            m_Abilities.Initialize(m_Class);
+            
+            bool hasAbilities = reader.ReadBool();
+
+            m_AbilityManager = new AbilityManager(this);
+
+            if (hasAbilities)
+            {
+                m_AbilityManager.Deserialize(reader);
+            }
+            else
+            {
+                m_AbilityManager.GenerateInitialAbilities();
+            }
+            if (m_AbilityManager.Abilities.Count == 0)
+                m_AbilityManager.GenerateInitialAbilities();
         }
     }
 }
