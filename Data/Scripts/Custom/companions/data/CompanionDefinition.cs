@@ -166,7 +166,7 @@ namespace Server.Companions.Data
             monk.FastSkills.Add(SkillName.Healing);
             monk.MediumSkills.Add(SkillName.Anatomy);
             monk.MediumSkills.Add(SkillName.MagicResist);
-            monk.MediumSkills.Add(SkillName.Bludgeoning);
+            monk.MediumSkills.Add(SkillName.Spiritualism);
             monk.AllowedAlignments.AddRange(GetLawfulAlignments());
             m_Definitions[CompanionClass.Monk] = monk;
 

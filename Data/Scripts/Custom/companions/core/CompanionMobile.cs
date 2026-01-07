@@ -27,6 +27,13 @@ namespace Server.Companions.Core
 
         private AbilityManager m_Abilities;
 
+        // Healing cooldown tracking
+        private DateTime m_NextBandageTime;
+        private DateTime m_NextSpiritualismTime;
+        private DateTime m_NextPotionTime;
+
+        private const double PotionThreshold = 0.40;
+
         [CommandProperty(AccessLevel.GameMaster)]
         public CompanionClass Class
         {
@@ -159,6 +166,228 @@ namespace Server.Companions.Core
                 contract.Tick();
         }
 
+        public override void OnDamage(int amount, Mobile from, bool willKill)
+        {
+            base.OnDamage(amount, from, willKill);
+
+            if (willKill || Hits <= 0)
+                return;
+
+            TrySelfHealing();
+        }
+
+        private void TrySelfHealing()
+        {
+            double healthPercent = (double)Hits / HitsMax;
+
+            TryUsePotion(healthPercent);
+            TryUseSpiritualism(healthPercent);
+            TryUseBandages(healthPercent);
+        }
+
+        private double GetBandageThreshold()
+        {
+            CompanionAlignment a = Alignment;
+
+            if (a.GetIsLawful())
+                return 0.40;
+
+            if (a.GetIsChaotic())
+                return 0.60;
+
+            return 0.50;
+        }
+
+        private double GetSpiritualismThreshold()
+        {
+            CompanionAlignment a = Alignment;
+
+            if (a.GetIsGood())
+                return 0.60;
+
+            if (a.GetIsEvil())
+                return 0.40;
+
+            return 0.50;
+        }
+
+        private bool CanUseBandages()
+        {
+            switch (m_Class)
+            {
+                case CompanionClass.Fighter:
+                case CompanionClass.Druid:
+                case CompanionClass.Rogue:
+                case CompanionClass.Monk:
+                case CompanionClass.Barbarian:
+                case CompanionClass.Ranger:
+                case CompanionClass.Cleric:
+                case CompanionClass.Bard:
+                    return true;
+            }
+            return false;
+        }
+
+        private TimeSpan GetBandageCooldown()
+        {
+            int seconds = 90;
+
+            seconds -= (int)(30.0 * (m_Level - 1) / 19.0);
+
+            int dex = Dex;
+            if (dex >= 90)
+            {
+                int dexReduction = Math.Min(20, (int)(1 + (dex - 90) * 19 / 60));
+                seconds -= dexReduction;
+            }
+
+            return TimeSpan.FromSeconds(Math.Max(30, seconds));
+        }
+
+        private void TryUseBandages(double hpPercent)
+        {
+            if (!CanUseBandages())
+                return;
+
+            if (hpPercent > GetBandageThreshold())
+                return;
+
+            if (DateTime.UtcNow < m_NextBandageTime)
+                return;
+
+            m_NextBandageTime = DateTime.UtcNow + GetBandageCooldown();
+
+            Say("*applies bandages*");
+
+            if (Poisoned)
+            {
+                CurePoison(this);
+                return;
+            }
+
+            double min = Skills[SkillName.Healing].Value / 3.0;
+            double max = Skills[SkillName.Healing].Value / 2.0;
+            int heal = Utility.RandomMinMax((int)min, (int)max) + (m_Level / 2);
+
+            Heal(heal);
+        }
+
+        private bool CanUseSpiritualism()
+        {
+            return m_Class == CompanionClass.Druid
+                || m_Class == CompanionClass.Monk
+                || m_Class == CompanionClass.Cleric;
+        }
+
+        private TimeSpan GetSpiritualismCooldown()
+        {
+            int seconds = 120;
+
+            seconds -= (int)(30.0 * (m_Level - 1) / 19.0);
+
+            // int reduction (90 → 1s, 150+ → 20s)
+            int intel = Int;
+            if (intel >= 90)
+            {
+                int intReduction = Math.Min(20, (int)(1 + (intel - 90) * 19 / 60));
+                seconds -= intReduction;
+            }
+
+            return TimeSpan.FromSeconds(Math.Max(30, seconds));
+        }
+
+
+        private void TryUseSpiritualism(double hpPercent)
+        {
+            if (!CanUseSpiritualism())
+                return;
+
+            if (hpPercent > GetSpiritualismThreshold())
+                return;
+
+            if (DateTime.UtcNow < m_NextSpiritualismTime)
+                return;
+
+            m_NextSpiritualismTime = DateTime.UtcNow + GetSpiritualismCooldown();
+
+            Say("*chants to the spirit world*");
+
+            new SpiritualismHealTimer(this).Start();
+        }
+
+        private class SpiritualismHealTimer : Timer
+        {
+            private CompanionMobile m_Mob;
+            private int m_Ticks;
+
+            public SpiritualismHealTimer(CompanionMobile mob)
+                : base(TimeSpan.Zero, TimeSpan.FromSeconds(2))
+            {
+                m_Mob = mob;
+                m_Ticks = 2 + mob.Level / 3;
+            }
+
+            protected override void OnTick()
+            {
+                if (m_Mob.Deleted || m_Ticks-- <= 0)
+                {
+                    Stop();
+                    return;
+                }
+
+                double min = m_Mob.Skills[SkillName.Spiritualism].Value / 5.0;
+                double max = m_Mob.Skills[SkillName.Spiritualism].Value / 3.0;
+
+                int amount = Utility.RandomMinMax((int)min, (int)max) + (m_Mob.Level / 3);
+
+                m_Mob.Heal(amount);
+                m_Mob.Mana += amount;
+            }
+        }
+
+        private TimeSpan GetPotionCooldown()
+        {
+            int baseSeconds;
+
+            switch (m_Class)
+            {
+                case CompanionClass.Bard:
+                case CompanionClass.Rogue:
+                case CompanionClass.Sorcerer:
+                case CompanionClass.Wizard:
+                    baseSeconds = 120;
+                    break;
+                default:
+                    baseSeconds = 180;
+                    break;
+            }
+
+            baseSeconds -= m_Level * 2;
+            return TimeSpan.FromSeconds(Math.Max(30, baseSeconds));
+        }
+
+        private void TryUsePotion(double hpPercent)
+        {
+            if (hpPercent > PotionThreshold)
+                return;
+
+            if (DateTime.UtcNow < m_NextPotionTime)
+                return;
+
+            m_NextPotionTime = DateTime.UtcNow + GetPotionCooldown();
+            
+            Say("*drinks a potion*");
+
+            if (Poisoned)
+                CurePoison(this);
+
+            int heal = Utility.RandomMinMax(
+                m_Level * 3 + 15,
+                m_Level * 5 + 25
+            );
+
+            Heal(heal);
+        }
 
         public void UpdateFromContract()
         {
@@ -242,8 +471,6 @@ namespace Server.Companions.Core
             UpdateResists();
 
             m_Abilities.OnLevelUp(m_Level);
-
-            UpdateEquipment();
 
             CompanionContract contract = GetContract();
             if (contract != null)
@@ -363,11 +590,6 @@ namespace Server.Companions.Core
                 double value = CompanionStats.GetMediumSkillValue(m_Level);
                 SetSkill(skill, value, value);
             }
-        }
-
-        private void UpdateEquipment()
-        {
-            // TODO: Implement equipment changes based on level
         }
 
         private void UpdateDamage()
