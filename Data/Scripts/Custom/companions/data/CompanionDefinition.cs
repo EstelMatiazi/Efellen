@@ -328,9 +328,11 @@ namespace Server.Companions.Data
         private static List<CompanionAlignment> GetNeutralAlignments()
         {
             List<CompanionAlignment> list = new List<CompanionAlignment>();
-            list.Add(CompanionAlignment.GetNeutralGood());
             list.Add(CompanionAlignment.GetTrueNeutral());
+            list.Add(CompanionAlignment.GetNeutralGood());
             list.Add(CompanionAlignment.GetNeutralEvil());
+            list.Add(CompanionAlignment.GetChaoticNeutral());
+            list.Add(CompanionAlignment.GetLawfulNeutral());
             return list;
         }
 
@@ -349,6 +351,24 @@ namespace Server.Companions.Data
             list.Add(CompanionAlignment.GetChaoticGood());
             list.Add(CompanionAlignment.GetChaoticNeutral());
             list.Add(CompanionAlignment.GetChaoticEvil());
+            return list;
+        }
+
+        private static List<CompanionAlignment> GetGoodAlignments()
+        {
+            List<CompanionAlignment> list = new List<CompanionAlignment>();
+            list.Add(CompanionAlignment.GetChaoticGood());
+            list.Add(CompanionAlignment.GetLawfulGood());
+            list.Add(CompanionAlignment.GetNeutralGood());
+            return list;
+        }
+
+        private static List<CompanionAlignment> GetEvilAlignments()
+        {
+            List<CompanionAlignment> list = new List<CompanionAlignment>();
+            list.Add(CompanionAlignment.GetChaoticEvil());
+            list.Add(CompanionAlignment.GetLawfulEvil());
+            list.Add(CompanionAlignment.GetNeutralEvil());
             return list;
         }
 

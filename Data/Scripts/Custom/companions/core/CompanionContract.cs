@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Server;
 using Server.Mobiles;
@@ -57,6 +58,18 @@ namespace Server.Companions.Core
         private bool m_IsPaused;
         private bool m_IsDead;
         private CompanionTimerHelper m_Timer;
+
+        [Flags]
+        public enum AlignmentRestrictions
+        {
+            None        = 0,
+            NonGood     = 1 << 0,
+            NonEvil     = 1 << 1,
+            NonLawful   = 1 << 2,
+            NonChaotic  = 1 << 3,
+            NonNeutral  = 1 << 4
+        }
+
 
         private int m_LastTooltipMinute = -1;
 
@@ -157,15 +170,28 @@ namespace Server.Companions.Core
         {
         }
 
-        public void InitializeCompanion(Mobile owner, CompanionClass companionClass, CompanionAlignment alignment, bool isUnique, string customName)
+        public void InitializeCompanion(Mobile owner,CompanionClass companionClass,CompanionAlignment alignment,bool isUnique,string customName
+        )
         {
+            InitializeCompanion(owner, companionClass, alignment, isUnique, customName, 1);
+        }
+
+
+        public void InitializeCompanion(Mobile owner,CompanionClass companionClass,CompanionAlignment alignment,bool isUnique,string customName,int startingLevel)
+        {
+            if (startingLevel < 1)
+                startingLevel = 1;
+
+            if (startingLevel > 20)
+                startingLevel = 20;
+
             m_Owner = owner;
             m_CompanionClass = companionClass;
             m_OrderAxis = alignment.Order;
             m_MoralAxis = alignment.Moral;
             m_IsUnique = isUnique;
-            m_Level = 1;
-            m_Experience = 0;
+            m_Level = startingLevel;
+            m_Experience = CompanionExperience.GetExperienceForNextLevel(startingLevel-1);
             m_ActiveCompanionSerial = Serial.MinusOne;
 
             CompanionDefinition def = CompanionDefinition.Get(companionClass);
@@ -176,7 +202,6 @@ namespace Server.Companions.Core
                 m_BaseIntelligence = def.BaseInt;
             }
 
-            // Generate appearance
             m_SpeechHue = Utility.RandomTalkHue();
             m_Hue = Utility.RandomSkinHue();
             m_Female = Utility.RandomBool();
@@ -184,10 +209,9 @@ namespace Server.Companions.Core
             if (m_Female)
             {
                 m_BodyValue = 0x191;
-                if (string.IsNullOrEmpty(customName))
-                    m_CompanionName = NameList.RandomName("female");
-                else
-                    m_CompanionName = customName;
+                m_CompanionName = string.IsNullOrEmpty(customName)
+                    ? NameList.RandomName("female")
+                    : customName;
 
                 m_HairItemID = Utility.RandomList(0x203B, 0x203C, 0x203D, 0x2045, 0x204A, 0x2046, 0x2049);
                 m_HairHue = Utility.RandomHairHue();
@@ -197,10 +221,9 @@ namespace Server.Companions.Core
             else
             {
                 m_BodyValue = 0x190;
-                if (string.IsNullOrEmpty(customName))
-                    m_CompanionName = NameList.RandomName("male");
-                else
-                    m_CompanionName = customName;
+                m_CompanionName = string.IsNullOrEmpty(customName)
+                    ? NameList.RandomName("male")
+                    : customName;
 
                 m_HairItemID = Utility.RandomList(0x203B, 0x203C, 0x203D, 0x2044, 0x2045, 0x2047, 0x2048);
                 m_HairHue = Utility.RandomHairHue();

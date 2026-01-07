@@ -13,20 +13,21 @@ namespace Server.Companions.Commands
         public static void Initialize()
         {
             CommandSystem.Register("CreateCompanion", AccessLevel.GameMaster, new CommandEventHandler(CreateCompanion_OnCommand));
+            CommandSystem.Register("CreateCompanionRestricted", AccessLevel.GameMaster, new CommandEventHandler(CreateCompanionRestricted_OnCommand));
             CommandSystem.Register("CompanionStats", AccessLevel.GameMaster, new CommandEventHandler(CompanionStats_OnCommand));
             CommandSystem.Register("GiveCompanionXP", AccessLevel.GameMaster, new CommandEventHandler(GiveCompanionXP_OnCommand));
             CommandSystem.Register("Rest", AccessLevel.Player, new CommandEventHandler(Rest_OnCommand));
         }
 
-        [Usage("CreateCompanion <class> <alignment>")]
-        [Description("Creates a companion contract. Example: CreateCompanion Fighter LawfulGood")]
+        [Usage("CreateCompanion <class> <alignment> [level]")]
+        [Description("Creates a companion contract. Example: CreateCompanion Fighter LawfulGood 10")]
         private static void CreateCompanion_OnCommand(CommandEventArgs e)
         {
             Mobile from = e.Mobile;
 
             if (e.Length < 2)
             {
-                from.SendMessage("Usage: CreateCompanion <class> <alignment>");
+                from.SendMessage("Usage: CreateCompanion <class> <alignment> [level]");
                 from.SendMessage("Classes: Wizard, Fighter, Druid, Rogue, Monk, Barbarian, Ranger, Paladin, Cleric, Sorcerer, Bard");
                 from.SendMessage("Alignments: LawfulGood, LawfulNeutral, LawfulEvil, NeutralGood, TrueNeutral, NeutralEvil, ChaoticGood, ChaoticNeutral, ChaoticEvil");
                 return;
@@ -45,43 +46,43 @@ namespace Server.Companions.Commands
 
             CompanionAlignment alignment;
             string alignmentStr = e.GetString(1).ToLower();
-            
+
             switch (alignmentStr)
             {
-                case "lawfulgood": 
-                    alignment = CompanionAlignment.GetLawfulGood(); 
-                    break;
-                case "lawfulneutral": 
-                    alignment = CompanionAlignment.GetLawfulNeutral(); 
-                    break;
-                case "lawfulevil": 
-                    alignment = CompanionAlignment.GetLawfulEvil(); 
-                    break;
-                case "neutralgood": 
-                    alignment = CompanionAlignment.GetNeutralGood(); 
-                    break;
-                case "trueneutral": 
-                    alignment = CompanionAlignment.GetTrueNeutral(); 
-                    break;
-                case "neutralevil": 
-                    alignment = CompanionAlignment.GetNeutralEvil(); 
-                    break;
-                case "chaoticgood": 
-                    alignment = CompanionAlignment.GetChaoticGood(); 
-                    break;
-                case "chaoticneutral": 
-                    alignment = CompanionAlignment.GetChaoticNeutral(); 
-                    break;
-                case "chaoticevil": 
-                    alignment = CompanionAlignment.GetChaoticEvil(); 
-                    break;
+                case "lawfulgood": alignment = CompanionAlignment.GetLawfulGood(); break;
+                case "lawfulneutral": alignment = CompanionAlignment.GetLawfulNeutral(); break;
+                case "lawfulevil": alignment = CompanionAlignment.GetLawfulEvil(); break;
+                case "neutralgood": alignment = CompanionAlignment.GetNeutralGood(); break;
+                case "trueneutral": alignment = CompanionAlignment.GetTrueNeutral(); break;
+                case "neutralevil": alignment = CompanionAlignment.GetNeutralEvil(); break;
+                case "chaoticgood": alignment = CompanionAlignment.GetChaoticGood(); break;
+                case "chaoticneutral": alignment = CompanionAlignment.GetChaoticNeutral(); break;
+                case "chaoticevil": alignment = CompanionAlignment.GetChaoticEvil(); break;
                 default:
                     from.SendMessage("Invalid alignment.");
                     return;
             }
 
-            CompanionContract contract = CompanionSpawner.CreateContract(from, classType, alignment);
-            
+            int level = 1;
+
+            if (e.Length >= 3)
+            {
+                try
+                {
+                    level = e.GetInt32(2);
+                }
+                catch
+                {
+                    from.SendMessage("Invalid level.");
+                    return;
+                }
+            }
+            if (!CompanionSpawner.ValidateAlignment(from, classType, alignment))
+                return;
+
+            CompanionContract contract =
+                CompanionSpawner.CreateContract(from, classType, alignment, level, null, false);
+
             if (contract != null)
             {
                 from.AddToBackpack(contract);
@@ -91,6 +92,87 @@ namespace Server.Companions.Commands
             else
             {
                 from.SendMessage("Failed to create companion contract.");
+            }
+        }
+
+        [Usage("CreateCompanionRestricted <class> <level> [restrictions...]")]
+        [Description("Creates a companion using alignment restrictions. Example: CreateCompanionRestricted Fighter 10 non-evil non-chaotic")]
+        private static void CreateCompanionRestricted_OnCommand(CommandEventArgs e)
+        {
+            Mobile from = e.Mobile;
+
+            if (e.Length < 2)
+            {
+                from.SendMessage("Usage: CreateCompanionRestricted <class> <level> [restrictions]");
+                from.SendMessage("Restrictions: non-good, non-evil, non-lawful, non-chaotic, non-neutral");
+                return;
+            }
+
+            CompanionClass classType;
+            try
+            {
+                classType = (CompanionClass)Enum.Parse(typeof(CompanionClass), e.GetString(0), true);
+            }
+            catch
+            {
+                from.SendMessage("Invalid class.");
+                return;
+            }
+
+            int level;
+            try
+            {
+                level = e.GetInt32(1);
+            }
+            catch
+            {
+                from.SendMessage("Invalid level.");
+                return;
+            }
+
+            AlignmentRestrictions restrictions = AlignmentRestrictions.None;
+
+            for (int i = 2; i < e.Length; i++)
+            {
+                string r = e.GetString(i).ToLower();
+
+                switch (r)
+                {
+                    case "non-good": restrictions |= AlignmentRestrictions.NonGood; break;
+                    case "non-evil": restrictions |= AlignmentRestrictions.NonEvil; break;
+                    case "non-lawful": restrictions |= AlignmentRestrictions.NonLawful; break;
+                    case "non-chaotic": restrictions |= AlignmentRestrictions.NonChaotic; break;
+                    case "non-neutral": restrictions |= AlignmentRestrictions.NonNeutral; break;
+                }
+            }
+            CompanionAlignment alignment;
+            if (!CompanionSpawner.TryResolveAlignment(
+                    classType,
+                    restrictions,
+                    out alignment))
+            {
+                from.SendMessage("No valid alignment matches those restrictions.");
+                return;
+            }
+            if (!CompanionSpawner.ValidateAlignment(from, classType, alignment))
+                return;
+
+            CompanionContract contract =
+                CompanionSpawner.CreateContract(from, classType, restrictions, level, null, false);
+
+            if (contract != null)
+            {
+                from.AddToBackpack(contract);
+                from.SendMessage(
+                    "Created a level " + level.ToString() + " " +
+                    classType.ToString() + " companion with the restricted alignment: " + alignment.ToString()
+                );
+
+                CompanionSystem.Instance.RegisterContract(contract);
+            }
+            else
+            {
+                from.SendMessage("Failed to create companion with those restrictions.");
             }
         }
 
