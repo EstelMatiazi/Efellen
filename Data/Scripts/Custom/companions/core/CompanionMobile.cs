@@ -181,8 +181,8 @@ namespace Server.Companions.Core
             double healthPercent = (double)Hits / HitsMax;
 
             TryUsePotion(healthPercent);
-            TryUseSpiritualism(healthPercent);
             TryUseBandages(healthPercent);
+            TryUseSpiritualism(healthPercent);
         }
 
         private double GetBandageThreshold()
@@ -256,7 +256,7 @@ namespace Server.Companions.Core
                 return;
 
             m_NextBandageTime = DateTime.UtcNow + GetBandageCooldown();
-
+            CompanionEffects.PlayBandageEffect(this);
             Say("*applies bandages*");
 
             if (Poisoned)
@@ -309,10 +309,23 @@ namespace Server.Companions.Core
                 return;
 
             m_NextSpiritualismTime = DateTime.UtcNow + GetSpiritualismCooldown();
-
-            Say("*chants to the spirit world*");
+            CompanionEffects.PlaySpiritualismEffect(this);
+            Say(GetSpiritualismPhrase());
 
             new SpiritualismHealTimer(this).Start();
+        }
+
+        private string GetSpiritualismPhrase()
+        {
+            CompanionAlignment a = Alignment;       
+
+            if (a.GetIsGood())
+                return "Ancestors of light, restore me.";
+            else if (a.GetIsEvil())
+                return "Xtee Mee Glau";
+            else
+                return "*chants to the spirit world*";       
+
         }
 
         private class SpiritualismHealTimer : Timer
@@ -339,7 +352,7 @@ namespace Server.Companions.Core
                 double max = m_Mob.Skills[SkillName.Spiritualism].Value / 3.0;
 
                 int amount = Utility.RandomMinMax((int)min, (int)max) + (m_Mob.Level / 3);
-
+                m_Mob.FixedEffect(0x373A, 10, 15);
                 m_Mob.Heal(amount);
                 m_Mob.Mana += amount;
             }
@@ -376,6 +389,7 @@ namespace Server.Companions.Core
 
             m_NextPotionTime = DateTime.UtcNow + GetPotionCooldown();
             
+            CompanionEffects.PlayPotionEffect(this);
             Say("*drinks a potion*");
 
             if (Poisoned)
@@ -775,13 +789,16 @@ namespace Server.Companions.Core
 
         public override void OnDeath(Container c)
         {
-            base.OnDeath(c);
-
             CompanionContract contract = GetContract();
             if (contract != null && !contract.Deleted)
             {
                 contract.OnCompanionDeath();
             }
+
+            if (c != null)
+                c.Delete();
+
+            base.OnDeath(c);
         }
 
         public override void GetProperties(ObjectPropertyList list)
