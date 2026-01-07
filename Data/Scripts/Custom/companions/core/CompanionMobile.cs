@@ -808,10 +808,10 @@ namespace Server.Companions.Core
             if (m_AbilityManager == null)
                 return;
 
-            int chance = m_Level * 2.5;
+            int chance = m_Level * 3;
 
-            if (chance > 50)
-                chance = 50;
+            if (chance > 60)
+                chance = 60;
 
             if (Utility.Random(100) >= chance)
                 return;

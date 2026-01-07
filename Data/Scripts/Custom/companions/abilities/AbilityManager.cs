@@ -106,26 +106,118 @@ namespace Server.Companions.Abilities
                 );
         }
 
+        private CompanionAbilityInstance FindFeatByKey(string featKey)
+        {
+            for (int i = 0; i < m_Abilities.Count; i++)
+            {
+                BaseFeat feat = m_Abilities[i].Definition as BaseFeat;
+
+                if (feat != null && feat.FeatKey == featKey)
+                    return m_Abilities[i];
+            }
+
+            return null;
+        }
+
+        private List<BaseFeat> GetUpgradeableFeats(List<BaseFeat> available)
+        {
+            List<BaseFeat> list = new List<BaseFeat>();
+
+            for (int i = 0; i < m_Abilities.Count; i++)
+            {
+                CompanionAbilityInstance inst = m_Abilities[i];
+                BaseFeat owned = inst.Definition as BaseFeat;
+
+                if (owned == null)
+                    continue;
+
+                for (int j = 0; j < available.Count; j++)
+                {
+                    BaseFeat candidate = available[j];
+
+                    if (candidate.FeatKey != owned.FeatKey)
+                        continue;
+
+                    if (owned.CanUpgradeTo(candidate.Tier))
+                    {
+                        list.Add(candidate);
+                    }
+                }
+            }
+
+            return list;
+        }
+
+
 
         private void GrantRandomMartialFeat()
         {
-            List<ICompanionAbility> pool =
-                MartialFeatRegistry.GetAvailable(m_Companion);
+            Dictionary<int, List<BaseFeat>> byTier = MartialFeatRegistry.GetAvailableByTier(m_Companion);
 
-            for (int i = pool.Count - 1; i >= 0; i--)
-            {
-                if (HasAbility(pool[i].GetType()))
-                    pool.RemoveAt(i);
-            }
-
-            if (pool.Count == 0)
+            if (byTier.Count == 0)
                 return;
 
-            ICompanionAbility chosen = pool[Utility.Random(pool.Count)];
-            m_Abilities.Add(new CompanionAbilityInstance(chosen));
+            List<BaseFeat> all = new List<BaseFeat>();
+
+            foreach (List<BaseFeat> list in byTier.Values)
+                all.AddRange(list);
+
+            List<BaseFeat> upgradeable = GetUpgradeableFeats(all);
+
+            if (upgradeable.Count > 0 && Utility.RandomDouble() < 0.70)
+            {
+                BaseFeat chosen =
+                    upgradeable[Utility.Random(upgradeable.Count)];
+
+                ReplaceOrAddFeat(chosen);
+                return;
+            }
+
+            int highestTier = 0;
+
+            foreach (int tier in byTier.Keys)
+                if (tier > highestTier)
+                    highestTier = tier;
+
+            List<BaseFeat> candidates;
+
+            if (Utility.RandomDouble() < 0.55 && byTier.ContainsKey(highestTier))
+                candidates = byTier[highestTier];
+            else
+                candidates = all;
+
+            if (candidates.Count == 0)
+                return;
+
+            BaseFeat finalPick =
+                candidates[Utility.Random(candidates.Count)];
+
+            ReplaceOrAddFeat(finalPick);
         }
 
-        private bool HasAbility(Type type)
+        private void ReplaceOrAddFeat(BaseFeat feat)
+        {
+            CompanionAbilityInstance existing =
+                FindFeatByKey(feat.FeatKey);
+
+            if (existing != null)
+            {
+                BaseFeat oldFeat = existing.Definition as BaseFeat;
+
+                if (oldFeat != null && feat.Tier > oldFeat.Tier)
+                {
+                    m_Abilities.Remove(existing);
+                    m_Abilities.Add(new CompanionAbilityInstance(feat));
+                }
+
+                return;
+            }
+            m_Abilities.Add(new CompanionAbilityInstance(feat));
+        }
+
+
+
+        public bool HasAbility(Type type)
         {
             for (int i = 0; i < m_Abilities.Count; i++)
             {
@@ -165,30 +257,29 @@ namespace Server.Companions.Abilities
         public bool TryUseRandomMartialSpecial(Mobile target)
         {
             List<CompanionAbilityInstance> candidates = new List<CompanionAbilityInstance>();
-        
+
             for (int i = 0; i < m_Abilities.Count; i++)
             {
                 CompanionAbilityInstance inst = m_Abilities[i];
-        
+
                 if (!inst.Definition.IsMartialSpecial)
                     continue;
-        
+
                 if (!inst.CanUse(m_Companion))
                     continue;
-        
+
                 candidates.Add(inst);
             }
-        
+
             if (candidates.Count == 0)
                 return false;
-        
+
             CompanionAbilityInstance chosen =
                 candidates[Utility.Random(candidates.Count)];
-        
+
             chosen.Use(m_Companion, target);
             return true;
         }
-
 
 
         public void Serialize(GenericWriter writer)
