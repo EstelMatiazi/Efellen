@@ -40,8 +40,18 @@ namespace Server.Spells.Shinobi
 
 		public static void RemoveEffect( Mobile m )
 		{
-			m.Send(SpeedControl.Disable);
-			TableCheetahPaws.Remove( m );
+			if ( !m.Mounted )
+				m.Send(SpeedControl.Disable);
+			
+			if ( TableCheetahPaws.Contains( m ) )
+			{
+				Timer timer = TableCheetahPaws[m] as Timer;
+				if ( timer != null )
+					timer.Stop();
+				
+				TableCheetahPaws.Remove( m );
+			}
+			
 			m.EndAction( typeof( CheetahPaws ) );
 			BuffInfo.RemoveBuff( m, BuffIcon.CheetahPaws );
 		}
@@ -70,9 +80,11 @@ namespace Server.Spells.Shinobi
 				}
 
 				int TotalTime = (int)( Caster.Skills[SkillName.Ninjitsu].Value * 5 );
-				TableCheetahPaws[Caster] = SpeedControl.MountSpeed;
 				Caster.Send(SpeedControl.MountSpeed);
-				new InternalTimer( Caster, TimeSpan.FromSeconds( TotalTime ) ).Start();
+				
+				InternalTimer t = new InternalTimer( Caster, TimeSpan.FromSeconds( TotalTime ) );
+				TableCheetahPaws[Caster] = t;
+				t.Start();
 				BuffInfo.RemoveBuff( Caster, BuffIcon.CheetahPaws );
 				BuffInfo.AddBuff( Caster, new BuffInfo( BuffIcon.CheetahPaws, 1063490, TimeSpan.FromSeconds( TotalTime ), Caster ) );
 				Caster.BeginAction( typeof( CheetahPaws ) );
