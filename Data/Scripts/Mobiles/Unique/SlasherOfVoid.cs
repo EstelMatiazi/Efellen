@@ -132,7 +132,8 @@ namespace Server.Mobiles
 			    warcry: "*exhales devastating flames!*",
 			    hue: 0x9A0,
 			    rage: 3,
-			    range: 5, 
+			    range: 5,
+				physicalDmg:0, 
 			    fireDmg: 100
 			);
 		}

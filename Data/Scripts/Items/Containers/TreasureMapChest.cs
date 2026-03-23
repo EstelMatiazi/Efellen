@@ -7,6 +7,7 @@ using Server.Gumps;
 using Server.Multis;
 using Server.Network;
 using Server.Misc;
+using Server.Custom.Ascensions;
 
 namespace Server.Items
 {
@@ -98,6 +99,14 @@ namespace Server.Items
             // = SCROLL OF TRANCENDENCE
             if ( level >= 4 && Utility.RandomDouble() > 0.6 )
                 DropItem(ScrollofTranscendence.CreateRandom(level, level * 5));
+
+			if (level >= 6)
+			{
+				for ( int i = 0; i < level/3; i++ )
+				{
+					DropItem(AscensionScrollFactory.CreateRandom());
+				}
+			}
             
 			// = ARTIFACTS
 			if (level >= 7 && Utility.Random(300) < ( ( level * 17 ) + GetPlayerInfo.LuckyPlayerArtifacts( owner.Luck )))

@@ -10,7 +10,7 @@ namespace Server.Spells.Song
 	public class FoeRequiemSong : Song
 	{
 		private static SpellInfo m_Info = new SpellInfo(
-				"Foe Requiem", "*plays an foe requiem*",
+				"Foe Requiem", "*plays a foe requiem*",
 				-1
 			);
 		
@@ -73,7 +73,7 @@ namespace Server.Spells.Song
 					bool IsSlayer = false;
 					if ( m is BaseCreature ){ IsSlayer = CheckSlayer( m_Book.Instrument, m ); }
 
-					double damage = (double)( MusicSkill( Caster ) / 12 );
+					double damage = (double)( MusicSkill( Caster ) / 9 );
 
 					if ( IsSlayer )
 					{

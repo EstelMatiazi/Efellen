@@ -35,6 +35,16 @@ namespace Server.Spells.Necromancy
 			}
 			else if ( CheckSequence() )
 			{
+				if (Caster is PlayerMobile)
+				{
+					PlayerMobile pm = Caster as PlayerMobile;
+					if (pm != null)
+					{
+					    Server.Custom.Ascensions.PalemasterDeathlessVigor.TryTrigger(pm);
+						Server.Custom.Ascensions.PalemasterUndeadGraft.TryTrigger(pm);
+						Server.Custom.Ascensions.PalemasterHeraldOfHereafter.TryTrigger(pm);
+					}					
+				}
 				/* Temporarily imbues a weapon with a life draining effect.
 				 * Half the damage that the weapon inflicts is added to the necromancer's health.
 				 * The effects lasts for (Spiritualism skill level / 34) + 1 seconds.

@@ -14,6 +14,7 @@ namespace Server.Custom.DailyBosses.System
     public static class BossSpecialAttack
     {
         private static ArrayList m_BossBleeds = new ArrayList();
+        private static Dictionary<Mobile, Dictionary<ResistanceType, ResistanceMod>> m_ActiveResistBreaches = new Dictionary<Mobile, Dictionary<ResistanceType, ResistanceMod>>();
         private const double TELEGRAPH_DELAY = 2;
         #region slam
         /// <summary>
@@ -733,8 +734,8 @@ namespace Server.Custom.DailyBosses.System
 
                 boss.PlaySound(0x227);
 
-                int minDamage = 55 + (rage * 3);//55-64
-                int maxDamage = 65 + (rage * 3);//65-77
+                int minDamage = 55 + (rage * 3);
+                int maxDamage = 65 + (rage * 3);
 
                 List<Mobile> damagedMobiles = new List<Mobile>();
 
@@ -1438,6 +1439,150 @@ namespace Server.Custom.DailyBosses.System
             });
         }
 
+        #endregion
+
+        #region resist breach
+        /// <summary>
+        /// Performs a telegraphed AoE attack that reduces a specific resistance on all nearby players
+        /// </summary>
+        /// <param name="boss">The boss performing the attack</param>
+        /// <param name="target">The mobile that will be the center of the effect</param>
+        /// <param name="warcry">Message displayed overhead</param>
+        /// <param name="hue">Color hue for visual effects</param>
+        /// <param name="rage">Boss rage level (affects sap amount and duration)</param>
+        /// <param name="radius">Radius around the target in which players are affected</param>
+        /// <param name="resist">Resistance type to sap: "physical", "fire", "cold", "poison", or "energy"</param>
+        public static void PerformResistBreach(
+            BaseCreature boss,
+            Mobile target,
+            string warcry,
+            int hue,
+            int rage,
+            int radius,
+            string resist
+        )
+        {
+            if (boss == null || boss.Deleted || !boss.Alive)
+                return;
+
+            if (target == null || target.Deleted || !target.Alive)
+                return;
+
+            resist = resist.ToLower();
+
+            ResistanceType resistType;
+            if (!TryParseResistType(resist, out resistType))
+            {
+                Console.WriteLine("Warning: Invalid resist type '" + resist + "' passed to PerformResistBreach. Must be physical, fire, cold, poison, or energy.");
+                return;
+            }
+
+            if (!string.IsNullOrEmpty(warcry))
+            {
+                boss.PublicOverheadMessage(MessageType.Regular, hue, false, warcry);
+            }
+
+            boss.FixedParticles(0x3709, 10, 30, 5052, hue, 0, EffectLayer.Waist);
+            boss.PlaySound(0x208);
+
+            Point3D targetLocation = target.Location;
+            Map targetMap = target.Map;
+
+            Timer.DelayCall(TimeSpan.FromSeconds(TELEGRAPH_DELAY), delegate()
+            {
+                if (boss.Deleted || !boss.Alive || targetMap == null)
+                    return;
+
+                int sapAmount  = 30 + rage * 3;
+                int duration   = 10 + rage * 3;
+
+                Effects.PlaySound(targetLocation, targetMap, 0x208);
+
+                IPooledEnumerable eable = targetMap.GetMobilesInRange(targetLocation, radius);
+
+                foreach (Mobile m in eable)
+                {
+                    if (m == null || m == boss || !m.Player || !m.Alive)
+                        continue;
+
+                    if (!boss.CanBeHarmful(m))
+                        continue;
+
+                    boss.DoHarmful(m);
+
+                    m.FixedParticles(0x3709, 10, 30, 5052, hue, 0, EffectLayer.Waist);
+                    m.PlaySound(0x208);
+
+                    ApplyResistBreach(m, boss, resistType, sapAmount, duration, resist);
+                }
+                eable.Free();
+            });
+        }
+
+        /// <summary>
+        /// Applies the resist sap modifier to a single mobile and schedules its removal
+        /// </summary>
+        private static void ApplyResistBreach(Mobile m, BaseCreature boss, ResistanceType resistType, int sapAmount, int duration, string resistLabel)
+        {
+            RemoveResistBreach(m, resistType);
+
+            ResistanceMod mod = new ResistanceMod(resistType, -sapAmount);
+            m.AddResistanceMod(mod);
+
+            if (!m_ActiveResistBreaches.ContainsKey(m))
+                m_ActiveResistBreaches[m] = new Dictionary<ResistanceType, ResistanceMod>();
+
+            m_ActiveResistBreaches[m][resistType] = mod;
+
+            m.SendMessage("Your " + resistLabel + " resistance has been sapped by " + sapAmount + " for " + duration + " seconds!");
+
+            Timer.DelayCall(TimeSpan.FromSeconds(duration), delegate()
+            {
+                if (m == null || m.Deleted)
+                    return;
+
+                RemoveResistBreach(m, resistType);
+
+                if (m.Alive)
+                    m.SendMessage("Your " + resistLabel + " resistance has returned to normal.");
+            });
+        }
+
+        /// <summary>
+        /// Removes a tracked resist breach mod from a mobile if one exists
+        /// </summary>
+        private static void RemoveResistBreach(Mobile m, ResistanceType resistType)
+        {
+            if (m == null || !m_ActiveResistBreaches.ContainsKey(m))
+                return;
+
+            Dictionary<ResistanceType, ResistanceMod> mods = m_ActiveResistBreaches[m];
+
+            if (!mods.ContainsKey(resistType))
+                return;
+
+            m.RemoveResistanceMod(mods[resistType]);
+            mods.Remove(resistType);
+
+            if (mods.Count == 0)
+                m_ActiveResistBreaches.Remove(m);
+        }
+
+        /// <summary>
+        /// Converts a resist string to a ResistanceType enum value
+        /// </summary>
+        private static bool TryParseResistType(string resist, out ResistanceType result)
+        {
+            switch (resist)
+            {
+                case "physical": result = ResistanceType.Physical; return true;
+                case "fire":     result = ResistanceType.Fire;     return true;
+                case "cold":     result = ResistanceType.Cold;     return true;
+                case "poison":   result = ResistanceType.Poison;   return true;
+                case "energy":   result = ResistanceType.Energy;   return true;
+                default:         result = ResistanceType.Physical; return false;
+            }
+        }
         #endregion
         #region helpers
         private static Point3D GetRandomEmptyTileNear(Point3D center, Map map, int range)

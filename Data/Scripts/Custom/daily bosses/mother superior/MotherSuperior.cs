@@ -15,7 +15,7 @@ using Server.Custom;
 using Server.Custom.DailyBosses.System;
 using Server.Regions;
 using Server.CustomSpells;
-
+using Server.Custom.Ascensions;
 namespace Server.Mobiles
 {
 	[CorpseName( "Mother Superior's Corpse" )]
@@ -324,6 +324,7 @@ namespace Server.Mobiles
 			base.OnDeath( c );
 			BossLootSystem.AwardBossSpecial(this,BossDrops, 15);
 			c.DropItem( new EtherealPowerScroll() );
+			c.DropItem( AscensionScrollFactory.CreateRandom());
 			// gold explosion
 		    RichesSystem.SpawnRiches( m_LastTarget, 1 );
 		}

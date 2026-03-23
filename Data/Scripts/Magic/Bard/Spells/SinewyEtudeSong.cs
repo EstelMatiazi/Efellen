@@ -16,7 +16,7 @@ namespace Server.Spells.Song
 				"Sinewy Etude", "*plays a sinewy etude*",
 				-1
 			);
-		public override TimeSpan CastDelayBase { get { return TimeSpan.FromSeconds( 2 ); } }
+		public override TimeSpan CastDelayBase { get { return TimeSpan.FromSeconds( 0.5 ); } }
 		public override double RequiredSkill{ get{ return 60.0; } }
 		public override int RequiredMana{ get{ return 20; } }
 		

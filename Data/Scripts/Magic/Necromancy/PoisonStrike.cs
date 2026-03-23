@@ -36,6 +36,16 @@ namespace Server.Spells.Necromancy
 		{
 			if( CheckHSequence( m ) )
 			{
+				if (Caster is PlayerMobile)
+				{
+					PlayerMobile pm = Caster as PlayerMobile;
+					if (pm != null)
+					{
+					    Server.Custom.Ascensions.PalemasterDeathlessVigor.TryTrigger(pm);
+						Server.Custom.Ascensions.PalemasterUndeadGraft.TryTrigger(pm);
+						Server.Custom.Ascensions.PalemasterHeraldOfHereafter.TryTrigger(pm);
+					}					
+				}
 				SpellHelper.Turn( Caster, m );
 
 				/* Creates a blast of poisonous energy centered on the target.
@@ -52,7 +62,7 @@ namespace Server.Spells.Necromancy
 				if ( Caster is PlayerMobile )
 					nBenefit = (int)(Caster.Skills[SkillName.Necromancy].Value / 10);
 
-				nBenefit += (int)(Caster.Skills[SkillName.Poisoning].Value / 4);
+				nBenefit += (int)(Caster.Skills[SkillName.Poisoning].Value / 3);
 
 				double damage = Utility.RandomMinMax( (Core.ML ? 32 : 36), 40 ) * ((300 + (GetDamageSkill( Caster ) * 9)) / 1000) + nBenefit;
 				

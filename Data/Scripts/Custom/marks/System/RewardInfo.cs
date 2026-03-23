@@ -6,56 +6,46 @@ namespace Server.Custom.DefenderOfTheRealm
 {
     public class RewardInfo
     {
-        public Type ItemType;
-        public int Cost;
-        public int ItemID;
-        public string Name;
-        public bool Hueable;
-        public int Hue;
+        public Type     ItemType;
+        public int      Cost;
+        public int      ItemID;
+        public string   Name;
+        public bool     Hueable;
+        public int      Hue;
         public object[] Args;
 
-        public RewardInfo(Type type, int cost, int itemID, string name, bool hueable, int hue,params object[] args)
+        public RewardInfo(Type type, int cost, int itemID, string name, bool hueable, int hue, params object[] args)
         {
             ItemType = type;
-            Cost = cost;
-            ItemID = itemID;
-            Name = name;
-            Hueable = hueable;
-            Hue = hue;
-            Args = args; //amount
+            Cost     = cost;
+            ItemID   = itemID;
+            Name     = name;
+            Hueable  = hueable;
+            Hue      = hue;
+            Args     = args;
         }
 
-        public Item CreateItem(int type)
+        public Item CreateItem(int factionType)
         {
             Item item = (Item)Activator.CreateInstance(ItemType, Args);
 
             if (Hueable)
             {
-                if(type == 1)
+                switch (factionType)
                 {
-                    item.Hue = 53;
-                }
-                else if (type == 2)
-                {
-                    item.Hue = 37;
-                }
-                else if (type == 3)
-                {
-                    item.Hue = 1109;
-                }
-                else if (type == 4)
-                {
-                    item.Hue = 669;
-                }
-                else if (type == 5)
-                {
-                    item.Hue = 0x9C2;
-                }
-                else if (type == 6)
-                {
-                    item.Hue = 0x0213;
+                    case 1: item.Hue = 53;     break;
+                    case 2: item.Hue = 37;     break;
+                    case 3: item.Hue = 1109;   break;
+                    case 4: item.Hue = 669;    break;
+                    case 5: item.Hue = 0x9C2;  break;
+                    case 6: item.Hue = 0x213;  break;
                 }
             }
+            else if (Hue != 0)
+            {
+                item.Hue = Hue;
+            }
+
             return item;
         }
     }

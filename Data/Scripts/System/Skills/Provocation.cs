@@ -158,6 +158,46 @@ namespace Server.SkillHandlers
 						from.SendLocalizedMessage( 501593 ); // You can't tell someone to attack themselves!
 					}
 				}
+				else if ( from is PlayerMobile && targeted == from )
+				{
+					double diff = m_Instrument.GetDifficultyFor( m_Creature ) - 10.0;
+					double music = from.Skills[SkillName.Musicianship].Value;
+
+					if ( music > 100.0 )
+						diff -= (music - 100.0) * 0.5;
+
+					double minSkill = diff - 25;
+					double maxSkill = diff + 25;
+
+					if ( from.CanBeHarmful( m_Creature, true ) )
+					{
+						if ( !BaseInstrument.CheckMusicianship( from ) )
+						{
+							from.NextSkillTime = DateTime.Now + TimeSpan.FromSeconds( 3 );
+							from.SendLocalizedMessage( 500612 ); // You play poorly, and there is no effect.
+							m_Instrument.PlayInstrumentBadly( from );
+							m_Instrument.ConsumeUse( from );
+						}
+						else
+						{
+							if ( !from.CheckTargetSkill( SkillName.Provocation, m_Creature, minSkill, maxSkill ) )
+							{
+								from.NextSkillTime = DateTime.Now + TimeSpan.FromSeconds( 3 );
+								from.SendLocalizedMessage( 501599 ); // Your music fails to incite enough anger.
+								m_Instrument.PlayInstrumentBadly( from );
+								m_Instrument.ConsumeUse( from );
+							}
+							else
+							{
+								from.NextSkillTime = DateTime.Now + TimeSpan.FromSeconds( 6 );
+								from.SendLocalizedMessage( 501602 ); // Your music succeeds, as you start a fight.
+								m_Instrument.PlayInstrumentWell( from );
+								m_Instrument.ConsumeUse( from );
+								m_Creature.Combatant = from;
+							}
+						}
+					}
+				}
 				else
 				{
 					from.SendLocalizedMessage( 501589 ); // You can't incite that!

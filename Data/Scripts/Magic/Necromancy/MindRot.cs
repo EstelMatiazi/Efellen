@@ -39,6 +39,16 @@ namespace Server.Spells.Necromancy
 			}
 			else if ( CheckHSequence( m ) )
 			{
+				if (Caster is PlayerMobile)
+				{
+					PlayerMobile pm = Caster as PlayerMobile;
+					if (pm != null)
+					{
+					    Server.Custom.Ascensions.PalemasterDeathlessVigor.TryTrigger(pm);
+						Server.Custom.Ascensions.PalemasterUndeadGraft.TryTrigger(pm);
+						Server.Custom.Ascensions.PalemasterHeraldOfHereafter.TryTrigger(pm);
+					}					
+				}
 				SpellHelper.Turn( Caster, m );
 
 				/* Attempts to place a curse on the Target that increases the mana cost of any spells they cast,

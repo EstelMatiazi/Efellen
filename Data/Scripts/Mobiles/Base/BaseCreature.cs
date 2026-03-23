@@ -17,7 +17,9 @@ using Server.Spells.Elementalism;
 using System.Text;
 using Server;
 using System.IO;
-
+using Server.Custom.Ascensions;
+using Server.EffectsUtil;
+using Server.Spells.Song;
 namespace Server.Mobiles
 {
 	#region Enums
@@ -745,888 +747,888 @@ namespace Server.Mobiles
 		public virtual double DispelFocus{ get{ return 20.0; } } // at difficulty - focus we have 0%, at difficulty + focus we have 100%
 		public virtual bool DisplayWeight{ get{ return Backpack is StrongBackpack; } }
 
-#region Breath ability, like dragon fire breath - REFACTORED
-private DateTime m_NextBreathTime;
-
-// Must be overriden in subclass to enable
-public virtual bool HasBreath{ get{ return false; } }
-
-// Base damage given is: CurrentHitPoints * BreathDamageScalar
-public virtual double BreathDamageScalar{ get{ return 0.20; } }
-
-// Min/max seconds until next breath
-public virtual double BreathMinDelay{ get{ return 10.0; } }
-public virtual double BreathMaxDelay{ get{ return 13.0; } }
-
-// Creature stops moving for 1.0 seconds while breathing
-public virtual double BreathStallTime{ get{ return 1.0; } }
-
-// Effect is sent 1.3 seconds after BreathAngerSound and BreathAngerAnimation is played
-public virtual double BreathEffectDelay{ get{ return 1.3; } }
-
-// Damage is given 1.0 seconds after effect is sent
-public virtual double BreathDamageDelay{ get{ return 1.0; } }
-
-public virtual int BreathRange{ get{ return RangePerception; } }
-
-// Damage types
-public virtual int BreathPhysicalDamage{ get{ return 0; } }
-public virtual int BreathFireDamage{ get{ return 100; } }
-public virtual int BreathColdDamage{ get{ return 0; } }
-public virtual int BreathPoisonDamage{ get{ return 0; } }
-public virtual int BreathEnergyDamage{ get{ return 0; } }
-
-// Is immune to breath damages
-public virtual bool BreathImmune{ get{ return false; } }
-
-// Effect details and sound
-public virtual int BreathEffectItemID{ get{ return 0x36D4; } }
-public virtual int BreathEffectSpeed{ get{ return 5; } }
-public virtual int BreathEffectDuration{ get{ return 0; } }
-public virtual bool BreathEffectExplodes{ get{ return false; } }
-public virtual bool BreathEffectFixedDir{ get{ return false; } }
-public virtual int BreathEffectHue{ get{ return 0; } }
-public virtual int BreathEffectRenderMode{ get{ return 0; } }
-
-public virtual int BreathEffectSound{ get{ return 0x227; } }
-
-// Anger sound/animations
-public virtual int BreathAngerSound{ get{ return GetAngerSound(); } }
-public virtual int BreathAngerAnimation{ get{ return 12; } }
-
-// Helper class to carry breath context
-private class BreathContext
-{
-    public Point3D TargetLocation { get; set; }
-    public Map TargetMap { get; set; }
-    public Mobile OriginalTarget { get; set; }
-    public int Form { get; set; }
-    
-    public BreathContext(Mobile target, int form)
-    {
-        OriginalTarget = target;
-        TargetLocation = target.Location;
-        TargetMap = target.Map;
-        Form = form;
-    }
-}
-
-public virtual void BreathStart( Mobile target )
-{
-    BreathStallMovement();
-    BreathPlayAngerSound();
-    BreathPlayAngerAnimation();
-
-    this.Direction = this.GetDirectionTo( target );
-
-    // Store context with location snapshot
-    int form = GetBreathForm(); // Get the form from creature's breath type
-    BreathContext context = new BreathContext(target, form);
-    Timer.DelayCall( TimeSpan.FromSeconds( BreathEffectDelay ), new TimerStateCallback( BreathEffect_Callback ), context );
-}
-
-// Override this in creature classes to specify which breath form to use
-// This replaces the form parameter that was previously in BreathDealDamage
-public virtual int GetBreathForm()
-{
-    // Default breath form - determine from damage types
-    if ( BreathFireDamage > 0 && BreathColdDamage == 0 && BreathPoisonDamage == 0 && BreathEnergyDamage == 0 )
-        return 9; // LARGE FIRE BREATH
-    else if ( BreathColdDamage > 0 && BreathFireDamage == 0 )
-        return 12; // LARGE COLD BREATH
-    else if ( BreathPoisonDamage > 0 )
-        return 10; // LARGE POISON BREATH
-    else if ( BreathEnergyDamage > 0 )
-        return 13; // LARGE ELECTRICAL BREATH
-    
-    return 9; // Default to fire
-}
-
-public virtual void BreathStallMovement()
-{
-    if ( m_AI != null )
-        m_AI.NextMove = DateTime.Now + TimeSpan.FromSeconds( BreathStallTime );
-}
-
-public virtual void BreathPlayAngerSound()
-{
-    PlaySound( BreathAngerSound );
-}
-
-public virtual void BreathPlayAngerAnimation()
-{
-    Animate( BreathAngerAnimation, 5, 1, true, false, 0 );
-}
-
-public virtual void BreathEffect_Callback( object state )
-{
-    BreathContext context = (BreathContext)state;
-    
-    // we always want sounds
-    BreathPlayEffectSound();
-    
-    // Play projectile if this breath type uses one
-    if ( BreathEffectItemID > 0 && ShouldPlayProjectile( context.Form ) )
-    {
-        BreathPlayEffect( context.TargetLocation, context.TargetMap );
-    }
-    
-    // Play effects
-    PlayBreathVisuals( context.TargetLocation, context.TargetMap, context.Form );
-    
-    // blast them
-    Mobile target = context.OriginalTarget;
-    if ( target != null && target.Alive && CanBeHarmful( target ) )
-    {
-        Timer.DelayCall( TimeSpan.FromSeconds( BreathDamageDelay ), new TimerStateCallback( BreathDamage_Callback ), context );
-    }
-}
-
-public virtual bool ShouldPlayProjectile( int form )
-{
-    // Only certain forms use projectiles (daggers, stars, potions, manticore thorns.)
-    switch( form )
-    {
-        case 2: // POTIONS THROWN
-        case 3: // DAGGERS OR STARS THROWN
-        case 5: // MANTICORE
-            return true;
-        default:
-            return false; // Most breath weapons don't use projectiles
-    }
-}
-
-public virtual void BreathPlayEffectSound()
-{
-    PlaySound( BreathEffectSound );
-}
-
-public virtual void BreathPlayEffect( Point3D targetLocation, Map targetMap )
-{
-    if ( targetMap == null )
-        return;
-        
-    Effects.SendMovingEffect( this, new Entity(Serial.Zero, targetLocation, targetMap), 
-        BreathEffectItemID, BreathEffectSpeed, BreathEffectDuration, 
-        BreathEffectFixedDir, BreathEffectExplodes, BreathEffectHue, BreathEffectRenderMode );
-}
-
-public virtual void BreathDamage_Callback( object state )
-{
-    BreathContext context = (BreathContext)state;
-    Mobile target = context.OriginalTarget;
-    
-    if ( target == null || !target.Alive )
-        return;
-        
-    if ( target is BaseCreature && ((BaseCreature)target).BreathImmune )
-        return;
-
-    if ( CanBeHarmful( target ) )
-    {
-        DoHarmful( target );
-        BreathDealDamage( target, context.Form );
-    }
-}
-
-public virtual void BreathDealDamage( Mobile target, int form )
-{
-    if( Evasion.CheckSpellEvasion( target ) )
-        return;
-
-    DoFinalBreathDamage( target, form, true );
-}
-
-public virtual void PlayBreathVisuals( Point3D targetLoc, Map map, int form )
-{
-    if ( map == null )
-        return;
-
-    Point3D blast1 = new Point3D( targetLoc.X, targetLoc.Y, targetLoc.Z );
-    Point3D blast2 = new Point3D( targetLoc.X-1, targetLoc.Y, targetLoc.Z );
-    Point3D blast3 = new Point3D( targetLoc.X+1, targetLoc.Y, targetLoc.Z );
-    Point3D blast4 = new Point3D( targetLoc.X, targetLoc.Y-1, targetLoc.Z );
-    Point3D blast5 = new Point3D( targetLoc.X, targetLoc.Y+1, targetLoc.Z );
-
-    Point3D blast1z = new Point3D( targetLoc.X, targetLoc.Y, targetLoc.Z+10 );
-    Point3D blast2z = new Point3D( targetLoc.X-1, targetLoc.Y, targetLoc.Z+10 );
-    Point3D blast3z = new Point3D( targetLoc.X+1, targetLoc.Y, targetLoc.Z+10 );
-    Point3D blast4z = new Point3D( targetLoc.X, targetLoc.Y-1, targetLoc.Z+10 );
-    Point3D blast5z = new Point3D( targetLoc.X, targetLoc.Y+1, targetLoc.Z+10 );
-
-    Point3D blast1w = new Point3D( targetLoc.X, targetLoc.Y, targetLoc.Z );
-    Point3D blast2w = new Point3D( targetLoc.X-2, targetLoc.Y, targetLoc.Z );
-    Point3D blast3w = new Point3D( targetLoc.X+2, targetLoc.Y, targetLoc.Z );
-    Point3D blast4w = new Point3D( targetLoc.X, targetLoc.Y-2, targetLoc.Z );
-    Point3D blast5w = new Point3D( targetLoc.X, targetLoc.Y+2, targetLoc.Z );
-
-    // All the visual form logic extracted from DoFinalBreathAttack
-    if ( form == 1 ) // CRYSTAL DRAGONS
-    {
-        int bColor = Utility.RandomList( 0x48D, 0x48E, 0x48F, 0x490, 0x491 );
-        Effects.SendLocationEffect( blast1, map, 0x3709, 30, 10, bColor, 0 );
-        Effects.SendLocationEffect( blast2, map, 0x3709, 30, 10, bColor, 0 );
-        Effects.SendLocationEffect( blast3, map, 0x3709, 30, 10, bColor, 0 );
-        Effects.SendLocationEffect( blast4, map, 0x3709, 30, 10, bColor, 0 );
-        Effects.SendLocationEffect( blast5, map, 0x3709, 30, 10, bColor, 0 );
-        Effects.PlaySound( targetLoc, map, 0x208 );
-    }
-    else if ( form == 2 ) // POTIONS THROWN
-    {
-        if ( BreathEffectHue == 0x488 )
-        {
-            Effects.SendLocationEffect( blast1, map, 0x3709, 30, 10 );
-            Effects.PlaySound( targetLoc, map, 0x208 );
-            Effects.PlaySound( targetLoc, map, 0x38D );
-        }
-        else if ( BreathEffectHue == 0xB92 )
-        {
-            Effects.SendLocationParticles( EffectItem.Create( blast1, map, EffectItem.DefaultDuration ), 0x36B0, 1, 14, 63, 7, 9915, 0 );
-            Effects.PlaySound( targetLoc, map, 0x229 );
-            Effects.PlaySound( targetLoc, map, 0x38D );
-        }
-        else if ( form == 0x5B5 )
-        {
-            Point3D vortex = new Point3D( targetLoc.X+1, targetLoc.Y+1, targetLoc.Z );
-            Effects.SendLocationEffect( vortex, map, 0x37CC, 30, 10, 0x481, 0 );
-            Effects.PlaySound( targetLoc, map, 0x10B );
-            Effects.PlaySound( targetLoc, map, 0x38D );
-        }
-        else
-        {
-            Effects.SendLocationParticles( EffectItem.Create( blast1, map, EffectItem.DefaultDuration ), 0x36BD, 20, 10, 5044, 0, 0, 0 );
-            Effects.PlaySound( targetLoc, map, 0x307 );
-        }
-    }
-    else if ( form == 3 ) // DAGGERS OR STARS THROWN
-    {
-        // Visual effects only
-        // Blood and crying out handled in ApplyBreathSecondaryEffects
-    }
-    else if ( form == 4 ) // DINOSAUR ROAR
-    {
-        Effects.PlaySound( targetLoc, map, 0x63F );
-    }
-    else if ( form == 5 ) // MANTICORE
-    {
-        // Visual projectile already handled by BreathPlayEffect
-        // Sound and poison handled in ApplyBreathSecondaryEffects
-    }
-    else if ( form == 6 ) // SPIDERS
-    {
-        Effects.SendLocationEffect( blast1, map, 0x10D3, 30, 10, 0, 0 );
-        Effects.PlaySound( targetLoc, map, 0x62D );
-    }
-    else if ( form == 7 ) // GIANT STONES AND LOGS
-    {
-        Effects.SendLocationEffect( blast1, map, 0x36B0, 30, 10, 0x837, 0 );
-        Effects.PlaySound( targetLoc, map, 0x664 );
-    }
-    else if ( form == 8 ) // LARGE SAND BREATH
-    {
-        Effects.SendLocationEffect( blast1w, map, 0x5590, 30, 10, Utility.RandomList( 0xB4D, 0xB4E ), 0 );
-        Effects.SendLocationEffect( blast2w, map, 0x5590, 30, 10, Utility.RandomList( 0xB4D, 0xB4E ), 0 );
-        Effects.SendLocationEffect( blast3w, map, 0x5590, 30, 10, Utility.RandomList( 0xB4D, 0xB4E ), 0 );
-        Effects.SendLocationEffect( blast4w, map, 0x5590, 30, 10, Utility.RandomList( 0xB4D, 0xB4E ), 0 );
-        Effects.SendLocationEffect( blast5w, map, 0x5590, 30, 10, Utility.RandomList( 0xB4D, 0xB4E ), 0 );
-        Effects.PlaySound( targetLoc, map, 0x10B );
-    }
-    else if ( form == 9 ) // LARGE FIRE BREATH
-    {
-        Effects.SendLocationEffect( blast1, map, 0x3709, 30, 10 );
-        Effects.SendLocationEffect( blast2, map, 0x3709, 30, 10 );
-        Effects.SendLocationEffect( blast3, map, 0x3709, 30, 10 );
-        Effects.SendLocationEffect( blast4, map, 0x3709, 30, 10 );
-        Effects.SendLocationEffect( blast5, map, 0x3709, 30, 10 );
-        Effects.PlaySound( targetLoc, map, 0x208 );
-    }
-    else if ( form == 10 ) // LARGE POISON BREATH
-    {
-        if ( Utility.RandomBool() )
-        {
-            Effects.SendLocationEffect( blast1, map, 0x3400, 60 );
-            Effects.SendLocationEffect( blast2, map, 0x3400, 60 );
-            Effects.SendLocationEffect( blast3, map, 0x3400, 60 );
-            Effects.SendLocationEffect( blast4, map, 0x3400, 60 );
-            Effects.SendLocationEffect( blast5, map, 0x3400, 60 );
-            Effects.PlaySound( targetLoc, map, 0x108 );
-        }
-        else
-        {
-            Effects.SendLocationParticles( EffectItem.Create( blast1, map, EffectItem.DefaultDuration ), 0x36B0, 1, 14, 63, 7, 9915, 0 );
-            Effects.SendLocationParticles( EffectItem.Create( blast2, map, EffectItem.DefaultDuration ), 0x36B0, 1, 14, 63, 7, 9915, 0 );
-            Effects.SendLocationParticles( EffectItem.Create( blast3, map, EffectItem.DefaultDuration ), 0x36B0, 1, 14, 63, 7, 9915, 0 );
-            Effects.SendLocationParticles( EffectItem.Create( blast4, map, EffectItem.DefaultDuration ), 0x36B0, 1, 14, 63, 7, 9915, 0 );
-            Effects.SendLocationParticles( EffectItem.Create( blast5, map, EffectItem.DefaultDuration ), 0x36B0, 1, 14, 63, 7, 9915, 0 );
-            Effects.PlaySound( targetLoc, map, 0x229 );
-        }
-    }
-    else if ( form == 11 ) // LARGE RADIATION
-    {
-        Effects.SendLocationEffect( blast1, map, 0x3400, 60, 0xB96, 0 );
-        Effects.SendLocationEffect( blast2, map, 0x3400, 60, 0xB96, 0 );
-        Effects.SendLocationEffect( blast3, map, 0x3400, 60, 0xB96, 0 );
-        Effects.SendLocationEffect( blast4, map, 0x3400, 60, 0xB96, 0 );
-        Effects.SendLocationEffect( blast5, map, 0x3400, 60, 0xB96, 0 );
-        Effects.PlaySound( targetLoc, map, 0x108 );
-    }
-    else if ( form == 12 ) // LARGE COLD BREATH
-    {
-        Effects.SendLocationEffect( blast1, map, 0x1A84, 30, 10, 0x9C1, 0 );
-        Effects.SendLocationEffect( blast2, map, 0x1A84, 30, 10, 0x9C1, 0 );
-        Effects.SendLocationEffect( blast3, map, 0x1A84, 30, 10, 0x9C1, 0 );
-        Effects.SendLocationEffect( blast4, map, 0x1A84, 30, 10, 0x9C1, 0 );
-        Effects.SendLocationEffect( blast5, map, 0x1A84, 30, 10, 0x9C1, 0 );
-        Effects.PlaySound( targetLoc, map, 0x10B );
-    }
-    else if ( form == 13 ) // LARGE ELECTRICAL BREATH
-    {
-        Effects.SendLocationEffect( blast1, map, Utility.RandomList( 0x3967, 0x3979 ), 30, 10 );
-        Effects.SendLocationEffect( blast2, map, Utility.RandomList( 0x3967, 0x3979 ), 30, 10 );
-        Effects.SendLocationEffect( blast3, map, Utility.RandomList( 0x3967, 0x3979 ), 30, 10 );
-        Effects.SendLocationEffect( blast4, map, Utility.RandomList( 0x3967, 0x3979 ), 30, 10 );
-        Effects.SendLocationEffect( blast5, map, Utility.RandomList( 0x3967, 0x3979 ), 30, 10 );
-        Effects.PlaySound( targetLoc, map, 0x5C3 );
-    }
-    else if ( form == 14 ) // TITAN LIGHTNING BOLT
-    {
-        Effects.SendLocationEffect( blast1, map, Utility.RandomList( 0x3967, 0x3979 ), 30, 10 );
-        Effects.SendLocationEffect( blast2, map, Utility.RandomList( 0x3967, 0x3979 ), 30, 10 );
-        Effects.SendLocationEffect( blast3, map, Utility.RandomList( 0x3967, 0x3979 ), 30, 10 );
-        Effects.SendLocationEffect( blast4, map, Utility.RandomList( 0x3967, 0x3979 ), 30, 10 );
-        Effects.SendLocationEffect( blast5, map, Utility.RandomList( 0x3967, 0x3979 ), 30, 10 );
-        Effects.PlaySound( targetLoc, map, 0x5C3 );
-    }
-    else if ( form == 15 ) // SPHINX
-    {
-        Effects.SendLocationEffect( blast1, map, 0x5590, 30, 10, Utility.RandomList( 0xB4D, 0xB4E ), 0 );
-        Effects.PlaySound( targetLoc, map, 0x10B );
-    }
-    else if ( form == 16 ) // LARGE STEAM BREATH
-    {
-        Effects.SendLocationEffect( blast1, map, 0x3400, 60, 10, 0x9C4, 0 );
-        Effects.SendLocationEffect( blast2, map, 0x3400, 60, 10, 0x9C4, 0 );
-        Effects.SendLocationEffect( blast3, map, 0x3400, 60, 10, 0x9C4, 0 );
-        Effects.SendLocationEffect( blast4, map, 0x3400, 60, 10, 0x9C4, 0 );
-        Effects.SendLocationEffect( blast5, map, 0x3400, 60, 10, 0x9C4, 0 );
-        Effects.PlaySound( targetLoc, map, 0x108 );
-    }
-    else if ( form == 17 ) // SMALL FIRE BREATH
-    {
-        Effects.SendLocationEffect( blast1, map, 0x3709, 30, 10 );
-        Effects.PlaySound( targetLoc, map, 0x208 );
-    }
-    else if ( form == 18 ) // SMALL POISON BREATH
-    {
-        if ( Utility.RandomBool() )
-        {
-            Effects.SendLocationEffect( blast1, map, 0x3400, 60 );
-            Effects.PlaySound( targetLoc, map, 0x108 );
-        }
-        else
-        {
-            Effects.SendLocationParticles( EffectItem.Create( blast1, map, EffectItem.DefaultDuration ), 0x36B0, 1, 14, 63, 7, 9915, 0 );
-            Effects.PlaySound( targetLoc, map, 0x229 );
-        }
-    }
-    else if ( form == 19 ) // SMALL COLD BREATH
-    {
-        Effects.SendLocationEffect( blast1, map, 0x1A84, 30, 10, 0x9C1, 0 );
-        Effects.PlaySound( targetLoc, map, 0x10B );
-    }
-    else if ( form == 20 ) // SMALL ENERGY BREATH
-    {
-        Effects.SendLocationEffect( blast1, map, Utility.RandomList( 0x3967, 0x3979 ), 30, 10 );
-        Effects.PlaySound( targetLoc, map, 0x5C3 );
-    }
-    else if ( form == 21 ) // SMALL ENERGY WITH BOLT
-    {
-        Effects.SendLocationEffect( blast1, map, Utility.RandomList( 0x3967, 0x3979 ), 30, 10 );
-        Effects.PlaySound( targetLoc, map, 0x5C3 );
-    }
-    else if ( form == 22 ) // MISC ELEMENTAL
-    {
-        Effects.SendLocationEffect( blast1, map, 0x36B0, 30, 10, 0x840, 0 );
-        Effects.PlaySound( targetLoc, map, 0x65A );
-    }
-    else if ( form == 23 || form == 24 || form == 25 ) // LARGE VOID BREATH
-    {
-        int color = 0x496;
-        if ( form == 24 ) { color = 0x844; }
-        else if ( form == 25 ) { color = 0x9C1; }
-        Effects.SendLocationEffect( blast1, map, 0x3400, 60, color, 0 );
-        Effects.SendLocationEffect( blast2, map, 0x3400, 60, color, 0 );
-        Effects.SendLocationEffect( blast3, map, 0x3400, 60, color, 0 );
-        Effects.SendLocationEffect( blast4, map, 0x3400, 60, color, 0 );
-        Effects.SendLocationEffect( blast5, map, 0x3400, 60, color, 0 );
-        Effects.PlaySound( targetLoc, map, 0x108 );
-    }
-    else if ( form == 26 || form == 27 || form == 28 ) // SMALL VOID BREATH
-    {
-        int color = 0x496;
-        if ( form == 27 ) { color = 0x844; }
-        else if ( form == 28 ) { color = 0x9C1; }
-        Effects.SendLocationEffect( blast1, map, 0x3400, 60, color, 0 );
-        Effects.PlaySound( targetLoc, map, 0x108 );
-    }
-    else if ( form == 29 ) // STONE HANDS FROM THE GROUND
-    {
-        Point3D hands = new Point3D( targetLoc.X, targetLoc.Y, targetLoc.Z+5 );
-        Effects.SendLocationEffect( hands, map, 0x3837, 23, 10, this.Hue, 0 );
-        Effects.PlaySound( targetLoc, map, 0x65A );
-    }
-    else if ( form == 30 ) // WATER SPLASH
-    {
-        Effects.SendLocationEffect( blast1, map, 0x1A84, 30, 10, BreathEffectHue, 0 );
-        Effects.PlaySound( targetLoc, map, 0x026 );
-    }
-    else if ( form == 31 ) // WATER SPLASH (LARGE)
-    {
-        Effects.SendLocationEffect( blast1, map, 0x1A84, 30, 10, BreathEffectHue, 0 );
-        Effects.SendLocationEffect( blast2, map, 0x23B2, 16, BreathEffectHue, 0 );
-        Effects.SendLocationEffect( blast3, map, 0x23B2, 16, BreathEffectHue, 0 );
-        Effects.SendLocationEffect( blast4, map, 0x23B2, 16, BreathEffectHue, 0 );
-        Effects.SendLocationEffect( blast5, map, 0x23B2, 16, BreathEffectHue, 0 );
-        Effects.PlaySound( targetLoc, map, 0x026 );
-    }
-    else if ( form == 32 ) // SMALL FALLING ICE
-    {
-        if ( Utility.RandomBool() )
-        {
-            Effects.SendLocationEffect( blast1, map, 0x5571, 85, 10, 0, 0 );
-            Effects.PlaySound( targetLoc, map, 0x5C0 );
-        }
-        else
-        {
-            Effects.SendLocationEffect( blast1, map, Utility.RandomList( 0x384E, 0x3859 ), 85, 10, BreathEffectHue, 0 );
-            Effects.PlaySound( targetLoc, map, 0x656 );
-        }
-    }
-    else if ( form == 33 ) // BIG FALLING ICE
-    {
-        int icy = Utility.RandomMinMax(1,3);
-        if ( icy == 1 )
-        {
-            Effects.SendLocationEffect( blast1, map, Utility.RandomList( 0x384E, 0x3859 ), 85, 10, BreathEffectHue, 0 );
-            Effects.SendLocationEffect( blast2, map, Utility.RandomList( 0x384E, 0x3859 ), 85, 10, BreathEffectHue, 0 );
-            Effects.SendLocationEffect( blast3, map, Utility.RandomList( 0x384E, 0x3859 ), 85, 10, BreathEffectHue, 0 );
-            Effects.SendLocationEffect( blast4, map, Utility.RandomList( 0x384E, 0x3859 ), 85, 10, BreathEffectHue, 0 );
-            Effects.SendLocationEffect( blast5, map, Utility.RandomList( 0x384E, 0x3859 ), 85, 10, BreathEffectHue, 0 );
-            Effects.PlaySound( targetLoc, map, 0x658 );
-        }
-        else if ( icy == 2 )
-        {
-            Effects.SendLocationEffect( blast1, map, 0x5571, 85, 10, 0, 0 );
-            Effects.SendLocationEffect( blast2, map, 0x5571, 85, 10, 0, 0 );
-            Effects.SendLocationEffect( blast3, map, 0x5571, 85, 10, 0, 0 );
-            Effects.SendLocationEffect( blast4, map, 0x5571, 85, 10, 0, 0 );
-            Effects.SendLocationEffect( blast5, map, 0x5571, 85, 10, 0, 0 );
-            Effects.PlaySound( targetLoc, map, 0x5C0 );
-        }
-        else
-        {
-            Effects.SendLocationEffect( blast1, map, 0x55BB, 85, 10, 0, 0 );
-            Effects.PlaySound( blast1, map, 0x5CE );
-        }
-    }
-    else if ( form == 34 ) // LARGE WEED BREATH
-    {
-        Effects.SendLocationEffect( blast1, map, 0x3400, 60, 0xB97, 0 );
-        Effects.SendLocationEffect( blast2, map, 0x3400, 60, 0xB97, 0 );
-        Effects.SendLocationEffect( blast3, map, 0x3400, 60, 0xB97, 0 );
-        Effects.SendLocationEffect( blast4, map, 0x3400, 60, 0xB97, 0 );
-        Effects.SendLocationEffect( blast5, map, 0x3400, 60, 0xB97, 0 );
-        Effects.PlaySound( targetLoc, map, 0x64F );
-    }
-    else if ( form == 35 ) // SMALL WEED BREATH
-    {
-        Effects.SendLocationEffect( blast1, map, 0x3400, 60, 0xB97, 0 );
-        Effects.PlaySound( targetLoc, map, 0x64F );
-    }
-    else if ( form == 36 ) // ACID SPLASH
-    {
-        Effects.SendLocationEffect( blast1, map, 0x1A84, 30, 10, BreathEffectHue, 1167 );
-        Effects.SendLocationEffect( blast2, map, 0x23B2, 16, BreathEffectHue, 1167 );
-        Effects.SendLocationEffect( blast3, map, 0x23B2, 16, BreathEffectHue, 1167 );
-        Effects.SendLocationEffect( blast4, map, 0x23B2, 16, BreathEffectHue, 1167 );
-        Effects.SendLocationEffect( blast5, map, 0x23B2, 16, BreathEffectHue, 1167 );
-        Effects.PlaySound( targetLoc, map, 0x026 );
-    }
-    else if ( form == 37 ) // MUMMY WRAP
-    {
-        Point3D wrapped = new Point3D( targetLoc.X, targetLoc.Y, targetLoc.Z+2 );
-        Effects.SendLocationEffect( wrapped, map, 0x23AF, 30, 10, 0, 0 );
-        Effects.PlaySound( targetLoc, map, 0x5D2 );
-    }
-    else if ( form == 38 ) // SMALL STEAM BREATH
-    {
-        Effects.SendLocationEffect( blast1, map, 0x3400, 60, 10, 0x9C4, 0 );
-        Effects.PlaySound( targetLoc, map, 0x108 );
-    }
-    else if ( form == 39 ) // SMALL RADIATION
-    {
-        Effects.SendLocationEffect( blast1, map, 0x3400, 60, 0xB96, 0 );
-        Effects.PlaySound( targetLoc, map, 0x108 );
-    }
-    else if ( form == 40 ) // SMALL SAND BREATH
-    {
-        Effects.SendLocationEffect( blast1, map, 0x5590, 30, 10, Utility.RandomList( 0xB4D, 0xB4E ), 0 );
-        Effects.PlaySound( targetLoc, map, 0x10B );
-    }
-    else if ( form == 41 ) // TITAN OF EARTH ATTACK
-    {
-        Point3D hands = new Point3D( targetLoc.X, targetLoc.Y, targetLoc.Z+5 );
-        Effects.SendLocationEffect( hands, map, 0x3837, 23, 10, BreathEffectHue, 0 );
-
-        Effects.SendLocationEffect( blast1z, map, Utility.RandomList( 0x384E, 0x3859 ), 85, 10, BreathEffectHue, 0 );
-        Effects.SendLocationEffect( blast2z, map, Utility.RandomList( 0x384E, 0x3859 ), 85, 10, BreathEffectHue, 0 );
-        Effects.SendLocationEffect( blast3z, map, Utility.RandomList( 0x384E, 0x3859 ), 85, 10, BreathEffectHue, 0 );
-        Effects.SendLocationEffect( blast4z, map, Utility.RandomList( 0x384E, 0x3859 ), 85, 10, BreathEffectHue, 0 );
-        Effects.SendLocationEffect( blast5z, map, Utility.RandomList( 0x384E, 0x3859 ), 85, 10, BreathEffectHue, 0 );
-        Effects.PlaySound( targetLoc, map, 0x658 );
-    }
-    else if ( form == 42 ) // TITAN OF FIRE ATTACK
-    {
-        Effects.SendLocationEffect( blast1, map, 0x3709, 30, 10, BreathEffectHue, 0 );
-        Effects.SendLocationEffect( blast2, map, 0x3709, 30, 10, BreathEffectHue, 0 );
-        Effects.SendLocationEffect( blast3, map, 0x3709, 30, 10, BreathEffectHue, 0 );
-        Effects.SendLocationEffect( blast4, map, 0x3709, 30, 10, BreathEffectHue, 0 );
-        Effects.SendLocationEffect( blast5, map, 0x3709, 30, 10, BreathEffectHue, 0 );
-        Effects.PlaySound( targetLoc, map, 0x208 );
-
-        Effects.SendLocationEffect( blast1z, map, Utility.RandomList( 0x384E, 0x3859 ), 85, 10, BreathEffectHue, 0 );
-        Effects.SendLocationEffect( blast2z, map, Utility.RandomList( 0x384E, 0x3859 ), 85, 10, BreathEffectHue, 0 );
-        Effects.SendLocationEffect( blast3z, map, Utility.RandomList( 0x384E, 0x3859 ), 85, 10, BreathEffectHue, 0 );
-        Effects.SendLocationEffect( blast4z, map, Utility.RandomList( 0x384E, 0x3859 ), 85, 10, BreathEffectHue, 0 );
-        Effects.SendLocationEffect( blast5z, map, Utility.RandomList( 0x384E, 0x3859 ), 85, 10, BreathEffectHue, 0 );
-        Effects.PlaySound( targetLoc, map, 0x15F );
-    }
-    else if ( form == 43 ) // TITAN OF WATER ATTACK
-    {
-        Effects.SendLocationEffect( blast1, map, 0x23B2, 16 );
-        Effects.SendLocationEffect( blast2, map, 0x23B2, 16 );
-        Effects.SendLocationEffect( blast3, map, 0x23B2, 16 );
-        Effects.SendLocationEffect( blast4, map, 0x23B2, 16 );
-        Effects.SendLocationEffect( blast5, map, 0x23B2, 16 );
-        Effects.PlaySound( targetLoc, map, 0x026 );
-
-        Effects.SendLocationEffect( blast1z, map, Utility.RandomList( 0x384E, 0x3859 ), 85, 10, BreathEffectHue, 0 );
-        Effects.SendLocationEffect( blast2z, map, Utility.RandomList( 0x384E, 0x3859 ), 85, 10, BreathEffectHue, 0 );
-        Effects.SendLocationEffect( blast3z, map, Utility.RandomList( 0x384E, 0x3859 ), 85, 10, BreathEffectHue, 0 );
-        Effects.SendLocationEffect( blast4z, map, Utility.RandomList( 0x384E, 0x3859 ), 85, 10, BreathEffectHue, 0 );
-        Effects.SendLocationEffect( blast5z, map, Utility.RandomList( 0x384E, 0x3859 ), 85, 10, BreathEffectHue, 0 );
-    }
-    else if ( form == 44 ) // TITAN OF AIR ATTACK
-    {
-        Effects.SendLocationEffect( blast1w, map, 0x5590, 30, 10, 0xB24, 0 );
-        Effects.SendLocationEffect( blast2w, map, 0x5590, 30, 10, 0xB24, 0 );
-        Effects.SendLocationEffect( blast3w, map, 0x5590, 30, 10, 0xB24, 0 );
-        Effects.SendLocationEffect( blast4w, map, 0x5590, 30, 10, 0xB24, 0 );
-        Effects.SendLocationEffect( blast5w, map, 0x5590, 30, 10, 0xB24, 0 );
-        Effects.PlaySound( targetLoc, map, 0x10B );
-    }
-    else if ( form == 45 ) // STAR CREATURE ATTACK
-    {
-        if ( Utility.RandomBool() )
-        {
-            Effects.SendLocationEffect( blast1, map, 0x3709, 30, 10 );
-            Effects.SendLocationEffect( blast2, map, 0x3709, 30, 10 );
-            Effects.SendLocationEffect( blast3, map, 0x3709, 30, 10 );
-            Effects.SendLocationEffect( blast4, map, 0x3709, 30, 10 );
-            Effects.SendLocationEffect( blast5, map, 0x3709, 30, 10 );
-            Effects.PlaySound( targetLoc, map, 0x208 );
-        }
-        else
-        {
-            Effects.SendLocationEffect( blast1z, map, 0x2A4E, 30, 10 );
-            Effects.SendLocationEffect( blast2z, map, 0x2A4E, 30, 10 );
-            Effects.SendLocationEffect( blast3z, map, 0x2A4E, 30, 10 );
-            Effects.SendLocationEffect( blast4z, map, 0x2A4E, 30, 10 );
-            Effects.SendLocationEffect( blast5z, map, 0x2A4E, 30, 10 );
-            Effects.PlaySound( targetLoc, map, 0x5C3 );
-        }
-    }
-    else if ( form == 46 ) // LARGE STORM ATTACK
-    {
-        Effects.SendLocationEffect( blast1w, map, 0x5590, 30, 10, 0xB24, 0 );
-        Effects.SendLocationEffect( blast2w, map, 0x5590, 30, 10, 0xB24, 0 );
-        Effects.SendLocationEffect( blast3w, map, 0x5590, 30, 10, 0xB24, 0 );
-        Effects.SendLocationEffect( blast4w, map, 0x5590, 30, 10, 0xB24, 0 );
-        Effects.SendLocationEffect( blast5w, map, 0x5590, 30, 10, 0xB24, 0 );
-        Effects.PlaySound( targetLoc, map, 0x10B );
-
-        Effects.SendLocationEffect( blast1z, map, 0x2A4E, 30, 10 );
-        Effects.SendLocationEffect( blast2z, map, 0x2A4E, 30, 10 );
-        Effects.SendLocationEffect( blast3z, map, 0x2A4E, 30, 10 );
-        Effects.SendLocationEffect( blast4z, map, 0x2A4E, 30, 10 );
-        Effects.SendLocationEffect( blast5z, map, 0x2A4E, 30, 10 );
-        Effects.PlaySound( targetLoc, map, 0x5C3 );
-    }
-    else if ( form == 47 ) // AIR BLOWING BREATH
-    {
-        Effects.SendLocationEffect( blast1w, map, 0x5590, 30, 10, 0xB24, 0 );
-        Effects.SendLocationEffect( blast2w, map, 0x5590, 30, 10, 0xB24, 0 );
-        Effects.SendLocationEffect( blast3w, map, 0x5590, 30, 10, 0xB24, 0 );
-        Effects.SendLocationEffect( blast4w, map, 0x5590, 30, 10, 0xB24, 0 );
-        Effects.SendLocationEffect( blast5w, map, 0x5590, 30, 10, 0xB24, 0 );
-        Effects.PlaySound( targetLoc, map, 0x10B );
-    }
-    else if ( form == 48 ) // SMALL AIR BLOWING BREATH
-    {
-        Effects.SendLocationEffect( blast1w, map, 0x5590, 30, 10, 0xB24, 0 );
-        Effects.PlaySound( targetLoc, map, 0x10B );
-    }
-    else if ( form == 49 ) // SMALL STAR CREATURE ATTACK
-    {
-        if ( Utility.RandomBool() )
-        {
-            Effects.SendLocationEffect( blast1, map, 0x3709, 30, 10 );
-            Effects.PlaySound( targetLoc, map, 0x208 );
-        }
-        else
-        {
-            Effects.SendLocationEffect( blast1w, map, 0x2A4E, 30, 10 );
-            Effects.PlaySound( targetLoc, map, 0x5C3 );
-        }
-    }
-    else if ( form == 50 ) // SMALL STORM ATTACK
-    {
-        Effects.SendLocationEffect( blast1w, map, 0x5590, 30, 10, 0xB24, 0 );
-        Effects.PlaySound( targetLoc, map, 0x10B );
-
-        Effects.SendLocationEffect( blast1w, map, 0x2A4E, 30, 10 );
-        Effects.PlaySound( targetLoc, map, 0x5C3 );
-    }
-    else if ( form == 51 ) // SMALL AIR ATTACK
-    {
-        Effects.SendLocationEffect( targetLoc, map, 0x5590, 30, 10, 0xB24, 0 );
-        Effects.PlaySound( targetLoc, map, 0x10B );
-    }
-    else if ( form == 52 ) // SMALL UNICORN ATTACK
-    {
-        Effects.SendLocationEffect( targetLoc, map, 0x3039, 30, 10, 0xB71, 0 );
-        Effects.PlaySound( targetLoc, map, 0x20B );
-    }
-}
-
-public void DoFinalBreathDamage( Mobile target, int form, bool cycle )
-{
-    if ( target == null || !target.Alive )
-        return;
-
-    int physDamage = BreathPhysicalDamage;
-    int fireDamage = BreathFireDamage;
-    int coldDamage = BreathColdDamage;
-    int poisDamage = BreathPoisonDamage;
-    int nrgyDamage = BreathEnergyDamage;
-
-    AOS.Damage( target, this, BreathComputeDamage(), physDamage, fireDamage, coldDamage, poisDamage, nrgyDamage );
-
-    ApplyBreathSecondaryEffects( target, form );
-
-    if ( cycle )
-    {
-        int breathDistance = GetBreathDistance( form );
-        if ( breathDistance > 0 )
-        {
-            ChainBreathDamage( target, form, breathDistance );
-        }
-    }
-}
-
-public virtual void ApplyBreathSecondaryEffects( Mobile target, int form )
-{
-    if ( target == null || !target.Alive )
-        return;
-
-    if ( form == 2 ) // POTIONS THROWN
-    {
-        if ( BreathEffectHue == 0xB92 )
-        {
-            if ( !(Server.Items.HiddenTrap.SavingThrow( target, "Poison", false, null )) )
-            {
-                switch( Utility.RandomMinMax( 1, 2 ) )
-                {
-                    case 1: target.ApplyPoison( target, Poison.Lesser ); break;
-                    case 2: target.ApplyPoison( target, Poison.Regular ); break;
-                }
-            }
-        }
-        this.YellHue = Utility.RandomMinMax( 0, 3 );
-    }
-    else if ( form == 3 ) // DAGGERS OR STARS THROWN
-    {
-        if ( target is PlayerMobile && Server.Items.BaseRace.IsBleeder( target ) )
-        {
-            Server.Misc.IntelligentAction.CryOut( target );
-            Blood blood = new Blood(); blood.MoveToWorld( new Point3D(target.X-1, target.Y, target.Z), target.Map );
-            blood = new Blood(); blood.MoveToWorld( new Point3D(target.X+1, target.Y, target.Z), target.Map );
-            blood = new Blood(); blood.MoveToWorld( new Point3D(target.X, target.Y-1, target.Z), target.Map );
-            blood = new Blood(); blood.MoveToWorld( new Point3D(target.X, target.Y+1, target.Z), target.Map );
-        }
-
-        if ( BreathEffectItemID == 0x406C )
-        {
-            if ( !(Server.Items.HiddenTrap.SavingThrow( target, "Poison", false, null )) )
-            {
-                switch( Utility.RandomMinMax( 1, 2 ) )
-                {
-                    case 1: target.ApplyPoison( target, Poison.Lesser ); break;
-                    case 2: target.ApplyPoison( target, Poison.Regular ); break;
-                }
-            }
-        }
-    }
-    else if ( form == 5 ) // MANTICORE
-    {
-        target.SendMessage( "You are hit by a manticore thorn!" );
-        if ( !(Server.Items.HiddenTrap.SavingThrow( target, "Poison", false, null )) )
-        {
-            target.ApplyPoison( target, Poison.Lethal );
-        }
-        Server.Misc.IntelligentAction.CryOut( target );
-    }
-    else if ( form == 6 ) // SPIDERS
-    {
-        target.Paralyze( TimeSpan.FromSeconds( GetParalyzeDuration(target,(double)(this.Fame)) ) );
-    }
-    else if ( form == 10 ) // LARGE POISON BREATH
-    {
-        if ( !(Server.Items.HiddenTrap.SavingThrow( target, "Poison", false, null )) )
-        {
-            switch( Utility.RandomMinMax( 1, 2 ) )
-            {
-                case 1: target.ApplyPoison( target, Poison.Greater ); break;
-                case 2: target.ApplyPoison( target, Poison.Deadly ); break;
-            }
-        }
-    }
-    else if ( form == 18 ) // SMALL POISON BREATH
-    {
-        if ( !(Server.Items.HiddenTrap.SavingThrow( target, "Poison", false, null )) )
-        {
-            switch( Utility.RandomMinMax( 1, 2 ) )
-            {
-                case 1: target.ApplyPoison( target, Poison.Lesser ); break;
-                case 2: target.ApplyPoison( target, Poison.Regular ); break;
-            }
-        }
-    }
-    else if ( form >= 23 && form <= 28 ) // VOID BREATH 
-    {
-        int drain = ((int)(this.Fame/500));
-        target.Mana = Math.Max(0, target.Mana - drain);
-        target.Stam = Math.Max(0, target.Stam - drain);
-        target.SendMessage( "You feel your soul draining!" );
-    }
-    else if ( form == 34 || form == 35 ) // WEED BREATH
-    {
-        target.Paralyze( TimeSpan.FromSeconds( GetParalyzeDuration(target,(double)(this.Fame)) ) );
-    }
-    else if ( form == 37 ) // MUMMY WRAP
-    {
-        target.Paralyze( TimeSpan.FromSeconds( GetParalyzeDuration(target,(double)(this.Fame)) ) );
-    }
-    else if ( form == 44 || form == 47 || form == 48 || form == 51 ) // AIR ATTACKS (dismount)
-    {
-        if ( target is PlayerMobile && Utility.RandomBool() )
-        {
-            IMount mount = target.Mount;
-            if ( mount != null )
-            {
-                target.SendLocalizedMessage( 1062315 ); // You fall off your mount!
-                Server.Mobiles.EtherealMount.EthyDismount( target );
-                mount.Rider = null;
-            }
-            target.Animate( 22, 5, 1, true, false, 0 );
-        }
-    }
-    else if ( form == 46 || form == 50 ) // STORM ATTACKS (dismount with lower chance)
-    {
-        if ( target is PlayerMobile && Utility.RandomMinMax( 1, 5 ) == 1 )
-        {
-            IMount mount = target.Mount;
-            if ( mount != null )
-            {
-                target.SendLocalizedMessage( 1062315 ); // You fall off your mount!
-                Server.Mobiles.EtherealMount.EthyDismount( target );
-                mount.Rider = null;
-            }
-            target.Animate( 22, 5, 1, true, false, 0 );
-        }
-    }
-    
-}
-
-// NEW: Get breath distance for area effect
-public virtual int GetBreathDistance( int form )
-{
-    switch( form )
-    {
-        case 1: case 8: case 9: case 10: case 11: case 12: case 13: case 14: case 15: 
-        case 16: case 23: case 24: case 25: case 34: case 36: case 45: case 46: case 47: case 50:
-            return 3;
-        case 4: return 5;
-        case 7: case 18: case 19: case 20: case 21: case 26: case 27: case 28: case 30: 
-        case 32: case 38: case 39: case 40: case 48: case 49: case 51: case 52:
-            return 2;
-        case 31: return 4;
-        case 41: case 42: case 43: case 44:
-            return 6;
-        default:
-            return 0;
-    }
-}
-
-public virtual void ChainBreathDamage( Mobile originalTarget, int form, int range )
-{
-    List<Mobile> targets = new List<Mobile>();
-    Map map = this.Map;
-
-    if ( map != null && originalTarget != null )
-    {
-        foreach ( Mobile m in originalTarget.GetMobilesInRange( range ) )
-        {
-            if ( m != this && m != originalTarget && this.InLOS( m ) && m.Alive && CanBeHarmful( m ) && !m.Blessed )
-            {
-                if ( m is PlayerMobile )
-                {
-                    targets.Add( m );
-                }
-                else if ( m is BaseCreature )
-                {
-                    BaseCreature bc = (BaseCreature)m;
-                    if ( bc.Summoned || bc.Controlled )
-                        targets.Add( m );
-                }
-            }
-        }
-        
-        for ( int i = 0; i < targets.Count; ++i )
-        {
-            Mobile m = targets[i];
-            DoFinalBreathDamage( m, form, false ); // Don't cycle again
-        }
-    }
-}
-
-public virtual int BreathComputeDamage()
-{
-    int damage = (int)(Hits * BreathDamageScalar);
-
-    if ( IsParagon )
-        damage = (int)(damage / Paragon.HitsBuff);
-
-    if ( damage > 100 )
-        damage = 100;
-
-    if ( damage < DamageMax )
-        damage = DamageMax;
-
-    return damage;
-}
-
-#endregion
+		#region Breath abilities
+		private DateTime m_NextBreathTime;
+		
+		// Must be overriden in subclass to enable
+		public virtual bool HasBreath{ get{ return false; } }
+		
+		// Base damage given is: CurrentHitPoints * BreathDamageScalar
+		public virtual double BreathDamageScalar{ get{ return 0.20; } }
+		
+		// Min/max seconds until next breath
+		public virtual double BreathMinDelay{ get{ return 10.0; } }
+		public virtual double BreathMaxDelay{ get{ return 13.0; } }
+		
+		// Creature stops moving for 1.0 seconds while breathing
+		public virtual double BreathStallTime{ get{ return 1.0; } }
+		
+		// Effect is sent 1.3 seconds after BreathAngerSound and BreathAngerAnimation is played
+		public virtual double BreathEffectDelay{ get{ return 1.3; } }
+		
+		// Damage is given 1.0 seconds after effect is sent
+		public virtual double BreathDamageDelay{ get{ return 1.0; } }
+		
+		public virtual int BreathRange{ get{ return RangePerception; } }
+		
+		// Damage types
+		public virtual int BreathPhysicalDamage{ get{ return 0; } }
+		public virtual int BreathFireDamage{ get{ return 100; } }
+		public virtual int BreathColdDamage{ get{ return 0; } }
+		public virtual int BreathPoisonDamage{ get{ return 0; } }
+		public virtual int BreathEnergyDamage{ get{ return 0; } }
+		
+		// Is immune to breath damages
+		public virtual bool BreathImmune{ get{ return false; } }
+		
+		// Effect details and sound
+		public virtual int BreathEffectItemID{ get{ return 0x36D4; } }
+		public virtual int BreathEffectSpeed{ get{ return 5; } }
+		public virtual int BreathEffectDuration{ get{ return 0; } }
+		public virtual bool BreathEffectExplodes{ get{ return false; } }
+		public virtual bool BreathEffectFixedDir{ get{ return false; } }
+		public virtual int BreathEffectHue{ get{ return 0; } }
+		public virtual int BreathEffectRenderMode{ get{ return 0; } }
+		
+		public virtual int BreathEffectSound{ get{ return 0x227; } }
+		
+		// Anger sound/animations
+		public virtual int BreathAngerSound{ get{ return GetAngerSound(); } }
+		public virtual int BreathAngerAnimation{ get{ return 12; } }
+		
+		// Helper class to carry breath context
+		private class BreathContext
+		{
+		    public Point3D TargetLocation { get; set; }
+		    public Map TargetMap { get; set; }
+		    public Mobile OriginalTarget { get; set; }
+		    public int Form { get; set; }
+		
+		    public BreathContext(Mobile target, int form)
+		    {
+		        OriginalTarget = target;
+		        TargetLocation = target.Location;
+		        TargetMap = target.Map;
+		        Form = form;
+		    }
+		}
+		
+		public virtual void BreathStart( Mobile target )
+		{
+		    BreathStallMovement();
+		    BreathPlayAngerSound();
+		    BreathPlayAngerAnimation();
+		
+		    this.Direction = this.GetDirectionTo( target );
+		
+		    // Store context with location snapshot
+		    int form = GetBreathForm(); // Get the form from creature's breath type
+		    BreathContext context = new BreathContext(target, form);
+		    Timer.DelayCall( TimeSpan.FromSeconds( BreathEffectDelay ), new TimerStateCallback( BreathEffect_Callback ), context );
+		}
+		
+		// Override this in creature classes to specify which breath form to use
+		// This replaces the form parameter that was previously in BreathDealDamage
+		public virtual int GetBreathForm()
+		{
+		    // Default breath form - determine from damage types
+		    if ( BreathFireDamage > 0 && BreathColdDamage == 0 && BreathPoisonDamage == 0 && BreathEnergyDamage == 0 )
+		        return 9; // LARGE FIRE BREATH
+		    else if ( BreathColdDamage > 0 && BreathFireDamage == 0 )
+		        return 12; // LARGE COLD BREATH
+		    else if ( BreathPoisonDamage > 0 )
+		        return 10; // LARGE POISON BREATH
+		    else if ( BreathEnergyDamage > 0 )
+		        return 13; // LARGE ELECTRICAL BREATH
+		
+		    return 9; // Default to fire
+		}
+		
+		public virtual void BreathStallMovement()
+		{
+		    if ( m_AI != null )
+		        m_AI.NextMove = DateTime.Now + TimeSpan.FromSeconds( BreathStallTime );
+		}
+		
+		public virtual void BreathPlayAngerSound()
+		{
+		    PlaySound( BreathAngerSound );
+		}
+		
+		public virtual void BreathPlayAngerAnimation()
+		{
+		    Animate( BreathAngerAnimation, 5, 1, true, false, 0 );
+		}
+		
+		public virtual void BreathEffect_Callback( object state )
+		{
+		    BreathContext context = (BreathContext)state;
+		
+		    // we always want sounds
+		    BreathPlayEffectSound();
+		
+		    // Play projectile if this breath type uses one
+		    if ( BreathEffectItemID > 0 && ShouldPlayProjectile( context.Form ) )
+		    {
+		        BreathPlayEffect( context.TargetLocation, context.TargetMap );
+		    }
+		
+		    // Play effects
+		    PlayBreathVisuals( context.TargetLocation, context.TargetMap, context.Form );
+		
+		    // blast them
+		    Mobile target = context.OriginalTarget;
+		    if ( target != null && target.Alive && CanBeHarmful( target ) )
+		    {
+		        Timer.DelayCall( TimeSpan.FromSeconds( BreathDamageDelay ), new TimerStateCallback( BreathDamage_Callback ), context );
+		    }
+		}
+		
+		public virtual bool ShouldPlayProjectile( int form )
+		{
+		    // Only certain forms use projectiles (daggers, stars, potions, manticore thorns.)
+		    switch( form )
+		    {
+		        case 2: // POTIONS THROWN
+		        case 3: // DAGGERS OR STARS THROWN
+		        case 5: // MANTICORE
+		            return true;
+		        default:
+		            return false; // Most breath weapons don't use projectiles
+		    }
+		}
+		
+		public virtual void BreathPlayEffectSound()
+		{
+		    PlaySound( BreathEffectSound );
+		}
+		
+		public virtual void BreathPlayEffect( Point3D targetLocation, Map targetMap )
+		{
+		    if ( targetMap == null )
+		        return;
+		
+		    Effects.SendMovingEffect( this, new Entity(Serial.Zero, targetLocation, targetMap), 
+		        BreathEffectItemID, BreathEffectSpeed, BreathEffectDuration, 
+		        BreathEffectFixedDir, BreathEffectExplodes, BreathEffectHue, BreathEffectRenderMode );
+		}
+		
+		public virtual void BreathDamage_Callback( object state )
+		{
+		    BreathContext context = (BreathContext)state;
+		    Mobile target = context.OriginalTarget;
+		
+		    if ( target == null || !target.Alive )
+		        return;
+		
+		    if ( target is BaseCreature && ((BaseCreature)target).BreathImmune )
+		        return;
+		
+		    if ( CanBeHarmful( target ) )
+		    {
+		        DoHarmful( target );
+		        BreathDealDamage( target, context.Form );
+		    }
+		}
+		
+		public virtual void BreathDealDamage( Mobile target, int form )
+		{
+		    if( Evasion.CheckSpellEvasion( target ) )
+		        return;
+		
+		    DoFinalBreathDamage( target, form, true );
+		}
+		
+		public virtual void PlayBreathVisuals( Point3D targetLoc, Map map, int form )
+		{
+		    if ( map == null )
+		        return;
+		
+		    Point3D blast1 = new Point3D( targetLoc.X, targetLoc.Y, targetLoc.Z );
+		    Point3D blast2 = new Point3D( targetLoc.X-1, targetLoc.Y, targetLoc.Z );
+		    Point3D blast3 = new Point3D( targetLoc.X+1, targetLoc.Y, targetLoc.Z );
+		    Point3D blast4 = new Point3D( targetLoc.X, targetLoc.Y-1, targetLoc.Z );
+		    Point3D blast5 = new Point3D( targetLoc.X, targetLoc.Y+1, targetLoc.Z );
+		
+		    Point3D blast1z = new Point3D( targetLoc.X, targetLoc.Y, targetLoc.Z+10 );
+		    Point3D blast2z = new Point3D( targetLoc.X-1, targetLoc.Y, targetLoc.Z+10 );
+		    Point3D blast3z = new Point3D( targetLoc.X+1, targetLoc.Y, targetLoc.Z+10 );
+		    Point3D blast4z = new Point3D( targetLoc.X, targetLoc.Y-1, targetLoc.Z+10 );
+		    Point3D blast5z = new Point3D( targetLoc.X, targetLoc.Y+1, targetLoc.Z+10 );
+		
+		    Point3D blast1w = new Point3D( targetLoc.X, targetLoc.Y, targetLoc.Z );
+		    Point3D blast2w = new Point3D( targetLoc.X-2, targetLoc.Y, targetLoc.Z );
+		    Point3D blast3w = new Point3D( targetLoc.X+2, targetLoc.Y, targetLoc.Z );
+		    Point3D blast4w = new Point3D( targetLoc.X, targetLoc.Y-2, targetLoc.Z );
+		    Point3D blast5w = new Point3D( targetLoc.X, targetLoc.Y+2, targetLoc.Z );
+		
+		    // All the visual form logic extracted from DoFinalBreathAttack
+		    if ( form == 1 ) // CRYSTAL DRAGONS
+		    {
+		        int bColor = Utility.RandomList( 0x48D, 0x48E, 0x48F, 0x490, 0x491 );
+		        Effects.SendLocationEffect( blast1, map, 0x3709, 30, 10, bColor, 0 );
+		        Effects.SendLocationEffect( blast2, map, 0x3709, 30, 10, bColor, 0 );
+		        Effects.SendLocationEffect( blast3, map, 0x3709, 30, 10, bColor, 0 );
+		        Effects.SendLocationEffect( blast4, map, 0x3709, 30, 10, bColor, 0 );
+		        Effects.SendLocationEffect( blast5, map, 0x3709, 30, 10, bColor, 0 );
+		        Effects.PlaySound( targetLoc, map, 0x208 );
+		    }
+		    else if ( form == 2 ) // POTIONS THROWN
+		    {
+		        if ( BreathEffectHue == 0x488 )
+		        {
+		            Effects.SendLocationEffect( blast1, map, 0x3709, 30, 10 );
+		            Effects.PlaySound( targetLoc, map, 0x208 );
+		            Effects.PlaySound( targetLoc, map, 0x38D );
+		        }
+		        else if ( BreathEffectHue == 0xB92 )
+		        {
+		            Effects.SendLocationParticles( EffectItem.Create( blast1, map, EffectItem.DefaultDuration ), 0x36B0, 1, 14, 63, 7, 9915, 0 );
+		            Effects.PlaySound( targetLoc, map, 0x229 );
+		            Effects.PlaySound( targetLoc, map, 0x38D );
+		        }
+		        else if ( form == 0x5B5 )
+		        {
+		            Point3D vortex = new Point3D( targetLoc.X+1, targetLoc.Y+1, targetLoc.Z );
+		            Effects.SendLocationEffect( vortex, map, 0x37CC, 30, 10, 0x481, 0 );
+		            Effects.PlaySound( targetLoc, map, 0x10B );
+		            Effects.PlaySound( targetLoc, map, 0x38D );
+		        }
+		        else
+		        {
+		            Effects.SendLocationParticles( EffectItem.Create( blast1, map, EffectItem.DefaultDuration ), 0x36BD, 20, 10, 5044, 0, 0, 0 );
+		            Effects.PlaySound( targetLoc, map, 0x307 );
+		        }
+		    }
+		    else if ( form == 3 ) // DAGGERS OR STARS THROWN
+		    {
+		        // Visual effects only
+		        // Blood and crying out handled in ApplyBreathSecondaryEffects
+		    }
+		    else if ( form == 4 ) // DINOSAUR ROAR
+		    {
+		        Effects.PlaySound( targetLoc, map, 0x63F );
+		    }
+		    else if ( form == 5 ) // MANTICORE
+		    {
+		        // Visual projectile already handled by BreathPlayEffect
+		        // Sound and poison handled in ApplyBreathSecondaryEffects
+		    }
+		    else if ( form == 6 ) // SPIDERS
+		    {
+		        Effects.SendLocationEffect( blast1, map, 0x10D3, 30, 10, 0, 0 );
+		        Effects.PlaySound( targetLoc, map, 0x62D );
+		    }
+		    else if ( form == 7 ) // GIANT STONES AND LOGS
+		    {
+		        Effects.SendLocationEffect( blast1, map, 0x36B0, 30, 10, 0x837, 0 );
+		        Effects.PlaySound( targetLoc, map, 0x664 );
+		    }
+		    else if ( form == 8 ) // LARGE SAND BREATH
+		    {
+		        Effects.SendLocationEffect( blast1w, map, 0x5590, 30, 10, Utility.RandomList( 0xB4D, 0xB4E ), 0 );
+		        Effects.SendLocationEffect( blast2w, map, 0x5590, 30, 10, Utility.RandomList( 0xB4D, 0xB4E ), 0 );
+		        Effects.SendLocationEffect( blast3w, map, 0x5590, 30, 10, Utility.RandomList( 0xB4D, 0xB4E ), 0 );
+		        Effects.SendLocationEffect( blast4w, map, 0x5590, 30, 10, Utility.RandomList( 0xB4D, 0xB4E ), 0 );
+		        Effects.SendLocationEffect( blast5w, map, 0x5590, 30, 10, Utility.RandomList( 0xB4D, 0xB4E ), 0 );
+		        Effects.PlaySound( targetLoc, map, 0x10B );
+		    }
+		    else if ( form == 9 ) // LARGE FIRE BREATH
+		    {
+		        Effects.SendLocationEffect( blast1, map, 0x3709, 30, 10 );
+		        Effects.SendLocationEffect( blast2, map, 0x3709, 30, 10 );
+		        Effects.SendLocationEffect( blast3, map, 0x3709, 30, 10 );
+		        Effects.SendLocationEffect( blast4, map, 0x3709, 30, 10 );
+		        Effects.SendLocationEffect( blast5, map, 0x3709, 30, 10 );
+		        Effects.PlaySound( targetLoc, map, 0x208 );
+		    }
+		    else if ( form == 10 ) // LARGE POISON BREATH
+		    {
+		        if ( Utility.RandomBool() )
+		        {
+		            Effects.SendLocationEffect( blast1, map, 0x3400, 60 );
+		            Effects.SendLocationEffect( blast2, map, 0x3400, 60 );
+		            Effects.SendLocationEffect( blast3, map, 0x3400, 60 );
+		            Effects.SendLocationEffect( blast4, map, 0x3400, 60 );
+		            Effects.SendLocationEffect( blast5, map, 0x3400, 60 );
+		            Effects.PlaySound( targetLoc, map, 0x108 );
+		        }
+		        else
+		        {
+		            Effects.SendLocationParticles( EffectItem.Create( blast1, map, EffectItem.DefaultDuration ), 0x36B0, 1, 14, 63, 7, 9915, 0 );
+		            Effects.SendLocationParticles( EffectItem.Create( blast2, map, EffectItem.DefaultDuration ), 0x36B0, 1, 14, 63, 7, 9915, 0 );
+		            Effects.SendLocationParticles( EffectItem.Create( blast3, map, EffectItem.DefaultDuration ), 0x36B0, 1, 14, 63, 7, 9915, 0 );
+		            Effects.SendLocationParticles( EffectItem.Create( blast4, map, EffectItem.DefaultDuration ), 0x36B0, 1, 14, 63, 7, 9915, 0 );
+		            Effects.SendLocationParticles( EffectItem.Create( blast5, map, EffectItem.DefaultDuration ), 0x36B0, 1, 14, 63, 7, 9915, 0 );
+		            Effects.PlaySound( targetLoc, map, 0x229 );
+		        }
+		    }
+		    else if ( form == 11 ) // LARGE RADIATION
+		    {
+		        Effects.SendLocationEffect( blast1, map, 0x3400, 60, 0xB96, 0 );
+		        Effects.SendLocationEffect( blast2, map, 0x3400, 60, 0xB96, 0 );
+		        Effects.SendLocationEffect( blast3, map, 0x3400, 60, 0xB96, 0 );
+		        Effects.SendLocationEffect( blast4, map, 0x3400, 60, 0xB96, 0 );
+		        Effects.SendLocationEffect( blast5, map, 0x3400, 60, 0xB96, 0 );
+		        Effects.PlaySound( targetLoc, map, 0x108 );
+		    }
+		    else if ( form == 12 ) // LARGE COLD BREATH
+		    {
+		        Effects.SendLocationEffect( blast1, map, 0x1A84, 30, 10, 0x9C1, 0 );
+		        Effects.SendLocationEffect( blast2, map, 0x1A84, 30, 10, 0x9C1, 0 );
+		        Effects.SendLocationEffect( blast3, map, 0x1A84, 30, 10, 0x9C1, 0 );
+		        Effects.SendLocationEffect( blast4, map, 0x1A84, 30, 10, 0x9C1, 0 );
+		        Effects.SendLocationEffect( blast5, map, 0x1A84, 30, 10, 0x9C1, 0 );
+		        Effects.PlaySound( targetLoc, map, 0x10B );
+		    }
+		    else if ( form == 13 ) // LARGE ELECTRICAL BREATH
+		    {
+		        Effects.SendLocationEffect( blast1, map, Utility.RandomList( 0x3967, 0x3979 ), 30, 10 );
+		        Effects.SendLocationEffect( blast2, map, Utility.RandomList( 0x3967, 0x3979 ), 30, 10 );
+		        Effects.SendLocationEffect( blast3, map, Utility.RandomList( 0x3967, 0x3979 ), 30, 10 );
+		        Effects.SendLocationEffect( blast4, map, Utility.RandomList( 0x3967, 0x3979 ), 30, 10 );
+		        Effects.SendLocationEffect( blast5, map, Utility.RandomList( 0x3967, 0x3979 ), 30, 10 );
+		        Effects.PlaySound( targetLoc, map, 0x5C3 );
+		    }
+		    else if ( form == 14 ) // TITAN LIGHTNING BOLT
+		    {
+		        Effects.SendLocationEffect( blast1, map, Utility.RandomList( 0x3967, 0x3979 ), 30, 10 );
+		        Effects.SendLocationEffect( blast2, map, Utility.RandomList( 0x3967, 0x3979 ), 30, 10 );
+		        Effects.SendLocationEffect( blast3, map, Utility.RandomList( 0x3967, 0x3979 ), 30, 10 );
+		        Effects.SendLocationEffect( blast4, map, Utility.RandomList( 0x3967, 0x3979 ), 30, 10 );
+		        Effects.SendLocationEffect( blast5, map, Utility.RandomList( 0x3967, 0x3979 ), 30, 10 );
+		        Effects.PlaySound( targetLoc, map, 0x5C3 );
+		    }
+		    else if ( form == 15 ) // SPHINX
+		    {
+		        Effects.SendLocationEffect( blast1, map, 0x5590, 30, 10, Utility.RandomList( 0xB4D, 0xB4E ), 0 );
+		        Effects.PlaySound( targetLoc, map, 0x10B );
+		    }
+		    else if ( form == 16 ) // LARGE STEAM BREATH
+		    {
+		        Effects.SendLocationEffect( blast1, map, 0x3400, 60, 10, 0x9C4, 0 );
+		        Effects.SendLocationEffect( blast2, map, 0x3400, 60, 10, 0x9C4, 0 );
+		        Effects.SendLocationEffect( blast3, map, 0x3400, 60, 10, 0x9C4, 0 );
+		        Effects.SendLocationEffect( blast4, map, 0x3400, 60, 10, 0x9C4, 0 );
+		        Effects.SendLocationEffect( blast5, map, 0x3400, 60, 10, 0x9C4, 0 );
+		        Effects.PlaySound( targetLoc, map, 0x108 );
+		    }
+		    else if ( form == 17 ) // SMALL FIRE BREATH
+		    {
+		        Effects.SendLocationEffect( blast1, map, 0x3709, 30, 10 );
+		        Effects.PlaySound( targetLoc, map, 0x208 );
+		    }
+		    else if ( form == 18 ) // SMALL POISON BREATH
+		    {
+		        if ( Utility.RandomBool() )
+		        {
+		            Effects.SendLocationEffect( blast1, map, 0x3400, 60 );
+		            Effects.PlaySound( targetLoc, map, 0x108 );
+		        }
+		        else
+		        {
+		            Effects.SendLocationParticles( EffectItem.Create( blast1, map, EffectItem.DefaultDuration ), 0x36B0, 1, 14, 63, 7, 9915, 0 );
+		            Effects.PlaySound( targetLoc, map, 0x229 );
+		        }
+		    }
+		    else if ( form == 19 ) // SMALL COLD BREATH
+		    {
+		        Effects.SendLocationEffect( blast1, map, 0x1A84, 30, 10, 0x9C1, 0 );
+		        Effects.PlaySound( targetLoc, map, 0x10B );
+		    }
+		    else if ( form == 20 ) // SMALL ENERGY BREATH
+		    {
+		        Effects.SendLocationEffect( blast1, map, Utility.RandomList( 0x3967, 0x3979 ), 30, 10 );
+		        Effects.PlaySound( targetLoc, map, 0x5C3 );
+		    }
+		    else if ( form == 21 ) // SMALL ENERGY WITH BOLT
+		    {
+		        Effects.SendLocationEffect( blast1, map, Utility.RandomList( 0x3967, 0x3979 ), 30, 10 );
+		        Effects.PlaySound( targetLoc, map, 0x5C3 );
+		    }
+		    else if ( form == 22 ) // MISC ELEMENTAL
+		    {
+		        Effects.SendLocationEffect( blast1, map, 0x36B0, 30, 10, 0x840, 0 );
+		        Effects.PlaySound( targetLoc, map, 0x65A );
+		    }
+		    else if ( form == 23 || form == 24 || form == 25 ) // LARGE VOID BREATH
+		    {
+		        int color = 0x496;
+		        if ( form == 24 ) { color = 0x844; }
+		        else if ( form == 25 ) { color = 0x9C1; }
+		        Effects.SendLocationEffect( blast1, map, 0x3400, 60, color, 0 );
+		        Effects.SendLocationEffect( blast2, map, 0x3400, 60, color, 0 );
+		        Effects.SendLocationEffect( blast3, map, 0x3400, 60, color, 0 );
+		        Effects.SendLocationEffect( blast4, map, 0x3400, 60, color, 0 );
+		        Effects.SendLocationEffect( blast5, map, 0x3400, 60, color, 0 );
+		        Effects.PlaySound( targetLoc, map, 0x108 );
+		    }
+		    else if ( form == 26 || form == 27 || form == 28 ) // SMALL VOID BREATH
+		    {
+		        int color = 0x496;
+		        if ( form == 27 ) { color = 0x844; }
+		        else if ( form == 28 ) { color = 0x9C1; }
+		        Effects.SendLocationEffect( blast1, map, 0x3400, 60, color, 0 );
+		        Effects.PlaySound( targetLoc, map, 0x108 );
+		    }
+		    else if ( form == 29 ) // STONE HANDS FROM THE GROUND
+		    {
+		        Point3D hands = new Point3D( targetLoc.X, targetLoc.Y, targetLoc.Z+5 );
+		        Effects.SendLocationEffect( hands, map, 0x3837, 23, 10, this.Hue, 0 );
+		        Effects.PlaySound( targetLoc, map, 0x65A );
+		    }
+		    else if ( form == 30 ) // WATER SPLASH
+		    {
+		        Effects.SendLocationEffect( blast1, map, 0x1A84, 30, 10, BreathEffectHue, 0 );
+		        Effects.PlaySound( targetLoc, map, 0x026 );
+		    }
+		    else if ( form == 31 ) // WATER SPLASH (LARGE)
+		    {
+		        Effects.SendLocationEffect( blast1, map, 0x1A84, 30, 10, BreathEffectHue, 0 );
+		        Effects.SendLocationEffect( blast2, map, 0x23B2, 16, BreathEffectHue, 0 );
+		        Effects.SendLocationEffect( blast3, map, 0x23B2, 16, BreathEffectHue, 0 );
+		        Effects.SendLocationEffect( blast4, map, 0x23B2, 16, BreathEffectHue, 0 );
+		        Effects.SendLocationEffect( blast5, map, 0x23B2, 16, BreathEffectHue, 0 );
+		        Effects.PlaySound( targetLoc, map, 0x026 );
+		    }
+		    else if ( form == 32 ) // SMALL FALLING ICE
+		    {
+		        if ( Utility.RandomBool() )
+		        {
+		            Effects.SendLocationEffect( blast1, map, 0x5571, 85, 10, 0, 0 );
+		            Effects.PlaySound( targetLoc, map, 0x5C0 );
+		        }
+		        else
+		        {
+		            Effects.SendLocationEffect( blast1, map, Utility.RandomList( 0x384E, 0x3859 ), 85, 10, BreathEffectHue, 0 );
+		            Effects.PlaySound( targetLoc, map, 0x656 );
+		        }
+		    }
+		    else if ( form == 33 ) // BIG FALLING ICE
+		    {
+		        int icy = Utility.RandomMinMax(1,3);
+		        if ( icy == 1 )
+		        {
+		            Effects.SendLocationEffect( blast1, map, Utility.RandomList( 0x384E, 0x3859 ), 85, 10, BreathEffectHue, 0 );
+		            Effects.SendLocationEffect( blast2, map, Utility.RandomList( 0x384E, 0x3859 ), 85, 10, BreathEffectHue, 0 );
+		            Effects.SendLocationEffect( blast3, map, Utility.RandomList( 0x384E, 0x3859 ), 85, 10, BreathEffectHue, 0 );
+		            Effects.SendLocationEffect( blast4, map, Utility.RandomList( 0x384E, 0x3859 ), 85, 10, BreathEffectHue, 0 );
+		            Effects.SendLocationEffect( blast5, map, Utility.RandomList( 0x384E, 0x3859 ), 85, 10, BreathEffectHue, 0 );
+		            Effects.PlaySound( targetLoc, map, 0x658 );
+		        }
+		        else if ( icy == 2 )
+		        {
+		            Effects.SendLocationEffect( blast1, map, 0x5571, 85, 10, 0, 0 );
+		            Effects.SendLocationEffect( blast2, map, 0x5571, 85, 10, 0, 0 );
+		            Effects.SendLocationEffect( blast3, map, 0x5571, 85, 10, 0, 0 );
+		            Effects.SendLocationEffect( blast4, map, 0x5571, 85, 10, 0, 0 );
+		            Effects.SendLocationEffect( blast5, map, 0x5571, 85, 10, 0, 0 );
+		            Effects.PlaySound( targetLoc, map, 0x5C0 );
+		        }
+		        else
+		        {
+		            Effects.SendLocationEffect( blast1, map, 0x55BB, 85, 10, 0, 0 );
+		            Effects.PlaySound( blast1, map, 0x5CE );
+		        }
+		    }
+		    else if ( form == 34 ) // LARGE WEED BREATH
+		    {
+		        Effects.SendLocationEffect( blast1, map, 0x3400, 60, 0xB97, 0 );
+		        Effects.SendLocationEffect( blast2, map, 0x3400, 60, 0xB97, 0 );
+		        Effects.SendLocationEffect( blast3, map, 0x3400, 60, 0xB97, 0 );
+		        Effects.SendLocationEffect( blast4, map, 0x3400, 60, 0xB97, 0 );
+		        Effects.SendLocationEffect( blast5, map, 0x3400, 60, 0xB97, 0 );
+		        Effects.PlaySound( targetLoc, map, 0x64F );
+		    }
+		    else if ( form == 35 ) // SMALL WEED BREATH
+		    {
+		        Effects.SendLocationEffect( blast1, map, 0x3400, 60, 0xB97, 0 );
+		        Effects.PlaySound( targetLoc, map, 0x64F );
+		    }
+		    else if ( form == 36 ) // ACID SPLASH
+		    {
+		        Effects.SendLocationEffect( blast1, map, 0x1A84, 30, 10, BreathEffectHue, 1167 );
+		        Effects.SendLocationEffect( blast2, map, 0x23B2, 16, BreathEffectHue, 1167 );
+		        Effects.SendLocationEffect( blast3, map, 0x23B2, 16, BreathEffectHue, 1167 );
+		        Effects.SendLocationEffect( blast4, map, 0x23B2, 16, BreathEffectHue, 1167 );
+		        Effects.SendLocationEffect( blast5, map, 0x23B2, 16, BreathEffectHue, 1167 );
+		        Effects.PlaySound( targetLoc, map, 0x026 );
+		    }
+		    else if ( form == 37 ) // MUMMY WRAP
+		    {
+		        Point3D wrapped = new Point3D( targetLoc.X, targetLoc.Y, targetLoc.Z+2 );
+		        Effects.SendLocationEffect( wrapped, map, 0x23AF, 30, 10, 0, 0 );
+		        Effects.PlaySound( targetLoc, map, 0x5D2 );
+		    }
+		    else if ( form == 38 ) // SMALL STEAM BREATH
+		    {
+		        Effects.SendLocationEffect( blast1, map, 0x3400, 60, 10, 0x9C4, 0 );
+		        Effects.PlaySound( targetLoc, map, 0x108 );
+		    }
+		    else if ( form == 39 ) // SMALL RADIATION
+		    {
+		        Effects.SendLocationEffect( blast1, map, 0x3400, 60, 0xB96, 0 );
+		        Effects.PlaySound( targetLoc, map, 0x108 );
+		    }
+		    else if ( form == 40 ) // SMALL SAND BREATH
+		    {
+		        Effects.SendLocationEffect( blast1, map, 0x5590, 30, 10, Utility.RandomList( 0xB4D, 0xB4E ), 0 );
+		        Effects.PlaySound( targetLoc, map, 0x10B );
+		    }
+		    else if ( form == 41 ) // TITAN OF EARTH ATTACK
+		    {
+		        Point3D hands = new Point3D( targetLoc.X, targetLoc.Y, targetLoc.Z+5 );
+		        Effects.SendLocationEffect( hands, map, 0x3837, 23, 10, BreathEffectHue, 0 );
+		
+		        Effects.SendLocationEffect( blast1z, map, Utility.RandomList( 0x384E, 0x3859 ), 85, 10, BreathEffectHue, 0 );
+		        Effects.SendLocationEffect( blast2z, map, Utility.RandomList( 0x384E, 0x3859 ), 85, 10, BreathEffectHue, 0 );
+		        Effects.SendLocationEffect( blast3z, map, Utility.RandomList( 0x384E, 0x3859 ), 85, 10, BreathEffectHue, 0 );
+		        Effects.SendLocationEffect( blast4z, map, Utility.RandomList( 0x384E, 0x3859 ), 85, 10, BreathEffectHue, 0 );
+		        Effects.SendLocationEffect( blast5z, map, Utility.RandomList( 0x384E, 0x3859 ), 85, 10, BreathEffectHue, 0 );
+		        Effects.PlaySound( targetLoc, map, 0x658 );
+		    }
+		    else if ( form == 42 ) // TITAN OF FIRE ATTACK
+		    {
+		        Effects.SendLocationEffect( blast1, map, 0x3709, 30, 10, BreathEffectHue, 0 );
+		        Effects.SendLocationEffect( blast2, map, 0x3709, 30, 10, BreathEffectHue, 0 );
+		        Effects.SendLocationEffect( blast3, map, 0x3709, 30, 10, BreathEffectHue, 0 );
+		        Effects.SendLocationEffect( blast4, map, 0x3709, 30, 10, BreathEffectHue, 0 );
+		        Effects.SendLocationEffect( blast5, map, 0x3709, 30, 10, BreathEffectHue, 0 );
+		        Effects.PlaySound( targetLoc, map, 0x208 );
+		
+		        Effects.SendLocationEffect( blast1z, map, Utility.RandomList( 0x384E, 0x3859 ), 85, 10, BreathEffectHue, 0 );
+		        Effects.SendLocationEffect( blast2z, map, Utility.RandomList( 0x384E, 0x3859 ), 85, 10, BreathEffectHue, 0 );
+		        Effects.SendLocationEffect( blast3z, map, Utility.RandomList( 0x384E, 0x3859 ), 85, 10, BreathEffectHue, 0 );
+		        Effects.SendLocationEffect( blast4z, map, Utility.RandomList( 0x384E, 0x3859 ), 85, 10, BreathEffectHue, 0 );
+		        Effects.SendLocationEffect( blast5z, map, Utility.RandomList( 0x384E, 0x3859 ), 85, 10, BreathEffectHue, 0 );
+		        Effects.PlaySound( targetLoc, map, 0x15F );
+		    }
+		    else if ( form == 43 ) // TITAN OF WATER ATTACK
+		    {
+		        Effects.SendLocationEffect( blast1, map, 0x23B2, 16 );
+		        Effects.SendLocationEffect( blast2, map, 0x23B2, 16 );
+		        Effects.SendLocationEffect( blast3, map, 0x23B2, 16 );
+		        Effects.SendLocationEffect( blast4, map, 0x23B2, 16 );
+		        Effects.SendLocationEffect( blast5, map, 0x23B2, 16 );
+		        Effects.PlaySound( targetLoc, map, 0x026 );
+		
+		        Effects.SendLocationEffect( blast1z, map, Utility.RandomList( 0x384E, 0x3859 ), 85, 10, BreathEffectHue, 0 );
+		        Effects.SendLocationEffect( blast2z, map, Utility.RandomList( 0x384E, 0x3859 ), 85, 10, BreathEffectHue, 0 );
+		        Effects.SendLocationEffect( blast3z, map, Utility.RandomList( 0x384E, 0x3859 ), 85, 10, BreathEffectHue, 0 );
+		        Effects.SendLocationEffect( blast4z, map, Utility.RandomList( 0x384E, 0x3859 ), 85, 10, BreathEffectHue, 0 );
+		        Effects.SendLocationEffect( blast5z, map, Utility.RandomList( 0x384E, 0x3859 ), 85, 10, BreathEffectHue, 0 );
+		    }
+		    else if ( form == 44 ) // TITAN OF AIR ATTACK
+		    {
+		        Effects.SendLocationEffect( blast1w, map, 0x5590, 30, 10, 0xB24, 0 );
+		        Effects.SendLocationEffect( blast2w, map, 0x5590, 30, 10, 0xB24, 0 );
+		        Effects.SendLocationEffect( blast3w, map, 0x5590, 30, 10, 0xB24, 0 );
+		        Effects.SendLocationEffect( blast4w, map, 0x5590, 30, 10, 0xB24, 0 );
+		        Effects.SendLocationEffect( blast5w, map, 0x5590, 30, 10, 0xB24, 0 );
+		        Effects.PlaySound( targetLoc, map, 0x10B );
+		    }
+		    else if ( form == 45 ) // STAR CREATURE ATTACK
+		    {
+		        if ( Utility.RandomBool() )
+		        {
+		            Effects.SendLocationEffect( blast1, map, 0x3709, 30, 10 );
+		            Effects.SendLocationEffect( blast2, map, 0x3709, 30, 10 );
+		            Effects.SendLocationEffect( blast3, map, 0x3709, 30, 10 );
+		            Effects.SendLocationEffect( blast4, map, 0x3709, 30, 10 );
+		            Effects.SendLocationEffect( blast5, map, 0x3709, 30, 10 );
+		            Effects.PlaySound( targetLoc, map, 0x208 );
+		        }
+		        else
+		        {
+		            Effects.SendLocationEffect( blast1z, map, 0x2A4E, 30, 10 );
+		            Effects.SendLocationEffect( blast2z, map, 0x2A4E, 30, 10 );
+		            Effects.SendLocationEffect( blast3z, map, 0x2A4E, 30, 10 );
+		            Effects.SendLocationEffect( blast4z, map, 0x2A4E, 30, 10 );
+		            Effects.SendLocationEffect( blast5z, map, 0x2A4E, 30, 10 );
+		            Effects.PlaySound( targetLoc, map, 0x5C3 );
+		        }
+		    }
+		    else if ( form == 46 ) // LARGE STORM ATTACK
+		    {
+		        Effects.SendLocationEffect( blast1w, map, 0x5590, 30, 10, 0xB24, 0 );
+		        Effects.SendLocationEffect( blast2w, map, 0x5590, 30, 10, 0xB24, 0 );
+		        Effects.SendLocationEffect( blast3w, map, 0x5590, 30, 10, 0xB24, 0 );
+		        Effects.SendLocationEffect( blast4w, map, 0x5590, 30, 10, 0xB24, 0 );
+		        Effects.SendLocationEffect( blast5w, map, 0x5590, 30, 10, 0xB24, 0 );
+		        Effects.PlaySound( targetLoc, map, 0x10B );
+		
+		        Effects.SendLocationEffect( blast1z, map, 0x2A4E, 30, 10 );
+		        Effects.SendLocationEffect( blast2z, map, 0x2A4E, 30, 10 );
+		        Effects.SendLocationEffect( blast3z, map, 0x2A4E, 30, 10 );
+		        Effects.SendLocationEffect( blast4z, map, 0x2A4E, 30, 10 );
+		        Effects.SendLocationEffect( blast5z, map, 0x2A4E, 30, 10 );
+		        Effects.PlaySound( targetLoc, map, 0x5C3 );
+		    }
+		    else if ( form == 47 ) // AIR BLOWING BREATH
+		    {
+		        Effects.SendLocationEffect( blast1w, map, 0x5590, 30, 10, 0xB24, 0 );
+		        Effects.SendLocationEffect( blast2w, map, 0x5590, 30, 10, 0xB24, 0 );
+		        Effects.SendLocationEffect( blast3w, map, 0x5590, 30, 10, 0xB24, 0 );
+		        Effects.SendLocationEffect( blast4w, map, 0x5590, 30, 10, 0xB24, 0 );
+		        Effects.SendLocationEffect( blast5w, map, 0x5590, 30, 10, 0xB24, 0 );
+		        Effects.PlaySound( targetLoc, map, 0x10B );
+		    }
+		    else if ( form == 48 ) // SMALL AIR BLOWING BREATH
+		    {
+		        Effects.SendLocationEffect( blast1w, map, 0x5590, 30, 10, 0xB24, 0 );
+		        Effects.PlaySound( targetLoc, map, 0x10B );
+		    }
+		    else if ( form == 49 ) // SMALL STAR CREATURE ATTACK
+		    {
+		        if ( Utility.RandomBool() )
+		        {
+		            Effects.SendLocationEffect( blast1, map, 0x3709, 30, 10 );
+		            Effects.PlaySound( targetLoc, map, 0x208 );
+		        }
+		        else
+		        {
+		            Effects.SendLocationEffect( blast1w, map, 0x2A4E, 30, 10 );
+		            Effects.PlaySound( targetLoc, map, 0x5C3 );
+		        }
+		    }
+		    else if ( form == 50 ) // SMALL STORM ATTACK
+		    {
+		        Effects.SendLocationEffect( blast1w, map, 0x5590, 30, 10, 0xB24, 0 );
+		        Effects.PlaySound( targetLoc, map, 0x10B );
+		
+		        Effects.SendLocationEffect( blast1w, map, 0x2A4E, 30, 10 );
+		        Effects.PlaySound( targetLoc, map, 0x5C3 );
+		    }
+		    else if ( form == 51 ) // SMALL AIR ATTACK
+		    {
+		        Effects.SendLocationEffect( targetLoc, map, 0x5590, 30, 10, 0xB24, 0 );
+		        Effects.PlaySound( targetLoc, map, 0x10B );
+		    }
+		    else if ( form == 52 ) // SMALL UNICORN ATTACK
+		    {
+		        Effects.SendLocationEffect( targetLoc, map, 0x3039, 30, 10, 0xB71, 0 );
+		        Effects.PlaySound( targetLoc, map, 0x20B );
+		    }
+		}
+		
+		public void DoFinalBreathDamage( Mobile target, int form, bool cycle )
+		{
+		    if ( target == null || !target.Alive )
+		        return;
+		
+		    int physDamage = BreathPhysicalDamage;
+		    int fireDamage = BreathFireDamage;
+		    int coldDamage = BreathColdDamage;
+		    int poisDamage = BreathPoisonDamage;
+		    int nrgyDamage = BreathEnergyDamage;
+		
+		    AOS.Damage( target, this, BreathComputeDamage(), physDamage, fireDamage, coldDamage, poisDamage, nrgyDamage );
+		
+		    ApplyBreathSecondaryEffects( target, form );
+		
+		    if ( cycle )
+		    {
+		        int breathDistance = GetBreathDistance( form );
+		        if ( breathDistance > 0 )
+		        {
+		            ChainBreathDamage( target, form, breathDistance );
+		        }
+		    }
+		}
+		
+		public virtual void ApplyBreathSecondaryEffects( Mobile target, int form )
+		{
+		    if ( target == null || !target.Alive )
+		        return;
+		
+		    if ( form == 2 ) // POTIONS THROWN
+		    {
+		        if ( BreathEffectHue == 0xB92 )
+		        {
+		            if ( !(Server.Items.HiddenTrap.SavingThrow( target, "Poison", false, null )) )
+		            {
+		                switch( Utility.RandomMinMax( 1, 2 ) )
+		                {
+		                    case 1: target.ApplyPoison( target, Poison.Lesser ); break;
+		                    case 2: target.ApplyPoison( target, Poison.Regular ); break;
+		                }
+		            }
+		        }
+		        this.YellHue = Utility.RandomMinMax( 0, 3 );
+		    }
+		    else if ( form == 3 ) // DAGGERS OR STARS THROWN
+		    {
+		        if ( target is PlayerMobile && Server.Items.BaseRace.IsBleeder( target ) )
+		        {
+		            Server.Misc.IntelligentAction.CryOut( target );
+		            Blood blood = new Blood(); blood.MoveToWorld( new Point3D(target.X-1, target.Y, target.Z), target.Map );
+		            blood = new Blood(); blood.MoveToWorld( new Point3D(target.X+1, target.Y, target.Z), target.Map );
+		            blood = new Blood(); blood.MoveToWorld( new Point3D(target.X, target.Y-1, target.Z), target.Map );
+		            blood = new Blood(); blood.MoveToWorld( new Point3D(target.X, target.Y+1, target.Z), target.Map );
+		        }
+		
+		        if ( BreathEffectItemID == 0x406C )
+		        {
+		            if ( !(Server.Items.HiddenTrap.SavingThrow( target, "Poison", false, null )) )
+		            {
+		                switch( Utility.RandomMinMax( 1, 2 ) )
+		                {
+		                    case 1: target.ApplyPoison( target, Poison.Lesser ); break;
+		                    case 2: target.ApplyPoison( target, Poison.Regular ); break;
+		                }
+		            }
+		        }
+		    }
+		    else if ( form == 5 ) // MANTICORE
+		    {
+		        target.SendMessage( "You are hit by a manticore thorn!" );
+		        if ( !(Server.Items.HiddenTrap.SavingThrow( target, "Poison", false, null )) )
+		        {
+		            target.ApplyPoison( target, Poison.Lethal );
+		        }
+		        Server.Misc.IntelligentAction.CryOut( target );
+		    }
+		    else if ( form == 6 ) // SPIDERS
+		    {
+		        target.Paralyze( TimeSpan.FromSeconds( GetParalyzeDuration(target,(double)(this.Fame)) ) );
+		    }
+		    else if ( form == 10 ) // LARGE POISON BREATH
+		    {
+		        if ( !(Server.Items.HiddenTrap.SavingThrow( target, "Poison", false, null )) )
+		        {
+		            switch( Utility.RandomMinMax( 1, 2 ) )
+		            {
+		                case 1: target.ApplyPoison( target, Poison.Greater ); break;
+		                case 2: target.ApplyPoison( target, Poison.Deadly ); break;
+		            }
+		        }
+		    }
+		    else if ( form == 18 ) // SMALL POISON BREATH
+		    {
+		        if ( !(Server.Items.HiddenTrap.SavingThrow( target, "Poison", false, null )) )
+		        {
+		            switch( Utility.RandomMinMax( 1, 2 ) )
+		            {
+		                case 1: target.ApplyPoison( target, Poison.Lesser ); break;
+		                case 2: target.ApplyPoison( target, Poison.Regular ); break;
+		            }
+		        }
+		    }
+		    else if ( form >= 23 && form <= 28 ) // VOID BREATH 
+		    {
+		        int drain = ((int)(this.Fame/500));
+		        target.Mana = Math.Max(0, target.Mana - drain);
+		        target.Stam = Math.Max(0, target.Stam - drain);
+		        target.SendMessage( "You feel your soul draining!" );
+		    }
+		    else if ( form == 34 || form == 35 ) // WEED BREATH
+		    {
+		        target.Paralyze( TimeSpan.FromSeconds( GetParalyzeDuration(target,(double)(this.Fame)) ) );
+		    }
+		    else if ( form == 37 ) // MUMMY WRAP
+		    {
+		        target.Paralyze( TimeSpan.FromSeconds( GetParalyzeDuration(target,(double)(this.Fame)) ) );
+		    }
+		    else if ( form == 44 || form == 47 || form == 48 || form == 51 ) // AIR ATTACKS (dismount)
+		    {
+		        if ( target is PlayerMobile && Utility.RandomBool() )
+		        {
+		            IMount mount = target.Mount;
+		            if ( mount != null )
+		            {
+		                target.SendLocalizedMessage( 1062315 ); // You fall off your mount!
+		                Server.Mobiles.EtherealMount.EthyDismount( target );
+		                mount.Rider = null;
+		            }
+		            target.Animate( 22, 5, 1, true, false, 0 );
+		        }
+		    }
+		    else if ( form == 46 || form == 50 ) // STORM ATTACKS (dismount with lower chance)
+		    {
+		        if ( target is PlayerMobile && Utility.RandomMinMax( 1, 5 ) == 1 )
+		        {
+		            IMount mount = target.Mount;
+		            if ( mount != null )
+		            {
+		                target.SendLocalizedMessage( 1062315 ); // You fall off your mount!
+		                Server.Mobiles.EtherealMount.EthyDismount( target );
+		                mount.Rider = null;
+		            }
+		            target.Animate( 22, 5, 1, true, false, 0 );
+		        }
+		    }
+		
+		}
+		
+		// NEW: Get breath distance for area effect
+		public virtual int GetBreathDistance( int form )
+		{
+		    switch( form )
+		    {
+		        case 1: case 8: case 9: case 10: case 11: case 12: case 13: case 14: case 15: 
+		        case 16: case 23: case 24: case 25: case 34: case 36: case 45: case 46: case 47: case 50:
+		            return 3;
+		        case 4: return 5;
+		        case 7: case 18: case 19: case 20: case 21: case 26: case 27: case 28: case 30: 
+		        case 32: case 38: case 39: case 40: case 48: case 49: case 51: case 52:
+		            return 2;
+		        case 31: return 4;
+		        case 41: case 42: case 43: case 44:
+		            return 6;
+		        default:
+		            return 0;
+		    }
+		}
+		
+		public virtual void ChainBreathDamage( Mobile originalTarget, int form, int range )
+		{
+		    List<Mobile> targets = new List<Mobile>();
+		    Map map = this.Map;
+		
+		    if ( map != null && originalTarget != null )
+		    {
+		        foreach ( Mobile m in originalTarget.GetMobilesInRange( range ) )
+		        {
+		            if ( m != this && m != originalTarget && this.InLOS( m ) && m.Alive && CanBeHarmful( m ) && !m.Blessed )
+		            {
+		                if ( m is PlayerMobile )
+		                {
+		                    targets.Add( m );
+		                }
+		                else if ( m is BaseCreature )
+		                {
+		                    BaseCreature bc = (BaseCreature)m;
+		                    if ( bc.Summoned || bc.Controlled )
+		                        targets.Add( m );
+		                }
+		            }
+		        }
+		
+		        for ( int i = 0; i < targets.Count; ++i )
+		        {
+		            Mobile m = targets[i];
+		            DoFinalBreathDamage( m, form, false ); // Don't cycle again
+		        }
+		    }
+		}
+		
+		public virtual int BreathComputeDamage()
+		{
+		    int damage = (int)(Hits * BreathDamageScalar);
+		
+		    if ( IsParagon )
+		        damage = (int)(damage / Paragon.HitsBuff);
+		
+		    if ( damage > 100 )
+		        damage = 100;
+		
+		    if ( damage < DamageMax )
+		        damage = DamageMax;
+		
+		    return damage;
+		}
+		
+		#endregion
 		// mummies, spiders, plants and some breath weapons have normalized paralyze duration based on a players Magic Resistance or their fame, capped at 8 seconds.
 		private double GetParalyzeDuration(Mobile target, double fame)
 		{
@@ -6324,7 +6326,7 @@ public virtual int BreathComputeDamage()
 
 		public bool DispelChecks( Mobile m )
 		{
-			double DispelChance = 0.33; // 33% chance to dispel at gm magery
+			double DispelChance = 0.25; // 25% chance to dispel at gm magery
 
 			bool willDispel = true;
 			int nope = 10;
@@ -6339,9 +6341,9 @@ public virtual int BreathComputeDamage()
 			{
 				BaseCreature bc = (BaseCreature)m;
 
-				if ( bc.Slayer != SlayerName.None && (SlayerGroup.GetEntryByName( bc.Slayer )).Slays( this ) && Utility.Random(100) > 0 )
+				if ( bc.Slayer != SlayerName.None && (SlayerGroup.GetEntryByName( bc.Slayer )).Slays( this ))
 					nope += 50;
-				else if ( bc.Slayer2 != SlayerName.None && (SlayerGroup.GetEntryByName( bc.Slayer2 )).Slays( this ) && Utility.Random(100) > 0 )
+				else if ( bc.Slayer2 != SlayerName.None && (SlayerGroup.GetEntryByName( bc.Slayer2 )).Slays( this ))
 					nope += 50;
 			}
 
@@ -8077,7 +8079,624 @@ public virtual int BreathComputeDamage()
 			}
 
 			///////////////////////////////////////////////////////////////////////////////////////
+			/// Crusader Holy Fervor
+			
+			SlayerEntry holyFervorDemons = SlayerGroup.GetEntryByName( SlayerName.Exorcism );
 
+			if ( holyFervorDemons.Slays( this ) && slayer is PlayerMobile )
+			{
+			    PlayerMobile fervorPm = (PlayerMobile)slayer;
+
+			    if ( fervorPm.ActiveAscension == AscensionType.Crusader )
+			    {
+			        AscensionProgress fervorProg = fervorPm.AscensionProfile.Get( AscensionType.Crusader );
+			        int fervorLevel = fervorProg.Level;
+
+			        if ( fervorLevel >= 8 && Utility.Random( 1000 ) < (fervorLevel * 15) ) // 1.5% per level
+			        {
+			            int fervorRadius = 2 + (fervorLevel / 5);
+			            int fervorDamage = Utility.RandomMinMax( 20, 32 ) + (fervorLevel / 2) + (fervorPm.Str / 15);
+
+			            SlamVisuals.SlamVisual( fervorPm, fervorRadius, 0x36B0, 0x498 );
+
+			            ArrayList fervorTargets = new ArrayList();
+
+                		IPooledEnumerable fervorEable = fervorPm.Map.GetMobilesInRange( fervorPm.Location, fervorRadius );
+
+                		try
+                		{
+                		    foreach ( Mobile fm in fervorEable )
+                		    {
+                		        if ( fm == null || fm.Deleted || !fm.Alive || fm == fervorPm )
+                		            continue;
+
+                		        if ( fm.Karma >= 0 )
+                		            continue;
+
+                		        if ( !fervorPm.CanBeHarmful( fm, false ) )
+                		            continue;
+
+                		        fervorTargets.Add( fm );
+                		    }
+                		}
+                		finally
+                		{
+                		    fervorEable.Free();
+                		}
+
+                		for ( int i = 0; i < fervorTargets.Count; i++ )
+                		{
+                		    Mobile fm = (Mobile)fervorTargets[i];
+
+                		    if ( fm.Deleted || !fm.Alive )
+                		        continue;
+
+                		    fervorPm.DoHarmful( fm );
+                		    AOS.Damage( fm, fervorPm, fervorDamage, 100, 0, 0, 0, 0 );
+                		}
+						if ( fervorLevel >= 17 )
+			                fervorPm.SetAbilityCooldown( "Smite", TimeSpan.Zero );
+			        }
+			    }
+			}
+
+			///////////////////////////////////////////////////////////////////////////////////////
+			// Crusader divine judgement 
+
+			if ( slayer is PlayerMobile && this.Karma <= -5000 )
+			{
+			    PlayerMobile djPm = (PlayerMobile)slayer;
+
+			    if ( djPm.ActiveAscension == AscensionType.Crusader )
+			    {
+			        AscensionProgress djProg = djPm.AscensionProfile.Get( AscensionType.Crusader );
+
+			        if ( djProg.Level >= 20 && Utility.Random( 1000 ) < 25 )
+			        {
+			            Map djMap = djPm.Map;
+
+			            if ( djMap != null && djMap != Map.Internal )
+			            {
+			                Point3D spawnLoc = djPm.Location;
+
+			                for ( int attempt = 0; attempt < 10; attempt++ )
+			                {
+			                    int x = djPm.X + Utility.RandomMinMax( -3, 3 );
+			                    int y = djPm.Y + Utility.RandomMinMax( -3, 3 );
+			                    int z = djMap.GetAverageZ( x, y );
+
+			                    if ( djMap.CanFit( x, y, z, 16, false, false ) )
+			                    {
+			                        spawnLoc = new Point3D( x, y, z );
+			                        break;
+			                    }
+			                }
+
+			                CrusaderLuminar luminar = new CrusaderLuminar();
+
+			                luminar.Summoned     = true;
+			                luminar.SummonMaster = djPm;
+			                luminar.IsTempEnemy  = true;
+			                luminar.ControlSlots = 0;
+			                luminar.Controlled   = false;
+			                luminar.FightMode    = FightMode.Closest;
+			                luminar.RangeHome    = 12;
+			                luminar.Home         = djPm.Location;
+
+			                luminar.MoveToWorld( spawnLoc, djMap );
+			                Effects.SendLocationParticles(
+			                    EffectItem.Create( spawnLoc, djMap, EffectItem.DefaultDuration ),
+			                    0x3728, 10, 10, 0x498, 0, 2023, 0
+			                );
+			                luminar.PlaySound( luminar.GetAngerSound() );
+			                new LuminarExpiryTimer( luminar ).Start();
+			            }
+			        }
+			    }
+			}
+
+			///////////////////////////////////////////////////////////////////////////////////////
+			// Assassin Terminal
+
+			if ( slayer is PlayerMobile && this.Poisoned )
+			{
+			    PlayerMobile termPm = (PlayerMobile)slayer;
+
+			    if ( termPm.ActiveAscension == AscensionType.Assassin )
+			    {
+			        AscensionProgress termProg = termPm.AscensionProfile.Get( AscensionType.Assassin );
+			        int termLevel = termProg.Level;
+
+			        if ( termLevel >= 20 && Utility.Random( 10000 ) < (termLevel * 25) )
+			        {
+			            termPm.SendMessage( 0x233, "*Terminal*" );
+
+			            Map termMap = termPm.Map;
+
+			            ArrayList termTargets = new ArrayList();
+
+                		IPooledEnumerable termEable = termMap.GetMobilesInRange( this.Location, 2 );
+
+                		try
+                		{
+                		    foreach ( Mobile m in termEable )
+                		    {
+                		        if ( m == null || m.Deleted || !m.Alive || m == termPm )
+                		            continue;
+
+                		        if ( !termPm.CanBeHarmful( m, false ) )
+                		            continue;
+
+                		        termTargets.Add( m );
+                		    }
+                		}
+                		finally
+                		{
+                		    termEable.Free();
+                		}
+
+                		for ( int i = 0; i < termTargets.Count; i++ )
+                		{
+                		    Mobile m = (Mobile)termTargets[i];
+
+                		    if ( m.Deleted || !m.Alive )
+                		        continue;
+
+                		    termPm.DoHarmful( m );
+                		    m.ApplyPoison( termPm, Poison.Lethal );
+                		    Effects.SendTargetParticles( m, 0x3729, 9, 40, 0x233, 0, 0, EffectLayer.Waist, 0 );
+                		}
+			        }
+			    }
+			}
+
+			///////////////////////////////////////////////////////////////////////////////////////
+			// DARK SUCCOR Level 15 + 20 (Blackguard active, kill triggers)
+
+			if ( slayer is PlayerMobile )
+			{
+			    PlayerMobile blackguardPm = (PlayerMobile)slayer;
+				AscensionProgress succorProg = blackguardPm.AscensionProfile.Get( AscensionType.Blackguard );
+			        int blackguardLevel = succorProg.Level;
+			    if ( blackguardPm.ActiveAscension == AscensionType.Blackguard
+				    && blackguardLevel >= 8)
+				{
+				    if ( this.Karma > 0 )
+				    {
+				        double chance = 0.0025 * blackguardLevel;
+
+				        if ( Utility.RandomDouble() < chance )
+				        {
+				            TimeSpan fleeDuration;
+
+				            if ( blackguardLevel >= 17 )
+				                fleeDuration = TimeSpan.FromSeconds( 6.0 );
+				            else
+				                fleeDuration = TimeSpan.FromSeconds( 3.0 );
+
+				            bool triggered = false;
+
+				            IPooledEnumerable eable = null;
+
+				            try
+				            {
+				                eable = blackguardPm.GetMobilesInRange( 2 );
+
+				                foreach ( Mobile m in eable )
+				                {
+				                    if ( m == null )
+				                        continue;
+
+				                    if ( m.Deleted || !m.Alive )
+				                        continue;
+
+				                    if ( m == blackguardPm )
+				                        continue;
+
+				                    if ( !(m is BaseCreature) )
+				                        continue;
+
+				                    BaseCreature bc = (BaseCreature)m;
+
+				                    if ( bc.Fame >= 12500 )
+				                        continue;
+
+				                    if ( bc.Controlled || bc.Summoned )
+				                        continue;
+
+				                    bc.BeginFlee( fleeDuration );
+				                    triggered = true;
+				                }
+				            }
+				            catch
+				            {}
+				            finally
+				            {
+				                if ( eable != null )
+				                    eable.Free();
+				            }
+
+				            if ( triggered )
+				            {
+				                blackguardPm.SendMessage( 0x47E, "Your morbidity panics your foes!" );
+				                blackguardPm.FixedParticles( 0x376A, 9, 32, 5005, 0x455, 0, EffectLayer.Waist );
+				            }
+				        }
+				    }
+				}
+				if ( blackguardPm.ActiveAscension == AscensionType.Blackguard
+			        && blackguardPm.HasAscensionEffect( "DarkSuccor" ) )
+			    {
+			        if ( blackguardLevel >= 15 && blackguardPm.Mana < (blackguardPm.ManaMax / 2) )
+			        {
+			            int manaRestore = 2 + (blackguardLevel / 2);
+			            blackguardPm.Mana = Math.Min( blackguardPm.ManaMax, blackguardPm.Mana + manaRestore );
+			            blackguardPm.SendMessage( 0x47E, "The fallen foe empowers your magic!" );
+			            blackguardPm.FixedParticles( 0x374A, 10, 15, 5021, 0x47E, 0, EffectLayer.Waist );
+			        }
+
+			        if ( blackguardLevel >= 20 && blackguardPm.Hits < (blackguardPm.HitsMax / 2) )
+			        {
+			            int hpRestore = 6 + (blackguardLevel / 2);
+			            blackguardPm.Hits = Math.Min( blackguardPm.HitsMax, blackguardPm.Hits + hpRestore );
+			            blackguardPm.SendMessage( 0x47E, "The fallen foe feeds your vileness!" );
+			            blackguardPm.FixedParticles( 0x376A, 9, 32, 5005, 0x47E, 0, EffectLayer.Waist );
+			        }
+			    }
+			}
+
+			///////////////////////////////////////////////////////////////////////////////////////
+			// SOUL REAPER (Blackguard, level 20)
+
+			if ( slayer is PlayerMobile && this.Fame > 10000 )
+			{
+			    PlayerMobile reaperPm = (PlayerMobile)slayer;
+
+			    if ( reaperPm.ActiveAscension == AscensionType.Blackguard )
+			    {
+			        AscensionProgress reaperProg = reaperPm.AscensionProfile.Get( AscensionType.Blackguard );
+			        int reaperLevel = reaperProg.Level;
+
+			        // 0.25% per level
+			        if ( reaperLevel >= 20 && Utility.Random( 10000 ) < (reaperLevel * 25) )
+			        {
+			            Map reaperMap = reaperPm.Map;
+
+			            if ( reaperMap != null && reaperMap != Map.Internal )
+			            {
+			            
+			                ArrayList reaperTargets = new ArrayList();
+
+			               IPooledEnumerable reaperEable = reaperMap.GetMobilesInRange( this.Location, 2 );
+			
+			               try
+			               {
+			                   foreach ( Mobile m in reaperEable )
+			                   {
+			                       if ( m == null || m.Deleted || !m.Alive || m == reaperPm )
+			                           continue;
+			
+			                       if ( !reaperPm.CanBeHarmful( m, false ) )
+			                           continue;
+			
+			                       reaperTargets.Add( m );
+			                   }
+			               }
+			               finally
+			               {
+			                   reaperEable.Free();
+			               }
+			
+			               int totalHealing = 0;
+			               int drainPerTarget = reaperLevel + (reaperPm.Str / 25);
+			
+			               for ( int i = 0; i < reaperTargets.Count; i++ )
+			               {
+			                   Mobile m = (Mobile)reaperTargets[i];
+			
+			                   if ( m.Deleted || !m.Alive )
+			                       continue;
+			
+			                   int actualDrain = Math.Min( m.Hits, drainPerTarget );
+			                   m.Hits -= actualDrain;
+			                   totalHealing += drainPerTarget;
+			               }
+			
+			               if ( totalHealing > 0 )
+			               {
+			                   reaperPm.Hits = Math.Min( reaperPm.HitsMax, reaperPm.Hits + drainPerTarget );
+			                   reaperPm.SendMessage( 0x47E, "You reap the soul of your foe!" );
+			                   reaperPm.FixedParticles( 0x374A, 10, 15, 5021, 0x47E, 0, EffectLayer.Waist );
+			                   reaperPm.PlaySound( 0x1FB );
+			               }
+			            }
+			        }
+			    }
+			}
+
+			///////////////////////////////////////////////////////////////////////////////////////
+            // WAR CHANT LEVEL 15
+            if ( slayer != null && !slayer.Deleted && slayer.Alive )
+            {
+                PlayerMobile chantSource = null;
+                // Slayer may be the skald themselves or a buffed ally —  find the skald who owns the active WarChant effect
+                if ( slayer is PlayerMobile )
+                {
+                    PlayerMobile slayerPm = (PlayerMobile)slayer;
+
+                    if ( slayerPm.ActiveAscension == AscensionType.Skald
+                        && slayerPm.HasAscensionEffect( "WarChant" ) )
+                    {
+                        AscensionEffectState chantState = slayerPm.GetAscensionEffect( "WarChant" );
+
+                        if ( chantState.Level >= 15 )
+                            chantSource = slayerPm;
+                    }
+                }
+
+                if ( chantSource != null )
+                {
+                    slayer.Hits = Math.Min( slayer.HitsMax, slayer.Hits + 5 );
+                    slayer.Stam = Math.Min( slayer.StamMax, slayer.Stam + 3 );
+                }
+            }
+
+            ///////////////////////////////////////////////////////////////////////////////////////
+			// SAGA OF STEEL (Skald capstone, level 20)
+
+			if ( slayer is PlayerMobile )
+			{
+			    PlayerMobile sagaPm = (PlayerMobile)slayer;
+
+			    if ( sagaPm.ActiveAscension == AscensionType.Skald )
+			    {
+			        AscensionProgress sagaProg = sagaPm.AscensionProfile.Get( AscensionType.Skald );
+			        int sagaLevel = sagaProg.Level;
+
+			        if ( sagaLevel >= 20 && Utility.Random( 10000 ) < (sagaLevel * 25) )
+			        {
+			            Mobile requiemTarget = GetNearestHostile( sagaPm );
+
+			            if ( requiemTarget != null )
+			            {
+			                sagaPm.SendMessage( 0x445, "Your victory sings a requiem for the fallen!" );
+							sagaPm.PublicOverheadMessage(MessageType.Regular, 0x445, false, "*Dirge of the Fallen*");
+			                DoFoeRequiemDirect( sagaPm, requiemTarget );
+			            }
+			        }
+			    }
+			}
+			///////////////////////////////////////////////////////////////
+            // ABSOLUTE TYRANNY (Reaver , level 18)
+
+            if (slayer is PlayerMobile)
+            {
+                PlayerMobile tyrannyPm = (PlayerMobile)slayer;
+
+                if (tyrannyPm.ActiveAscension == AscensionType.Reaver
+                    && tyrannyPm.HasAscensionEffect("AbsoluteTyranny"))
+                {
+                    BaseWeapon tyrannyWeapon = tyrannyPm.Weapon as BaseWeapon;
+
+                    if (tyrannyWeapon != null && tyrannyWeapon.Type == WeaponType.Axe)
+                    {
+                        AscensionEffectState tyrannyState = tyrannyPm.GetAscensionEffect("AbsoluteTyranny");
+                        int tyrannyLevel = tyrannyState.Level;
+
+                        int hitsRestore = tyrannyPm.HitsMax / 10;
+                        int stamRestore = tyrannyPm.StamMax / 10;
+
+                        tyrannyPm.Hits += hitsRestore;
+                        tyrannyPm.Stam += stamRestore;
+
+                        if (tyrannyPm.Hits > tyrannyPm.HitsMax) tyrannyPm.Hits = tyrannyPm.HitsMax;
+                        if (tyrannyPm.Stam > tyrannyPm.StamMax) tyrannyPm.Stam = tyrannyPm.StamMax;
+
+                        tyrannyPm.FixedParticles(0x23B2, 10, 15, 0, 0x675, 0, EffectLayer.Waist);
+
+                        if (tyrannyLevel >= 20 && Utility.Random(10000) < (tyrannyLevel * 100))
+                            DoTyrannyCorpseExplosion(tyrannyPm, this.Location, this.Map);
+                    }
+                }
+            }
+			///////////////////////////////////////////////////////////////
+            // DEEP CUTS (Reaver, level 20)
+
+            if (slayer is PlayerMobile)
+            {
+                PlayerMobile deepCutsPm = (PlayerMobile)slayer;
+
+                if (deepCutsPm.ActiveAscension == AscensionType.Reaver)
+                {
+                    BaseWeapon deepCutsWeapon = deepCutsPm.Weapon as BaseWeapon;
+
+                    if (deepCutsWeapon != null && deepCutsWeapon.Type == WeaponType.Axe)
+                    {
+                        AscensionProgress deepCutsProg  = deepCutsPm.AscensionProfile.Get(AscensionType.Reaver);
+                        int               deepCutsLevel = deepCutsProg.Level;
+
+                        if (deepCutsLevel >= 20 && Utility.Random(10000) < (deepCutsLevel * 25))
+                        {
+                            deepCutsPm.SendMessage(0x675, "You cut your foes deeply!");
+
+                            Map     deepCutsMap = this.Map;
+                            Point3D deepCutsLoc = this.Location;
+
+                            if (deepCutsMap != null && deepCutsMap != Map.Internal)
+                            {
+                                ArrayList deepCutsTargets = new ArrayList();
+
+                                IPooledEnumerable deepCutsEable = deepCutsMap.GetMobilesInRange(deepCutsLoc, 1);
+
+                                try
+                                {
+                                    foreach (Mobile m in deepCutsEable)
+                                    {
+                                        if (m == null || m.Deleted || !m.Alive || m == deepCutsPm)
+                                            continue;
+
+                                        if (!deepCutsPm.CanBeHarmful(m, false))
+                                            continue;
+
+                                        deepCutsTargets.Add(m);
+                                    }
+                                }
+                                finally
+                                {
+                                    deepCutsEable.Free();
+                                }
+
+                                for (int i = 0; i < deepCutsTargets.Count; i++)
+                                {
+                                    Mobile m = (Mobile)deepCutsTargets[i];
+
+                                    if (m.Deleted || !m.Alive)
+                                        continue;
+
+                                    if (ReaverDeepCutsBleed.IsDeepCutsBleeding(m))
+                                        continue;
+
+                                    deepCutsPm.DoHarmful(m);
+
+                                    int bleedDuration = Utility.RandomMinMax(12, 21);
+                                    new ReaverDeepCutsBleed(m, deepCutsPm, deepCutsLevel, bleedDuration).Start();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            ///////////////////////////////////////////////////////////////
+            // KENSAI: Battle Meditation level 20
+            if (slayer is PlayerMobile)
+            {
+                PlayerMobile kensaiPm = (PlayerMobile)slayer;
+                if (kensaiPm.ActiveAscension == AscensionType.Kensai
+                    && kensaiPm.HasAscensionEffect("BattleMeditation"))
+                {
+                    AscensionEffectState meditKillState = kensaiPm.GetAscensionEffect("BattleMeditation");
+                    if (meditKillState.Level >= 20 && kensaiPm.IsAbilityOnCooldown("Tempest"))
+						    new TempestCooldownReduceTimer(kensaiPm).Start();
+                }
+            }
+
+            ///////////////////////////////////////////////////////////////
+            // KENSAI: Singular Focus (level 8+) and Final Cut (level 20)
+            if (slayer is PlayerMobile)
+            {
+                PlayerMobile kensaiFocusPm = (PlayerMobile)slayer;
+
+                if (kensaiFocusPm.ActiveAscension == AscensionType.Kensai)
+                {
+                    AscensionProgress kensaiFocusProg  = kensaiFocusPm.AscensionProfile.Get(AscensionType.Kensai);
+                    int               kensaiFocusLevel = kensaiFocusProg.Level;
+
+                    BaseWeapon focusWeapon = kensaiFocusPm.Weapon as BaseWeapon;
+                    bool       focusHasSword = (focusWeapon != null && KensaiHelpers.IsSword(focusWeapon));
+
+                    bool wasFullHealth = KensaiFullHealthTracker.WasFullHealth(kensaiFocusPm, this);
+                    KensaiFullHealthTracker.Clear(kensaiFocusPm, this);
+
+                    if (focusHasSword && wasFullHealth)
+                    {
+                        if (kensaiFocusLevel >= 8)
+                        {
+                            kensaiFocusPm.PublicOverheadMessage(MessageType.Regular, 0x448, false, "*Singular Focus*");
+                            kensaiFocusPm.FixedParticles(0x376A, 9, 32, 5030, 0x448, 0, EffectLayer.Waist);
+
+                            kensaiFocusPm.AddAscensionEffect("SingularFocus", TimeSpan.FromSeconds(30), kensaiFocusLevel);
+                        }
+
+                        if (kensaiFocusLevel >= 20 && Utility.Random(10000) < (kensaiFocusLevel * 25))
+                        {
+                            KensaiTempestAbility.DoTempest(kensaiFocusPm, kensaiFocusLevel, true);
+                        }
+                    }
+                }
+            }
+
+            ///////////////////////////////////////////////////////////////
+            // DIVINE POWER level 20 (Hierophant)
+            if (slayer is PlayerMobile && this.Karma < 0)
+            {
+                PlayerMobile dPowerPm = (PlayerMobile)slayer;
+
+                if (dPowerPm.ActiveAscension == AscensionType.Hierophant
+                    && dPowerPm.HasAscensionEffect("DivinePower"))
+                {
+                    AscensionEffectState dPowerState = dPowerPm.GetAscensionEffect("DivinePower");
+
+                    if (dPowerState.Level >= 20 && Utility.Random(100) < 20)
+                    {
+                        dPowerPm.SetAbilityCooldown("DivineWrath", TimeSpan.Zero);
+                        dPowerPm.SendMessage(0x439, "Divine Wrath can be used again.");
+                    }
+                }
+            }
+
+			///////////////////////////////////////////////////////////////
+            // ARCANE FEEDBACK (Arcane Archer, level 14)
+            if (slayer is PlayerMobile)
+            {
+                PlayerMobile aaFeedbackPm = (PlayerMobile)slayer;
+
+                if (aaFeedbackPm.ActiveAscension == AscensionType.ArcaneArcher)
+                {
+                    AscensionProgress aaFeedbackProg  = aaFeedbackPm.AscensionProfile.Get(AscensionType.ArcaneArcher);
+                    int               aaFeedbackLevel = aaFeedbackProg.Level;
+
+                    BaseWeapon aaFeedbackWeapon = aaFeedbackPm.Weapon as BaseWeapon;
+                    bool       aaIsRanged       = (aaFeedbackWeapon != null && aaFeedbackWeapon is BaseRanged);
+					int		   restore  		= (int)(aaFeedbackPm.Skills[SkillName.Inscribe].Value / 25.0);
+
+                    if (aaFeedbackLevel >= 14 && aaIsRanged && restore > 0)
+                    {
+                        aaFeedbackPm.Mana = Math.Min(aaFeedbackPm.ManaMax, aaFeedbackPm.Mana + restore);
+						if(aaFeedbackLevel >= 19)
+						{
+							if (Utility.RandomBool())
+							{
+	                            aaFeedbackPm.Hits = Math.Min(aaFeedbackPm.HitsMax, aaFeedbackPm.Hits + restore);								
+							}
+							else
+							{
+	                            aaFeedbackPm.Stam = Math.Min(aaFeedbackPm.StamMax, aaFeedbackPm.Stam + restore);
+							}
+						}
+						aaFeedbackPm.FixedParticles(0x376A, 9, 32, 5030, 0x48F, 0, EffectLayer.Waist);
+                    }
+                }
+            }
+
+            ///////////////////////////////////////////////////////////////
+            // ARCANE MOMENTUM (Arcane Archer, level 20)
+            if (slayer is PlayerMobile)
+            {
+                PlayerMobile aaMomPm = (PlayerMobile)slayer;
+
+                if (aaMomPm.ActiveAscension == AscensionType.ArcaneArcher)
+                {
+                    AscensionProgress aaMomProg  = aaMomPm.AscensionProfile.Get(AscensionType.ArcaneArcher);
+                    int               aaMomLevel = aaMomProg.Level;
+
+                    if (aaMomLevel >= 20)
+                    {
+                        BaseWeapon aaMomWeapon = aaMomPm.Weapon as BaseWeapon;
+                        bool       aaMomRanged = (aaMomWeapon != null && aaMomWeapon is BaseRanged);
+
+                        if (aaMomRanged && !aaMomPm.HasAscensionEffect("ArcaneMomentumAbsorb"))
+                        {
+                            int absorb = (int)(aaMomPm.Skills[SkillName.Inscribe].Value / 8.0);
+                            aaMomPm.MagicDamageAbsorb += absorb;
+                            aaMomPm.AddAscensionEffect("ArcaneMomentumAbsorb", TimeSpan.FromSeconds(30), aaMomLevel);
+                            new ArcaneMomentumAbsorbExpiryTimer(aaMomPm, absorb).Start();
+                            aaMomPm.FixedParticles(0x376A, 9, 32, 5030, 0x48F, 0, EffectLayer.Waist);
+                        }
+                    }
+                }
+            }
+
+            ///////////////////////////////////////////////////////////////
 			SlayerEntry vampAnimal = SlayerGroup.GetEntryByName( SlayerName.AnimalHunter );
 			SlayerEntry vampAvian = SlayerGroup.GetEntryByName( SlayerName.AvianHunter );
 			SlayerEntry vampRepond = SlayerGroup.GetEntryByName( SlayerName.Repond );
@@ -8181,6 +8800,260 @@ public virtual int BreathComputeDamage()
 				speechType.OnDeath( this );
 
 			return base.OnBeforeDeath();
+		}
+
+		private sealed class ArcaneMomentumAbsorbExpiryTimer : Timer
+        {
+            private readonly PlayerMobile m_Player;
+            private readonly int          m_Absorb;
+
+            public ArcaneMomentumAbsorbExpiryTimer(PlayerMobile pm, int absorb)
+                : base(TimeSpan.FromSeconds(30))
+            {
+                m_Player = pm;
+                m_Absorb = absorb;
+                Priority = TimerPriority.OneSecond;
+            }
+
+            protected override void OnTick()
+            {
+                if (m_Player == null || m_Player.Deleted)
+                    return;
+
+                m_Player.MagicDamageAbsorb -= m_Absorb;
+                if (m_Player.MagicDamageAbsorb < 0)
+                    m_Player.MagicDamageAbsorb = 0;
+            }
+        }
+
+		private static bool m_TyrannyExplosionActive = false;
+
+        private static void DoTyrannyCorpseExplosion(PlayerMobile pm, Point3D loc, Map map)
+        {
+            if (m_TyrannyExplosionActive)
+                return;
+
+            if (map == null || map == Map.Internal)
+                return;
+
+            m_TyrannyExplosionActive = true;
+
+            try
+            {
+                Effects.SendLocationParticles(
+                    EffectItem.Create(loc, map, EffectItem.DefaultDuration),
+                    0x23B2, 10, 30, 0x675, 0, 0, 0
+                );
+                Effects.PlaySound(loc, map, 0x307);
+
+                int strBonus    = pm.Str / 15;
+                int tacBonus    = (int)(pm.Skills[SkillName.Tactics].Value / 12);
+                int blastDamage = Utility.RandomMinMax(30, 56) + strBonus + tacBonus;
+
+                ArrayList targets = new ArrayList();
+
+                IPooledEnumerable eable = map.GetMobilesInRange(loc, 2);
+
+                try
+                {
+                    foreach (Mobile m in eable)
+                    {
+                        if (m == null || m.Deleted || !m.Alive || m == pm)
+                            continue;
+
+                        if (!pm.CanBeHarmful(m, false))
+                            continue;
+
+                        targets.Add(m);
+                    }
+                }
+                finally
+                {
+                    eable.Free();
+                }
+
+                for (int i = 0; i < targets.Count; i++)
+                {
+                    Mobile m = (Mobile)targets[i];
+
+                    if (m.Deleted || !m.Alive)
+                        continue;
+
+                    pm.DoHarmful(m);
+                    AOS.Damage(m, pm, blastDamage, 100, 0, 0, 0, 0);
+                }
+            }
+            finally
+            {
+                m_TyrannyExplosionActive = false;
+            }
+        }
+
+		private static Mobile GetNearestHostile( PlayerMobile pm )
+		{
+		    Map map = pm.Map;
+
+		    if ( map == null || map == Map.Internal )
+		        return null;
+
+		    Mobile nearest  = null;
+		    double nearestDist = double.MaxValue;
+
+		    IPooledEnumerable eable = map.GetMobilesInRange( pm.Location, 12 );
+
+		    try
+		    {
+		        foreach ( Mobile m in eable )
+		        {
+		            if ( m == null || m.Deleted || !m.Alive || m == pm )
+		                continue;
+
+		            if ( !pm.CanBeHarmful( m, false ) )
+		                continue;
+
+		            double dist = pm.GetDistanceToSqrt( m );
+
+		            if ( dist < nearestDist )
+		            {
+		                nearestDist = dist;
+		                nearest     = m;
+		            }
+		        }
+		    }
+		    finally
+		    {
+		        eable.Free();
+		    }
+
+		    return nearest;
+		}
+
+		private static bool m_FoeRequiemActive = false;
+
+		// Directly applies Foe Requiem damage without going through the spell cast sequence 
+
+		private static void DoFoeRequiemDirect( PlayerMobile pm, Mobile target )
+		{
+		    if ( m_FoeRequiemActive )
+		        return;
+
+		    if ( target == null || target.Deleted || !target.Alive )
+		        return;
+
+		    if ( !pm.CanBeHarmful( target, false ) )
+		        return;
+
+		    m_FoeRequiemActive = true;
+
+		    try
+		    {
+		        bool isSlayer = false;
+
+		        Spellbook book     = Spellbook.Find( pm, -1, SpellbookType.Song );
+		        SongBook  songBook = book as SongBook;
+
+		        if ( songBook != null && target is BaseCreature )
+		        {
+		            SlayerEntry atkSlayer  = SlayerGroup.GetEntryByName( songBook.Instrument.Slayer );
+		            SlayerEntry atkSlayer2 = SlayerGroup.GetEntryByName( songBook.Instrument.Slayer2 );
+
+		            if ( (atkSlayer  != null && atkSlayer.Slays( target ))  ||
+		                 (atkSlayer2 != null && atkSlayer2.Slays( target )) )
+		                isSlayer = true;
+		        }
+
+		        double damage = (double)(Song.MusicSkill( pm ) / 9);
+
+		        if ( isSlayer )
+		            damage *= 2;
+
+		        pm.DoHarmful( target );
+
+		        target.FixedParticles( 0x374A, 10, 15, 5028, EffectLayer.Head );
+		        pm.MovingParticles( target, 0x379F, 7, 0, false, true, 3043, 4043, 0x211 );
+		        target.PlaySound( 0x1EA );
+
+		        AOS.Damage( target, pm, (int)damage, 20, 20, 20, 20, 20 );
+		    }
+		    finally
+		    {
+		        m_FoeRequiemActive = false;
+		    }
+		}
+
+		private sealed class TempestCooldownReduceTimer : Timer
+        {
+            private readonly PlayerMobile m_Player;
+            private static readonly TimeSpan FullCooldown = TimeSpan.FromMinutes(1);
+            private static readonly TimeSpan Reduction    = TimeSpan.FromSeconds(5);
+
+            // Tracks how much we have already reduced so far this cooldown cycle
+            private static readonly System.Collections.Hashtable m_Reductions
+                = new System.Collections.Hashtable();
+
+            public TempestCooldownReduceTimer(PlayerMobile pm)
+                : base(TimeSpan.Zero)
+            {
+                m_Player = pm;
+                Priority = TimerPriority.OneSecond;
+            }
+
+            protected override void OnTick()
+            {
+                if (m_Player == null || m_Player.Deleted)
+                    return;
+
+                if (!m_Player.IsAbilityOnCooldown("Tempest"))
+                {
+                    m_Reductions.Remove(m_Player);
+                    return;
+                }
+
+                double totalReduced = 0.0;
+
+                if (m_Reductions.ContainsKey(m_Player))
+                    totalReduced = (double)m_Reductions[m_Player];
+
+                totalReduced += Reduction.TotalSeconds;
+
+                if (totalReduced >= FullCooldown.TotalSeconds)
+                {
+                    m_Player.SetAbilityCooldown("Tempest", TimeSpan.Zero);
+                    m_Reductions.Remove(m_Player);
+                    return;
+                }
+
+                m_Reductions[m_Player] = totalReduced;
+
+                TimeSpan remaining = TimeSpan.FromSeconds(FullCooldown.TotalSeconds - totalReduced);
+                m_Player.SetAbilityCooldown("Tempest", remaining);
+            }
+        }
+
+		// Divine judgement summon controller
+		private sealed class LuminarExpiryTimer : Timer
+		{
+		    private readonly CrusaderLuminar m_Luminar;
+
+		    public LuminarExpiryTimer( CrusaderLuminar luminar )
+		        : base( TimeSpan.FromSeconds( 60 ) )
+		    {
+		        m_Luminar = luminar;
+		        Priority  = TimerPriority.OneSecond;
+		    }
+
+		    protected override void OnTick()
+		    {
+		        if ( m_Luminar == null || m_Luminar.Deleted )
+		            return;
+
+		        Effects.SendLocationParticles(
+		            EffectItem.Create( m_Luminar.Location, m_Luminar.Map, EffectItem.DefaultDuration ),
+		            0x3728, 10, 10, 0x498, 0, 2023, 0
+		        );
+		        m_Luminar.PlaySound( 0x1FE );
+		        m_Luminar.Delete();
+		    }
 		}
 
 		private bool m_NoKillAwards;
@@ -8348,187 +9221,232 @@ public virtual int BreathComputeDamage()
 				Paragon.GiveArtifactTo( mob );
 		}
 
-		public override void OnDeath( Container c )
+		public override void OnDeath(Container c)
 		{
-			PremiumSpawner.ActivateSpawner( this );
+		    PremiumSpawner.ActivateSpawner(this);
 
-			Mobile killer = this.LastKiller;
+		    Mobile killer = this.LastKiller;
 
-			QuestTake.DropChest( this );
+		    QuestTake.DropChest(this);
 
-			if (killer is BaseCreature)
-			{
-				BaseCreature bc_killer = (BaseCreature)killer;
-				if(bc_killer.Summoned)
-				{
-					if(bc_killer.SummonMaster != null)
-						killer = bc_killer.SummonMaster;
-				}
-				else if(bc_killer.Controlled)
-				{
-					if(bc_killer.ControlMaster != null)
-						killer=bc_killer.ControlMaster;
-				}
-				else if(bc_killer.BardProvoked)
-				{
-					if(bc_killer.BardMaster != null)
-						killer=bc_killer.BardMaster;
-				}
-			}
+		    if (killer is BaseCreature)
+		    {
+		        BaseCreature bc_killer = (BaseCreature)killer;
 
-			if ( ( killer is PlayerMobile ) && (killer.AccessLevel < AccessLevel.GameMaster) )
-			{
-				LoggingFunctions.LogBattles( killer, this );
-			}
+		        if (bc_killer.Summoned && bc_killer.SummonMaster != null)
+		            killer = bc_killer.SummonMaster;
+		        else if (bc_killer.Controlled && bc_killer.ControlMaster != null)
+		            killer = bc_killer.ControlMaster;
+		        else if (bc_killer.BardProvoked && bc_killer.BardMaster != null)
+		            killer = bc_killer.BardMaster;
+		    }
 
-			if ( killer is PlayerMobile )
-			{
-				AssassinFunctions.CheckTarget( killer, this );
-				StandardQuestFunctions.CheckTarget( killer, this, null );
-				FishingQuestFunctions.CheckTarget( killer, this, null );
-				if ( killer.Backpack.FindItemByType( typeof ( MuseumBook ) ) != null && this.Fame >= 18000 )
-				{
-					MuseumBook.FoundItem( killer, 1 );
-				}
-				if ( killer.Backpack.FindItemByType( typeof ( QuestTome ) ) != null && this.Fame >= 18000 )
-				{
-					QuestTome.FoundItem( killer, 1, null );
-				}
-			}
+		    if ((killer is PlayerMobile) && (killer.AccessLevel < AccessLevel.GameMaster))
+		    {
+		        LoggingFunctions.LogBattles(killer, this);
+		    }
 
-			Server.Misc.DropRelic.DropSpecialItem( this, killer, c ); // SOME DROP RARE ITEMS
-			//powerful creatures can drop marks of the scourge / honor
-			if (killer != null)
-        		Server.Custom.DefenderOfTheRealm.MarkLootHelper.CheckForMarks(this, c, killer);
-			
-			if ( IsBonded )
-			{
-				int sound = this.GetDeathSound();
+		    if (killer is PlayerMobile)
+		    {
+		        AssassinFunctions.CheckTarget(killer, this);
+		        StandardQuestFunctions.CheckTarget(killer, this, null);
+		        FishingQuestFunctions.CheckTarget(killer, this, null);
 
-				if ( sound >= 0 )
-					Effects.PlaySound( this, this.Map, sound );
+		        if (killer.Backpack.FindItemByType(typeof(MuseumBook)) != null && this.Fame >= 18000)
+		            MuseumBook.FoundItem(killer, 1);
 
-				Warmode = false;
+		        if (killer.Backpack.FindItemByType(typeof(QuestTome)) != null && this.Fame >= 18000)
+		            QuestTome.FoundItem(killer, 1, null);
+		    }
 
-				Poison = null;
-				Combatant = null;
+		    Server.Misc.DropRelic.DropSpecialItem(this, killer, c);
 
-				Hits = 0;
-				Stam = 0;
-				Mana = 0;
+	        if (killer is PlayerMobile && this.Fame >= 15000)
+	        {
+	            PlayerMobile scrollKiller = (PlayerMobile)killer;	
 
-				IsDeadPet = true;
-				ControlTarget = ControlMaster;
-				ControlOrder = OrderType.Follow;
+	            // 0.25% chance for a random scroll
+	            if (Utility.Random(10000) < 25)
+	            {
+	                c.DropItem(AscensionScrollFactory.CreateRandom());
+	            }	
 
-				ProcessDeltaQueue();
-				SendIncomingPacket();
-				SendIncomingPacket();
+	            // 0.50% chance for a scroll matching the killer's active ascension
+	            if (scrollKiller.ActiveAscension != AscensionType.None
+	                && Utility.Random(10000) < 50)
+	            {
+	                c.DropItem(new AscensionScroll(scrollKiller.ActiveAscension));
+	            }
+	        }
 
-				List<AggressorInfo> aggressors = this.Aggressors;
+		    if (killer != null)
+		        Server.Custom.DefenderOfTheRealm.MarkLootHelper.CheckForMarks(this, c, killer);
 
-				for ( int i = 0; i < aggressors.Count; ++i )
-				{
-					AggressorInfo info = aggressors[i];
+		    if (IsBonded)
+		    {
+		        int sound = this.GetDeathSound();
 
-					if ( info.Attacker.Combatant == this )
-						info.Attacker.Combatant = null;
-				}
+		        if (sound >= 0)
+		            Effects.PlaySound(this, this.Map, sound);
 
-				List<AggressorInfo> aggressed = this.Aggressed;
+		        Warmode = false;
+		        Poison = null;
+		        Combatant = null;
 
-				for ( int i = 0; i < aggressed.Count; ++i )
-				{
-					AggressorInfo info = aggressed[i];
+		        Hits = 0;
+		        Stam = 0;
+		        Mana = 0;
 
-					if ( info.Defender.Combatant == this )
-						info.Defender.Combatant = null;
-				}
+		        IsDeadPet = true;
+		        ControlTarget = ControlMaster;
+		        ControlOrder = OrderType.Follow;
 
-				Mobile owner = this.ControlMaster;
+		        ProcessDeltaQueue();
+		        SendIncomingPacket();
+		        SendIncomingPacket();
 
-				if ( owner == null || owner.Deleted || owner.Map != this.Map || !owner.InRange( this, 12 ) || !this.CanSee( owner ) || !this.InLOS( owner ) )
-				{
-					if ( this.OwnerAbandonTime == DateTime.MinValue )
-						this.OwnerAbandonTime = DateTime.Now;
-				}
-				else
-				{
-					this.OwnerAbandonTime = DateTime.MinValue;
-				}
+		        foreach (AggressorInfo info in Aggressors)
+		            if (info.Attacker.Combatant == this)
+		                info.Attacker.Combatant = null;
 
-				CheckStatTimers();
-			}
-			else
-			{
-				if ( !Summoned && !m_NoKillAwards )
-				{
-					int totalFame = Fame / 100;
-					int totalKarma = -Karma / 100;
+		        foreach (AggressorInfo info in Aggressed)
+		            if (info.Defender.Combatant == this)
+		                info.Defender.Combatant = null;
 
-					List<DamageStore> list = GetLootingRights( this.DamageEntries, this.HitsMax );
-					List<Mobile> titles = new List<Mobile>();
-					List<int> fame = new List<int>();
-					List<int> karma = new List<int>();
+		        Mobile owner = this.ControlMaster;
 
-					for ( int i = 0; i < list.Count; ++i )
-					{
-						DamageStore ds = list[i];
+		        if (owner == null || owner.Deleted || owner.Map != this.Map ||
+		            !owner.InRange(this, 12) || !this.CanSee(owner) || !this.InLOS(owner))
+		        {
+		            if (this.OwnerAbandonTime == DateTime.MinValue)
+		                this.OwnerAbandonTime = DateTime.Now;
+		        }
+		        else
+		        {
+		            this.OwnerAbandonTime = DateTime.MinValue;
+		        }
 
-						if ( !ds.m_HasRight )
-							continue;
+		        CheckStatTimers();
+		    }
+		    else
+		    {
+		        if (!Summoned && !m_NoKillAwards)
+		        {
+		            int totalFame = Fame / 100;
+		            int totalKarma = -Karma / 100;
 
-						Party party = Engines.PartySystem.Party.Get( ds.m_Mobile );
+		            List<DamageStore> list = GetLootingRights(this.DamageEntries, this.HitsMax);
+		            List<Mobile> titles = new List<Mobile>();
+		            List<int> fame = new List<int>();
+		            List<int> karma = new List<int>();
 
-						if ( party != null )
+		            int baseAscensionXP = 0;
+
+		            if (Fame > 125)
+		            {
+		                int min = Fame / 125;
+		                int max = Fame / 95;
+
+		                if (max > 0)
+		                    baseAscensionXP = Utility.RandomMinMax(min, max);
+		            }
+
+		            for (int i = 0; i < list.Count; ++i)
+		            {
+		                DamageStore ds = list[i];
+
+		                if (!ds.m_HasRight)
+		                    continue;
+
+		                Mobile mob = ds.m_Mobile;
+
+		                PlayerMobile xpPlayer = null;
+
+						if (mob is PlayerMobile)
 						{
-							int divedFame = totalFame / party.Members.Count;
-							int divedKarma = totalKarma / party.Members.Count;
-
-							for ( int j = 0; j < party.Members.Count; ++j )
-							{
-								PartyMemberInfo info = party.Members[ j ] as PartyMemberInfo;
-
-								if ( info != null && info.Mobile != null )
-								{
-									int index = titles.IndexOf( info.Mobile );
-
-									if ( index == -1 )
-									{
-										titles.Add( info.Mobile );
-										fame.Add( divedFame );
-										karma.Add( divedKarma );
-									}
-									else
-									{
-										fame[ index ] += divedFame;
-										karma[ index ] += divedKarma;
-									}
-								}
-							}
+						    xpPlayer = (PlayerMobile)mob;
 						}
-						else
+						else if (mob is BaseCreature)
 						{
-							titles.Add( ds.m_Mobile );
-							fame.Add( totalFame );
-							karma.Add( totalKarma );
+						    BaseCreature bc = (BaseCreature)mob;
+
+						    if (bc.Summoned && bc.SummonMaster is PlayerMobile)
+						    {
+						        xpPlayer = (PlayerMobile)bc.SummonMaster;
+						    }
+						    else if (bc.Controlled && bc.ControlMaster is PlayerMobile)
+						    {
+						        xpPlayer = (PlayerMobile)bc.ControlMaster;
+						    }
 						}
+		                if (xpPlayer != null && baseAscensionXP > 0)
+		                {
+		                   	double damagePercent = (double)ds.m_Damage / this.HitsMax;
+							if (damagePercent > 1.0)
+							    damagePercent = 1.0;
 
-						OnKilledBy( ds.m_Mobile );
-					}
-					for ( int i = 0; i < titles.Count; ++i )
-					{
-						Titles.AwardFame( titles[ i ], fame[ i ], true );
-						Titles.AwardKarma( titles[ i ], karma[ i ], true );
-					}
-				}
+		                    int scaledXP = (int)(baseAscensionXP * damagePercent);
 
-				base.OnDeath( c );
+		                    if (scaledXP > 0)
+		                        Server.Custom.Ascensions.AscensionExperienceSystem.AwardExperienceDirect(xpPlayer, this, scaledXP);
+		                }
 
-				if ( DeleteCorpseOnDeath || ( ( this.Name == "a follower" || this.Name == "a sailor" || this.Name == "a pirate" ) && this.EmoteHue > 0 ) )
-					c.Delete();
-			}
+		                Party party = Engines.PartySystem.Party.Get(ds.m_Mobile);
+
+		                if (party != null)
+		                {
+		                    int dividedFame = totalFame / party.Members.Count;
+		                    int dividedKarma = totalKarma / party.Members.Count;
+
+		                    for (int j = 0; j < party.Members.Count; ++j)
+		                    {
+		                        PartyMemberInfo info = party.Members[j] as PartyMemberInfo;
+
+		                        if (info != null && info.Mobile != null)
+		                        {
+		                            int index = titles.IndexOf(info.Mobile);
+
+		                            if (index == -1)
+		                            {
+		                                titles.Add(info.Mobile);
+		                                fame.Add(dividedFame);
+		                                karma.Add(dividedKarma);
+		                            }
+		                            else
+		                            {
+		                                fame[index] += dividedFame;
+		                                karma[index] += dividedKarma;
+		                            }
+		                        }
+		                    }
+		                }
+		                else
+		                {
+		                    titles.Add(ds.m_Mobile);
+		                    fame.Add(totalFame);
+		                    karma.Add(totalKarma);
+		                }
+
+		                OnKilledBy(ds.m_Mobile);
+		            }
+
+		            for (int i = 0; i < titles.Count; ++i)
+		            {
+		                Titles.AwardFame(titles[i], fame[i], true);
+		                Titles.AwardKarma(titles[i], karma[i], true);
+		            }
+		        }
+
+		        base.OnDeath(c);
+
+		        if (DeleteCorpseOnDeath ||
+		            ((this.Name == "a follower" || this.Name == "a sailor" || this.Name == "a pirate") && this.EmoteHue > 0))
+		        {
+		            c.Delete();
+		        }
+		    }
 		}
+
 
 		/* To save on cpu usage, RunUO creatures only reacquire creatures under the following circumstances:
 		 *  - 10 seconds have elapsed since the last time it tried

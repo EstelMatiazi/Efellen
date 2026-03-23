@@ -109,14 +109,13 @@ namespace Server.Items
 					BaseArmor armor = (BaseArmor)item;
 
 					// Druids don't wear metal armor
-					if (armor.MaterialType == ArmorMaterialType.Plate ||
+					if ((armor.MaterialType == ArmorMaterialType.Plate ||
 						armor.MaterialType == ArmorMaterialType.Chainmail ||
-						armor.MaterialType == ArmorMaterialType.Ringmail)
+						armor.MaterialType == ArmorMaterialType.Ringmail) 
+							&& armor.DefaultResource == CraftResource.Iron
+								&& armor.ArmorAttributes.MageArmor == 0)
 					{
-						if (armor.ArmorAttributes.MageArmor == 0)
-						{
-							return true;
-						}
+						return true;
 					}
 				}
 			}

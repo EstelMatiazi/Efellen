@@ -1,6 +1,7 @@
 using System;
 using Server;
 using Server.Misc;
+using Server.Mobiles;
 
 namespace Server.Items
 {
@@ -182,6 +183,42 @@ namespace Server.Items
 							return false;
 						}
 					}
+				}
+				// Berserker Uncanny Dodge 
+				if (from is PlayerMobile)
+				{
+				    PlayerMobile pm = from as PlayerMobile;
+
+				    if (pm.ActiveAscension == AscensionType.Berserker && pm.AscensionProfile != null)
+				    {
+				        AscensionProgress prog = pm.AscensionProfile.Get(AscensionType.Berserker);
+
+				        if (prog != null && prog.Level >= 8)
+				        {
+				            int level = prog.Level;
+				            double chance;
+
+				            if (level >= 17)
+				                chance = 0.45 + (0.01 * level);
+				            else
+				                chance = 0.25 + (0.01 * level);
+
+				            if (Utility.RandomDouble() <= chance)
+				            {
+				                from.LocalOverheadMessage(
+				                    Network.MessageType.Emote,
+				                    0x3B2,
+				                    false,
+				                    "You instinctively sense danger and avoid a trap!"
+				                );
+
+				                from.FixedParticles(0x376A, 1, 15, 0x251D, 0x0F1, 0, EffectLayer.Waist);
+				                from.PlaySound(0x1F2);
+
+				                return false;
+				            }
+				        }
+				    }
 				}
 
 				int MagicAvoid = (int)(( from.Skills[SkillName.RemoveTrap].Value + from.EnergyResistance ) / 3);

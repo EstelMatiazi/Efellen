@@ -4,6 +4,7 @@ using Server.Targeting;
 using Server.Network;
 using Server.Mobiles;
 using Server.Misc;
+using Server.Custom.Ascensions;
 
 namespace Server.Spells.First
 {
@@ -63,6 +64,18 @@ namespace Server.Spells.First
 
 				if( Caster != m )
 					toHeal = (int)(toHeal * 1.5);
+
+				// ── Consecrated Ground level 16: +25% healing ────────────────
+                PlayerMobile healerPm = Caster as PlayerMobile;
+                if (healerPm != null
+                    && healerPm.ActiveAscension == AscensionType.Hierophant
+                    && healerPm.HasAscensionEffect("ConsecratedGround"))
+                {
+                    AscensionEffectState cgState = healerPm.GetAscensionEffect("ConsecratedGround");
+                    if (cgState.Level >= 16)
+                        toHeal = (toHeal * 125) / 100;
+                }
+                // ─────────────────────────────────────────────────────────────
 
 				//m.Heal( toHeal, Caster );
 				SpellHelper.Heal( toHeal, m, Caster );

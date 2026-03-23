@@ -67,7 +67,7 @@ namespace Server.Mobiles
 				PerformRageAttack( from );
 				m_NextSpecialAttack = DateTime.UtcNow + TimeSpan.FromSeconds( 45 );
 			}
-
+			
 			base.OnDamage( amount, from, willKill );
 		}
 
@@ -128,7 +128,7 @@ namespace Server.Mobiles
 			base.OnThink();
 		}
 
-
+		
 		public override bool CanRummageCorpses{ get{ return true; } }
 		public override Poison PoisonImmune{ get{ return Poison.Deadly; } }
 		public override int TreasureMapLevel{ get{ return 5; } }

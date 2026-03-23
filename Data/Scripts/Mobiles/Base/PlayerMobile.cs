@@ -20,6 +20,7 @@ using Server.Regions;
 using Server.Accounting;
 using Server.Engines.Craft;
 using Server.Engines.PartySystem;
+using Server.Custom.Ascensions;
 
 namespace Server.Mobiles
 {
@@ -426,6 +427,335 @@ namespace Server.Mobiles
 			get { return m_ExecutesLightningStrike; }
 			set { m_ExecutesLightningStrike = value; }
 		}
+
+
+		#endregion
+
+		#region ascension
+		private AscensionProfile m_AscensionProfile;
+		private AscensionType m_ActiveAscension;
+		private bool m_HasActiveAscension;
+
+		private DateTime m_UndyingWrathCooldown;
+
+		[CommandProperty(AccessLevel.GameMaster)]
+		public AscensionType ActiveAscension
+		{
+		    get { return m_ActiveAscension; }
+		    set
+		    {
+		        m_ActiveAscension = value;
+		        m_HasActiveAscension = true;
+		    }
+		}
+
+		public bool HasActiveAscension
+		{
+		    get { return m_HasActiveAscension; }
+		}
+
+		public AscensionProfile AscensionProfile
+		{
+		    get
+		    {
+		        if (m_AscensionProfile == null)
+		            m_AscensionProfile = new AscensionProfile();
+
+		        return m_AscensionProfile;
+		    }
+		}
+
+		public bool TryGetAscensionEffect(string key, out AscensionEffectState state)
+		{
+		    state = null;
+		
+		    if (m_AscensionEffects == null)
+		        return false;
+		
+		    return m_AscensionEffects.TryGetValue(key, out state);
+		}
+
+		public bool ActivateAscension(AscensionType type)
+		{
+		    if (AscensionProfile == null)
+		        return false;
+
+		    AscensionProgress prog = AscensionProfile.Get(type);
+
+			AscensionDefinition def = AscensionRegistry.Get(type);
+
+			if (def.RequiredSkills != null && def.RequiredSkills.Length > 0)
+			{
+			    for (int i = 0; i < def.RequiredSkills.Length; i++)
+			    {
+			        Skill skill = this.Skills[def.RequiredSkills[i]];
+
+			        if (skill == null || skill.Base < 95)
+			        {
+			            SendMessage("You lack the required skill to activate this ascension.");
+			            return false;
+			        }
+			    }
+			}
+
+		    if (prog == null || prog.Level <= 0)
+		    {
+		        SendMessage("You have not unlocked that ascension.");
+		        return false;
+		    }
+
+		    m_ActiveAscension = type;
+		    m_HasActiveAscension = true;
+			CloseGump(typeof(AscensionQuickbarGump));
+			SendGump(new AscensionQuickbarGump(this));
+
+		    SendMessage(1153, "You are now aligned with the " + type.ToString() + " ascension.");
+
+		    return true;
+		}
+		private Dictionary<string, DateTime> m_AbilityCooldowns;
+		public bool IsAbilityOnCooldown(string abilityName)
+		{
+		    if (m_AbilityCooldowns == null)
+		        return false;
+
+		    if (!m_AbilityCooldowns.ContainsKey(abilityName))
+		        return false;
+
+		    return DateTime.UtcNow < m_AbilityCooldowns[abilityName];
+		}
+
+		public void SetAbilityCooldown(string abilityName, TimeSpan cooldown)
+		{
+		    if (m_AbilityCooldowns == null)
+		        m_AbilityCooldowns = new Dictionary<string, DateTime>();
+
+		    m_AbilityCooldowns[abilityName] = DateTime.UtcNow + cooldown;
+		}
+		//passives and ascension effects are stored here
+		private System.Collections.Generic.Dictionary<string, AscensionEffectState> m_AscensionEffects;
+		public void AddAscensionEffect(string name, TimeSpan duration, int level)
+		{
+		    if (m_AscensionEffects == null)
+		        m_AscensionEffects = new System.Collections.Generic.Dictionary<string, AscensionEffectState>();
+
+		    AscensionEffectState state = new AscensionEffectState(name, duration, level);
+
+		    m_AscensionEffects[name] = state;
+
+		    Server.Timer.DelayCall(duration, new Server.TimerCallback(delegate()
+		    {
+		        RemoveAscensionEffect(name);
+		    }));
+		}
+
+		public void RemoveAscensionEffect(string name)
+		{
+		    if (m_AscensionEffects == null)
+		        return;
+
+		    if (m_AscensionEffects.ContainsKey(name))
+		        m_AscensionEffects.Remove(name);
+		}
+
+		public bool HasAscensionEffect(string name)
+		{
+		    if (m_AscensionEffects == null)
+		        return false;
+
+		    AscensionEffectState state;
+
+		    if (!m_AscensionEffects.TryGetValue(name, out state))
+		        return false;
+
+		    if (state.IsExpired)
+		    {
+		        m_AscensionEffects.Remove(name);
+		        return false;
+		    }
+
+		    return true;
+		}
+
+		public AscensionEffectState GetAscensionEffect(string name)
+		{
+		    if (!HasAscensionEffect(name))
+		        return null;
+
+		    return m_AscensionEffects[name];
+		}
+
+		public override int GetResistance( ResistanceType type )
+		{
+		    int value = base.GetResistance( type );
+
+		    if ( HasAscensionEffect("BerserkerRage") )
+		    {
+		        AscensionEffectState state = GetAscensionEffect("BerserkerRage");
+
+		        if ( state != null && state.Level >= 10 )
+		        {
+		            int bonus = state.Level / 2;
+
+		            value += bonus;
+		        }
+		    }
+
+		    return value;
+		}
+
+		public void TryBerserkerCleave(Mobile defender, BaseWeapon weapon)
+		{
+		    if (ActiveAscension != AscensionType.Berserker || weapon == null)
+		        return;
+
+		   if (AscensionProfile == null)
+			    return;			
+
+			AscensionProgress prog = AscensionProfile.Get(AscensionType.Berserker);			
+
+			if (prog == null || prog.Level < 2)
+			    return;
+
+
+		    if (FindItemOnLayer(Layer.TwoHanded) != weapon)
+		        return;
+
+		    int level = prog.Level;
+
+		    List<Mobile> validTargets = new List<Mobile>();
+
+		    foreach (Mobile m in GetMobilesInRange(2))
+		    {
+		        if (m == this || m == defender)
+		            continue;
+
+		        if (!CanBeHarmful(m))
+		            continue;
+
+		        validTargets.Add(m);
+		    }
+
+		    if (validTargets.Count == 0)
+		        return;
+
+		    // First Cleave
+		    if (Utility.RandomDouble() <= (0.04 + (0.01 * level)))
+		    {
+		        CleaveRandomTarget(validTargets, weapon);
+		    }
+
+		    // Second Cleave
+		    if (level >= 5 && validTargets.Count > 0)
+		    {
+		        if (Utility.RandomDouble() <= (0.01 + (0.01 * level)))
+		        {
+		            CleaveRandomTarget(validTargets, weapon);
+		        }
+		    }
+
+		    // Third Cleave
+		    if (level >= 13 && validTargets.Count > 0)
+		    {
+		        if (Utility.RandomDouble() <= (0.01 + (0.01 * level)))
+		        {
+		            CleaveRandomTarget(validTargets, weapon);
+		        }
+		    }
+		}
+		private void CleaveRandomTarget(List<Mobile> targets, BaseWeapon weapon)
+		{
+		    if (targets.Count == 0)
+		        return;
+
+		    int index = Utility.Random(targets.Count);
+		    Mobile target = targets[index];
+
+		    targets.RemoveAt(index);
+
+		    PerformCleaveAttack(target, weapon);
+		}
+
+		private void PerformCleaveAttack(Mobile target, BaseWeapon weapon)
+		{
+		    if (target == null || weapon == null)
+		        return;
+
+		    DoHarmful(target);
+
+		    target.FixedParticles(0x37B9, 1, 4, 0x251D, 0x0F1, 0, EffectLayer.Waist);
+		    PlaySound(0x510);
+
+		    weapon.OnSwing(this, target);
+		}
+
+		private bool TryUndyingWrath(ref int damage)
+		{
+		    if (ActiveAscension != AscensionType.Berserker)
+		        return false;
+
+		    if (AscensionProfile == null)
+		        return false;
+
+		    AscensionProgress prog = AscensionProfile.Get(AscensionType.Berserker);
+
+		    if (prog == null || prog.Level < 20)
+		        return false;
+
+		
+		    if (DateTime.UtcNow < m_UndyingWrathCooldown)
+		        return false;
+
+		    if (Hits - damage > 0)
+		        return false;
+
+		    damage = Hits - 1;
+
+		    if (damage < 0)
+		        damage = 0;
+
+		    m_UndyingWrathCooldown = DateTime.UtcNow + TimeSpan.FromMinutes(1);
+
+		    TriggerUndyingWrathEffect();
+
+		    ClearWarcryCooldown();
+
+		    return true;
+		}
+
+		private void ClearWarcryCooldown()
+		{
+		    SetAbilityCooldown("BerserkerWarCry", TimeSpan.Zero);
+
+		    SendMessage(0x22, "Your can warcry again!");
+		}
+
+
+		private void TriggerUndyingWrathEffect()
+		{
+		    FixedParticles(0x376A, 10, 15, 5032, 1153, 0, EffectLayer.Waist);
+		    PlaySound(0x1F2);
+
+		    SendMessage(0x22, "Your Undying Wrath refuses death!");
+
+		    LocalOverheadMessage(Network.MessageType.Regular, 0x22, false, "*UNYIELDING*");
+		}
+
+		private double m_ArchmageConfluxScalar;
+		private DateTime m_ArchmageConfluxEnd;
+		
+		public double ArchmageConfluxScalar
+		{
+		    get { return m_ArchmageConfluxScalar; }
+		    set { m_ArchmageConfluxScalar = value; }
+		}
+		
+		public DateTime ArchmageConfluxEnd
+		{
+		    get { return m_ArchmageConfluxEnd; }
+		    set { m_ArchmageConfluxEnd = value; }
+		}
+
 
 		#endregion
 
@@ -2238,35 +2568,86 @@ namespace Server.Mobiles
 			m_NoRecursion = false;
 		}
 
-		public override void OnDamage( int amount, Mobile from, bool willKill )
-		{
-			int disruptThreshold;
+		public override void OnDamage(int amount, Mobile from, bool willKill)
+        {
+            int disruptThreshold;
 
-			if ( !Core.AOS )
-				disruptThreshold = 0;
-			else if ( from != null && from.Player )
-				disruptThreshold = 18;
-			else
-				disruptThreshold = 25;
+            if (!Core.AOS)
+                disruptThreshold = 0;
+            else if (from != null && from.Player)
+                disruptThreshold = 18;
+            else
+                disruptThreshold = 25;
 
-			if ( amount > disruptThreshold )
-			{
-				BandageContext c = BandageContext.GetContext( this );
+            if (amount > disruptThreshold)
+            {
+                BandageContext c = BandageContext.GetContext(this);
+                if (c != null)
+                    c.Slip();
+            }
 
-				if ( c != null )
-					c.Slip();
-			}
+            if (Confidence.IsRegenerating(this))
+                Confidence.StopRegenerating(this);
 
-			if( Confidence.IsRegenerating( this ) )
-				Confidence.StopRegenerating( this );
+            WeightOverloading.FatigueOnDamage(this, amount);
 
-			WeightOverloading.FatigueOnDamage( this, amount );
+            if (willKill && from is PlayerMobile)
+                Timer.DelayCall(TimeSpan.FromSeconds(10), new TimerCallback(((PlayerMobile)from).RecoverAmmo));
 
-			if ( willKill && from is PlayerMobile )
-				Timer.DelayCall( TimeSpan.FromSeconds( 10 ), new TimerCallback( ((PlayerMobile) from).RecoverAmmo ) );
+            if (HasAscensionEffect("BerserkerRage"))
+            {
+                AscensionEffectState state = GetAscensionEffect("BerserkerRage");
+                int level = state.Level;
+                if (state != null && state.Level >= 15)
+                {
+                    int maxAllowed = (int)(HitsMax * 0.4);
+                    if (amount > maxAllowed)
+                        amount = maxAllowed;
+                }
+            }
 
-			base.OnDamage( amount, from, willKill );
-		}
+            // ── Divine Resilience (Hierophant, level 8) ──────────────────────
+            if (ActiveAscension == AscensionType.Hierophant)
+            {
+                AscensionProgress hieroProg  = AscensionProfile.Get(AscensionType.Hierophant);
+                int               hieroLevel = hieroProg.Level;
+
+                if (hieroLevel >= 8)
+                {
+                    int reductionPct = (hieroLevel >= 17) ? 8 : 4;
+                    amount = (amount * (100 - reductionPct)) / 100;
+                    if (amount < 0) amount = 0;
+                }
+
+                // ── Death Ward (Hierophant, level 14) ────────────────────────────────────
+                if (hieroLevel >= 14 && willKill && Utility.Random(100) < hieroLevel)
+                {
+                    amount = 0;
+                    willKill = false;
+
+                    FixedParticles(0x376A, 9, 32, 5030, 0x439, 0, EffectLayer.Waist);
+                    PlaySound(0x1F5);
+                    SendMessage(0x439, "Your faith protects you from death!");
+
+                    if (hieroLevel >= 19)
+                    {
+                        int restore = HitsMax / 3;
+                        Hits = Math.Min(HitsMax, Hits + restore);
+                    }
+                }
+
+                // ── Divine Absolution (Hierophant, level 20) ─────────────────────────────
+                if (hieroLevel >= 20 && from != null && from.Karma < 0
+                    && Utility.Random(10000) < (hieroLevel * 25))
+                {
+                    AscensionProgress absolProg = AscensionProfile.Get(AscensionType.Hierophant);
+                    HierophantConsecratedGroundAbility.DoConsecratedGround(this, absolProg.Level);
+                }
+            }
+            // ── End Hierophant OnDamage hooks ─────────────────────────────────
+
+            base.OnDamage(amount, from, willKill);
+        }
 
 		public override void Resurrect()
 		{
@@ -2842,6 +3223,8 @@ namespace Server.Mobiles
 					from.Damage( amount, this );
 				}
 			}
+			// berserker save from death trigger	
+			TryUndyingWrath(ref amount);
 
 			base.Damage( amount, from );
 		}
@@ -3305,6 +3688,14 @@ namespace Server.Mobiles
 
 			switch ( version )
 			{
+				case 40:
+				{
+				    goto case 39;
+				}
+				case 39:
+				{
+				    goto case 38;
+				}
 				case 38:
 				case 37:
 				{
@@ -3596,6 +3987,37 @@ namespace Server.Mobiles
 					break;
 				}
 			}
+			// ---- ASCENSION SYSTEM ----
+			if (version >= 39)
+			{
+			    if (reader.ReadBool())
+			    {
+			        m_AscensionProfile = new AscensionProfile();
+			        m_AscensionProfile.Deserialize(reader);
+			    }
+			    else
+			    {
+			        m_AscensionProfile = new AscensionProfile();
+			    }
+
+			    if (version >= 40)
+			    {
+			        m_HasActiveAscension = reader.ReadBool();
+			        m_ActiveAscension = (AscensionType)reader.ReadInt();
+			    }
+			    else
+			    {
+			        m_HasActiveAscension = false;
+			        m_ActiveAscension = 0;
+			    }
+			}
+			else
+			{
+			    m_AscensionProfile = new AscensionProfile();
+			    m_HasActiveAscension = false;
+			    m_ActiveAscension = 0;
+			}
+
 
 			if (m_RecentlyReported == null)
 				m_RecentlyReported = new List<Mobile>();
@@ -3637,6 +4059,8 @@ namespace Server.Mobiles
 				CharacterGuilds = 0;
 
 			Timer.DelayCall( TimeSpan.FromSeconds( 5.0 ), new TimerStateCallback( ResetThings ), this );
+			if (m_AscensionProfile == null)
+			    m_AscensionProfile = new AscensionProfile();
 		}
 
 		private void ResetThings( object state )
@@ -3665,7 +4089,7 @@ namespace Server.Mobiles
 
 			base.Serialize( writer );
 
-			writer.Write( (int) 38 ); // version
+			writer.Write( (int) 40 ); // version
 
 			writer.Write( m_DoubleClickID );
 
@@ -3796,6 +4220,19 @@ namespace Server.Mobiles
 			writer.Write( m_LongTermElapse );
 			writer.Write( m_ShortTermElapse );
 			writer.Write( this.GameTime );
+			// ---- ASCENSION SYSTEM ----
+			if (m_AscensionProfile != null)
+			{
+			    writer.Write(true);
+			    m_AscensionProfile.Serialize(writer);
+			}
+			else
+			{
+			    writer.Write(false);
+			}
+			writer.Write(m_HasActiveAscension);
+			writer.Write((int)m_ActiveAscension);
+
 		}
 
 		public void CheckKillDecay()
@@ -3951,7 +4388,7 @@ namespace Server.Mobiles
 			{
 				base.Paralyzed = value;
 
-				if( value )
+				if( value && !HasAscensionEffect("BerserkerRage") )
 					AddBuff( new BuffInfo( BuffIcon.Paralyze, 1075827 ) );	//Paralyze/You are frozen and can not move
 				else
 					BuffInfo.CleanupIcons( this, true );

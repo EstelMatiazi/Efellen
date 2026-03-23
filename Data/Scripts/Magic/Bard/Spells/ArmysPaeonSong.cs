@@ -49,7 +49,7 @@ namespace Server.Spells.Song
 					Mobile m = (Mobile)targets[i];
 					
 					int rounds = (int)( Caster.Skills[SkillName.Musicianship].Value * .16 );
-                    double allvalue = Caster.Skills[SkillName.Musicianship].Value + Caster.Skills[SkillName.Provocation].Value + Caster.Skills[SkillName.Discordance].Value + Caster.Skills[SkillName.Peacemaking].Value;
+                    int allvalue = MusicSkill(Caster);
 
 					if (allvalue < 120)
 						new ExpireTimer(m, 0, rounds, TimeSpan.FromSeconds(2)).Start(); //2 hits
@@ -59,13 +59,15 @@ namespace Server.Spells.Song
 						new ExpireTimer2(m, 0, rounds, TimeSpan.FromSeconds(2)).Start(); //4 hits
 					else if (allvalue < 480)
 						new ExpireTimer3(m, 0, rounds, TimeSpan.FromSeconds(2)).Start(); //5 hits
-					else if (allvalue >= 480)
+					else if (allvalue < 580)
 						new ExpireTimer4(m, 0, rounds, TimeSpan.FromSeconds(2)).Start(); //10 hits
+                    else if (allvalue >= 580)
+						new ExpireTimer5(m, 0, rounds, TimeSpan.FromSeconds(2)).Start(); //14 hits
 					else
 						new ExpireTimer(m, 0, rounds, TimeSpan.FromSeconds(2)).Start();
 
 					BuffInfo.RemoveBuff( m, BuffIcon.ArmysPaeon );
-					BuffInfo.AddBuff( m, new BuffInfo( BuffIcon.ArmysPaeon, 1063561, TimeSpan.FromSeconds( (double)( rounds * 2.0 ) ), m ) );
+					BuffInfo.AddBuff( m, new BuffInfo( BuffIcon.ArmysPaeon, 1063560, TimeSpan.FromSeconds( (double)( rounds * 2.0 ) ), m ) );
 
 					m.FixedParticles( 0x376A, 9, 32, 5030, 0x21, 3, EffectLayer.Waist );
 				}
@@ -244,6 +246,41 @@ namespace Server.Spells.Song
                     {
                         m_Round += 1;
                         new ExpireTimer4(m_Mobile, m_Round, m_Totalrounds, TimeSpan.FromSeconds(2)).Start();
+                    }
+                }
+            }
+        }
+
+        //5
+        private class ExpireTimer5 : Timer
+        {
+            private Mobile m_Mobile;
+            private int m_Round;
+            private int m_Totalrounds;
+
+            public ExpireTimer5(Mobile m, int round, int totalrounds, TimeSpan delay)
+                : base(delay)
+            {
+                m_Mobile = m;
+                m_Round = round;
+                m_Totalrounds = totalrounds;
+            }
+
+            protected override void OnTick()
+            {
+                if (m_Mobile != null)
+                {
+                    m_Mobile.Hits += MyServerSettings.PlayerLevelMod( 14, m_Mobile );
+
+                    if (m_Round >= m_Totalrounds)
+                    {
+                        m_Mobile.SendMessage("The effect of the army's paeon wears off.");
+						BuffInfo.RemoveBuff( m_Mobile, BuffIcon.ArmysPaeon );
+                    }
+                    else
+                    {
+                        m_Round += 1;
+                        new ExpireTimer5(m_Mobile, m_Round, m_Totalrounds, TimeSpan.FromSeconds(2)).Start();
                     }
                 }
             }

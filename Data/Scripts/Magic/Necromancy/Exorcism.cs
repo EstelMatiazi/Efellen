@@ -85,6 +85,14 @@ namespace Server.Spells.Necromancy
 				}
 				else if (CheckHSequence(m))
 				{
+					if (Caster is PlayerMobile)
+					{
+						PlayerMobile pm = Caster as PlayerMobile;
+						if (pm != null)
+						{
+						    Server.Custom.Ascensions.PalemasterDeathlessVigor.TryTrigger(pm);
+						}					
+					}
 					int exChance = (int)(m.Fame/200)+10;
 					if ( Spell.ItemSkillValue( Caster, SkillName.Necromancy, false ) >= Utility.RandomMinMax( 1, exChance ) )
 					{

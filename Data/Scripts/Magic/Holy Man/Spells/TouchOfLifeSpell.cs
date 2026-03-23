@@ -4,6 +4,7 @@ using Server.Targeting;
 using Server.Network;
 using Server.Mobiles;
 using Server.Spells;
+using Server.Custom.Ascensions;
 
 namespace Server.Spells.HolyMan
 {
@@ -42,6 +43,18 @@ namespace Server.Spells.HolyMan
 				int toHeal = 1 + (int)( (Caster.Skills[SkillName.Healing].Value / 10) + (Caster.Skills[SkillName.Spiritualism].Value / 10) );
 
 				toHeal = MyServerSettings.PlayerLevelMod( toHeal, Caster );
+
+				// ── Consecrated Ground level 16: +25% healing ────────────────
+                PlayerMobile healerPm = Caster as PlayerMobile;
+                if (healerPm != null
+                    && healerPm.ActiveAscension == AscensionType.Hierophant
+                    && healerPm.HasAscensionEffect("ConsecratedGround"))
+                {
+                    AscensionEffectState cgState = healerPm.GetAscensionEffect("ConsecratedGround");
+                    if (cgState.Level >= 16)
+                        toHeal = (toHeal * 125) / 100;
+                }
+                // ─────────────────────────────────────────────────────────────
 
 				SpellHelper.Heal( toHeal, m, Caster );
 				m.Stam = m.Stam + toHeal;

@@ -17,7 +17,7 @@ namespace Server.Spells.Song
             "Mage's Ballad", "*plays a mage's ballad*",
             -1);
 
-        public override TimeSpan CastDelayBase { get { return TimeSpan.FromSeconds(4); } }
+        public override TimeSpan CastDelayBase { get { return TimeSpan.FromSeconds(5); } }
         public override double RequiredSkill { get { return 55; } }
         public override int RequiredMana { get { return 15; } }
 
@@ -75,7 +75,7 @@ namespace Server.Spells.Song
                             m.PlaySound(0x1F2);
 
 							BuffInfo.RemoveBuff( m, BuffIcon.MagesBallad );
-							BuffInfo.AddBuff( m, new BuffInfo( BuffIcon.MagesBallad, 1063580, TimeSpan.FromSeconds( (double)( rounds * 2.0 ) ), m ) );
+							BuffInfo.AddBuff( m, new BuffInfo( BuffIcon.MagesBallad, 1063579, TimeSpan.FromSeconds( (double)( rounds * 2.0 ) ), m ) );
                         }
                     }
 

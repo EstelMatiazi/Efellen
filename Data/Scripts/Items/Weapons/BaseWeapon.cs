@@ -10,6 +10,7 @@ using Server.Spells.Bushido;
 using Server.Spells.Ninjitsu;
 using Server.Engines.Craft;
 using System.Collections.Generic;
+using Server.Custom.Ascensions;
 
 namespace Server.Items
 {
@@ -749,13 +750,13 @@ namespace Server.Items
 				if( RequiredRace == Race.Elf )
 					from.SendLocalizedMessage( 1072203 ); // Only Elves may use this.
 				else
-					from.SendMessage( "Apenas {0} podem usar isto.", RequiredRace.PluralName );
+					from.SendMessage( "Only {0} may use this.", RequiredRace.PluralName );
 
 				return false;
 			}
 			else if ( from.Dex < DexRequirement )
 			{
-				from.SendMessage( "Você não é ágil o suficiente para equipar isso." );
+				from.SendMessage( "You are not nimble enough to equip that." );
 				return false;
 			} 
 			else if ( from.Str < AOS.Scale( StrRequirement, 100 - GetLowerStatReq() ) )
@@ -765,7 +766,7 @@ namespace Server.Items
 			}
 			else if ( from.Int < IntRequirement )
 			{
-				from.SendMessage( "Você não é inteligente o suficiente para equipar isso." );
+				from.SendMessage( "You are not intelligent enough to equip that." );
 				return false;
 			}
 			else if ( !from.CanBeginAction( typeof( BaseWeapon ) ) )
@@ -981,6 +982,19 @@ namespace Server.Items
 				if ( HitLower.IsUnderAttackEffect( attacker ) )
 					bonus -= 25; // Under Hit Lower Attack effect -> 25% malus
 
+				// ── Saga of Valor: hit chance bonus (Skald  level 6+) ────
+				if ( attacker is PlayerMobile )
+				{
+				    PlayerMobile sagaAttacker = (PlayerMobile)attacker;
+
+				    if ( sagaAttacker.HasAscensionEffect( "SagaOfValor" ) )
+				    {
+				        AscensionEffectState sagaState = sagaAttacker.GetAscensionEffect( "SagaOfValor" );
+				        bonus += sagaState.Level / 2;
+				    }
+				}
+				// ── End Saga of Valor hit chance ─────────────────────────────────
+
 				WeaponAbility ability = WeaponAbility.GetCurrentAbility( attacker );
 
 				if ( ability != null )
@@ -1001,6 +1015,47 @@ namespace Server.Items
 
 				if ( Spells.Chivalry.DivineFurySpell.UnderEffect( defender ) )
 					bonus -= 20; // defender loses 20% bonus when they're under divine fury
+				
+				// =============================
+				// Berserker Rage Defense Penalty
+				// =============================
+				if (defender is PlayerMobile)
+				{
+				    PlayerMobile pm = (PlayerMobile)defender;
+
+				    if (pm.HasAscensionEffect("BerserkerRage"))
+				    {
+				        AscensionEffectState state = pm.GetAscensionEffect("BerserkerRage");
+				        int level = state.Level;
+
+				        int penalty = 10;
+
+				        if (level >= 10)
+				            penalty += 5;
+
+				        if (level >= 20)
+				            penalty += 5;
+
+				        bonus -= penalty;
+				    }
+				}
+
+				// ── Saga of Valor: defend chance bonus (Skald level 12+) ─────────
+				if ( defender is PlayerMobile )
+				{
+				    PlayerMobile sagaDefender = (PlayerMobile)defender;
+
+				    if ( sagaDefender.HasAscensionEffect( "SagaOfValor" ) )
+				    {
+				        AscensionEffectState sagaState = sagaDefender.GetAscensionEffect( "SagaOfValor" );
+
+				        if ( sagaState.Level >= 12 )
+				            bonus += sagaState.Level / 2;
+				    }
+				}
+				// ── End Saga of Valor defend chance ──────────────────────────────
+
+
 
 				if ( HitLower.IsUnderDefenseEffect( defender ) )
 					bonus -= 25; // Under Hit Lower Defense effect -> 25% malus
@@ -1053,70 +1108,74 @@ namespace Server.Items
 
 		public virtual TimeSpan GetDelay( Mobile m )
 		{
-			double speed = this.Speed;
+		    double speed = this.Speed;
 
-			if ( speed == 0 )
-				return TimeSpan.FromHours( 1.0 );
+		    if ( speed == 0 )
+		        return TimeSpan.FromHours( 1.0 );
 
-			double delayInSeconds;
+		    double delayInSeconds;
 
-			/*
-			 * This is likely true for Core.AOS as well... both guides report the same
-			 * formula, and both are wrong.
-			 * The old formula left in for AOS for legacy & because we aren't quite 100%
-			 * Sure that AOS has THIS formula
-			 */
-			int bonus = AosAttributes.GetValue( m, AosAttribute.WeaponSpeed );
+		    int bonus = AosAttributes.GetValue( m, AosAttribute.WeaponSpeed );
 
-			if ( Spells.Chivalry.DivineFurySpell.UnderEffect( m ) )
-				bonus += 10;
+		    if ( Spells.Chivalry.DivineFurySpell.UnderEffect( m ) )
+		        bonus += 10;
 
-			// Bonus granted by successful use of Honorable Execution.
-			bonus += HonorableExecution.GetSwingBonus( m );
+		    bonus += HonorableExecution.GetSwingBonus( m );
 
-			if( DualWield.Registry.Contains( m ) )
-				bonus += ((DualWield.DualWieldTimer)DualWield.Registry[m]).BonusSwingSpeed;
+		    if ( DualWield.Registry.Contains( m ) )
+		        bonus += ((DualWield.DualWieldTimer)DualWield.Registry[m]).BonusSwingSpeed;
 
-			if( Feint.Registry.Contains( m ) )
-				bonus -= ((Feint.FeintTimer)Feint.Registry[m]).SwingSpeedReduction;
+		    if ( Feint.Registry.Contains( m ) )
+		        bonus -= ((Feint.FeintTimer)Feint.Registry[m]).SwingSpeedReduction;
 
-			TransformContext context = TransformationSpellHelper.GetContext( m );
+		    TransformContext context = TransformationSpellHelper.GetContext( m );
 
-			int discordanceEffect = 0;
+		    int discordanceEffect = 0;
 
-			// Discordance gives a malus of -0/-28% to swing speed.
-			if ( SkillHandlers.Discordance.GetEffect( m, ref discordanceEffect ) )
-				bonus -= discordanceEffect;
+		    if ( SkillHandlers.Discordance.GetEffect( m, ref discordanceEffect ) )
+		        bonus -= discordanceEffect;
 
-			if ( bonus > 60 )
-				bonus = 60;
-			
-			double ticks;
+		    // ── Battle Meditation swing speed bonus (Kensai, level 1+) ──────────
+		    PlayerMobile swingPm = m as PlayerMobile;
 
-			if ( Core.ML )
-			{
-				int stamTicks = (int)( m.Stam / 30 );
+		    if ( swingPm != null
+		        && swingPm.ActiveAscension == AscensionType.Kensai
+		        && swingPm.HasAscensionEffect("BattleMeditation") )
+		    {
+		        AscensionEffectState swingState = swingPm.GetAscensionEffect("BattleMeditation");
+		        int swingBonus = 5 + (swingState.Level / 2);
+		        bonus += swingBonus;
+		    }
+		    // ── End Battle Meditation ────────────────────────────────────────────
 
-				ticks = speed * 4;
-				ticks = Math.Floor( ( ticks - stamTicks ) * ( 100.0 / ( 100 + bonus ) ) );
-			}
-			else
-			{
-				speed = Math.Floor( speed * ( bonus + 100.0 ) / 100.0 );
+		    if ( bonus > 60 )
+		        bonus = 60;
 
-				if ( speed <= 0 )
-					speed = 1;
+		    double ticks;
 
-				ticks = Math.Floor( ( 80000.0 / ( ( m.Stam + 100 ) * speed ) ) - 2 );
-			}
-			
-			// Swing speed currently capped at one swing every 1.25 seconds (5 ticks).
-			if ( ticks < 5 )
-				ticks = 5;
+		    if ( Core.ML )
+		    {
+		        int stamTicks = (int)( m.Stam / 30 );
 
-			delayInSeconds = ticks * 0.25;
+		        ticks = speed * 4;
+		        ticks = Math.Floor( ( ticks - stamTicks ) * ( 100.0 / ( 100 + bonus ) ) );
+		    }
+		    else
+		    {
+		        speed = Math.Floor( speed * ( bonus + 100.0 ) / 100.0 );
 
-			return TimeSpan.FromSeconds( delayInSeconds );
+		        if ( speed <= 0 )
+		            speed = 1;
+
+		        ticks = Math.Floor( ( 80000.0 / ( ( m.Stam + 100 ) * speed ) ) - 2 );
+		    }
+
+		    if ( ticks < 5 )
+		        ticks = 5;
+
+		    delayInSeconds = ticks * 0.25;
+
+		    return TimeSpan.FromSeconds( delayInSeconds );
 		}
 
 		public virtual void OnBeforeSwing( Mobile attacker, Mobile defender )
@@ -1434,493 +1493,1143 @@ namespace Server.Items
 
 		public virtual void OnHit( Mobile attacker, Mobile defender, double damageBonus )
 		{
-			// druid shapeshifting specials
-			SpectralFormCombat.OnHit(attacker, defender);
-
-            double sneakBonus = 0.0;
-
-			if( attacker is PlayerMobile && ((PlayerMobile)attacker).SneakDamage )
-            {
-                PlayerMobile pm = (PlayerMobile)attacker;
-
-				double sneakAttack = attacker.Skills[SkillName.Hiding].Value;
-				sneakAttack = sneakAttack + attacker.Skills[SkillName.Stealth].Value;
-				
-				double bonusrange = Utility.RandomDouble();
-				if (bonusrange < 0.50)
-					bonusrange += 0.40;
-				if (bonusrange > 0.90)
-					bonusrange -= 0.10;
-				
-				sneakBonus = ( (0.015 * sneakAttack) / 1.50) * bonusrange;
-					if ( sneakBonus > 1.25 ){ sneakBonus = 1.25; }
-					if ( this is BaseRanged ){ sneakBonus = (double)(sneakBonus/2); }
-
-				int tellBonus = (int)(sneakBonus * 100);
-
-				attacker.SendMessage( "Você realiza um ataque furtivo com " + tellBonus + "% a mais de dano!" );
-				pm.SneakDamage = false;
-			}
-
-			if ( MirrorImage.HasClone( defender ) && (defender.Skills.Ninjitsu.Value / 150.0) > Utility.RandomDouble() )
-			{
-				Clone bc;
-
-				foreach ( Mobile m in defender.GetMobilesInRange( 4 ) )
-				{
-					bc = m as Clone;
-
-					if ( bc != null && bc.Summoned && bc.SummonMaster == defender )
-					{
-						attacker.SendLocalizedMessage( 1063141 ); // Your attack has been diverted to a nearby mirror image of your target!
-						defender.SendLocalizedMessage( 1063140 ); // You manage to divert the attack onto one of your nearby mirror images.
-						defender = m;
-						break;
-					}
-				}
-			}
-
-			PlaySwingAnimation( attacker );
-			PlayHurtAnimation( defender );
-
-			attacker.PlaySound( GetHitAttackSound( attacker, defender ) );
-			defender.PlaySound( GetHitDefendSound( attacker, defender ) );
-
-			int damage = ComputeDamage( attacker, defender );
-
-			#region Damage Multipliers
-			/*
-			 * The following damage bonuses multiply damage by a factor.
-			 * Capped at x3 (300%).
-			 */
-			//double factor = 1.0;
-			int percentageBonus = 0;
-
-			WeaponAbility a = WeaponAbility.GetCurrentAbility( attacker );
-			SpecialMove move = SpecialMove.GetCurrentMove( attacker );
-
-			if( a != null )
-			{
-				//factor *= a.DamageScalar;
-				percentageBonus += (int)(a.DamageScalar * 100) - 100;
-			}
-
-			if( move != null )
-			{
-				//factor *= move.GetDamageScalar( attacker, defender );
-				percentageBonus += (int)(move.GetDamageScalar( attacker, defender ) * 100) - 100;
-			}
-
-			//factor *= damageBonus;
-			percentageBonus += (int)(damageBonus * 100) - 100;
-
-			CheckSlayerResult cs = CheckSlayers( attacker, defender );
-
-			if ( cs != CheckSlayerResult.None )
-			{
-				if ( cs == CheckSlayerResult.Slayer )
-					defender.FixedEffect( 0x37B9, 10, 5 );
-
-				//factor *= 2.0;
-				percentageBonus += 100;
-
-				if ( Utility.Random( 5 ) == 1 && attacker is PlayerMobile )
-				{
-					attacker.SendMessage( "Esta arma parece estar funcionando muito bem contra este inimigo." );
-				}
-			}
-
-			if ( !attacker.Player )
-			{
-				if ( defender is PlayerMobile )
-				{
-					PlayerMobile pm = (PlayerMobile)defender;
-
-					if( pm.EnemyOfOneType != null && pm.EnemyOfOneType != attacker.GetType() )
-					{
-						//factor *= 2.0;
-						percentageBonus += 100;
-					}
-				}
-			}
-			else if ( !defender.Player )
-			{
-				if ( attacker is PlayerMobile )
-				{
-					PlayerMobile pm = (PlayerMobile)attacker;
-
-					if ( pm.WaitingForEnemy )
-					{
-						pm.EnemyOfOneType = defender.GetType();
-						pm.WaitingForEnemy = false;
-					}
-
-					if ( pm.EnemyOfOneType == defender.GetType() )
-					{
-						defender.FixedEffect( 0x37B9, 10, 5, 1160, 0 );
-						//factor *= 1.5;
-						percentageBonus += 50;
-					}
-				}
-			}
-
-			int packInstinctBonus = GetPackInstinctBonus( attacker, defender );
-
-			if( packInstinctBonus != 0 )
-			{
-				//factor *= 1.0 + (double)packInstinctBonus / 100.0;
-				percentageBonus += packInstinctBonus;
-			}
-
-			if( m_InDoubleStrike )
-			{
-				//factor *= 0.9; // 10% loss when attacking with double-strike
-				percentageBonus -= 10;
-			}
-
-			TransformContext context = TransformationSpellHelper.GetContext( defender );
-
-			if( (m_Slayer == SlayerName.Silver || m_Slayer2 == SlayerName.Silver) && context != null && context.Spell is NecromancerSpell && context.Type != typeof( HorrificBeastSpell ) )
-			{
-				//factor *= 1.25; // Every necromancer transformation other than horrific beast takes an additional 25% damage
-				percentageBonus += 25;
-			}
-
-			percentageBonus = Math.Min( percentageBonus, 300 );
-
-			damage = damage + (int)( damage * sneakBonus );
-
-			damage = AOS.Scale( damage, 100 + percentageBonus );
-			#endregion
-
-			if ( attacker is BaseCreature )
-				((BaseCreature)attacker).AlterMeleeDamageTo( defender, ref damage );
-
-			if ( defender is BaseCreature )
-				((BaseCreature)defender).AlterMeleeDamageFrom( attacker, ref damage );
-
-			damage = AbsorbDamage( attacker, defender, damage );
-
-			if ( Core.AOS && damage == 0 ) // parried
-			{
-				if ( a != null && a.Validate( attacker ) /*&& a.CheckMana( attacker, true )*/ ) // Parried special moves have no mana cost 
-				{
-					a = null;
-					WeaponAbility.ClearCurrentAbility( attacker );
-
-					attacker.SendLocalizedMessage( 1061140 ); // Your attack was parried!
-				}
-			}
-
-			AddBlood( attacker, defender, damage );
-
-			int phys, fire, cold, pois, nrgy, chaos, direct;
-
-			GetDamageTypes( attacker, out phys, out fire, out cold, out pois, out nrgy, out chaos, out direct );
-
-			if ( Core.ML && this is BaseRanged )
-			{
-				BaseQuiver quiver = attacker.FindItemOnLayer( Layer.Cloak ) as BaseQuiver;
-
-				if ( quiver != null )
-					quiver.AlterBowDamage( ref phys, ref fire, ref cold, ref pois, ref nrgy, ref chaos, ref direct );
-			}
-
-			if ( m_Consecrated )
-			{
-				phys = defender.PhysicalResistance;
-				fire = defender.FireResistance;
-				cold = defender.ColdResistance;
-				pois = defender.PoisonResistance;
-				nrgy = defender.EnergyResistance;
-
-				int low = phys, type = 0;
-
-				if ( fire < low ){ low = fire; type = 1; }
-				if ( cold < low ){ low = cold; type = 2; }
-				if ( pois < low ){ low = pois; type = 3; }
-				if ( nrgy < low ){ low = nrgy; type = 4; }
-
-				phys = fire = cold = pois = nrgy = chaos = direct = 0;
-
-				if ( type == 0 ) phys = 100;
-				else if ( type == 1 ) fire = 100;
-				else if ( type == 2 ) cold = 100;
-				else if ( type == 3 ) pois = 100;
-				else if ( type == 4 ) nrgy = 100;
-			}
-
-			int damageGiven = damage;
-
-			if ( a != null && !a.OnBeforeDamage( attacker, defender ) )
-			{
-				WeaponAbility.ClearCurrentAbility( attacker );
-				a = null;
-			}
-
-			if ( move != null && !move.OnBeforeDamage( attacker, defender ) )
-			{
-				SpecialMove.ClearCurrentMove( attacker );
-				move = null;
-			}
-
-			// New stuff for BladeWeaing performing Armor Ignore attack
-			WeaponAbility weaponA;
-			bool BladeWeaving = Bladeweave.BladeWeaving(attacker, out weaponA);
-
-			bool ignoreArmor = ( a is ArmorIgnore || (move != null && move.IgnoreArmor( attacker )) || (BladeWeaving && weaponA is ArmorIgnore ));
-
-			damageGiven = AOS.Damage( defender, attacker, damage, ignoreArmor, phys, fire, cold, pois, nrgy, chaos, direct, false, this is BaseRanged, false );
-
-			double propertyBonus = ( move == null ) ? 1.0 : move.GetPropertyBonus( attacker );
-
-			int lifeLeech = 0;
-			int stamLeech = 0;
-			int manaLeech = 0;
-			int wraithLeech = 0;
-
-			if ( (int)(m_AosWeaponAttributes.HitLeechHits * propertyBonus) > Utility.Random( 100 ) )
-				lifeLeech += 30; // HitLeechHits% chance to leech 30% of damage as hit points
-
-			if ( (int)(m_AosWeaponAttributes.HitLeechStam * propertyBonus) > Utility.Random( 100 ) )
-				stamLeech += 100; // HitLeechStam% chance to leech 100% of damage as stamina
-
-			if ( (int)(m_AosWeaponAttributes.HitLeechMana * propertyBonus) > Utility.Random( 100 ) )
-				manaLeech += 40; // HitLeechMana% chance to leech 40% of damage as mana
-
-			if ( m_Cursed )
-				lifeLeech += 50; // Additional 50% life leech for cursed weapons (necro spell)
-
-			context = TransformationSpellHelper.GetContext( attacker );
-
-			if ( context != null && context.Type == typeof( VampiricEmbraceSpell ) )
-				lifeLeech += 20; // Vampiric embrace gives an additional 20% life leech
-
-			if ( context != null && context.Type == typeof( WraithFormSpell ) )
-			{
-				wraithLeech = (5 + (int)((15 * attacker.Skills.Spiritualism.Value) / 100)); // Wraith form gives an additional 5-20% mana leech
-
-				// Mana leeched by the Wraith Form spell is actually stolen, not just leeched.
-				defender.Mana -= AOS.Scale( damageGiven, wraithLeech );
-
-				manaLeech += wraithLeech;
-			}
-
-			if ( lifeLeech != 0 )
-			{
-			    bool isImmune = false;
-
-			    if (defender is BaseCreature)
-			    {
-			        BaseCreature defenderCreature = (BaseCreature)defender;
-			        isImmune = defenderCreature.LeechImmune;
-			    }
-			    
-			    if (!isImmune)
-			        attacker.Hits += AOS.Scale( damageGiven, lifeLeech );
-			}
-			
-			if ( stamLeech != 0 )
-				attacker.Stam += AOS.Scale( damageGiven, stamLeech );
-
-			if ( manaLeech != 0 )
-				attacker.Mana += AOS.Scale( damageGiven, manaLeech );
-
-			if ( lifeLeech != 0 || stamLeech != 0 || manaLeech != 0 )
-				attacker.PlaySound( 0x44D );
-
-			int ruin = 20 + (int)Density; // chance to lower durability
-			bool acidic = false;
-
-			if ( defender is Slime || defender is GreenSlime || defender is BlackPudding || defender is LavaPuddle || defender is AcidPuddle || defender is ToxicElemental )
-				acidic = true;
-
-			if ( m_MaxHits > 0 && Density != Density.None && ( ( MaxRange <= 1 && acidic ) || Utility.Random( ruin ) == 0 ) )
-			{
-				if ( m_AosWeaponAttributes.SelfRepair > Utility.Random( 10 ) )
-					HitPoints += Utility.RandomMinMax( 1, (int)Density );
-
-				if ( this is ILevelable )
-				{
-					LevelItemManager.RepairItems( attacker );
-				}
-				else if ( m_Hits > 0 )
-				{
-					--HitPoints;
-
-					if ( MaxRange <= 1 && acidic )
-					attacker.LocalOverheadMessage( MessageType.Regular, 0x3B2, 500263 ); // *Acid blood scars your weapon!*
-				}
-				else if ( m_MaxHits > 1 )
-				{
-					--MaxHitPoints;
-
-					if ( MaxRange <= 1 && acidic )
-					attacker.LocalOverheadMessage( MessageType.Regular, 0x3B2, 500263 ); // *Acid blood scars your weapon!*
-
-					if ( Parent is Mobile )
-						((Mobile)Parent).LocalOverheadMessage( MessageType.Regular, 0x3B2, 1061121 ); // Your equipment is severely damaged.
-				}
-
-				if ( MaxHitPoints < 1 )
-					Delete();
-			}
-
-			if ( attacker is VampireBatFamiliar )
-			{
-				BaseCreature bc = (BaseCreature)attacker;
-				Mobile caster = bc.ControlMaster;
-
-				if ( caster == null )
-					caster = bc.SummonMaster;
-
-				if ( caster != null && caster.Map == bc.Map && caster.InRange( bc, 2 ) )
-					caster.Hits += damage;
-				else
-					bc.Hits += damage;
-			}
-
-			if ( Core.AOS )
-			{
-				int physChance = (int)(m_AosWeaponAttributes.HitPhysicalArea * propertyBonus);
-				int fireChance = (int)(m_AosWeaponAttributes.HitFireArea * propertyBonus);
-				int coldChance = (int)(m_AosWeaponAttributes.HitColdArea * propertyBonus);
-				int poisChance = (int)(m_AosWeaponAttributes.HitPoisonArea * propertyBonus);
-				int nrgyChance = (int)(m_AosWeaponAttributes.HitEnergyArea * propertyBonus);
-
-				if ( physChance != 0 && physChance > Utility.Random( 100 ) )
-					DoAreaAttack( attacker, defender, 0x10E,   50, 100, 0, 0, 0, 0 );
-
-				if ( fireChance != 0 && fireChance > Utility.Random( 100 ) )
-					DoAreaAttack( attacker, defender, 0x11D, 1160, 0, 100, 0, 0, 0 );
-
-				if ( coldChance != 0 && coldChance > Utility.Random( 100 ) )
-					DoAreaAttack( attacker, defender, 0x0FC, 2100, 0, 0, 100, 0, 0 );
-
-				if ( poisChance != 0 && poisChance > Utility.Random( 100 ) )
-					DoAreaAttack( attacker, defender, 0x205, 1166, 0, 0, 0, 100, 0 );
-
-				if ( nrgyChance != 0 && nrgyChance > Utility.Random( 100 ) )
-					DoAreaAttack( attacker, defender, 0x1F1,  120, 0, 0, 0, 0, 100 );
-
-				int maChance = (int)(m_AosWeaponAttributes.HitMagicArrow * propertyBonus);
-				int harmChance = (int)(m_AosWeaponAttributes.HitHarm * propertyBonus);
-				int fireballChance = (int)(m_AosWeaponAttributes.HitFireball * propertyBonus);
-				int lightningChance = (int)(m_AosWeaponAttributes.HitLightning * propertyBonus);
-				int dispelChance = (int)(m_AosWeaponAttributes.HitDispel * propertyBonus);
-
-				if ( maChance != 0 && maChance > Utility.Random( 100 ) )
-					DoMagicArrow( attacker, defender );
-
-				if ( harmChance != 0 && harmChance > Utility.Random( 100 ) )
-					DoHarm( attacker, defender );
-
-				if ( fireballChance != 0 && fireballChance > Utility.Random( 100 ) )
-					DoFireball( attacker, defender );
-
-				if ( lightningChance != 0 && lightningChance > Utility.Random( 100 ) )
-					DoLightning( attacker, defender );
-
-				if ( dispelChance != 0 && dispelChance > Utility.Random( 100 ) )
-					DoDispel( attacker, defender );
-
-				int laChance = (int)(m_AosWeaponAttributes.HitLowerAttack * propertyBonus);
-				int ldChance = (int)(m_AosWeaponAttributes.HitLowerDefend * propertyBonus);
-
-				if ( laChance != 0 && laChance > Utility.Random( 100 ) )
-					DoLowerAttack( attacker, defender );
-
-				if ( ldChance != 0 && ldChance > Utility.Random( 100 ) )
-					DoLowerDefense( attacker, defender );
-			}
-
-			if ( attacker is BaseCreature )
-				((BaseCreature)attacker).OnGaveMeleeAttack( defender );
-
-			if ( defender is BaseCreature )
-				((BaseCreature)defender).OnGotMeleeAttack( attacker );
-
-			if ( defender is PlayerMobile && attacker is PlayerMobile && attacker.RaceID > 0 && attacker.RaceMakeSounds && attacker.RaceAttackSound > 0 && Utility.RandomBool() )
-				attacker.PlaySound( attacker.RaceAttackSound );
-
-			if ( attacker is PlayerMobile && defender is PlayerMobile && defender.RaceID > 0 && defender.RaceMakeSounds && defender.RaceHurtSound > 0 && Utility.RandomBool() )
-				defender.PlaySound( defender.RaceHurtSound );
-
-			if ( a != null )
-				a.OnHit( attacker, defender, damage );
-
-			if ( move != null )
-				move.OnHit( attacker, defender, damage );
-
-			if ( !(this is BaseRanged) )
-			{
-				if ( AnimalForm.UnderTransformation( attacker, typeof( GiantSerpent ) ) )
-					defender.ApplyPoison( attacker, Poison.Lesser );
-
-				if ( AnimalForm.UnderTransformation( defender, typeof( BullFrog ) ) )
-					attacker.ApplyPoison( defender, Poison.Regular );
-			}
-
-			BaseWeapon poisonWeapon = attacker.Weapon as BaseWeapon; // ------- POISON SECTION ------- //
-			if ( poisonWeapon != null && attacker is PlayerMobile && defender != null )
-			{
-			    Poison p = poisonWeapon.Poison;
-			    bool willPoison = true;
-			    int ClassicPoisons = 0;
-			    ClassicPoisons = ((PlayerMobile)attacker).ClassicPoisoning;
-			    if ( p != null )
-			    {
-			        // Use poisoning skill to help determine potency 
-			        int maxLevel = attacker.Skills[SkillName.Poisoning].Fixed / 200;
-			        if ( maxLevel < 0 ) maxLevel = 0;
-			        if ( p.Level > maxLevel ) p = Poison.GetPoison( maxLevel );
-			        if ( poisonWeapon.PoisonCharges < 1 && willPoison == true )
-			            willPoison = false;
-			        if ( defender is BaseCreature && willPoison == true )
-			        {
-			            BaseCreature bc = (BaseCreature)defender;
-			            Poison venom = bc.PoisonImmune;
-			            if ( venom != null && venom.Level >= p.Level )
-			                willPoison = false;
-			        }
-			        if ( Server.Items.WeaponAbility.GetCurrentAbility( attacker ) == WeaponAbility.ShadowInfectiousStrike && willPoison == true && ClassicPoisons == 0 )
-			            willPoison = false;
-			        else if ( Server.Items.WeaponAbility.GetCurrentAbility( attacker ) == WeaponAbility.InfectiousStrike && willPoison == true && ClassicPoisons == 0 )
-			            willPoison = false;
-			        else if ( ClassicPoisons == 0 )
-			            willPoison = false;
-			        if ( defender.Poisoned && willPoison == true )
-			            willPoison = false;
-			        if ( willPoison == true )
-			        {
-			            if ( !(attacker.CheckSkill( SkillName.Poisoning, 0, 125 ) ) )
-			                willPoison = false;
-			        }
-			        if ( ClassicPoisons > 0 && !( this is BaseKnife || this is BaseSword || this is BaseSpear ) )
-			        {
-			            willPoison = false;
-			        }
-			        if ( willPoison == true )
-			        {
-			            Misc.Titles.AwardKarma( attacker, -20, true );
-			
-			            // Chance to preserve poison charge based on poisoning skill
-			            double poisoningSkill = attacker.Skills[SkillName.Poisoning].Value;
-			            double preserveChance = poisoningSkill / 5.0;
-			            bool consumeCharge = (Utility.RandomDouble() * 100.0) >= preserveChance;
-			
-			            if ( consumeCharge )
-			                --poisonWeapon.PoisonCharges;
-			
-			            defender.ApplyPoison( attacker, p );
-			            defender.PlaySound( 0x62D );
-			            defender.FixedParticles( 0x3728, 244, 25, 9941, 1266, 0, EffectLayer.Waist );
-			            attacker.SendLocalizedMessage( 1008096, true, defender.Name ); // You have poisoned your target : 
-			            defender.SendLocalizedMessage( 1008097, false, attacker.Name ); //  : poisoned you!
-			        }
-			    }
-			}
+		    // ── Druid shapeshifting specials ─────────────────────────────────────
+		    SpectralFormCombat.OnHit(attacker, defender);
+
+		    // ── Sneak attack ─────────────────────────────────────────────────────
+		    double sneakBonus = 0.0;
+
+		    if (attacker is PlayerMobile && ((PlayerMobile)attacker).SneakDamage)
+		    {
+		        PlayerMobile sneakPm   = (PlayerMobile)attacker;
+		        double sneakAttack     = attacker.Skills[SkillName.Hiding].Value
+		                               + attacker.Skills[SkillName.Stealth].Value;
+
+		        double bonusRange = Utility.RandomDouble();
+		        if (bonusRange < 0.50) bonusRange += 0.40;
+		        if (bonusRange > 0.90) bonusRange -= 0.10;
+
+		        sneakBonus = ((0.015 * sneakAttack) / 1.50) * bonusRange;
+		        if (sneakBonus > 1.25)          sneakBonus = 1.25;
+		        if (this is BaseRanged)         sneakBonus = sneakBonus / 2;
+
+		        attacker.SendMessage("You perform a sneak attack for " + (int)(sneakBonus * 100) + "% more damage!");
+		        sneakPm.SneakDamage = false;
+		    }
+
+		    // ── Mirror image diversion ───────────────────────────────────────────
+		    if (MirrorImage.HasClone(defender) && (defender.Skills.Ninjitsu.Value / 150.0) > Utility.RandomDouble())
+		    {
+		        foreach (Mobile m in defender.GetMobilesInRange(4))
+		        {
+		            Clone clone = m as Clone;
+
+		            if (clone != null && clone.Summoned && clone.SummonMaster == defender)
+		            {
+		                attacker.SendLocalizedMessage(1063141);
+		                defender.SendLocalizedMessage(1063140);
+		                defender = m;
+		                break;
+		            }
+		        }
+		    }
+
+		    // ── Swing animations and sounds ──────────────────────────────────────
+		    PlaySwingAnimation(attacker);
+		    PlayHurtAnimation(defender);
+		    attacker.PlaySound(GetHitAttackSound(attacker, defender));
+		    defender.PlaySound(GetHitDefendSound(attacker, defender));
+
+		    // ── Base damage ──────────────────────────────────────────────────────
+		    int damage = ComputeDamage(attacker, defender);
+
+		    #region Damage Multipliers
+
+		    int percentageBonus = 0;
+
+		    WeaponAbility a    = WeaponAbility.GetCurrentAbility(attacker);
+		    SpecialMove   move = SpecialMove.GetCurrentMove(attacker);
+
+		    if (a != null)
+		        percentageBonus += (int)(a.DamageScalar * 100) - 100;
+
+		    if (move != null)
+		        percentageBonus += (int)(move.GetDamageScalar(attacker, defender) * 100) - 100;
+
+		    percentageBonus += (int)(damageBonus * 100) - 100;
+
+		    // Slayers
+		    CheckSlayerResult cs = CheckSlayers(attacker, defender);
+
+		    if (cs != CheckSlayerResult.None)
+		    {
+		        if (cs == CheckSlayerResult.Slayer)
+		            defender.FixedEffect(0x37B9, 10, 5);
+
+		        percentageBonus += 100;
+
+		        if (Utility.Random(5) == 1 && attacker is PlayerMobile)
+		            attacker.SendMessage("This weapon seems to be doing quite well against this enemy.");
+		    }
+
+		    // Enemy of one
+		    if (!attacker.Player)
+		    {
+		        if (defender is PlayerMobile)
+		        {
+		            PlayerMobile defPm = (PlayerMobile)defender;
+		            if (defPm.EnemyOfOneType != null && defPm.EnemyOfOneType != attacker.GetType())
+		                percentageBonus += 100;
+		        }
+		    }
+		    else if (!defender.Player && attacker is PlayerMobile)
+		    {
+		        PlayerMobile attPm = (PlayerMobile)attacker;
+
+		        if (attPm.WaitingForEnemy)
+		        {
+		            attPm.EnemyOfOneType  = defender.GetType();
+		            attPm.WaitingForEnemy = false;
+		        }
+
+		        if (attPm.EnemyOfOneType == defender.GetType())
+		        {
+		            defender.FixedEffect(0x37B9, 10, 5, 1160, 0);
+		            percentageBonus += 50;
+		        }
+		    }
+
+		    // Pack instinct
+		    int packInstinctBonus = GetPackInstinctBonus(attacker, defender);
+		    if (packInstinctBonus != 0)
+		        percentageBonus += packInstinctBonus;
+
+		    // Double strike penalty
+		    if (m_InDoubleStrike)
+		        percentageBonus -= 10;
+
+		    // Silver slayer vs necromancer transforms
+		    TransformContext context = TransformationSpellHelper.GetContext(defender);
+
+		    if ((m_Slayer == SlayerName.Silver || m_Slayer2 == SlayerName.Silver)
+		        && context != null
+		        && context.Spell is NecromancerSpell
+		        && context.Type != typeof(HorrificBeastSpell))
+		    {
+		        percentageBonus += 25;
+		    }
+
+		    // ── Ascension damage bonuses ─────────────────────────────────────────
+		    PlayerMobile ascAttacker = attacker as PlayerMobile;
+
+		    if (ascAttacker != null)
+		    {
+		        // Berserker Rage
+		        if (ascAttacker.HasAscensionEffect("BerserkerRage"))
+		        {
+		            AscensionEffectState rageState = ascAttacker.GetAscensionEffect("BerserkerRage");
+		            int rageBonus = 10;
+		            if (rageState.Level >= 10) rageBonus += 5;
+		            if (rageState.Level >= 20) rageBonus += 5;
+		            percentageBonus += rageBonus;
+		        }
+
+		        // Toxic Surge
+		        if (ascAttacker.HasAscensionEffect("ToxicSurge") && defender.Poisoned)
+		            percentageBonus += 10;
+
+		        // ── Per-ascension passives ───────────────────────────────────────
+		        if (ascAttacker.ActiveAscension == AscensionType.Crusader)
+		        {
+		            AscensionProgress crusaderProg  = ascAttacker.AscensionProfile.Get(AscensionType.Crusader);
+		            int               crusaderLevel = crusaderProg.Level;
+
+		            if (crusaderLevel >= 14)
+		            {
+		                SlayerEntry inqDemons = SlayerGroup.GetEntryByName(SlayerName.Exorcism);
+
+		                if (inqDemons.Slays(defender))
+		                    percentageBonus += crusaderLevel / 2;
+		                else if (crusaderLevel >= 19 && defender.Karma < 0)
+		                    percentageBonus += crusaderLevel / 4;
+		            }
+		        }
+		        else if (ascAttacker.ActiveAscension == AscensionType.Assassin)
+		        {
+		            AscensionProgress assassinProg  = ascAttacker.AscensionProfile.Get(AscensionType.Assassin);
+		            int               assassinLevel = assassinProg.Level;
+
+		            if (assassinLevel >= 5 && defender.Poisoned)
+		            {
+		                if (Utility.Random(10000) < (assassinLevel * 25))
+		                    PoisonImpl.ResolveSingleTick(defender, ascAttacker);
+
+		                if (assassinLevel >= 13 && Utility.Random(10000) < (assassinLevel * 12))
+		                    PoisonImpl.ResolveSingleTick(defender, ascAttacker);
+		            }
+
+		            if (assassinLevel >= 2)
+		            {
+		                BaseWeapon virWeapon = ascAttacker.Weapon as BaseWeapon;
+		                if (virWeapon != null && virWeapon.Poison != null && defender.Poisoned)
+		                {
+		                    if (Utility.Random(100) < assassinLevel)
+		                        PoisonImpl.ResolveSingleTick(defender, ascAttacker);
+		                }
+		            }
+
+		            if (assassinLevel >= 14 && defender.Poisoned)
+		            {
+		                percentageBonus += 9;
+
+		                if (assassinLevel >= 19)
+		                    new DeadlyStrikesResistDebuff(defender).Apply();
+		            }
+		        }
+		        else if (ascAttacker.ActiveAscension == AscensionType.Blackguard)
+		        {
+		            AscensionProgress blackguardProg  = ascAttacker.AscensionProfile.Get(AscensionType.Blackguard);
+		            int               blackguardLevel = blackguardProg.Level;
+
+		            if (blackguardLevel >= 10
+		                && ascAttacker.HasAscensionEffect("DarkSuccor")
+		                && ascAttacker.Hits < (ascAttacker.HitsMax / 2)
+		                && defender.Karma > 0)
+		            {
+		                percentageBonus += (blackguardLevel * 75) / 100;
+		            }
+
+		            if (blackguardLevel >= 14 && Utility.Random(100) < blackguardLevel)
+		            {
+		                ascAttacker.SendMessage(0x47E, "You deliver a Merciless Strike!");
+		                new MercilessStrikesDebuff(defender).Apply();
+
+		                if (blackguardLevel >= 19 && Utility.Random(10000) < (blackguardLevel * 25))
+		                    defender.Paralyze(TimeSpan.FromSeconds(3));
+		            }
+		        }
+		        else if (ascAttacker.ActiveAscension == AscensionType.Skald)
+		        {
+		            if (ascAttacker.HasAscensionEffect("WarChant"))
+		            {
+		                AscensionEffectState chantState = ascAttacker.GetAscensionEffect("WarChant");
+
+		                if (chantState.Level >= 10)
+		                    percentageBonus += (chantState.Level * 50) / 100;
+		            }
+
+		            AscensionProgress rhythmProg  = ascAttacker.AscensionProfile.Get(AscensionType.Skald);
+		            int               rhythmLevel = rhythmProg.Level;
+
+		            if (rhythmLevel >= 2)
+		            {
+		                BaseCreature rhythmTarget = defender as BaseCreature;
+		                bool         isBardAffected = false;
+
+		                if (rhythmTarget != null)
+		                {
+		                    bool isPeaced  = rhythmTarget.BardPacified;
+		                    bool isProvoked = rhythmTarget.BardProvoked;
+
+		                    int  discordEffect = 0;
+		                    bool isDiscorded   = SkillHandlers.Discordance.GetEffect(rhythmTarget, ref discordEffect);
+
+		                    isBardAffected = isPeaced || isProvoked || isDiscorded;
+		                }
+
+		                if (isBardAffected)
+		                {
+		                    int rhythmBonus = 0;
+
+		                    if      (rhythmLevel >= 13) rhythmBonus = 18;
+		                    else if (rhythmLevel >= 5)  rhythmBonus = 9;
+		                    else                        rhythmBonus = 3;
+
+		                    percentageBonus += rhythmBonus;
+		                }
+		            }
+		        }
+		        else if (ascAttacker.ActiveAscension == AscensionType.Reaver)
+		        {
+		            // Absolute Tyranny (level 18+)
+		            if (ascAttacker.HasAscensionEffect("AbsoluteTyranny"))
+		            {
+		                BaseWeapon atkWeapon = attacker.Weapon as BaseWeapon;
+
+		                if (atkWeapon != null && atkWeapon.Type == WeaponType.Axe)
+		                    percentageBonus += 18;
+		            }
+
+		            BaseWeapon leechWeapon = attacker.Weapon as BaseWeapon;
+
+		            if (leechWeapon != null && leechWeapon.Type == WeaponType.Axe)
+		            {
+		                AscensionProgress leechProg  = ascAttacker.AscensionProfile.Get(AscensionType.Reaver);
+		                int               leechLevel = leechProg.Level;
+
+		                if (leechLevel >= 2)
+		                {
+		                    // HP drain
+		                    if (Utility.Random(10000) < (leechLevel * 25))
+		                    {
+		                        int hpDrain = (defender.Hits * leechLevel * 10) / 10000;
+		                        if (hpDrain < 1) hpDrain = 1;
+
+		                        defender.Hits -= hpDrain;
+		                        ascAttacker.Hits = ascAttacker.Hits + hpDrain > ascAttacker.HitsMax
+		                            ? ascAttacker.HitsMax : ascAttacker.Hits + hpDrain;
+
+		                        defender.FixedParticles(0x377A, 10, 15, 5030, 0x675, 0, EffectLayer.Waist);
+		                    }
+
+		                    // Mana drain (level 5+)
+		                    if (leechLevel >= 5 && Utility.Random(10000) < (leechLevel * 25))
+		                    {
+		                        int manaDrain = (defender.Mana * leechLevel * 12) / 10000;
+		                        if (manaDrain < 1 && defender.Mana > 0) manaDrain = 1;
+
+		                        if (manaDrain > 0)
+		                        {
+		                            defender.Mana -= manaDrain;
+		                            ascAttacker.Mana = ascAttacker.Mana + manaDrain > ascAttacker.ManaMax
+		                                ? ascAttacker.ManaMax : ascAttacker.Mana + manaDrain;
+		                        }
+		                    }
+
+		                    // Execution drain (level 13+)
+		                    if (leechLevel >= 13)
+		                    {
+		                        bool belowThreshold = (defender.Hits * 100) / Math.Max(defender.HitsMax, 1) <= 25;
+
+		                        if (belowThreshold && Utility.Random(10000) < (leechLevel * 50))
+		                        {
+		                            int execDrain = (defender.Hits * leechLevel) / 100;
+		                            if (execDrain < 1) execDrain = 1;
+
+		                            defender.Hits -= execDrain;
+		                            ascAttacker.Hits = ascAttacker.Hits + execDrain > ascAttacker.HitsMax
+		                                ? ascAttacker.HitsMax : ascAttacker.Hits + execDrain;
+
+		                            attacker.FixedParticles(0x374A, 10, 15, 5021, 0x675, 0, EffectLayer.Waist);
+		                        }
+		                    }
+		                }
+
+		                // Ruthless (level 8+)
+		                int ruthlessLevel = leechProg.Level; // reuse leechProg — same ascension
+
+		                if (ruthlessLevel >= 17)      percentageBonus += 18;
+		                else if (ruthlessLevel >= 8)  percentageBonus += 9;
+
+		                // Flaying Strikes (level 14+)
+		                if (ruthlessLevel >= 14 && Utility.Random(100) < ruthlessLevel)
+		                {
+		                    ascAttacker.SendMessage(0x675, "You deliver a Flaying Strike!");
+		                    new FlayingStrikesDebuff(defender).Apply();
+
+		                    if (ruthlessLevel >= 19 && Utility.Random(10000) < (ruthlessLevel * 25))
+		                    {
+		                        ascAttacker.SetAbilityCooldown("Gorge", TimeSpan.Zero);
+		                        ascAttacker.SendMessage(0x675, "You can now use Gorge again.");
+		                    }
+		                }
+		            }
+		        }
+		        else if (ascAttacker.ActiveAscension == AscensionType.Kensai)
+		        {
+		            AscensionProgress kensaiProg  = ascAttacker.AscensionProfile.Get(AscensionType.Kensai);
+		            int               kensaiLevel = kensaiProg.Level;
+
+		            BaseWeapon kensaiWeapon = attacker.Weapon as BaseWeapon;
+		            bool       hasSword     = (kensaiWeapon != null && KensaiHelpers.IsSword(kensaiWeapon));
+
+		            if (hasSword)
+		                KensaiFullHealthTracker.RecordHit(ascAttacker, defender);
+
+		            if (hasSword && kensaiLevel >= 2)
+		            {
+		                if      (kensaiLevel >= 13) percentageBonus += 18;
+		                else if (kensaiLevel >= 5)  percentageBonus += 12;
+		                else                        percentageBonus += 6;
+		            }
+
+		            // Battle Meditation damage bonus + level 15 Culling Strike reset
+		            if (hasSword && ascAttacker.HasAscensionEffect("BattleMeditation"))
+		            {
+		                AscensionEffectState meditState = ascAttacker.GetAscensionEffect("BattleMeditation");
+		                percentageBonus += 10 + (meditState.Level / 2);
+
+		                if (meditState.Level >= 15 && Utility.Random(100) < meditState.Level)
+		                {
+		                    ascAttacker.SetAbilityCooldown("CullingStrike", TimeSpan.Zero);
+		                    ascAttacker.SendMessage(0x448, "Culling Strike can be used again.");
+		                }
+		            }
+
+		            // Singular Focus bonus damage while buff is active
+		            if (hasSword && kensaiLevel >= 8 && ascAttacker.HasAscensionEffect("SingularFocus"))
+		            {
+		                AscensionEffectState sfState = ascAttacker.GetAscensionEffect("SingularFocus");
+		                percentageBonus += (sfState.Level >= 17) ? 18 : 9;
+		            }
+
+		            // Culling Strike: 2%/level bonus on low-HP targets
+		            if (hasSword && kensaiLevel >= 11 && ascAttacker.HasAscensionEffect("CullingStrike"))
+		            {
+		                AscensionEffectState csState  = ascAttacker.GetAscensionEffect("CullingStrike");
+		                int                  csLevel  = csState.Level;
+		                int                  hpThresh = (csLevel >= 16) ? 15 : 10;
+		                int                  hpPct    = (defender.Hits * 100) / Math.Max(defender.HitsMax, 1);
+
+		                if (hpPct < hpThresh && Utility.Random(100) < (csLevel * 2))
+		                    percentageBonus += 80;
+		            }
+
+		            // Iaijutsu: 1%/level weakest resist exploit
+		            if (hasSword && kensaiLevel >= 14 && Utility.Random(100) < kensaiLevel)
+		            {
+		                ascAttacker.SendMessage(0x448, "Iaijutsu!");
+		                new IaijutsuDebuff(defender).Apply();
+
+		                // Level 19: 0.25%/level chance to trigger a second time
+		                if (kensaiLevel >= 19 && Utility.Random(10000) < (kensaiLevel * 25))
+		                    new IaijutsuDebuff(defender).Apply();
+		            }
+		        }
+				else if (ascAttacker.ActiveAscension == AscensionType.Hierophant)
+        		{
+        		    AscensionProgress hieroProg  = ascAttacker.AscensionProfile.Get(AscensionType.Hierophant);
+        		    int               hieroLevel = hieroProg.Level;
+
+        		    BaseWeapon hieroWeapon = attacker.Weapon as BaseWeapon;
+        		    bool       hasBashing  = (hieroWeapon != null && hieroWeapon.Type == WeaponType.Bashing);
+
+        		    // ── Blessed Might (Hierophant, level 2) ──────────────────────────────────────
+        		    if (hasBashing && hieroLevel >= 2)
+        		    {
+        		        if      (hieroLevel >= 13) percentageBonus += 15;
+        		        else if (hieroLevel >= 5)  percentageBonus += 10;
+        		        else                       percentageBonus += 5;
+        		    }
+        		    // ── Divine Power (Hierophant, level 18): +20% bashing damage while active ────
+        		    if (hasBashing && ascAttacker.HasAscensionEffect("DivinePower"))
+        		        percentageBonus += 20;
+        		}
+				else if (ascAttacker.ActiveAscension == AscensionType.ArcaneArcher)
+        		{
+        		    AscensionProgress aaProg  = ascAttacker.AscensionProfile.Get(AscensionType.ArcaneArcher);
+        		    int               aaLevel = aaProg.Level;
+		
+        		    bool isRanged = (this is BaseRanged);
+		
+        		    // ── Arcane Precision, level 2 ───────────────────────────────────
+        		    if (isRanged && aaLevel >= 2)
+        		    {
+        		        if      (aaLevel >= 13) percentageBonus += 18;
+        		        else if (aaLevel >= 5)  percentageBonus += 12;
+        		        else                    percentageBonus += 6;
+        		    }
+		
+        		    // ── Arcane Momentum, level 20
+        		    if (isRanged && ascAttacker.HasAscensionEffect("ArcaneMomentumRanged"))
+        		        percentageBonus += 25;
+		
+        		    // ── Imbue Arrows (level 1+): 2%/level chance to exploit worst resist
+        		    if (isRanged && ascAttacker.HasAscensionEffect("ImbueArrows"))
+        		    {
+        		        AscensionEffectState imbueState = ascAttacker.GetAscensionEffect("ImbueArrows");
+        		        int imbueLevel = imbueState.Level;
+		
+        		        if (Utility.Random(100) < (imbueLevel * 2))
+                		{
+                		    new ImbueArrowsDebuff(defender).Apply();
+
+                		    // Level 15: +25% damage on triggered procs
+                		    if (imbueLevel >= 15)
+                		        percentageBonus += 25;
+
+                		    // Level 10: 1%/level chance to trigger twice
+                		    if (imbueLevel >= 10 && Utility.Random(100) < imbueLevel)
+                		    {
+                		        new ImbueArrowsDebuff(defender).Apply();
+
+                		        if (imbueLevel >= 15)
+                		            percentageBonus += 25;
+                		    }
+                		}
+        		    }
+		
+        		    // ── Mystical Ricochet, level 8 ─────────────────────────────────
+        		    if (isRanged && aaLevel >= 8 && Utility.Random(10000) < (aaLevel * 25))
+        		    {
+        		        int ricochetCount = (aaLevel >= 17) ? 2 : 1;
+        		        new RicochetTimer(ascAttacker, defender, aaLevel, ricochetCount).Start();
+        		    }
+        		}
+		    }
+
+		    percentageBonus = Math.Min(percentageBonus, 300);
+
+		    damage  = damage + (int)(damage * sneakBonus);
+		    damage  = AOS.Scale(damage, 100 + percentageBonus);
+
+		    #endregion
+
+		    // ── Post-multiplier damage adjustments ───────────────────────────────
+		    if (attacker is BaseCreature)
+		        ((BaseCreature)attacker).AlterMeleeDamageTo(defender, ref damage);
+
+		    if (defender is BaseCreature)
+		        ((BaseCreature)defender).AlterMeleeDamageFrom(attacker, ref damage);
+
+		    damage = AbsorbDamage(attacker, defender, damage);
+
+		    if (Core.AOS && damage == 0)
+		    {
+		        if (a != null && a.Validate(attacker))
+		        {
+		            a = null;
+		            WeaponAbility.ClearCurrentAbility(attacker);
+		            attacker.SendLocalizedMessage(1061140);
+		        }
+		    }
+
+		    AddBlood(attacker, defender, damage);
+
+		    // ── Damage type split ────────────────────────────────────────────────
+		    int phys, fire, cold, pois, nrgy, chaos, direct;
+		    GetDamageTypes(attacker, out phys, out fire, out cold, out pois, out nrgy, out chaos, out direct);
+
+		    if (Core.ML && this is BaseRanged)
+		    {
+		        BaseQuiver quiver = attacker.FindItemOnLayer(Layer.Cloak) as BaseQuiver;
+		        if (quiver != null)
+		            quiver.AlterBowDamage(ref phys, ref fire, ref cold, ref pois, ref nrgy, ref chaos, ref direct);
+		    }
+
+		    if (m_Consecrated)
+		    {
+		        phys = defender.PhysicalResistance;
+		        fire = defender.FireResistance;
+		        cold = defender.ColdResistance;
+		        pois = defender.PoisonResistance;
+		        nrgy = defender.EnergyResistance;
+
+		        int low = phys, type = 0;
+		        if (fire < low) { low = fire; type = 1; }
+		        if (cold < low) { low = cold; type = 2; }
+		        if (pois < low) { low = pois; type = 3; }
+		        if (nrgy < low) { low = nrgy; type = 4; }
+
+		        phys = fire = cold = pois = nrgy = chaos = direct = 0;
+
+		        if      (type == 0) phys = 100;
+		        else if (type == 1) fire = 100;
+		        else if (type == 2) cold = 100;
+		        else if (type == 3) pois = 100;
+		        else if (type == 4) nrgy = 100;
+		    }
+
+		    int damageGiven = damage;
+
+		    if (a != null && !a.OnBeforeDamage(attacker, defender))
+		    {
+		        WeaponAbility.ClearCurrentAbility(attacker);
+		        a = null;
+		    }
+
+		    if (move != null && !move.OnBeforeDamage(attacker, defender))
+		    {
+		        SpecialMove.ClearCurrentMove(attacker);
+		        move = null;
+		    }
+
+		    WeaponAbility weaponA;
+		    bool bladeWeaving = Bladeweave.BladeWeaving(attacker, out weaponA);
+
+		    bool ignoreArmor =
+		        (a is ArmorIgnore)                           ||
+		        (move != null && move.IgnoreArmor(attacker)) ||
+		        (bladeWeaving && weaponA is ArmorIgnore)     ||
+		        CheckPummelingStrikes(attacker);
+
+		    damageGiven = AOS.Damage(defender, attacker, damage, ignoreArmor,
+		        phys, fire, cold, pois, nrgy, chaos, direct, false, this is BaseRanged, false);
+
+		    // ── Frozen Heart (Blackguard passive, level 2+) ──────────────────────
+		    if (ascAttacker != null && ascAttacker.ActiveAscension == AscensionType.Blackguard && cold > 0)
+		    {
+		        AscensionProgress fhProg  = ascAttacker.AscensionProfile.Get(AscensionType.Blackguard);
+		        int               fhLevel = fhProg.Level;
+
+		        int fhBonus = 0;
+		        if      (fhLevel >= 13) fhBonus = 18;
+		        else if (fhLevel >= 5)  fhBonus = 12;
+		        else if (fhLevel >= 2)  fhBonus = 6;
+
+		        if (fhBonus > 0)
+		        {
+		            int coldDamageDealt = (damageGiven * cold) / 100;
+		            int bonusColdDamage = (coldDamageDealt * fhBonus) / 100;
+
+		            if (bonusColdDamage > 0)
+		                AOS.Damage(defender, attacker, bonusColdDamage, 0, 0, 100, 0, 0);
+		        }
+		    }
+		    // ── End Frozen Heart ─────────────────────────────────────────────────
+
+		    // ── Leech effects ─────────────────────────────────────────────────────
+		    double propertyBonus = (move == null) ? 1.0 : move.GetPropertyBonus(attacker);
+
+		    int lifeLeech   = 0;
+		    int stamLeech   = 0;
+		    int manaLeech   = 0;
+		    int wraithLeech = 0;
+
+		    if ((int)(m_AosWeaponAttributes.HitLeechHits * propertyBonus) > Utility.Random(100))
+		        lifeLeech += 30;
+
+		    if ((int)(m_AosWeaponAttributes.HitLeechStam * propertyBonus) > Utility.Random(100))
+		        stamLeech += 100;
+
+		    if ((int)(m_AosWeaponAttributes.HitLeechMana * propertyBonus) > Utility.Random(100))
+		        manaLeech += 40;
+
+		    if (m_Cursed)
+		        lifeLeech += 50;
+
+		    context = TransformationSpellHelper.GetContext(attacker);
+
+		    if (context != null && context.Type == typeof(VampiricEmbraceSpell))
+		        lifeLeech += 20;
+
+		    if (context != null && context.Type == typeof(WraithFormSpell))
+		    {
+		        wraithLeech      = 5 + (int)((15 * attacker.Skills.Spiritualism.Value) / 100);
+		        defender.Mana   -= AOS.Scale(damageGiven, wraithLeech);
+		        manaLeech        += wraithLeech;
+		    }
+
+		    if (lifeLeech != 0)
+		    {
+		        bool leechImmune = defender is BaseCreature && ((BaseCreature)defender).LeechImmune;
+		        if (!leechImmune)
+		            attacker.Hits += AOS.Scale(damageGiven, lifeLeech);
+		    }
+
+		    if (stamLeech != 0) attacker.Stam += AOS.Scale(damageGiven, stamLeech);
+		    if (manaLeech != 0) attacker.Mana += AOS.Scale(damageGiven, manaLeech);
+
+		    if (lifeLeech != 0 || stamLeech != 0 || manaLeech != 0)
+		        attacker.PlaySound(0x44D);
+
+		    // ── Weapon durability ─────────────────────────────────────────────────
+		    bool acidic = defender is Slime        || defender is GreenSlime  ||
+		                  defender is BlackPudding || defender is LavaPuddle  ||
+		                  defender is AcidPuddle   || defender is ToxicElemental;
+
+		    int ruin = 20 + (int)Density;
+
+		    if (m_MaxHits > 0 && Density != Density.None
+		        && ((MaxRange <= 1 && acidic) || Utility.Random(ruin) == 0))
+		    {
+		        if (m_AosWeaponAttributes.SelfRepair > Utility.Random(10))
+		        {
+		            HitPoints += Utility.RandomMinMax(1, (int)Density);
+		        }
+		        else if (this is ILevelable)
+		        {
+		            LevelItemManager.RepairItems(attacker);
+		        }
+		        else if (m_Hits > 0)
+		        {
+		            --HitPoints;
+		            if (MaxRange <= 1 && acidic)
+		                attacker.LocalOverheadMessage(MessageType.Regular, 0x3B2, 500263);
+		        }
+		        else if (m_MaxHits > 1)
+		        {
+		            --MaxHitPoints;
+		            if (MaxRange <= 1 && acidic)
+		                attacker.LocalOverheadMessage(MessageType.Regular, 0x3B2, 500263);
+		            if (Parent is Mobile)
+		                ((Mobile)Parent).LocalOverheadMessage(MessageType.Regular, 0x3B2, 1061121);
+		        }
+
+		        if (MaxHitPoints < 1)
+		            Delete();
+		    }
+
+		    // ── Vampire bat familiar leech ────────────────────────────────────────
+		    if (attacker is VampireBatFamiliar)
+		    {
+		        BaseCreature batBc  = (BaseCreature)attacker;
+		        Mobile       caster = batBc.ControlMaster ?? batBc.SummonMaster;
+
+		        if (caster != null && caster.Map == batBc.Map && caster.InRange(batBc, 2))
+		            caster.Hits += damage;
+		        else
+		            batBc.Hits  += damage;
+		    }
+
+		    // ── AOS hit spell effects ─────────────────────────────────────────────
+		    if (Core.AOS)
+		    {
+		        int physChance = (int)(m_AosWeaponAttributes.HitPhysicalArea * propertyBonus);
+		        int fireChance = (int)(m_AosWeaponAttributes.HitFireArea     * propertyBonus);
+		        int coldChance = (int)(m_AosWeaponAttributes.HitColdArea     * propertyBonus);
+		        int poisChance = (int)(m_AosWeaponAttributes.HitPoisonArea   * propertyBonus);
+		        int nrgyChance = (int)(m_AosWeaponAttributes.HitEnergyArea   * propertyBonus);
+
+		        if (physChance != 0 && physChance > Utility.Random(100)) DoAreaAttack(attacker, defender, 0x10E,   50, 100, 0, 0, 0, 0);
+		        if (fireChance != 0 && fireChance > Utility.Random(100)) DoAreaAttack(attacker, defender, 0x11D, 1160,   0,100, 0, 0, 0);
+		        if (coldChance != 0 && coldChance > Utility.Random(100)) DoAreaAttack(attacker, defender, 0x0FC, 2100,   0,  0,100, 0, 0);
+		        if (poisChance != 0 && poisChance > Utility.Random(100)) DoAreaAttack(attacker, defender, 0x205, 1166,   0,  0,  0,100, 0);
+		        if (nrgyChance != 0 && nrgyChance > Utility.Random(100)) DoAreaAttack(attacker, defender, 0x1F1,  120,   0,  0,  0,  0,100);
+
+		        int maChance        = (int)(m_AosWeaponAttributes.HitMagicArrow  * propertyBonus);
+		        int harmChance      = (int)(m_AosWeaponAttributes.HitHarm        * propertyBonus);
+		        int fireballChance  = (int)(m_AosWeaponAttributes.HitFireball    * propertyBonus);
+		        int lightningChance = (int)(m_AosWeaponAttributes.HitLightning   * propertyBonus);
+		        int dispelChance    = (int)(m_AosWeaponAttributes.HitDispel      * propertyBonus);
+		        int laChance        = (int)(m_AosWeaponAttributes.HitLowerAttack * propertyBonus);
+		        int ldChance        = (int)(m_AosWeaponAttributes.HitLowerDefend * propertyBonus);
+
+		        if (maChance        != 0 && maChance        > Utility.Random(100)) DoMagicArrow(attacker, defender);
+		        if (harmChance      != 0 && harmChance      > Utility.Random(100)) DoHarm(attacker, defender);
+		        if (fireballChance  != 0 && fireballChance  > Utility.Random(100)) DoFireball(attacker, defender);
+		        if (lightningChance != 0 && lightningChance > Utility.Random(100)) DoLightning(attacker, defender);
+		        if (dispelChance    != 0 && dispelChance    > Utility.Random(100)) DoDispel(attacker, defender);
+		        if (laChance        != 0 && laChance        > Utility.Random(100)) DoLowerAttack(attacker, defender);
+		        if (ldChance        != 0 && ldChance        > Utility.Random(100)) DoLowerDefense(attacker, defender);
+
+				// ── Imbue Arrows level 10: 1%/level chance to double-trigger hit spells
+            	if (ascAttacker != null
+            	    && ascAttacker.ActiveAscension == AscensionType.ArcaneArcher
+            	    && ascAttacker.HasAscensionEffect("ImbueArrows")
+            	    && this is BaseRanged)
+            	{
+            	    AscensionEffectState imbueHitState = ascAttacker.GetAscensionEffect("ImbueArrows");
+            	    int imbueHitLevel = imbueHitState.Level;
+
+            	    if (imbueHitLevel >= 10)
+            	    {
+            	        if (maChance        != 0 && maChance        > Utility.Random(100) && Utility.Random(100) < imbueHitLevel) DoMagicArrow(attacker, defender);
+            	        if (fireballChance  != 0 && fireballChance  > Utility.Random(100) && Utility.Random(100) < imbueHitLevel) DoFireball(attacker, defender);
+            	        if (lightningChance != 0 && lightningChance > Utility.Random(100) && Utility.Random(100) < imbueHitLevel) DoLightning(attacker, defender);
+            	        if (dispelChance    != 0 && dispelChance    > Utility.Random(100) && Utility.Random(100) < imbueHitLevel) DoDispel(attacker, defender);
+            	    }
+            	}
+		    }
+
+		    // ── Creature hit callbacks ────────────────────────────────────────────
+		    if (attacker is BaseCreature) ((BaseCreature)attacker).OnGaveMeleeAttack(defender);
+		    if (defender is BaseCreature) ((BaseCreature)defender).OnGotMeleeAttack(attacker);
+
+		    // ── Race sounds ───────────────────────────────────────────────────────
+		    if (defender is PlayerMobile && attacker is PlayerMobile
+		        && attacker.RaceID > 0 && attacker.RaceMakeSounds
+		        && attacker.RaceAttackSound > 0 && Utility.RandomBool())
+		        attacker.PlaySound(attacker.RaceAttackSound);
+
+		    if (attacker is PlayerMobile && defender is PlayerMobile
+		        && defender.RaceID > 0 && defender.RaceMakeSounds
+		        && defender.RaceHurtSound > 0 && Utility.RandomBool())
+		        defender.PlaySound(defender.RaceHurtSound);
+
+		    // ── Ability / move on-hit callbacks ──────────────────────────────────
+		    if (a    != null) a.OnHit(attacker, defender, damage);
+		    if (move != null) move.OnHit(attacker, defender, damage);
+
+		    // ── Animal form poison procs ──────────────────────────────────────────
+		    if (!(this is BaseRanged))
+		    {
+		        if (AnimalForm.UnderTransformation(attacker, typeof(GiantSerpent)))
+		            defender.ApplyPoison(attacker, Poison.Lesser);
+
+		        if (AnimalForm.UnderTransformation(defender, typeof(BullFrog)))
+		            attacker.ApplyPoison(defender, Poison.Regular);
+		    }
+
+		    // ── Weapon poison ─────────────────────────────────────────────────────
+		    if (attacker is PlayerMobile && defender != null)
+		    {
+		        BaseWeapon poisonWeapon = attacker.Weapon as BaseWeapon;
+
+		        if (poisonWeapon != null && poisonWeapon.Poison != null)
+		        {
+		            Poison p             = poisonWeapon.Poison;
+		            int    classicPoison = ((PlayerMobile)attacker).ClassicPoisoning;
+		            bool   willPoison    = classicPoison > 0;
+
+		            if (willPoison)
+		            {
+		                int maxLevel = attacker.Skills[SkillName.Poisoning].Fixed / 200;
+		                if (maxLevel < 0) maxLevel = 0;
+		                if (p.Level > maxLevel) p = Poison.GetPoison(maxLevel);
+
+		                if (poisonWeapon.PoisonCharges < 1)
+		                    willPoison = false;
+
+		                if (willPoison && defender is BaseCreature)
+		                {
+		                    Poison immune = ((BaseCreature)defender).PoisonImmune;
+		                    if (immune != null && immune.Level >= p.Level)
+		                        willPoison = false;
+		                }
+
+		                WeaponAbility currentAbility = Server.Items.WeaponAbility.GetCurrentAbility(attacker);
+		                if (willPoison
+		                    && (currentAbility == WeaponAbility.ShadowInfectiousStrike
+		                        || currentAbility == WeaponAbility.InfectiousStrike))
+		                    willPoison = false;
+
+		                if (willPoison && !(this is BaseKnife || this is BaseSword || this is BaseSpear))
+		                    willPoison = false;
+
+		                if (willPoison && defender.Poisoned)
+		                    willPoison = false;
+
+		                if (willPoison && !attacker.CheckSkill(SkillName.Poisoning, 0, 125))
+		                    willPoison = false;
+
+		                if (willPoison)
+		                {
+		                    Misc.Titles.AwardKarma(attacker, -20, true);
+
+		                    double preserveChance = attacker.Skills[SkillName.Poisoning].Value / 5.0;
+		                    if ((Utility.RandomDouble() * 100.0) >= preserveChance)
+		                        --poisonWeapon.PoisonCharges;
+
+		                    defender.ApplyPoison(attacker, p);
+		                    defender.PlaySound(0x62D);
+		                    defender.FixedParticles(0x3728, 244, 25, 9941, 1266, 0, EffectLayer.Waist);
+		                    attacker.SendLocalizedMessage(1008096, true, defender.Name);
+		                    defender.SendLocalizedMessage(1008097, false, attacker.Name);
+		                }
+		            }
+		        }
+		    }
+
+		    // ── Berserker cleave ──────────────────────────────────────────────────
+		    if (attacker is PlayerMobile)
+		    {
+		        PlayerMobile cleavePm = attacker as PlayerMobile;
+		        if (cleavePm != null)
+		            cleavePm.TryBerserkerCleave(defender, this);
+		    }
 		}
+
+		// ── Imbued Arrows have a chance of hitting the worst resist ────────────────────────────────
+    	internal sealed class ImbueArrowsDebuff
+    	{
+    	    private readonly Mobile        m_Target;
+    	    private readonly ResistanceMod m_Mod;
+	
+    	    public ImbueArrowsDebuff(Mobile target)
+    	    {
+    	        m_Target = target;
+	
+    	        ResistanceType worst      = ResistanceType.Physical;
+    	        int            worstValue = target.PhysicalResistance;
+	
+    	        if (target.FireResistance   > worstValue) { worstValue = target.FireResistance;   worst = ResistanceType.Fire;   }
+    	        if (target.ColdResistance   > worstValue) { worstValue = target.ColdResistance;   worst = ResistanceType.Cold;   }
+    	        if (target.PoisonResistance > worstValue) { worstValue = target.PoisonResistance; worst = ResistanceType.Poison; }
+    	        if (target.EnergyResistance > worstValue) { worstValue = target.EnergyResistance; worst = ResistanceType.Energy; }
+	
+    	        m_Mod = new ResistanceMod(worst, -worstValue);
+    	    }
+	
+    	    public void Apply()
+    	    {
+    	        if (m_Target == null || m_Target.Deleted)
+    	            return;
+	
+    	        m_Target.AddResistanceMod(m_Mod);
+    	        Timer.DelayCall(TimeSpan.Zero, new TimerCallback(RemoveMod));
+    	    }
+	
+    	    private void RemoveMod()
+    	    {
+    	        if (m_Target != null && !m_Target.Deleted)
+    	            m_Target.RemoveResistanceMod(m_Mod);
+    	    }
+    	}
+
+		// ── Mystical Ricochet: damages nearest enemy on a ranged hit ─────────────
+    	internal sealed class RicochetTimer : Timer
+    	{
+    	    private readonly PlayerMobile m_Attacker;
+    	    private readonly Mobile       m_Original;
+    	    private readonly int          m_Level;
+    	    private readonly int          m_Count;
+
+    	    public RicochetTimer(PlayerMobile attacker, Mobile original, int level, int count)
+    	        : base(TimeSpan.Zero)
+    	    {
+    	        m_Attacker = attacker;
+    	        m_Original = original;
+    	        m_Level    = level;
+    	        m_Count    = count;
+    	        Priority   = TimerPriority.TwoFiftyMS;
+    	    }
+
+    	    protected override void OnTick()
+    	    {
+    	        if (m_Attacker == null || m_Attacker.Deleted || !m_Attacker.Alive)
+    	            return;
+
+    	        Map map = m_Attacker.Map;
+    	        if (map == null) return;
+
+    	        BaseWeapon weapon = m_Attacker.Weapon as BaseWeapon;
+    	        if (weapon == null) return;
+
+    	        ArrayList candidates = new ArrayList();
+
+    	        IPooledEnumerable eable = map.GetMobilesInRange(m_Original.Location, 6);
+
+    	        try
+    	        {
+    	            foreach (Mobile m in eable)
+    	            {
+    	                if (m == null || m.Deleted || !m.Alive || m == m_Attacker || m == m_Original)
+    	                    continue;
+
+    	                if (!m_Attacker.CanBeHarmful(m, false))
+    	                    continue;
+
+    	                candidates.Add(m);
+    	            }
+    	        }
+    	        finally
+    	        {
+    	            eable.Free();
+    	        }
+
+    	        for (int i = 1; i < candidates.Count; i++)
+    	        {
+    	            Mobile mi   = (Mobile)candidates[i];
+    	            double dist = m_Attacker.GetDistanceToSqrt(mi);
+    	            int    j    = i - 1;
+
+    	            while (j >= 0 && m_Attacker.GetDistanceToSqrt((Mobile)candidates[j]) > dist)
+    	            {
+    	                candidates[j + 1] = candidates[j];
+    	                j--;
+    	            }
+
+    	            candidates[j + 1] = mi;
+    	        }
+
+    	        int hits = Math.Min(m_Count, candidates.Count);
+
+    	        for (int i = 0; i < hits; i++)
+    	        {
+    	            Mobile ricochetTarget = (Mobile)candidates[i];
+
+    	            if (ricochetTarget.Deleted || !ricochetTarget.Alive)
+    	                continue;
+
+    	            m_Attacker.MovingEffect(ricochetTarget, ((BaseRanged)weapon).EffectID, 18, 1, false, false);
+    	            m_Attacker.DoHarmful(ricochetTarget);
+
+    	            weapon.OnHit(m_Attacker, ricochetTarget, 1.0);
+    	        }
+    	    }
+    	}
+
+		// ── Deadly Strikes: single-hit poison resist shred ───────────────────────
+		// Applies a -25 poison resistance mod before the hit's damage resolves,
+		// then removes it on the next server pulse via a zero-delay timer.
+		// This means exactly one AOS.Damage call sees the lowered resistance.
+		internal sealed class DeadlyStrikesResistDebuff
+		{
+		    private readonly Mobile          m_Target;
+		    private readonly ResistanceMod   m_Mod;
+
+		    public DeadlyStrikesResistDebuff(Mobile target)
+		    {
+		        m_Target = target;
+		        m_Mod    = new ResistanceMod(ResistanceType.Poison, -25);
+		    }
+
+		    public void Apply()
+		    {
+		        if (m_Target == null || m_Target.Deleted)
+		            return;
+
+		        m_Target.AddResistanceMod(m_Mod);
+
+		        Timer.DelayCall(TimeSpan.Zero, new TimerCallback(RemoveMod));
+		    }
+
+		    private void RemoveMod()
+		    {
+		        if (m_Target != null && !m_Target.Deleted)
+		            m_Target.RemoveResistanceMod(m_Mod);
+		    }
+		}
+
+		// ── Merciless Strikes: single-hit weakest-resistance exploit ─────────────
+    	// Finds the target's lowest resistance, applies a mod that sets it to zero
+    	// for the current hit, then removes it on the next server pulse.
+    	internal sealed class MercilessStrikesDebuff
+    	{
+    	    private readonly Mobile        m_Target;
+    	    private readonly ResistanceMod m_Mod;
+
+    	    public MercilessStrikesDebuff(Mobile target)
+    	    {
+    	        m_Target = target;
+
+    	        ResistanceType weakest     = ResistanceType.Physical;
+    	        int            weakestValue = target.PhysicalResistance;
+
+    	        if (target.FireResistance   < weakestValue) { weakestValue = target.FireResistance;   weakest = ResistanceType.Fire;   }
+    	        if (target.ColdResistance   < weakestValue) { weakestValue = target.ColdResistance;   weakest = ResistanceType.Cold;   }
+    	        if (target.PoisonResistance < weakestValue) { weakestValue = target.PoisonResistance; weakest = ResistanceType.Poison; }
+    	        if (target.EnergyResistance < weakestValue) { weakestValue = target.EnergyResistance; weakest = ResistanceType.Energy; }
+
+    	        m_Mod = new ResistanceMod(weakest, -weakestValue);
+    	    }
+
+    	    public void Apply()
+    	    {
+    	        if (m_Target == null || m_Target.Deleted)
+    	            return;
+
+    	        m_Target.AddResistanceMod(m_Mod);
+
+    	        Timer.DelayCall(TimeSpan.Zero, new TimerCallback(RemoveMod));
+    	    }
+
+    	    private void RemoveMod()
+    	    {
+    	        if (m_Target != null && !m_Target.Deleted)
+    	            m_Target.RemoveResistanceMod(m_Mod);
+    	    }
+    	}
+
+		internal sealed class IaijutsuDebuff
+    	{
+    	    private readonly Mobile        m_Target;
+    	    private readonly ResistanceMod m_Mod;
+
+    	    public IaijutsuDebuff(Mobile target)
+    	    {
+    	        m_Target = target;
+
+    	        ResistanceType weakest      = ResistanceType.Physical;
+    	        int            weakestValue = target.PhysicalResistance;
+
+    	        if (target.FireResistance   < weakestValue) { weakestValue = target.FireResistance;   weakest = ResistanceType.Fire;   }
+    	        if (target.ColdResistance   < weakestValue) { weakestValue = target.ColdResistance;   weakest = ResistanceType.Cold;   }
+    	        if (target.PoisonResistance < weakestValue) { weakestValue = target.PoisonResistance; weakest = ResistanceType.Poison; }
+    	        if (target.EnergyResistance < weakestValue) { weakestValue = target.EnergyResistance; weakest = ResistanceType.Energy; }
+
+    	        m_Mod = new ResistanceMod(weakest, -weakestValue);
+    	    }
+
+    	    public void Apply()
+    	    {
+    	        if (m_Target == null || m_Target.Deleted)
+    	            return;
+
+    	        m_Target.AddResistanceMod(m_Mod);
+    	        Timer.DelayCall(TimeSpan.Zero, new TimerCallback(RemoveMod));
+    	    }
+
+    	    private void RemoveMod()
+    	    {
+    	        if (m_Target != null && !m_Target.Deleted)
+    	            m_Target.RemoveResistanceMod(m_Mod);
+    	    }
+    	}
+
+	    internal sealed class FlayingStrikesDebuff
+	    {
+	        private readonly Mobile        m_Target;
+	        private readonly ResistanceMod m_Mod;	
+
+	        public FlayingStrikesDebuff(Mobile target)
+	        {
+	            m_Target = target;	
+
+	            ResistanceType weakest      = ResistanceType.Physical;
+	            int            weakestValue = target.PhysicalResistance;	
+
+	            if (target.FireResistance   < weakestValue) { weakestValue = target.FireResistance;   weakest = ResistanceType.Fire;   }
+	            if (target.ColdResistance   < weakestValue) { weakestValue = target.ColdResistance;   weakest = ResistanceType.Cold;   }
+	            if (target.PoisonResistance < weakestValue) { weakestValue = target.PoisonResistance; weakest = ResistanceType.Poison; }
+	            if (target.EnergyResistance < weakestValue) { weakestValue = target.EnergyResistance; weakest = ResistanceType.Energy; }	
+
+	            m_Mod = new ResistanceMod(weakest, -weakestValue);
+	        }	
+
+	        public void Apply()
+	        {
+	            if (m_Target == null || m_Target.Deleted)
+	                return;	
+
+	            m_Target.AddResistanceMod(m_Mod);
+	            Timer.DelayCall(TimeSpan.Zero, new TimerCallback(RemoveMod));
+	        }	
+
+	        private void RemoveMod()
+	        {
+	            if (m_Target != null && !m_Target.Deleted)
+	                m_Target.RemoveResistanceMod(m_Mod);
+	        }
+	    }
+
+		private bool CheckPummelingStrikes(Mobile attacker)
+		{
+		    if (attacker == null || attacker.Deleted)
+		        return false;
+
+		    PlayerMobile pm = attacker as PlayerMobile;
+		    if (pm == null)
+		        return false;
+
+		    if (this is BaseRanged)
+		        return false;
+
+		    if (Layer != Layer.TwoHanded)
+		        return false;
+
+		    AscensionProfile profile = pm.AscensionProfile;
+		    if (profile == null)
+		        return false;
+
+		    AscensionProgress prog = profile.Get(AscensionType.Berserker);
+		    if (prog == null)
+		        return false;
+			
+			if (profile.ActiveAscension != AscensionType.Berserker)
+			    return false;
+
+		    int berserkerLevel = prog.Level;
+
+		    if (berserkerLevel < 14)
+		        return false;
+
+		    int chance = (berserkerLevel >= 19)
+		        ? berserkerLevel/2
+		        : berserkerLevel/4;
+
+		    if (Utility.Random(100) < chance)
+		    {
+		        attacker.SendMessage(0x35, "Your pummeling strike ignores your opponent's armor!");
+		        attacker.PlaySound(0x1F5);
+		        return true;
+		    }
+
+		    return false;
+		}
+
+
 
 		public virtual double GetAosDamage( Mobile attacker, int bonus, int dice, int sides )
 		{
@@ -2347,7 +3056,7 @@ namespace Server.Items
 
 			if ( necro < 30 && mages < 30 && ellys < 30 )
 			{
-				from.SendMessage ("Você não é um " + job + " poderoso o suficiente para usar isto!");
+				from.SendMessage ("You are not a powerful enough " + job + " to use this!");
 				return false;
 			}
 			return true;
@@ -2429,16 +3138,17 @@ namespace Server.Items
 			double	strengthBonus = GetBonus( attacker.Str,										0.300, 100.0,  5.00 );
 			double	anatomyBonus = GetBonus( attacker.Skills[SkillName.Anatomy].Value,			0.500, 100.0,  5.00 );
 			double	tacticsBonus = GetBonus( attacker.Skills[SkillName.Tactics].Value,			0.625, 100.0,  6.25 );
-			double	lumberBonus = GetBonus( attacker.Skills[SkillName.Lumberjacking].Value,		0.200, 100.0, 10.00 );
 			double	armsLoreBonus = GetBonus( attacker.Skills[SkillName.ArmsLore].Value,		0.625, 100.0,  6.25 );
-			double	miningBonus = GetBonus( attacker.Skills[SkillName.Mining].Value,			0.200, 100.0, 10.00 );
-			double	fishingBonus = GetBonus( attacker.Skills[SkillName.Seafaring].Value,		0.200, 100.0, 10.00 );
-			double	ninjaBonus = GetBonus( attacker.Skills[SkillName.Ninjitsu].Value,			0.625, 100.0, 10.00 ); // slight boost to fencing weapons, at 125 skill damage bonus is 0.88125 (from 0.84375)
 			double	bushidoBonus = GetBonus( attacker.Skills[SkillName.Bushido].Value,			0.625, 100.0,  6.25 );
 			double	necroBonus = GetBonus( attacker.Skills[SkillName.Necromancy].Value,			0.625, 100.0,  6.25 );
 			double	wizardBonus = GetBonus( attacker.Skills[SkillName.Magery].Value,			0.625, 100.0,  6.25 );
 			double	bowyerBonus = GetBonus( attacker.Skills[SkillName.Bowcraft].Value,			0.625, 100.0,  6.25 );
 			double	ellyBonus = GetBonus( attacker.Skills[SkillName.Elementalism].Value,		0.625, 100.0,  6.25 );
+			double	miningBonus = GetBonus( attacker.Skills[SkillName.Mining].Value,			0.200, 100.0, 10.00 );
+			double	fishingBonus = GetBonus( attacker.Skills[SkillName.Seafaring].Value,		0.200, 100.0, 10.00 );
+			double	ninjaBonus = GetBonus( attacker.Skills[SkillName.Ninjitsu].Value,			0.625, 100.0, 10.00 ); // slight boost to fencing weapons, at 125 skill damage bonus is 0.88125 (from 0.84375)
+			double	lumberBonus = GetBonus( attacker.Skills[SkillName.Lumberjacking].Value,		0.200, 100.0, 10.00 );
+
 
 			if (Type != WeaponType.Piercing)// ninjas shouldnt be particularly good at using halberds
 				ninjaBonus = 0.0;

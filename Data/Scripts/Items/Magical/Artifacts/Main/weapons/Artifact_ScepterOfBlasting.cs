@@ -48,12 +48,12 @@ namespace Server.Items
 
 			double mainSkill = 0.0;
 			double secondary = 0.0;
-			if(magery > necromancy && magery > elementalism)
+			if(magery >= necromancy && magery >= elementalism)
 			{
 				mainSkill = magery;
 				secondary = psychology;				
 			}
-			else if (necromancy > magery && necromancy > elementalism)
+			else if (necromancy >= magery && necromancy >= elementalism)
 			{
 				mainSkill = necromancy;
 				secondary = spiritualism;				

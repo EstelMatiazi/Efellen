@@ -255,61 +255,6 @@ namespace Server.Mobiles
 			VirtualArmor = 10;
 		}
 
-		private bool IsFriendlyCreature(Mobile m)
-		{
-			Region reg = Region.Find( this.Location, this.Map );
-			return (reg.IsPartOf( "The Howling Grove" ) && (
-					m is FiorinTheArchdruid ||
-					m is GuardianPanda || 
-			       	m is GuardianWolf || 
-			       	m is BlackWolf || 
-			       	m is DeepWoodSniper || 
-			       	m is DruidOfTheHowlingOrder || 
-			       	m is WereWolf));
-		}
-
-		public override bool IsEnemy( Mobile m )
-	    {
-			if (m == null || m.Deleted)
-	        	return false;
-			
-			if (IsFriendlyCreature(m))
-		    	return false;
-			
-			if (m is BaseCreature && ((BaseCreature)m).ControlMaster == null )
-			{
-				this.Location = m.Location;
-				this.Combatant = m;
-				this.Warmode = true;
-			}
-			
-			return true;
-	    }
-
-		public override void AggressiveAction(Mobile m, bool criminal)
-		{
-		    if (IsFriendlyCreature(m))
-				return;
-
-		    base.AggressiveAction(m, criminal);
-		}
-
-		public override bool CanBeHarmful(Mobile m, bool message, bool ignoreOurBlessedness)
-		{
-		    if (IsFriendlyCreature(m))
-		        return false;
-
-		    return base.CanBeHarmful(m, message, ignoreOurBlessedness);
-		}
-
-		public override bool CanBeBeneficial(Mobile m, bool message, bool allowDead)
-		{
-		    if (IsFriendlyCreature(m))
-		        return true;
-
-		    return base.CanBeBeneficial(m, message, allowDead);
-		}
-
 		public WereWolf( Serial serial ) : base( serial ) 
 		{ 
 		} 

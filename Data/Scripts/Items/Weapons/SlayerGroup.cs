@@ -76,6 +76,8 @@ namespace Server.Items
 			humanoid.Opposition = new SlayerGroup[]{ };
 			humanoid.FoundOn = new Type[]{ };
 			humanoid.Super = new SlayerEntry( SlayerName.Repond, 
+				typeof(Caelan),
+				typeof(BloodstoneKeepKnight),
 				typeof(MetalHead),
 				typeof(SkyKnight),
 				typeof( FiorinTheArchdruid),
@@ -257,6 +259,13 @@ namespace Server.Items
 			undead.Opposition = new SlayerGroup[]{ };
 			undead.FoundOn = new Type[]{ };
 			undead.Super = new SlayerEntry( SlayerName.Silver, 
+				typeof( PaleMasterUndeadGiant ),
+				typeof( PaleMasterMummy ),
+				typeof( PaleMasterMummyLord ),
+				typeof( PaleMasterSkeleton ),
+				typeof( PaleMasterSkeletonWarrior ),
+				typeof( PaleMasterSkeletonKnight ),
+				typeof( PaleMasterSkeletalDragon ),
 				typeof( Vraax ),
 				typeof( AncientLich ), 
 				typeof( LichKing ), 
@@ -307,7 +316,6 @@ namespace Server.Items
 				typeof( PirateLichLord ), 
 				typeof( PirateSkeleton ), 
 				typeof( WereWolf ), 
-
 				typeof( NecroticHound ), 
 				typeof( IceGhoul ), 
 				typeof( DiseasedMummy ), 
@@ -1161,7 +1169,7 @@ namespace Server.Items
 			abyss.Super = new SlayerEntry( SlayerName.Exorcism,
 				typeof( InfernalBat),
 				typeof( HeraldOfDiscordance),
-				typeof( GreaterDemon),  
+				typeof( GreaterDemon), 
 				typeof( BlackPhillip),
 				typeof( PrinceOfDarkness),
 				typeof( Tarjan ), 
@@ -1368,6 +1376,8 @@ namespace Server.Items
 			reptilian.Opposition = new SlayerGroup[]{ };
 			reptilian.FoundOn = new Type[]{ };
 			reptilian.Super = new SlayerEntry( SlayerName.ReptilianDeath, 
+				typeof( Waervaerendor),
+				typeof(Voaraghamanthar),
 				typeof( Drakkul ), 
 				typeof( DrakkulMage ), 
 				typeof( DrakkulChief ), 
@@ -1525,6 +1535,8 @@ namespace Server.Items
 			reptilian.Entries = new SlayerEntry[]
 				{
 					new SlayerEntry( SlayerName.DragonSlaying, 
+						typeof( Waervaerendor),
+						typeof(Voaraghamanthar),
 						typeof( HeraldOfCinders),
 						typeof( Drakkul ), 
 						typeof( DrakkulMage ), 

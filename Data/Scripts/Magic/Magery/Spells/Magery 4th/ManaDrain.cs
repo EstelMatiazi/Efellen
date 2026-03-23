@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Server.Network;
 using Server.Targeting;
 using Server.Misc;
+using Server.Custom.Ascensions;
+using Server.Mobiles;
 
 namespace Server.Spells.Fourth
 {
@@ -48,65 +50,75 @@ namespace Server.Spells.Fourth
 			m_Table.Remove( m );
 		}
 
-		public void Target( Mobile m )
+		public void Target(Mobile m)
 		{
-			if ( !Caster.CanSee( m ) )
-			{
-				Caster.SendLocalizedMessage( 500237 ); // Target can not be seen.
-			}
-			else if ( CheckHSequence( m ) )
-			{
-				SpellHelper.Turn( Caster, m );
+		    if (!Caster.CanSee(m))
+		    {
+		        Caster.SendLocalizedMessage(500237); // Target can not be seen.
+		        return;
+		    }
 
-				SpellHelper.CheckReflect( (int)this.Circle, Caster, ref m );
+		    if (!CheckHSequence(m))
+		        return;
 
-				if ( m.Spell != null )
-					m.Spell.OnCasterHurt();
+		    SpellHelper.Turn(Caster, m);
+		    SpellHelper.CheckReflect((int)this.Circle, Caster, ref m);
 
-				m.Paralyzed = false;
-				BuffInfo.CleanupIcons( m, true );
+		    if (m.Spell != null)
+		        m.Spell.OnCasterHurt();
 
-				if ( Core.AOS )
-				{
-					int toDrain = 40 + (int)( Spell.ItemSkillValue( Caster, DamageSkill, false ) - GetResistSkill( m ) );
+		    m.Paralyzed = false;
+		    BuffInfo.CleanupIcons(m, true);
 
-					if ( toDrain < 0 )
-						toDrain = 0;
-					else if ( toDrain > m.Mana )
-						toDrain = m.Mana;
+		    if (Core.AOS)
+		    {
+		        int toDrain = 40 + (int)(Spell.ItemSkillValue(Caster, DamageSkill, false) - GetResistSkill(m));
+		        if (toDrain < 0)
+		            toDrain = 0;
+		        else if (toDrain > m.Mana)
+		            toDrain = m.Mana;
 
-					if ( m_Table.ContainsKey( m ) )
-						toDrain = 0;
+		        if (m_Table.ContainsKey(m))
+		            toDrain = 0;
 
-					m.FixedParticles( 0x3789, 10, 25, 5032, PlayerSettings.GetMySpellHue( true, Caster, 0 ), 0, EffectLayer.Head );
-					m.PlaySound( 0x1F8 );
+		        m.FixedParticles(0x3789, 10, 25, 5032, PlayerSettings.GetMySpellHue(true, Caster, 0), 0, EffectLayer.Head);
+		        m.PlaySound(0x1F8);
 
-					if ( toDrain > 0 )
-					{
-						m.Mana -= toDrain;
+		        int refunded = 0;
 
-						m_Table[m] = Timer.DelayCall( TimeSpan.FromSeconds( 5.0 ), new TimerStateCallback( AosDelay_Callback ), new object[]{ m, toDrain } );
-					}
-				}
-				else
-				{
-					if ( CheckResisted( m ) )
-						m.SendLocalizedMessage( 501783 ); // You feel yourself resisting magical energy.
-					else if ( m.Mana >= 100 )
-						m.Mana -= Utility.Random( 1, 100 );
-					else
-						m.Mana -= Utility.Random( 1, m.Mana );
+		        PlayerMobile pmTarget = m as PlayerMobile;
+    			if (pmTarget != null && pmTarget.HasActiveAscension && pmTarget.ActiveAscension == AscensionType.Archmage)
+    			{
+    			    AscensionProgress prog = pmTarget.AscensionProfile.Get(AscensionType.Archmage);
+    			    if (prog != null && prog.Level >= 2)
+    			    {
+    			        ArchmageManaVaultAbility vault = new ArchmageManaVaultAbility();
+    			        refunded = vault.OnManaLoss(pmTarget, toDrain, Caster);
+    			    }
+    			}
 
-					m.FixedParticles( 0x374A, 10, 15, 5032, PlayerSettings.GetMySpellHue( true, Caster, 0 ), 0, EffectLayer.Head );
-					m.PlaySound( 0x1F8 );
-				}
+		        int actualDrain = toDrain - refunded;
+		        if (actualDrain > 0)
+		        {
+		            m.Mana -= actualDrain;
+			       m_Table[m] = Timer.DelayCall(TimeSpan.FromSeconds(5.0), new TimerStateCallback(AosDelay_Callback), new object[] { m, actualDrain });
+		        }
+		    }
+		    else
+		    {
+		        if (CheckResisted(m))
+		            m.SendLocalizedMessage(501783); // You feel yourself resisting magical energy.
+		        else if (m.Mana >= 100)
+		            m.Mana -= Utility.Random(1, 100);
+		        else
+		            m.Mana -= Utility.Random(1, m.Mana);
 
-				HarmfulSpell( m );
-			}
-
-			FinishSequence();
+		        m.FixedParticles(0x374A, 10, 15, 5032, PlayerSettings.GetMySpellHue(true, Caster, 0), 0, EffectLayer.Head);
+		        m.PlaySound(0x1F8);
+		    }
+		    HarmfulSpell(m);
+		    FinishSequence();
 		}
-
 		public override double GetResistPercent( Mobile target )
 		{
 			return 99.0;

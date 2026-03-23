@@ -48,6 +48,16 @@ namespace Server.Spells.Necromancy
 			}
 			else if ( CheckHSequence( m ) )
 			{
+				if (Caster is PlayerMobile)
+				{
+					PlayerMobile pm = Caster as PlayerMobile;
+					if (pm != null)
+					{
+					    Server.Custom.Ascensions.PalemasterDeathlessVigor.TryTrigger(pm);
+						Server.Custom.Ascensions.PalemasterUndeadGraft.TryTrigger(pm);
+						Server.Custom.Ascensions.PalemasterHeraldOfHereafter.TryTrigger(pm);
+					}					
+				}
 				SpellHelper.Turn( Caster, m );
 
 				/* Temporarily creates a dark pact between the caster and the target.

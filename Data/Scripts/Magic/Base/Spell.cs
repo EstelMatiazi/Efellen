@@ -22,6 +22,7 @@ using Server.Spells.Shinobi;
 using Server.Spells.Elementalism;
 using Server.Spells.DeathKnight;
 using Server.Spells.Chivalry;
+using Server.Custom.Ascensions;
 
 namespace Server.Spells
 {
@@ -200,40 +201,65 @@ namespace Server.Spells
 
 		public virtual int GetNewAosDamage( int bonus, int dice, int sides, bool playerVsPlayer, double scalar )
 		{
-			int damage = Utility.Dice( dice, sides, bonus ) * 100;
-			int damageBonus = 0;
+		    int damage = Utility.Dice( dice, sides, bonus ) * 100;
+		    int damageBonus = 0;
 
-			int inscribeSkill = GetInscribeFixed( m_Caster );
-			int inscribeBonus = (inscribeSkill + (1000 * (inscribeSkill / 1000))) / 200;
-			damageBonus += inscribeBonus;
+		    int inscribeSkill = GetInscribeFixed( m_Caster );
+		    int inscribeBonus = (inscribeSkill + (1000 * (inscribeSkill / 1000))) / 200;
+		    damageBonus += inscribeBonus;
 
-			int intBonus = Caster.Int / 10;
-			damageBonus += intBonus;
+		    int intBonus = Caster.Int / 10;
+		    damageBonus += intBonus;
 
-			int sdiBonus = AosAttributes.GetValue( m_Caster, AosAttribute.SpellDamage );
+		    int sdiBonus = AosAttributes.GetValue( m_Caster, AosAttribute.SpellDamage );
 
-			if ( MyServerSettings.SpellDamageIncreaseVsMonsters() > 0 && sdiBonus > MyServerSettings.SpellDamageIncreaseVsMonsters() )
-				sdiBonus = MyServerSettings.SpellDamageIncreaseVsMonsters();
+		    if ( MyServerSettings.SpellDamageIncreaseVsMonsters() > 0 && sdiBonus > MyServerSettings.SpellDamageIncreaseVsMonsters() )
+		        sdiBonus = MyServerSettings.SpellDamageIncreaseVsMonsters();
 
-			// PvP spell damage increase cap of 15% from an item's magic property
-			if ( playerVsPlayer && MyServerSettings.SpellDamageIncreaseVsPlayers() > 0 && sdiBonus > MyServerSettings.SpellDamageIncreaseVsPlayers() )
-				sdiBonus = MyServerSettings.SpellDamageIncreaseVsPlayers();
+		    if ( playerVsPlayer && MyServerSettings.SpellDamageIncreaseVsPlayers() > 0 && sdiBonus > MyServerSettings.SpellDamageIncreaseVsPlayers() )
+		        sdiBonus = MyServerSettings.SpellDamageIncreaseVsPlayers();
 
-			damageBonus += sdiBonus;
+		    damageBonus += sdiBonus;
 
-			TransformContext context = TransformationSpellHelper.GetContext( Caster );
+		    TransformContext context = TransformationSpellHelper.GetContext( Caster );
 
-			damage = AOS.Scale( damage, 100 + damageBonus );
+		    damage = AOS.Scale( damage, 100 + damageBonus );
 
-			int evalSkill = GetDamageFixed( m_Caster );
-			int evalScale = 30 + ((9 * evalSkill) / 100);
+		    int evalSkill = GetDamageFixed( m_Caster );
+		    int evalScale = 30 + ((9 * evalSkill) / 100);
 
-			damage = AOS.Scale( damage, evalScale );
+		    damage = AOS.Scale( damage, evalScale );
 
-			damage = AOS.Scale( damage, (int)(scalar*100) );
+		    if (Caster is PlayerMobile)
+			{
+			    PlayerMobile pm = Caster as PlayerMobile;
+				if (pm != null)
+			    {
+			        if (pm.ActiveAscension == AscensionType.Palemaster)
+					{
+					    AscensionEffectState state;
 
-			return damage / 100;
+					    if (pm.TryGetAscensionEffect("DeathlessVigorSpellDamage", out state))
+					    {
+					        damageBonus += state.Level;
+					    }
+					}
+
+			        if (pm.ActiveAscension == AscensionType.Archmage)
+			        {
+			            if (pm.ArchmageConfluxScalar > 0.0 && pm.ArchmageConfluxEnd > DateTime.UtcNow)
+			            {
+			                scalar += pm.ArchmageConfluxScalar;
+			            }
+			        }
+			    }
+			}
+
+		    damage = AOS.Scale( damage, (int)(scalar * 100) );
+
+		    return damage / 100;
 		}
+
 
 		public virtual bool IsCasting{ get{ return m_State == SpellState.Casting; } }
 
@@ -492,11 +518,11 @@ namespace Server.Spells
 			{
 				if ( this is HolyManSpell )
 				{
-					m_Caster.SendMessage( "Sua concentração é perturbada, arruinando assim sua prece." );
+					m_Caster.SendMessage( "Your concentration is disturbed, thus ruining thy prayer." );
 				}
 				else if ( this is MysticSpell || this is JesterSpell )
 				{
-					m_Caster.SendMessage( "Sua concentração é perturbada, arruinando assim seu intento." );
+					m_Caster.SendMessage( "Your concentration is disturbed, thus ruining thy attempt." );
 				}
 				else
 				{
@@ -531,17 +557,17 @@ namespace Server.Spells
 
 			if ( m_Caster.Blessed )
 			{
-				m_Caster.SendMessage( "Você não pode fazer isso neste estado." );
+				m_Caster.SendMessage( "You cannot do that while in this state." );
 				return false;
 			}
 			if ( !CanCastSpell( m_Caster, this ) )
 			{
-				m_Caster.SendMessage( "A escuridão do Submundo parece estar afetando este feitiço." );
+				m_Caster.SendMessage( "The darkness of the Underworld seems to be affecting this spell." );
 				return false;
 			}
 			if ( !CantMixSpell( m_Caster, this ) )
 			{
-				m_Caster.SendMessage( "O elementalismo, junto com magia ou necromancia, está afetando sua magia." );
+				m_Caster.SendMessage( "Elementalism, with magery or necromancy, are affecting your magic." );
 				return false;
 			}
 			else if ( !m_Caster.CheckAlive() )
@@ -556,11 +582,6 @@ namespace Server.Spells
 			{
 				m_Caster.SendLocalizedMessage( 1061091 ); // You cannot cast that spell in this form.
 			}
-			/* else if (!CheckWildShapeCasting())
-			{
-				m_Caster.SendMessage( "Você não pode lançar esse feitiço enquanto está em forma selvagem." );
-				return false;
-			} */
 			else if ( ( m_Caster.Paralyzed || m_Caster.Frozen ) && !( this is FerretFlee ) )
 			{
 				m_Caster.SendLocalizedMessage( 502643 ); // You can not cast a spell while frozen.
@@ -709,7 +730,7 @@ namespace Server.Spells
 
 		    
 
-		    m.SendMessage("Você não pode soltar esse feitiço enquanto estiver em forma selvagem.");
+		    m.SendMessage("You cannot cast that spell while in wild shape.");
 		    return false;
 		}
 
@@ -945,6 +966,14 @@ namespace Server.Spells
 			else if ( Caster.CanBeHarmful( target ) && CheckSequence() )
 			{
 				Caster.DoHarmful( target );
+				PlayerMobile pm = Caster as PlayerMobile;
+
+				if (pm != null && pm.HasActiveAscension && pm.ActiveAscension == AscensionType.Archmage)
+				{
+				    TryArcaneTempestProc(target);    
+				    TryWeaveUnravelingProc(target);                    
+				}
+
 				return true;
 			}
 			else
@@ -952,6 +981,65 @@ namespace Server.Spells
 				return false;
 			}
 		}
+
+		private void TryWeaveUnravelingProc(Mobile target)
+		{
+		    PlayerMobile pm = Caster as PlayerMobile;
+
+		    if (pm == null || pm.AscensionProfile == null)
+			    return;
+
+		    AscensionProgress prog = pm.AscensionProfile.Get(AscensionType.Archmage);
+			
+			if (prog == null || prog.Level < 20)
+		        return;
+
+		    double chance = prog.Level * 0.25;
+
+		    if (Utility.RandomDouble() < (chance / 100.0))
+		    {
+		        pm.SendMessage("The weave begins to unravel!");
+
+		        WeaveUnravelingAbility.Trigger(pm, target);
+		    }
+		}
+
+
+		private void TryArcaneTempestProc(Mobile target)
+		{
+		    PlayerMobile pm = m_Caster as PlayerMobile;
+
+		    if (pm == null || pm.AscensionProfile == null)
+			    return;
+
+		   	AscensionProgress prog = pm.AscensionProfile.Get(AscensionType.Archmage);
+
+		    if (prog == null || prog.Level < 14)
+		        return;
+
+		    double procChance = prog.Level * 0.25;
+
+		    if (Utility.RandomDouble() < (procChance / 100.0))
+		    {
+		        pm.SendMessage("Arcane Tempest triggers a Mana Singularity!");
+
+		        ArchmageManaSingularityAbility ability = new ArchmageManaSingularityAbility();
+
+		        ability.CreateSingularityPassive(pm, target.Location, target.Map);
+
+		        if (prog.Level >= 19)
+		        {
+		            double resetChance = prog.Level * 1.0;
+
+		            if (Utility.RandomDouble() < (resetChance / 100.0))
+		            {
+		                pm.SetAbilityCooldown("Arcane Storm", TimeSpan.Zero);
+		                pm.SendMessage("Your Arcane Storm cooldown has been reset!");
+		            }
+		        }
+		    }
+		}
+
 
 		private class AnimTimer : Timer
 		{

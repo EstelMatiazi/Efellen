@@ -17,7 +17,7 @@ namespace Server.Items
             Hue = 33;
             Stackable = true;
             Amount = amount;
-            Weight = 0.1;
+            Weight = 0.01;
         }
         public override string DefaultDescription{ get{ return"Esta é a essência mágica condensada usada na criação de um item mágico. Artesãos de guilda qualificados podem usá-lo para aprimorar as propriedades de itens mágicos."; } }
 

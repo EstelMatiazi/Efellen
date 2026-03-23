@@ -18,7 +18,7 @@ namespace Server.Spells.Song
 		{
 		}
 
-		public override TimeSpan CastDelayBase { get { return TimeSpan.FromSeconds( 3 ); } }
+		public override TimeSpan CastDelayBase { get { return TimeSpan.FromSeconds( 0.5 ); } }
 		public override double RequiredSkill{ get{ return 70.0; } }
 		public override int RequiredMana{ get{ return 25; } }
 

@@ -59,15 +59,41 @@ namespace Server.Spells.Song
 		public override SkillName DamageSkill{ get{ return SkillName.Musicianship; } } 
 
 		public override bool ClearHandsOnCast{ get{ return false; } } 
+		public override bool BlocksMovement{ get{ return false; } }
+
+		public override TimeSpan GetCastDelay()
+		{
+			return CastDelayBase;
+		}
 
 		public Song( Mobile caster, Item scroll, SpellInfo info ) : base( caster, scroll, info ) 
 		{ 
 		}
 
 		public static int MusicSkill( Mobile m )
-		{
-			return (int)(m.Skills[SkillName.Musicianship].Value + m.Skills[SkillName.Provocation].Value + m.Skills[SkillName.Discordance].Value + m.Skills[SkillName.Peacemaking].Value );
-		}
+        {
+            int base_skill = (int)(m.Skills[SkillName.Musicianship].Value
+                           +      m.Skills[SkillName.Provocation].Value
+                           +      m.Skills[SkillName.Discordance].Value
+                           +      m.Skills[SkillName.Peacemaking].Value);
+
+            // ── Resonance (Skald, level 14+)
+            PlayerMobile resonancePm = m as PlayerMobile;
+
+            if ( resonancePm != null && resonancePm.ActiveAscension == AscensionType.Skald )
+            {
+                AscensionProgress resonanceProg = resonancePm.AscensionProfile.Get( AscensionType.Skald );
+                int resonanceLevel = resonanceProg.Level;
+
+                if ( resonanceLevel >= 19 )
+                    base_skill = (base_skill * 125) / 100; // +25%
+                else if ( resonanceLevel >= 14 )
+                    base_skill = (base_skill * 115) / 100; // +15%
+            }
+            // ── End Resonance ─────────────────────────────────────────────────
+
+            return base_skill;
+        }
 
 		public override bool CheckCast()
 		{	
@@ -98,7 +124,7 @@ namespace Server.Spells.Song
 
 		public override void DoFizzle()
 		{
-			Caster.LocalOverheadMessage( MessageType.Regular, 0x3B2, 1115710 ); // The song fizzles.
+			Caster.LocalOverheadMessage( MessageType.Regular, 0x3B2, 1115710 ); // Your spell song has been interrupted.
 			// 1115737 You feel invigorated by the bard's spellsong
 			// 1115758 The bard's song fills you with resilience
 			// 1115759 The bard's song fills you with invincible

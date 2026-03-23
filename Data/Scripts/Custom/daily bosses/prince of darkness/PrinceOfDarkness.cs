@@ -16,6 +16,7 @@ using Server.Custom;
 using Server.Custom.DailyBosses.System;
 using Server.Custom.BossSystems;
 using Server.CustomSpells;
+using Server.Custom.Ascensions;
 
 namespace Server.Mobiles
 {
@@ -211,7 +212,7 @@ namespace Server.Mobiles
 		        PerformRageAttack(combatant);
 		        m_NextSpecialAttack = DateTime.UtcNow + TimeSpan.FromSeconds(30 - (m_Rage * 2));
 		    }
-
+			
 			if ( DateTime.Now >= NextPickup )
 			{
 				switch( Utility.RandomMinMax( 0, 2 ) )
@@ -223,7 +224,7 @@ namespace Server.Mobiles
 			}
 
 		    m_LastTarget = combatant;
-			
+
 		}
 
 		private int GetMaxSummons()
@@ -334,6 +335,7 @@ namespace Server.Mobiles
 			{
 				c.DropItem( Loot.RandomArty() );
 				c.DropItem( new EtherealPowerScroll() );
+				c.DropItem( AscensionScrollFactory.CreateRandom());
 			}
 			if ( Utility.RandomDouble() < 0.25 )
 			{

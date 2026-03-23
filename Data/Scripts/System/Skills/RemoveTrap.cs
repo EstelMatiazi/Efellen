@@ -19,7 +19,7 @@ namespace Server.SkillHandlers
 
 			m.SendLocalizedMessage( 502368 ); // Which trap will you attempt to disarm?
 
-			return TimeSpan.FromSeconds( 5.0 ); // 5 second delay before being able to re-use a skill
+			return TimeSpan.FromSeconds( 1.0 );
 		}
 
 		private class InternalTarget : Target
@@ -33,6 +33,7 @@ namespace Server.SkillHandlers
 				if ( targeted is Mobile )
 				{
 					from.SendLocalizedMessage( 502816 ); // You feel that such an action would be inappropriate
+					return;
 				}
 				else if ( targeted is TrapableContainer )
 				{
@@ -93,7 +94,9 @@ namespace Server.SkillHandlers
 				else
 				{
 					from.SendLocalizedMessage( 502373 ); // That does'nt appear to be trapped
+					return;
 				}
+				from.NextSkillTime = DateTime.Now + TimeSpan.FromSeconds( 5.0 );
 			}
 		}
 	}

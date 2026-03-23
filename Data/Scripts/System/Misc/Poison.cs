@@ -39,6 +39,31 @@ namespace Server
 			return ( newPoison == null ? oldPoison : newPoison );
 		}
 
+		// Immediately resolves one poison tick's worth of damage against the target,
+		// attributed to 'from'. Used by Assassin Virulent Strikes passive.
+		public static void ResolveSingleTick( Mobile target, Mobile from )
+		{
+		    if ( target == null || target.Deleted || !target.Alive )
+		        return;
+
+		    PoisonImpl poison = target.Poison as PoisonImpl;
+
+		    if ( poison == null )
+		        return;
+
+		    int damage = 1 + (int)(target.Hits * poison.m_Scalar);
+
+		    if ( damage < poison.m_Minimum ) damage = poison.m_Minimum;
+		    if ( damage > poison.m_Maximum ) damage = poison.m_Maximum;
+
+		    if ( from != null )
+		        from.DoHarmful( target, true );
+
+		    AOS.Damage( target, from, damage, 0, 0, 0, 100, 0 );
+
+		    target.FixedParticles( 0x374A, 10, 15, 5021, 0x233, 0, EffectLayer.Waist );
+		}
+
 		// Info
 		private string m_Name;
 		private int m_Level;
@@ -89,61 +114,114 @@ namespace Server
 
 			protected override void OnTick()
 			{
-				if ( (Core.AOS && m_Poison.Level < 4 && TransformationSpellHelper.UnderTransformation( m_Mobile, typeof( VampiricEmbraceSpell ) )) ||
-					(m_Poison.Level < 3 && OrangePetals.UnderEffect( m_Mobile )) ||
-					AnimalForm.UnderTransformation( m_Mobile, typeof( Unicorn ) ) || m_Mobile.Skills[SkillName.Druidism].Value > 90 )
-				{
-					if ( m_Mobile.CurePoison( m_Mobile ) )
-					{
-						m_Mobile.LocalOverheadMessage( MessageType.Emote, 0x3F, true,
-							"* You feel yourself resisting the effects of the poison *" );
+			    if ( (Core.AOS && m_Poison.Level < 4 && TransformationSpellHelper.UnderTransformation( m_Mobile, typeof( VampiricEmbraceSpell ) )) ||
+			        (m_Poison.Level < 3 && OrangePetals.UnderEffect( m_Mobile )) ||
+			        AnimalForm.UnderTransformation( m_Mobile, typeof( Unicorn ) ) || m_Mobile.Skills[SkillName.Druidism].Value > 90 )
+			    {
+			        if ( m_Mobile.CurePoison( m_Mobile ) )
+			        {
+			            m_Mobile.LocalOverheadMessage( MessageType.Emote, 0x3F, true,
+			                "* You feel yourself resisting the effects of the poison *" );
 
-						m_Mobile.NonlocalOverheadMessage( MessageType.Emote, 0x3F, true,
-							String.Format( "* {0} seems resistant to the poison *", m_Mobile.Name ) );
+			            m_Mobile.NonlocalOverheadMessage( MessageType.Emote, 0x3F, true,
+			                String.Format( "* {0} seems resistant to the poison *", m_Mobile.Name ) );
 
-						Stop();
-						return;
-					}
-				}
+			            Stop();
+			            return;
+			        }
+			    }
 
-				if ( m_Index++ == m_Poison.m_Count )
-				{
-					m_Mobile.SendLocalizedMessage( 502136 ); // The poison seems to have worn off.
-					m_Mobile.Poison = null;
-					BuffInfo.RemoveBuff( m_Mobile, BuffIcon.Poisoned );
+			    PlayerMobile pm = m_Mobile as PlayerMobile;
 
-					Stop();
-					return;
-				}
+			    if ( pm != null && !pm.Deleted && pm.ActiveAscension == AscensionType.Crusader )
+			    {
+			        AscensionProgress prog = pm.AscensionProfile.Get( AscensionType.Crusader );
+			        int level = prog.Level;
 
-				int damage;
+			        if ( level >= 2 )
+			        {
+			            bool eligible = false;
 
-				if ( !Core.AOS && m_LastDamage != 0 && Utility.RandomBool() )
-				{
-					damage = m_LastDamage;
-				}
-				else
-				{
-					damage = 1 + (int)(m_Mobile.Hits * m_Poison.m_Scalar);
+			            switch ( m_Poison.Level )
+			            {
+			                case 0:
+			                case 1:
+			                case 2: eligible = true; break;
+			                case 3: eligible = level >= 5;  break;
+			                case 4: eligible = level >= 13; break;
+			            }
 
-					if ( damage < m_Poison.m_Minimum )
-						damage = m_Poison.m_Minimum;
-					else if ( damage > m_Poison.m_Maximum )
-						damage = m_Poison.m_Maximum;
+			            if ( eligible && Utility.Random( 100 ) < (level * 4) )
+			            {
+			                if ( pm.CurePoison( pm ) )
+			                {
+			                    pm.LocalOverheadMessage( MessageType.Emote, 0x3F, true,
+			                        "* Divine Grace purges the poison from your body *" );
 
-					m_LastDamage = damage;
-				}
+			                    pm.NonlocalOverheadMessage( MessageType.Emote, 0x3F, true,
+			                        String.Format( "* Divine Grace purges the poison from {0}'s body *", pm.Name ) );
 
-				if ( m_From != null )
-					m_From.DoHarmful( m_Mobile, true );
+			                    Stop();
+			                    return;
+			                }
+			            }
+			        }
+			    }
 
-				AOS.Damage( m_Mobile, m_From, damage, 0, 0, 0, 100, 0 );
+			    if ( m_Index++ == m_Poison.m_Count )
+			    {
+			        m_Mobile.SendLocalizedMessage( 502136 ); // The poison seems to have worn off.
+			        m_Mobile.Poison = null;
+			        BuffInfo.RemoveBuff( m_Mobile, BuffIcon.Poisoned );
 
-				if ( 0.60 <= Utility.RandomDouble() ) // OSI: randomly revealed between first and third damage tick, guessing 60% chance
-						m_Mobile.RevealingAction();
+			        Stop();
+			        return;
+			    }
 
-				if ( (m_Index % m_Poison.m_MessageInterval) == 0 )
-					m_Mobile.OnPoisoned( m_From, m_Poison, m_Poison );
+			    int damage;
+
+			    if ( !Core.AOS && m_LastDamage != 0 && Utility.RandomBool() )
+			    {
+			        damage = m_LastDamage;
+			    }
+			    else
+			    {
+			        damage = 1 + (int)(m_Mobile.Hits * m_Poison.m_Scalar);
+
+			        if ( damage < m_Poison.m_Minimum )
+			            damage = m_Poison.m_Minimum;
+			        else if ( damage > m_Poison.m_Maximum )
+			            damage = m_Poison.m_Maximum;
+
+			        m_LastDamage = damage;
+			    }
+
+			    // ── Dangerous Habits (Assassin passive, level 8+) ────────────────────
+			    PlayerMobile dangerousPm = m_From as PlayerMobile;
+
+			    if ( dangerousPm != null && !dangerousPm.Deleted
+			        && dangerousPm.ActiveAscension == AscensionType.Assassin )
+			    {
+			        AscensionProgress dangerousProg = dangerousPm.AscensionProfile.Get( AscensionType.Assassin );
+			        int dangerousLevel = dangerousProg.Level;
+
+			        if ( dangerousLevel >= 17 )
+			            damage = (int)(damage * 1.18);
+			        else if ( dangerousLevel >= 8 )
+			            damage = (int)(damage * 1.09);
+			    }
+			    // ── End Dangerous Habits ─────────────────────────────────────────────
+
+			    if ( m_From != null )
+			        m_From.DoHarmful( m_Mobile, true );
+
+			    AOS.Damage( m_Mobile, m_From, damage, 0, 0, 0, 100, 0 );
+
+			    if ( 0.60 <= Utility.RandomDouble() )
+			        m_Mobile.RevealingAction();
+
+			    if ( (m_Index % m_Poison.m_MessageInterval) == 0 )
+			        m_Mobile.OnPoisoned( m_From, m_Poison, m_Poison );
 			}
 		}
 

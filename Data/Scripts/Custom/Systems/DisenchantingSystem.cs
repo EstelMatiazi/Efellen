@@ -165,14 +165,14 @@ namespace Server.Misc
             if (item.LootType == LootType.Blessed)
                 return false;
 
-            // can't disenchant arties
+            // can't disenchant legendary/tribute arties
             try
             {
                 System.Reflection.PropertyInfo p = item.GetType().GetProperty("ArtifactLevel");
                 if (p != null)
                 {
                     object val = p.GetValue(item, null);
-                    if (val is int && (int)val > 0)
+                    if (val is int && (int)val == 1 || val is int && (int)val == 3)
                         return false;
                 }
             }
@@ -347,18 +347,18 @@ namespace Server.Misc
             }
 
             int min = 0, max = 0;
-            if (total < 25) { return 0; }
-            else if (total < 50) { min = 1; max = 3; }
-            else if (total < 100) { min = 3; max = 7; }
-            else if (total < 150) { min = 5; max = 11; }
-            else if (total < 200) { min = 8; max = 14; }
-            else if (total < 250) { min = 11; max = 19; }
-            else if (total < 300) { min = 15; max = 25; }
-            else if (total < 350) { min = 20; max = 34; }
-            else if (total < 400) { min = 26; max = 45; }
-            else if (total < 450) { min = 33; max = 57; }
-            else if (total < 500) { min = 41; max = 71; }
-            else { min = 60; max = 90; }
+            if (total < 25) { return 1; }
+            else if (total < 50) { min = 2; max = 6; }
+            else if (total < 100) { min = 7; max = 14; }
+            else if (total < 150) { min = 15; max = 22; }
+            else if (total < 200) { min = 23; max = 38; }
+            else if (total < 250) { min = 39; max = 58; }
+            else if (total < 300) { min = 59; max = 70; }
+            else if (total < 350) { min = 71; max = 94; }
+            else if (total < 400) { min = 95; max = 110; }
+            else if (total < 450) { min = 111; max = 144; }
+            else if (total < 500) { min = 145; max = 162; }
+            else { min = 163; max = 226; }
 
             return Utility.RandomMinMax(min, max);
         }

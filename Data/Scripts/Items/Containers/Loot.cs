@@ -7,6 +7,7 @@ using Server.Misc;
 using Server.Engines.Mahjong;
 using System.Collections.Generic;
 using System.Collections;
+using Server.Custom.Ascensions;
 
 namespace Server
 {
@@ -690,7 +691,7 @@ namespace Server
 				typeof( ECrystalTableDeed ),	typeof( ECrystalSupplicantStatueDeed ),	typeof( RoseSouthSmallAddonDeed ),
 				typeof( ECrystalBullDeed ),		typeof( ECrystalBrazierDeed ),			typeof( ECrystalRunnerStatueDeed ),
 				typeof( ECrystalAltarDeed ),	typeof( ECrystalBeggarStatueDeed ),		typeof( GolemManual ),
-				typeof( SummonPrison ),				
+				typeof( SummonPrison ),			typeof( AscensionScroll ),		
 			};
 
 		public static Type[] RareItemTypes{ get{ return m_RareItemTypes; } }

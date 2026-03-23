@@ -274,17 +274,6 @@ namespace Server.Engines.Harvest
 			return false;
 		}
 
-		public static bool IsNearSpaceCrash( Mobile from )
-		{
-			if ( from.X >= 457 && from.X <= 494 && from.Y >= 1785 && from.Y <= 1821 && from.Map == Map.Sosaria )
-				return true;
-
-			if ( from.X >= 4430 && from.X <= 4501 && from.Y >= 589 && from.Y <= 661 && from.Map == Map.Sosaria )
-				return true;
-
-			return false;
-		}
-
 		public static bool IsNearUnderwaterRuins( Mobile from )
 		{
 			if ( from.X >= 4342 && from.X <= 4420 && from.Y >= 2766 && from.Y <= 2845 && from.Map == Map.Sosaria )

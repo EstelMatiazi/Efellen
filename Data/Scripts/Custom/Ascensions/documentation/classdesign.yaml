@@ -1,0 +1,714 @@
+Quick reference
+These are the ascendancies that are currently implemented:
+Berserker
+    active: Rage, leap slam, warcry, tenacity
+    passive:  cleave, uncanny dodge, pummeling strikes, undying wrath
+Archmage
+    active: Arcane storm, Conflux, Mana singularity , Timestop 
+    passive:  mana vault, weave reflection, arcane tempest, Weave Unraveling
+Palemaster
+    active: Undying hordes, enervate,Circle of Death, Danse Macabre
+    passive: deathless vigor, undead graft, creeping cold, herald of hereafter,  
+Crusader
+    active: Smite, charge, aura of hope, Heavenly gate
+    passive:  Divine grace, Holy Fervor, Inquisitorial Strikes, divine judgement
+Assassin
+    active:  Toxic surge, crippling poison, Noxious cloud, Cleansing Annihilation
+    passive:  virulent strikes, dangerous habits, deadly strikes, terminal
+Blackguard
+    active: Dark Succor, Death's Advance, Chains of Ice, Frostwyrm's Fury
+    passive: Frozen heart, Morbidity, Merciless Strikes, Soul Reaper
+Skald
+    active: war chant, saga of valor, song of thunder, dirge of the fallen
+    passive:  Battlefield Rhythm, ressonance, harmonic echo, saga of steel
+Reaver
+    active: gorge, exsanguinate, bloodstorm , Absolute Tyranny
+    passive: Leech, Ruthless, flaying strikes, deep cuts,    
+Kensai
+    active: battle meditation, Kai, culling strike, tempest
+    passive: practiced perfection, singular focus, iaijutsu, final cut
+Hierophant
+    active: Divine Wrath, Exalted Presence, Consecrated Ground, Divine Power
+    passive: Blessed Might, Divine Resilience, Death Ward, Divine Absolution
+Arcane Archer
+    active: imbue arrows, Charged Arrows, arcane volley, barrage
+    passive: arcane precision, mystical ricochet, arcane feedback, arcane momentum
+
+These are the ascendancies that are currently in development:
+
+Summoner
+    active: Eidolon, Elemental Form, Elemental Overload, Elemental Conduit
+    passive: Aether Gates, Echoing Spells, elemental tempest ,Aether Nexus
+
+Berserker abilities
+active abilities : Rage, leap slam, warcry, tenacity
+
+The Berserker is a savage warrior that wields two-handed weapons to great effect. In combat, they fly into a murderous rage that empowers them.
+In order to activate this Ascension, you need to have 95 base skill in Tactics, camping and Magic Resist. Every time you level up the class, the requirement also
+increases by 1. So a level 20 Berserker cannot activate this ascension unless they have 115 base skill in Tactics, camping and Magic Resist.
+
+These are the abilities that the berserker learns as they level up:
+rage, level 1
+command: [BerserkerRage
+when active, the character gains +(15+level) strength, gains immunity to paralyze, causes 10% increased damage and has 10% reduced defend chance. 
+Lasts for 10 seconds +1 sec/level. Has a one minute cooldown. When it ends, the character loses half of its stamina.
+At higher levels: 
+- at level 10, while raging, the character gains + (level/2) on all resistances while raging, and gains an additional 5% extra increased damage, and a 5% reduced defend 
+    chance.  
+- at level 15, while raging, if the character would take a hit that takes more than 40% of their total hit points, they lose 40% of their total hitpoints instead
+- at level 20, while raging, the character gains an additional 5% damage, and a 5% reduced defend chance
+
+Leap slam, level 6
+command: [BerserkerLeapSlam
+When used, the character chooses a free tile that is at least 2 tiles away from them and its moved to that tile. The maximum range is equal to  3 + level/4. When landing, 
+the character causes 20-35 + ( (str / 15) + level / 3 ) damage on all targets adjacent to that tile. Has a cooldown of 9 seconds, minus one second per 3 berserker levels. 
+At higher levels:
+- at level 12, when landing, all targets adjacent to the landing square are stunned for 3 seconds
+
+Warcry, level 11
+command: [BerserkerWarCry
+When used, all enemies around the Berserker in a radius of 3 + 1/5 levels receive the following penalty: they lose (25 + 1/level) strength, (10+1/level) Dexterity and (10+1/level) intelligence 
+for (20+1/level) seconds, and the berserker all allies of the Berserker recover 2 stamina every two seconds for 20+1/level seconds. Has a 1 minute cooldown.
+At higher levels:
+at level 16, all enemies affected by the warcry lose 20+2/level stamina immediately and lose an additional 2+1/level stamina every 2 seconds for 10+1/level seconds
+
+Tenacity, level 18
+command:[BerserkerTenacity
+When used, the berserker heals to full health immediately and heals to full health again every 10 seconds for 30 seconds. Has a 2 minutes cooldown. 
+At higher levels:
+at level 20, the berserker also heals to full stamina and heals to full stamina again every 10 seconds for 30 seconds.
+
+passive abilities: cleave, uncanny dodge, pummeling strikes, undying wrath
+
+cleave, level 2
+when making a melee strike with a two handed weapon, the berserker has a 4% + 1% level chance of making another strike against an adjacent enemy
+at higher levels:
+- at level 5, when making a melee strike with a two handed weapon, the berserker has a 1%+1%/level chance of making another strike against another adjacent enemy not affected by the first additional strike
+- level 13, when making a melee strike with a two handed weapon, the berserker a 1%+1%/level chance of making another strike against another adjacent enemy not affected by the first or second additional strikes
+
+uncanny dodge, level 8
+The barbarian has a 25+1%/level chance of ignoring the effects of traps
+At higher levels:
+- at level 17, the chance of ignoring traps increases to 45+1%/level
+
+pummeling strikes, level 14
+when making a strike with a two handed melee weapon, the berserker has a (level/4)% chance of ignoring the target's armor
+at higher levels: 
+- at level 19, the chance increases to (level/2)% chance of ignoring the target's armor.
+
+undying wrath, level 20
+If the berserker takes a hit that would reduce their hit points to 0 or less, they reduce it to 1 instead and the cooldown on their Warcry is set to zero. This effect can trigger once per minute
+
+
+
+Archmage abilities
+     active: Arcane storm, Conflux, Mana singularity , Timestop 
+    
+    "The Archmage is a master of the Arcane. In combat, they control their opponents and execute powerful spells to bend the Weave itself to their will itself.
+    In order to activate this Ascension, you need to have 95 base skill in both Magery and Psychology. Every time you level up the class, the requirement also increases by 1.
+    So a level 20 Archmage cannot activate this ascension unless they have 115 base skill in both Magery and Psychology"
+
+Arcane storm, level 1
+command: [ArchmageArcaneStorm
+The archmage unleashes (6 + 1 per 3 archmage levels) energy missiles at the nearest target, each missile causes 10-18 + (int/25 + level/3) damage. Casting this spell costs 45 mana, and once used, it cannot be used again for (45-1/level) seconds. 
+At higher levels: 
+- at level 10, a target hit by an arcane storm has a 3% chance per level of the archmage to receive a -(8 + level/4) energy resistance debuff that lasts for 12 + archmage level /2 seconds
+- at level 15, a target hit by an arcane storm loses 34 + level/2 stamina after being hit by a missile storm
+- at level 20, if a target is killed by an arcane storm, the cooldown on Conflux is set to zero. 
+
+Conflux, level 6
+command: [ArchmageConflux
+when activated, the archmage's spell damage is increased by 10% for (10 +1/level) seconds, 2 minutes cooldown.
+At higher levels:
+- at level 12, the spell damage is increased by 15%.
+
+Mana Singularity, level 11
+command: [ArchmageMassSingularity
+The Archmage creates a collapsing arcane vortex at a target location within 2 + (level/3) tiles. After 2.5 seconds, the singularity explodes, causing 25-40 + (int/10 + level/2) energy damage to all hostile targets up to 2 tiles away from the source point. 
+Targets caught in the explosion also lose 20+level mana. The archmage recovers 4 mana per enemy hit. Activating this ability costs 50 mana. This ability has a cooldown of 60 seconds. 
+At higher levels:
+at level 16, all enemies hit by this ability are paralyzed for 4 seconds, and lose 20+level stamina. 
+
+Timestop, level 18
+command:[ArchmageTimestop
+all hostile creatures up to (3+(level/5)) tiles away from the caster are paralyzed for (12+level/4) seconds. This ability costs 60 mana and has a 3 minutes cooldown.
+At higher levels:
+at level 20, once the paralyze ends, all enemies hit by this ability lose 40+level mana and stamina.
+
+passive:  mana vault, weave reflection, arcane tempest, Weave Dominion
+
+mana vault, level 2
+when an enemy would leech or drain mana from the archmage, there's a 2% chance per level that the mana in immediately refunded to the archmage
+at higher levels:
+- at level 5, when an enemy would leech or drain mana from the archmage, they receive 15-25 + (level/2) energy damage
+- level 13, when an 
+enemy would leech or drain mana from the archmage, they are paralyzed for 2 seconds
+
+weave reflection, level 8
+- the archmage receives a 2.5%/level chance of reflecting spells
+At higher levels:
+- at level 17, when the archmage reflects a spell, they have a 1% chance / level of setting the cooldown on Conflux to zero
+
+arcane tempest, level 14
+when casting a spell at a hostile target, there's a (0.25 * level)% chance of triggering a Mana singularity at the target that costs no mana and doesn't have a cooldown.
+at higher levels: 
+- at level 19, when arcane tempest triggers, there's a 1% chance/level that the cooldown on arcane storm is set to zero.
+
+Weave Unraveling, level 20
+when casting a harmful spell at a target, there's a 0.25% chance per level of creating weave disruptions around it. The amount of disruptions 
+varies between 6-12, and they last from 12 to 22 seconds. Anyone standing on top of these disruptions receives 14-22 + (int/15) energy damage per second. 
+
+
+
+Palemaster Abilities
+    
+    The Palemaster is death made flesh. In combat, they control an army of undead and curse and enfeeble their opponents until they have met their end.
+    In order to activate this Ascension, you need to have 95 base skill in both Necromancy and Spiritualism. Every time you level up the class, the requirement also increases by 1.
+    So a level 20 Palemaster cannot activate this ascension unless they have 115 base skill in both Necromancy and Spiritualism
+    Palemasters also are required to revel in death and vileness, and they will not gain experience in this class if they have learned Knightship, Elementalism or Bushido, or if they stray from the path of evil
+
+    Undying hordes, level 1
+    command: [PalemasterUndyingHordes
+    The Palemaster calls forth a mindless horde of undead to attack their enemies. These will attack anything hostile to the caster relentlessly until they are destroyed or until they crumble into dust. 
+    The Undying hordes has a 3 minutes cooldown between uses.   
+    The horde lasts for 60 (+3 per level) seconds and its composition is based on the Palemaster Level. 
+    Level 1-4: 3-5 skeletons, 2-3 skeleton warriors
+    Level 5-8: 3-5 skeletons, 2-3 skeleton warriors, 1-2 skeleton knights
+    Level 9-12: 3-4 skeleton warriors, 2-3 skeleton knights, 1-2 mummies
+    Level 13-16: 2-3 skeleton knights, 2-3 mumies, 1-2 ancient mummies, 1 undead giant
+    Level 17-19: 3-4 undead giants, 2-3 ancient mummies, 1 skeletal dragon
+    Level 20: 4-5 undead giants, 3-4 ancient mummies, 1-2 skeletal dragons
+
+    Enervate, level 6
+    command: [PalemasterEnervate
+    The palemaster syphons life from their enemies, feeding himself and enfeebling them. 
+    When cast, this spell causes all hostile living creatures in up to 3 + (1 per 5 levels) tiles receive 40 + (level /3 ) cold damage and lose the same amount in mana. 
+    For every creature hit, the palemaster recovers 5 hit points and 5 mana, to a maximum of 50 of each. Creatures hit also receive -(5 + palemaster level / 4)% on 
+    their strength and dexterity for 30 seconds. This ability costs 30 mana to activate and has a one minute cooldown. 
+    At higher levels:
+    - at level 12, the maximum amount recovered is capped at 100 for hit points and mana.
+
+    Circle Of Death, level 11
+    command: [PalemasterCircleOfDeath
+    The palemaster corrupts the weave to erode life from their enemies. This ability creates a circle arount the target creature, and all living creatures up to 2 (+1 per 5 levels)
+     of it receive 12-18 + (level /2 ) + (int / 20) cold damage per second for an amount of seconds equal to 3 + level / 4. This ability has a 2 minutes cooldown and costs 60 mana to activate.
+    At higher levels:
+    at level 16, creatures caught in the circle lose stamina every second equal to half the damage dealt
+
+    Danse Macabre, level 18
+    command: [PalemasterDanseMacabre
+    The Palemaster shatters the gate between words, bringing the ever hungry hordes to the land of the living. 
+    This ability has a 4 minutes cooldown and costs 80 mana to activate
+    Every second for level/3 seconds, one of those happens:
+        - 1-2 undead giants are spawned and attack the enemies of the pale master, they last for 30 seconds 
+        - 2-3 mummy lords are spawned and attack the enemies of the pale master, they last for 30 seconds
+        - every undead under the palemaster's control that is up to 5 tiles away from the palemaster heals an amount of hit points equal to 25% of their maximum hit points
+        - the palemaster heals to full health
+    At higher levels:
+    at level 20, these effects are added to the possible effects that happen every second:
+        - every hostile living creature that is up to 3 tiles away from the palemaster and that is at less than 50% of their maximum hit points loses 10% of their hit points
+        - all living creatures up to 4 tiles away from the pale master receive a -20% debuff to their strenght that lasts for 30 seconds
+        - 1 skeletal dragon spawns and attack the enemies of the pale master, it lasts for 30 seconds
+
+
+    deathless vigor, level 2
+    when casting an offensive necromancy spell, 1.5% per level chance of recovering 2 + (level / 2) hit points 
+    at higher levels:l
+    - at level 5, 0.25% per level chance of gaining +10% spell damage for 15 seconds
+    - level 13, the spell damage bonus increases to +15%, the duration increases to 25 and the chance increases to 0.45% per level
+    
+    undead graft, level 8
+    when casting an offensive necromancy spell while wearing a full set of bone armor, there's a 0.25% per level chance all friendly summoned undead creatures will heal 5% of their hit points.
+    at higher levels: 
+    at level 17: when undead graft triggers, friendly summoned undead cretures recover 2% of their maximum health per second for level/2 seconds 
+
+    creeping cold, level 14
+    when casting wither, there's a 0.25% chance per level that it will trigger an additional time
+    at higher levels: 
+    - at level 19, when the creeping cold effect triggers, there's a 0.25% chance per level that enervate will be cast automatically ignoring mana costs and cooldown
+
+    herald of hereafter, level 20
+    when casting a harmful spell at a target, there's a 0.25% chance per level of creating weave disruptions around it. The amount of disruptions 
+    varies between 6-12, and they last from 12 to 22 seconds. Anyone standing on top of these disruptions receives 14-22 + (int/15) poison damage per second. 
+
+
+
+    Crusader
+
+    The Crusader is the embodiment of virtue. In combat, they stand tall in defiance against evil.
+    In order to activate this Ascension, you need to have 95 base skill in Knightship, spiritualism and Tactics. Every time you level up the class, the requirement also increases by 1.
+    So a level 20 Crusader cannot activate this ascension unless they have 115 base skill in Knightship, spiritualism and Tactics
+    Crusaders also are required to follow the path of justice and uphold good, and they will not gain experience in this class if they have learned Bushido, Necromancy, hiding or stealing, or if they stray from the path of good.
+
+    Smite, level 1
+    command: [CrusaderSmite
+    The crusader channels its valor and calls forth an explosion of purifying flame. This effect causes 20-32 +( level / 2 + str/15) damage to all evil creatures that are up to 2 (+1 per 5 levels) tiles away from the crusader
+    Smite costs 20 mana and 20 stamina to activate, and has a 1 minute cooldown.
+    - Level 10: hostile creatures that have karma of -10k or lower are paralyzed for 4(+1 per 6 levels) seconds after being hit by the smite
+    - Level 15: friendly creatures with positive karma caught in the area of the smite are healed for 20 + level/2 hit points
+    - Level 20: hostile evil creatures that have karma of -10k or lower damaged by the smite are caught in searing flames. They receive 10-20 + str/15 fire damage every 2 seconds for 12 seconds
+
+    Charge, level 6
+    command: [CrusaderCharge
+    When used, the character chooses a free tile that is at least 2 tiles away from them and its moved to that tile. The maximum range is equal to  3 + level/5. When arriving,
+    every hostile creature adjacent to that tile has a 1% per level chance of being paralyzed for 3 seconds.  
+    Has a cooldown of 9 seconds, minus one second per 3 crusader levels. 
+    At higher levels:
+    - Level 12: when arriving, all hostile creatures adjacent to the destination square receive 30-45 + ((str / 15) + level / 3) physical damage
+
+    Aura of Hope, level 11
+    command: [CrusaderAuraOfHope
+    When used, the crusader and all friendly creatures up to 4 tiles away from the crusader receive the following benefits:
+    - they restore 12 + (crusader level / 2) hitpoints every 4 seconds per 30 seconds
+    - they restore 6 + (crusader level / 2) mana every 4 seconds per 30 seconds
+    - they restore 6 + (crusader level / 2) stamina every 4 seconds per 30 seconds
+    This skill has a 3 minutes cooldown, and costs 40 mana and 40 stamina to activate
+    - Level 16: creatures affected by the aura of hope are healed to full health once the buff expires
+
+    Heavenly Gate, level 18
+    command: [CrusaderHeavensGate
+    The crusader opens the pearly gates and calls forth a celestial companion to aid them in their war against all evil.
+    The creature is a powerful Archon that requires 4 control slots and remains at the crusader's side until defeated. 
+    Activating this ability costs 60 mana and 60 stamina. It has a 5 minutes cooldown. 
+    - Level 20: there's a 1% chance per level that two archons will be summoned instead. 
+
+    Divine Grace, level 2
+    the crusader has a 4% chance per level chance of automatically healing from lesser, regular and greater poisons. 
+    - Level 5:  the chance also applies to deadly poisons.
+    - Level 13:  the chance also applies to lethal poisons.
+    
+    Holy Fervor, level 8
+    When the crusader kills a demon, they have a 1.5% per level chance of triggering an AoE explosion of holy fire, causing 20-32 + (level/2 + str/15) damage to all evil hostile creatures that are up to 2 (+1 per 5 levels) tiles away from the crusader
+    - Level 17: when Holy Fervor triggers, the Cooldown on Smite is set to zero
+
+    Inquisitorial Strikes, level 14
+    the crusader's melee weapon strikes cause + (level/2)% damage against demons
+    - Level 19: the crusader's melee weapon strikes cause + (level/4)% damage against evil creatures
+
+    Divine Judgement, level 20
+    When the crusader kills a powerful evil creature, there's a 2.5% chance that a strong creature called Luminar will be summoned to aid the Crusader on their war against evil.
+    The creature will attack any nearby opposing creature with great ferocity, and will remain in the material plane for one minute. 
+
+
+    Assassin
+
+    The Assassin is an expert in ending lifes prematurely. In combat, they employ poisons to great effect to hinder and annihilate their foes.
+    In order to activate this Ascension, you need to have 95 base skill in Poisoning, hiding and Fencing. Every time you level up the class, the requirement also increases by 1.
+    So a level 20 Crusader cannot activate this ascension unless they have 115 base skill in Poisoning, hiding and Fencing
+    Assassins also are required to abandon their morals, and they will not gain experience in this class if they have learned Bushido or knightship, or if they abandon the path of evil.
+
+    Noxious Cloud, level 1
+    command: [AssassinNoxiousCloud
+    The assassin creates a cloud of foul vapors at target location that poisons all enemies caught in its area.
+    The cloud inflicts greater poison on all affected enemies. This ability costs 30 mana and 30 stamina to activate. 
+    This ability has a 1 minute cooldown. The are of the cloud is equal to 1 + 1 per 6 levels.
+    - Level 10: The cloud inflics Deadly poison on all affected enemies.
+    - Level 15: The cloud inflicts Lethal poison on all affected enemies.
+    - Level 20: all affected enemies lose 20 poison resist for 30 seconds.
+
+    Crippling poison, level 6
+    command: [AssassinCripplingPoison
+    The assassin throws a vial of crippling poison at a target, inflicting deadly poison on it and preventing them from walking for level / 2 seconds
+    This ability costs 40 mana and 40 stamina to activate and has a 1 minute cooldown.
+    At higher levels:
+    - Level 12: The crippling poison is Lethal and affects all hostile creatures up to 2 tiles away from the original target. 
+
+    Toxic surge, level 11
+    command: [AssassinToxicSurge
+    For the next 30 seconds, the assassin causes + 10% damage bonus with weapon strikes against poisoned creatures. 
+    This ability costs 40 mana and 40 stamina to activate and has a 2 minutes cooldown.
+    - Level 16: When activated, there's a 1% chance per level of setting the cooldown on Noxious Cloud to zero. 
+
+    Cleansing Annihilation, level 18
+    command: [AssassinCleansingAnnihilation
+    The assassin inflicts lethal poison on the target, then immediately consumes all of its ticks. 
+    If the target survives, all creatures around it to up to 3 tiles away are the inflicted with a lethal poison. 
+    Activating this ability costs 50 mana and 50 stamina and it has a 4 minutes cooldown. 
+    - Level 20: when activating this ability, there's a 1% chance per level that the cooldown on toxic surge will be set to zero. 
+    
+    Virulent Strikes, level 2
+    When applying a poison on a target with a strike, the assassin has a 1% per level chance of immediately resolving 1 poison tick
+    - Level 5: when making a weapon attack against a poisoned creature, the assassin has a 0.25% chance per level of immediately resolving a poison tick.
+    - Level 13: when making a weapon attack against a poisoned creature, the assassin has a 0.12% chance per level of immediately resolving an additional poison tick.
+    
+    dangerous habits, level 8
+    increases tick damage of poisons inflicted by the assassin by 9%
+    - Level 17: increases tick damage of poisons inflicted by the assassin by 18%
+
+    Deadly Strikes, level 14
+    The assassin causes 9% more damage with attacks to poisoned creatures.
+    - Level 19: attacks against poisoned creatures ignore 25% of the target's poison resistance. 
+
+    Terminal, level 20
+    When killing a poisoned creature, the assassin has a 0.25% chance per level of inflicting lethal poison on all hostile creatures that are up to 2 tiles away from it. 
+
+Blackguard
+    active: Dark Succor, Death's Advance, Chains of Ice, Frostwyrm's Fury
+    passive: Frozen heart, Morbidity, Merciless Strikes, Soul Reaper
+
+    The Blackguard is a champion of evil and corruption. In combat, they are juggernauts that bring frost e blood into the battlefield.
+    In order to activate this Ascension, you need to have 95 base skill in Knightship, Arms lore and Necromancy. Every time you level up the class, the requirement also increases by 1.
+    So a level 20 Blackguard cannot activate this ascension unless they have 115 base skill in Knightship, Arms lore and Necromancy.
+    Blackguardss also are required to abandon their morals, and they will not gain experience in this class if they have learned Bushido, spiritualism or elementalism, or if they abandon the path of evil.
+
+    Dark Succor, level 1
+    command: [BlackguardDarkSuccor
+    The blackguard enters an unholy trance for (30 +1 per level) seconds. 
+    Dark succor costs 20 mana to activate. While its active, the Blackguard has 15 + level/2 strength. 
+    When Dark Succor ends, the blackguard loses half ot their remaining mana. This ability has a 90 seconds cooldown.
+    - Level 10: While on the trance and under 50% of their maximum hitpoints, the blackguard causes + 0.75%  damage per level against positive karma creatures.
+    - Level 15: While on the trance and under 50% of their maximum mana, whenever the blackguard kills a creature with a weapon strike, the blackguard recovers 2 + level/2 mana 
+    - Level 20: While on the trance amd imder 50% of their maximum hitpoints, whenever the blackguard kills a creature with a weapon strike, the blackguard heals for 6 + level/2 hit points
+
+    Death's Advance, level 6
+    command: [BlackguardDeathsAdvance
+    When used, the blackguard chooses a free tile that is at least 2 tiles away from them and its moved to that tile. The maximum range is equal to  3 + level/5. When arriving,
+    every hostile creature adjacent to that tile has a 1% per level chance of knockedback for 2 + 1 tile for every 5 levels of the blackguard.  
+    Has a cooldown of 9 seconds, minus one second per 3 Blackguard levels. 
+    - Level 12: when arriving, all hostile creatures adjacent to the destination square receive 30-45 + ((str / 15) + level / 3) physical damage
+
+    Chains of Ice, level 11
+    command: [BlackguardChainsOfIce
+    The blackguard throws icy chains around themselves, freezing all hostile creatures for 3 + 1  per 4 levels seconds. Creatures caught by the chains receive 30-43 + (str/15) cold damage.
+	costs 30 mana to activate and has a 90 seconds cooldown.
+    - Level 16: When the paralyze ends, the chains explode causing an additional 30-43 + (str/15) cold damage at each creature adjacent to an affected creature
+
+    Frostwyrm's Fury, level 18
+    command: [BlackguardsFrostwyrmsFury
+    The blackguard opens the netherworld gates and calls forth an undead dragon bound to his will.
+    The creature is a powerful dracolich that requires 4 control slots and remains at the blackguard's side until defeated. 
+    Activating this ability costs 60 mana and 60 stamina. It has a 5 minutes cooldown. 
+    - Level 20: there's a 1% chance per level that two frostwyrms will be summoned instead. 
+    
+    Frozen Heart, level 2
+    Increases the cold damage done by the blackguard's weapon strikes by 6%
+    - Level 5: Increases the cold damage done by the blackguard's weapon strikes by 12%
+    - Level 13:Increases the cold damage done by the blackguard's weapon strikes by 18%
+    
+    Morbidity, level 8
+    When the blackguard kills a positive karma creature, they have a 0.25% chance per level of terrorizing most nearby foes that are up to 2 tiles away and making them flee for 3 seconds. 
+    - Level 17: Terrorized enemies flee for 6 seconds instead.
+
+    Merciless Strikes, level 14
+    The blackguard's weapon attacks have a 1% chance per level of affecting the target's weakest resistance.
+    - Level 19: The blackguard's merciless strikes have a 0.25% chance per level of paralyzing the target for 3 seconds.
+
+    Soul Reaper, level 20
+    When killing a hostile creature, the blackguard has a 0.25% chance per level of syphoning level + str /25 health from  all hostile creatures that are up to 2 tiles away from it. 
+
+    Skald
+    active: war chant, saga of valor, song of thunder, dirge of the fallen
+    passive:  Battlefield Rhythm, ressonance, harmonic echo, saga of steel 
+
+    The Skald is the hero of song and the keeper of valor. In combat, they use powerful music to strengthen themselves and their allies.
+    In order to activate this Ascension, you need to have 95 base skill in Musicianship, Tactics and Discordance. Every time you level up the class, the requirement also increases by 1.
+    So a level 20 Skald cannot activate this ascension unless they have 115 base skill in Musicianship, Tactics and Discordance.
+    Skalds are proud and pragmatic. They will not gain experience in this class if they have learned bushido, necromancy, marksmanship, hiding or begging.
+
+    War Chant, level 1
+    command: [SkaldWarChant
+    The Skald channels a powerful song that empowers their allies. 
+    For 10 (+1 per level) seconds, the skald and all friendly creatures up to 4 tiles away receive (5 + 1 per level) strength and dexterity,  and a (5 +1 per level) bonus to tactics and magic resistance.
+    This skill costs 20 mana to activate and has a 90 seconds cooldown.
+    - Level 10: The skald and their allies received a 0.5% per level damage bonus with weapons while the warchant is active.
+    - Level 15: When the skald or their allies defeat an enemy while the warchant is active, they recover 5 health and 3 stamina.
+    - Level 20: When the War Chant ends on the Skald, there's a 2% chace per level of it being cast again ignoring its cooldown and mana cost.
+
+    Saga of Valor, level 6
+    command: [SkaldSagaOfValor
+    The skald and all of their allies up to 4 tiles away receive +(level/2)% hit chance bonus for 15 +1 per level seconds. 
+    This skill costs 30 mana to activate and has a 90 seconds cooldown.
+    - Level 12: The skald and all of their allies up to 4 tiles aawy receive a +(level/2)% defend chance increase for the duration of the sage. 
+
+    Song of Thunder, level 11
+    command: [SkaldSongOfThunder
+    The skald calls forth lightning to strike at their foes. For 15 + 1 per level seconds, lightningbolt hits a random nearby hostile target every 3 seconds causing 30-45 (+ skalds fame / 1000) energy damage, to a maximum range of 4 tiles. 
+    This skill costs 40 mana to activate and has a 180 seconds cooldown.
+    - Level 16: Every 3 seconds after the first lightning hit, an additional lightning strike happens at a different random nearby hostile target. 
+
+    Dirge Of The Fallen, level 18
+    command: [SkaldDirgeOfTheFallen
+    The skald sings about the valor of ancient heroes and brings them to battle. When this song is played, the skald summons 3 + (level/4) ancient warriors of legend that will attack the skald's foes until they are defeated.
+    The acient warriors last for a maximum of 90 seconds, this skill costs 50 mana to activate and has a 5 minutes cooldown.
+    - Level 20: When using Dirge of The Fallen, there's a 1% chance per level of Song of Thunder automatically triggering.
+    
+    Battlefield Rhythm, level 2
+    The skald gains a 3% damage bonus with weapons against creatures that are discorded, provoked or peaced 
+    - Level 5: The skald gains a 9% damage bonus with weapons against creatures that are discorded, provoked or peaced  instead
+    - Level 13: The skald gains a 18% damage bonus with weapons against creatures that are discorded, provoked or peaced  instead
+    
+    Cutting Words, level 8
+    The skalds discordance attempts suppress an additional 4% of the target's attributes and skills
+    - Level 17: The skalds discordance attempts suppress an additional 8% of the target's attributes and skills
+
+    Ressonance, level 14
+    Your musical prowess is considered 15% higher for song spells
+    - Level 19: Your musical prowess is considered 25% higher for song spells instead
+
+    Saga of Steel, level 20
+    When killing a hostile creature with a weapon, the Skald has a 0.25% chance per level of immediately triggering an instant Foe Requiem spell song on the nearest hostile creature.
+
+Reaver
+    active: gorge, exsanguinate, bloodstorm , Absolute Tyranny
+    passive: Leech, Ruthless, flaying strikes, deep cuts,    
+
+    The Reaver is a vicious and savage combatant. In combat, they specialize in making their opponents bleed and sap their will to live with powerful and crippling strikes.
+    In order to activate this Ascension, you need to have 95 base skill in Tactics, Anatomy and Forensics. Every time you level up the class, the requirement also increases by 1.
+    So a level 20 Reaver cannot activate this ascension unless they have 115 base skill in Tactics, Anatomy and Forensics.
+    Reavers will not gain experience in this class if they have learned Bushido, Healing, Veterinary, knightship or Spiritualism.
+
+    Gorge, level 1
+    command: [ReaverGorge
+    The Reaver lays a curse around target area, spread thick vicious blood on it (radius 2 + 1 / 4 levels). 
+    Hostile creatures standing on the area receive -1.25 physical resistance per level of the reaver. The area lasts for 10 + 1/level seconds. 
+    This ability costs 15 stamina and 15 mana to activate and it has a 3 minutes cooldown. 
+    - Level 10: Creatures caught inside the gorge's area are slowed and can't run. 
+    - Level 15: Creatures caught inside the gorge's area receive -0.66 penalty per level of the reaver on all elemental resistances. 
+    - Level 20: When a creature dies inside the gorge's area, there's a 1.5% chance per level of the reaver that it's corpse explodes, 
+    causing 40-66 + (reaver's str / 15 + reaver's tactics/12) physical damage on all hostile creatures that are up to 2 tiles away from it. 
+
+    Exsanguinate, level 6
+    command: [ReaverExsanguinate
+    The Reaver performs a whirlwind attack that makes all adjacent targets bleed. The attack causes 18-26 + str/15 physical damage, and the bleed causes 26-32 physical damage every 3 seconds for 13 + level seconds.
+    This ability costs 20 mana and 20 stamina to activate, and has a 1 minute cooldown
+    - Level 12: the reaver recovers 9 health for each enemy affected by the Exsanguinate.
+
+
+    Bloodstorm, level 11
+    command: [ReaverBloodstorm
+    The reaver channels its scorn and calls forth an explosion of blood. This effect causes 20-32 + (level/2 + str/15) damage to all creatures that can bleed and are up to 3 (+1 per 5 levels) tiles away from the reaver.
+    Exsanguinate costs 25 mana and 25 stamina to activate, and has a 2 minutes cooldown.
+    - Level 16: When used, there's a 0.5% chance per level that the cooldown on Exsanguinate will be set to zero.
+
+    Absolute Tyranny, level 18
+    command: [ReaverAbsoluteTyranny
+    For the next 30 seconds, the Reaver causes 18% extra physical damage with axes, and when they kill an enemy with an axe strike, they recover 10% of their hit points and stamina. 
+    Absolute tyranny costs 30 mana and 30 stamina to activate, and has a 3 minutes cooldown.   
+    - Level 20: When a Reaver kills an enemy while under the effect of Absolute Tyranny, there's a 1% chance per level that its corpse explodes, causing 30-56 + (str/15 + tactics/12) physical damage to all hostile creatures
+    that are up to 2 tiles away from it.
+    
+    Leech, level 2
+    When the reaver makes an axe strike against a foe, they have a 0.25% chance per level of draining 0.10%/level hit points from the target.
+    - Level 5: When the reaver makes an axe strike against a foe, they have a 0.25% chance per level of draining 0.12%/level mana from the target.
+    - Level 13: when the reaver makes an axe strike against a foe that has 25% or less hit points remaining, they have a 0.5%/level chance of draining an additional 1%/level hit points from the target.
+    
+    Ruthless, level 8
+    The reaver causes 9% extra  damage with axes. 
+    - Level 17: The reaver causes 18% extra  damage with axes instead. 
+
+    Flaying Strikes, level 14
+    The Reaver's weapon attacks with axes have a 1% chance per level of affecting the target's weakest resistance.
+    - Level 19: The Reaver's merciless strikes have a 0.25% chance per level of setting the cooldown on Gorge to zero.
+
+    Deep Cuts, level 20
+    When killing a hostile creature, the reaver has a 0.25% chance per level of applying a heavy bleed on all hostile creatures adjacent to it. 
+    These creatures are crippled (can't run) and take 52-72 + str/10 damage every 3 seconds for 12 to 21 seconds. This effect does not stack.
+
+Kensai
+    active: battle meditation, Kai, culling strike, tempest
+    passive: practiced perfection, singular focus, iaijutsu, Final cut
+
+    The Kensai is master of the blade. In combat, they specialize in powerful strikes and pure mastery of the bushido.
+    In order to activate this Ascension, you need to have 95 base skill in Bushido, Arms Lore and Swordsmanship. Every time you level up the class, the requirement also increases by 1.
+    So a level 20 Kensai cannot activate this ascension unless they have 115 base skill in Bushido, Arms Lore and Swordsmanship.
+    Kensai will not gain experience in this class if they have learned Knightship, Magery, Necromancy or Ninjitsu.
+
+    Battle Meditation, level 1
+    command: [KensaiBattleMeditation
+    The Kensai enters a powerful battle trance. For the next 20 + 1/level seconds, the Kensai causes +(10 + level/2) % damage with swords and has +(5 + level/2)% increased swing speed. 
+    This costs 20 stamina to activate and has a 2 minutes cooldown.
+    - Level 10: While under the effects of battle meditation, the Kensai has +(10+level/2) defense chance increase;
+    - Level 15: When the Kensai hits an enemy while under the effects of battle meditation, there's an 1%/level chance that the cooldown on Culling Strike is set to zero.
+    - Level 20: When the Kensai kills an enemy while under the effects of battle meditation, the cooldown on tempest is reduced by 5 seconds. 
+
+    Kai, level 6
+    command: [KensaiKai
+    When used, the character chooses a free tile that is at least 2 tiles away from them and its moved to that tile. The maximum range is equal to  3 + level/4. When landing, the character causes 20-35 + ( (Dex / 15) + level / 3 ) damage on all targets adjacent to that tile. Has a cooldown of 9 seconds, minus one second per 3 Kensai levels. 
+    This ability costs 30 stamina to activate.
+    - Level 12, when landing, the kensai has a 1%/level chance of performing a culling strike on all adjacent targets if the kensai is wearing a sword. 
+    
+    Culling Strike, level 11
+    command: [KensaiCullingStrike
+    For the next 30 seconds, whenver the Kensai makes an attack with a sword against a target that has less than 10% of their total hit points, the Kensai has a 2%/level chance of causing + 80% damage with that strike.
+    This ability costs 50 stamina to activate and has a 3 minutes cooldown.
+    - Level 16: Culling strike's bonus damage can trigger on opponents that have less than 15% of their total hit points.
+
+    Tempest, level 18
+    command: [KensaiTempest
+    The Kensai becames a storm of swords. When this ability is activated, the Kensai will attack against every enemy up to 6 tiles away, causing 70-85 + dex/15 physical damage. 
+    This ability costs 75 Stamina to activate and has a 1 minute cooldown. 
+    - Level 20: When  Tempest kills an enemy, there's an 0.5%/level chance that it will trigger again immediately without requiring the stamina cost. 
+    
+    Practiced Perfection, level 2
+    The Kensai causes 6% increased damage with swords. 
+    - Level 5: The Kensai causes 12% increased damage with swords. 
+    - Level 13: The Kensai causes 18% increased damage with swords. 
+
+    Singular Focus, level 8
+    When the Kensai kills an enemy that was at full health with a sword attack, they gain 9% extra damage with swords for 30 seconds. This effect does not stack.
+    - Level 17: When the Kensai kills an enemy that was at full health with a sword attack, they gain 18% extra damage with swords for 30 seconds. This effect does not stack.
+
+    Iaijutsu, level 14
+    The Kensai weapon attacks with swords have a 1% chance per level of affecting the target's weakest resistance.
+    - Level 19: The Kensai's Iaijutsu attacks have a 0.25% chance per level of triggering an additional time.
+
+    Final Cut, level 20
+    When the Kensai kills a full health enemy with a sword attack, they have a 0.25% chance per level of triggering a Tempest that does not cost stamina.
+
+Hierophant
+    active: Divine Wrath, Exalted Presence, Consecrated Ground, Divine Power
+    passive: Blessed Might, Divine Resilience, Death Ward, Divine Absolution
+
+    The Hierophant is master of the divine. In combat, they specialize in conjuring aid from their deity and channeling divine power to aid their allies.
+    In order to activate this Ascension, you need to have 95 base skill in Healing, Spiritualism and Meditation. Every time you level up the class, the requirement also increases by 1.
+    So a level 20 Hierophant cannot activate this ascension unless they have 115 base skill in Healing, Spiritualism and Meditation.
+    Hierophant will not gain experience in this class if they have learned Knightship, Forensics, Necromancy, Bushido or Ninjitsu.
+
+    Divine Wrath, level 1
+    command: [HierophantDivineWrath
+    The Hierophant calls forth divine vengeance. The Hierophant selects a target location, and divine fire falls upon it, causing 30-48 + (karma/1000) fire damage on all targets up to 2 tiles away from that location.
+    Creatures with negative karma receive + 15% damage from this ability.
+    This ability costs 35 mana, and it has a 1 minute cooldown.
+    - Level 10: Creatures with negative Karma receive + 25% damage from this ability.
+    - Level 15: Creatures with negative Karma hit by this ability are paralyzed for 4 seconds and receive 15-24 fire damage every 2 seconds for 12 + level/3 seconds.
+    - Level 20: Whis this ability is cast, there's a 20% chance that it will be cast again immediately. 
+
+    Exalted Presence, level 6
+    command: [HierophantExaltedPresence
+    The Hierophant calls forth the power of their god to humble and awe all enemies. They are forced to move level/3 tiles away from the Hierophant and stop attacking the hierophant immediately. 
+    This ability costs 45 mana to activate, and it has a 2 minutes cooldown.
+    - Level 12: Evil creatures affected by Exalted Presence are paralyzed for 8 seconds. 
+    
+    Consecrated Ground, level 11
+    command: [HierophantConsecratedGround
+    The Hierophant calls forth holy light to purify up to 4 tiles around it. Positive Karma creatures standing on it recover 12 + level/3 hit points and 5 + level/3 mana every 2 seconds for level/3 seconds.
+    Negative karma creatures standing on the consecrated ground receive 22-32 + level/3 fire damage every 2 seconds for level/3 seconds.
+    This ability costs 55 mana to activate, and it has a 3 minutes cooldown.
+    - Level 16: When the Hierophant casts Heal, Greater Heal or touch of life, the target recovers 25% extra hit points.
+
+    Divine Power, level 18
+    command: [HierophantDivinePower
+    The Hierophant calls the power of their god to strengthen then. They receive +20 str and dex, +15 tactics and spiritualism, regenerate 8 hit points per second and cause + 20% damage with weapons. 
+    This spell costs 55 mana to activate and it has a 3 minutes cooldown. It lasts for 30+level seconds.
+    - Level 20: When the Hierophant defeats an enemy with negative karma in combat, there's a 20% chance that the cooldown of Divine Wrath will be set to zero. 
+    
+    Blessed Might, level 2
+    The Hierophant causes 5% more damage with bashing weapons.
+    - Level 5: The Hierophant causes 10% more damage with bashing weapons.
+    - Level 13: The Hierophant causes 15% more damage with bashing weapons.
+
+    Divine Resilience, level 8
+    The Hierophant receives 4% less damage from all sources. 
+    - Level 17: The Hierophant receives 8% less damage from all sources. 
+
+    Death Ward, level 14
+    When the Hierophant receives damage that would kill them, they have a 1% chance per level of ignoring that damage. 
+    - Level 19: When death Ward triggers, the Hierophant recovers 33% of their hit points. 
+
+    Divine Absolution, level 20
+    When the Hierophant receives damage from an evil creature, they have a 0.25%/level chance of triggering consecrated ground without paying its mana cost. 
+
+
+    Arcane Archer
+    active: imbue arrows, Charged Arrows, arcane volley, barrage
+    passive: arcane precision, mystical ricochet, arcane feedback, arcane momentum
+
+    The Arcane Archer is master marksman and conjurer. In combat, they specialize in raining magical projectiles at their opponents.
+    In order to activate this Ascension, you need to have 95 base skill in Magery, Focus, inscription and Marksmanship. Every time you level up the class, the requirement also increases by 1.
+    So a level 20 Arcane Archer cannot activate this ascension unless they have 115 base skill in Magery, Focus, inscription and Marksmanship.
+    Arcane archers will not gain experience in this class if they have learned Knightship, Necromancy, elementalism or Bushido.
+
+    Imbue Arrow, level 1
+    command: [ArcaneArcherImbueArrows
+    For the next 30 (+1/level) seconds, the arcane archer ranged attacks have a 2%/level chance of affecting the target's worst resistance. 
+    This ability costs 40 mana to activate and has a 2 minutes cooldown.
+    - Level 10: When a triggered ability from a ranged attack would happen, there's a 1%/level chance that it will trigger twice.
+    - Level 15: Triggered abilities from ranged attacks do 25% more damage while Imbue Arrows is active.
+    - Level 20: When imbue arrows ends, there's a 1%/level chance of the cooldown on barrage being set to zero.
+
+    Charged Arrows, level 6
+    command: [ArcaneArcherChargedArrows
+    The arcane archer releases a powerful arrow that damages everything in its path for 45-75 + (int/15 + dex/15) damage of a random element. 
+    This ability costs 50 mana to activate and has a 1 minute cooldown. It has a range of 6 tiles. 
+    - Level 12: when charged arrows is cast, there's a 0.5%/level chance of setting the cooldown of Arcane Volley to zero. 
+    
+    Arcane Volley, level 11
+    command: [ArcaneArcherArcaneVolley
+    The arcane archer targets a location and rapidly fires multiple arrows at it, hitting every enemy that is up to 4 tiles for 55-75 + inscription/10 damage of a random element. 
+    This ability costs 60 mana to activate and has a 30 seconds cooldown. 
+    - Level 16: there's a 1%/level chance that Arcane volley will trigger twice when cast.
+
+    Barrage, level 18
+    command: [ArcaneArcherBarrage
+    The arcane archers fires a torrent of arrows towards the target, attacking level/4 times in an instant. This ability costs 70 mana to activate and has a 3 minutes cooldown.
+    - Level 20: there's a 0.25%/level chance of barrage firing twice when cast.
+    
+    Arcane Precision, level 2
+    The arcane archer causes 6% more damage with ranged attacks.
+    - Level 5: The arcane archer causes 12% more damage with ranged attacks.
+    - Level 13: The arcane archer causes 18% more damage with ranged attacks.
+
+    Mystical Ricochet, level 8
+    When firing a ranged attack, there's a 0.25%/level chance that the nearest enemy will also be damaged by it.
+    - Level 17: Ricochet can trigger to up the two nearby enemies.
+
+    Arcane Feedback, level 14
+    When killing an opponent with a ranged attack, the arcane archer recovers inscription/25 mana.
+    - Level 19:  When killing an opponent with a ranged attack, the arcane archer recovers either focus/25 stamina or focus/25 health.
+
+    Arcane Momentum, level 20
+    When killing an opponent with a ranged attack, the arcane archer gains inscription/10 spell absorbtion 30 seconds. 
+
+
+Summoner
+    active: Eidolon, Elemental Form, Elemental Overload, Elemental Conduit
+    passive: Aether Gates, Echoing Spells, elemental tempest ,Aether Nexus
+
+
+    The Summoner is a powerful casters that channels elemental magic into the aether and condenses it into a variety of creatures. 
+    In combat, they specialize in bringing otherwordly aid into the battle and channeling powerful spells.
+    In order to activate this Ascension, you need to have 95 base skill in Elementalism, Spiritualism and Herding. Every time you level up the class, the requirement also increases by 1.
+    So a level 20 Summoner cannot activate this ascension unless they have 115 base skill in Elementalism, Spiritualism and Herding.
+    Summoners will not gain experience in this class if they have learned Knightship, taming, bushido or druidism.
+
+
+    Eidolon, level 1
+    command: [SummonerEidolon
+    The Summoner calls for a spiritual guardian that materializes and defends it until defeated.
+    Calling forth the Eidolon costs 40 mana. Only one Eidolon might be active at a time, and the ability has a 3 minutes cooldown. 
+    The Eidolon's abilities, forms and attributes depends on the currently selected elemental focus of the caster. 
+    The Eidolon requires 4 follower slots. 
+    - Level 10: Each of the Eidolon's melee attacks will restore 5 mana to the Summoner.
+    - Level 15: The Eidolon requires 3 follower slots instead of 4. 
+    - Level 20: When defeated, the Eidolon has a 20% chance of instantly returning.
+
+    Elemental Form, level 6
+    command: [Summoner
+    The summoner assumes the form of an elemental corresponding to their currently active focus. This transformation lasts until the Summoner dies or until the ability is cast again.
+    Activating this ability costs 50 mana. Each elemental form has different abilities, as follows:
+    Fire: Opponents hitting you in melee combat receive 15-25 + (int/15) fire damage. 
+    Water:
+    Earth:
+    Air:
+    - Level 12:
+    
+    Elemental Overload, level 11
+    command: [Summoner
+    - Level 16:
+
+    Elemental Conduit, level 18
+    command: [Summoner
+    - Level 20:
+    
+    Aether Gates, level 2
+    The Summoner has 1 extra follower slot.
+    - Level 5: The Summoner has 2 extra follower slots.
+    - Level 13: The Summoner has 3 extra follower slots.
+
+    Echoing Spells, level 8
+    - Level 17:
+
+    Elemental Tempest, level 14
+    - Level 19:
+
+    Aether Nexus, level 20

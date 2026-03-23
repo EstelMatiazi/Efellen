@@ -61,7 +61,8 @@ namespace Server.Items
     		}
     		else
     		{
-    		    if (roll < 0.44) chosen = Poison.Deadly;
+    		    if(roll < 0.12) chosen = Poison.Lethal;
+				else if (roll < 0.44) chosen = Poison.Deadly;
     		    else chosen = Poison.Greater;
     		}
 
@@ -77,6 +78,8 @@ namespace Server.Items
     		        Misc.Titles.AwardKarma(attacker, -70, true);
     		    else if (chosen == Poison.Deadly)
     		        Misc.Titles.AwardKarma(attacker, -80, true);
+			    else if (chosen == Poison.Lethal)
+    		        Misc.Titles.AwardKarma(attacker, -90, true);
     		}
 		}
 

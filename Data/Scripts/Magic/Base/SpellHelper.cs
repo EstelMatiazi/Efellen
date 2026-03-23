@@ -630,62 +630,100 @@ namespace Server.Spells
 			CheckReflect( circle, ref caster, ref target );
 		}
 
-		public static void CheckReflect( int circle, ref Mobile caster, ref Mobile target )
+		public static void CheckReflect(int circle, ref Mobile caster, ref Mobile target)
 		{
-			if( target.MagicDamageAbsorb > 0 )
-			{
-				++circle;
-
-				target.MagicDamageAbsorb -= circle;
-
-				// This order isn't very intuitive, but you have to nullify reflect before target gets switched
-
-				bool reflect = (target.MagicDamageAbsorb >= 0);
-
-				if( target is BaseCreature )
-					((BaseCreature)target).CheckReflect( caster, ref reflect );
-
-				if( target.MagicDamageAbsorb <= 0 )
-				{
-					target.MagicDamageAbsorb = 0;
-					DefensiveSpell.Nullify( target );
-				}
-
-				if( reflect )
-				{
-					target.FixedEffect( 0x37B9, 10, 5 );
-
-					Mobile temp = caster;
-					caster = target;
-					target = temp;
-				}
-
-				if ( target.MagicDamageAbsorb < 1 )
-				{
-					BuffInfo.RemoveBuff( target, BuffIcon.Absorption );
-					BuffInfo.RemoveBuff( target, BuffIcon.PsychicWall );
-					BuffInfo.RemoveBuff( target, BuffIcon.Deflection );
-					BuffInfo.RemoveBuff( target, BuffIcon.TrialByFire );
-					BuffInfo.RemoveBuff( target, BuffIcon.OrbOfOrcus );
-					BuffInfo.RemoveBuff( target, BuffIcon.MagicReflection );
-					BuffInfo.RemoveBuff( target, BuffIcon.ElementalEcho );
-				}
-			}
-			else if( target is BaseCreature )
-			{
-				bool reflect = false;
-
-				((BaseCreature)target).CheckReflect( caster, ref reflect );
-
-				if( reflect )
-				{
-					target.FixedEffect( 0x37B9, 10, 5 );
-
-					Mobile temp = caster;
-					caster = target;
-					target = temp;
-				}
-			}
+		    bool reflected = false;
+		
+		    if (target.MagicDamageAbsorb > 0)
+		    {
+		        ++circle;
+		        target.MagicDamageAbsorb -= circle;
+		
+		        bool reflect = (target.MagicDamageAbsorb >= 0);
+		
+		        if (target is BaseCreature)
+		            ((BaseCreature)target).CheckReflect(caster, ref reflect);
+		
+		        if (target.MagicDamageAbsorb <= 0)
+		        {
+		            target.MagicDamageAbsorb = 0;
+		            DefensiveSpell.Nullify(target);
+		        }
+		
+		        reflected = reflect;
+		
+		        if (reflect)
+		        {
+		            target.FixedEffect(0x37B9, 10, 5);
+		
+		            Mobile temp = caster;
+		            caster = target;
+		            target = temp;
+		        }
+		
+		        if (target.MagicDamageAbsorb < 1)
+		        {
+		            BuffInfo.RemoveBuff(target, BuffIcon.Absorption);
+		            BuffInfo.RemoveBuff(target, BuffIcon.PsychicWall);
+		            BuffInfo.RemoveBuff(target, BuffIcon.Deflection);
+		            BuffInfo.RemoveBuff(target, BuffIcon.TrialByFire);
+		            BuffInfo.RemoveBuff(target, BuffIcon.OrbOfOrcus);
+		            BuffInfo.RemoveBuff(target, BuffIcon.MagicReflection);
+		            BuffInfo.RemoveBuff(target, BuffIcon.ElementalEcho);
+		        }
+		    }
+		    else if (target is BaseCreature)
+		    {
+		        bool reflect = false;
+		
+		        ((BaseCreature)target).CheckReflect(caster, ref reflect);
+		        reflected = reflect;
+		
+		        if (reflect)
+		        {
+		            target.FixedEffect(0x37B9, 10, 5);
+		
+		            Mobile temp = caster;
+		            caster = target;
+		            target = temp;
+		        }
+		    }
+		
+		    // Archmage Weave Reflection
+		    PlayerMobile pm = target as PlayerMobile;
+		
+		    if (pm != null && pm.HasActiveAscension && pm.ActiveAscension == AscensionType.Archmage)
+		    {
+		        AscensionProgress prog = pm.AscensionProfile.Get(AscensionType.Archmage);
+		
+		        if (prog != null && prog.Level >= 8)
+		        {
+		            double chance = prog.Level * 2.5;
+		
+		            if (Utility.RandomDouble() < (chance / 100.0))
+		            {
+		                if (!reflected)
+		                {
+		                    reflected = true;
+		
+		                    pm.FixedEffect(0x37B9, 10, 5);
+		
+		                    Mobile temp = caster;
+		                    caster = pm;
+		                    target = temp;
+		                }
+		                if (prog.Level >= 17)
+		                {
+		                    double resetChance = prog.Level * 1.0;
+		                    if (Utility.RandomDouble() < (resetChance / 100.0))
+		                    {
+		                        pm.SetAbilityCooldown("Conflux", TimeSpan.Zero);
+		                        pm.SendMessage("Your Conflux cooldown has been reset!");
+		                    }
+		                }
+		            }
+		        }
+		    }
 		}
 
 		public static void Damage( Spell spell, Mobile target, double damage )

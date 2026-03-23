@@ -9,7 +9,8 @@ namespace Server.Mobiles
 	{
 		public int BCPoison;
 		public int BCImmune;
-
+		
+		public override bool IsDispellable { get { return false; } }
 		public override double DispelDifficulty{ get{ return 117.5; } }
 		public override double DispelFocus{ get{ return 45.0; } }
 		public override bool DeleteCorpseOnDeath{ get{ return true; } }

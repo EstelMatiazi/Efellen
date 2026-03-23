@@ -2,7 +2,8 @@ using System;
 using Server.Targeting;
 using Server.Network;
 using Server.Misc;
-
+using Server.Custom.Ascensions;
+using Server.Mobiles;
 namespace Server.Spells.Seventh
 {
 	public class ManaVampireSpell : MagerySpell
@@ -28,49 +29,63 @@ namespace Server.Spells.Seventh
 			Caster.Target = new InternalTarget( this );
 		}
 
-		public void Target( Mobile m )
+		public void Target(Mobile m)
 		{
-			if ( !Caster.CanSee( m ) )
-			{
-				Caster.SendLocalizedMessage( 500237 ); // Target can not be seen.
-			}
-			else if ( CheckHSequence( m ) )
-			{
-				SpellHelper.Turn( Caster, m );
+		    if (!Caster.CanSee(m))
+		    {
+		        Caster.SendLocalizedMessage(500237); // Target cannot be seen
+		        return;
+		    }
 
-				SpellHelper.CheckReflect( (int)this.Circle, Caster, ref m );
+		    if (!CheckHSequence(m))
+		        return;
 
-				if ( m.Spell != null )
-					m.Spell.OnCasterHurt();
+		    SpellHelper.Turn(Caster, m);
+		    SpellHelper.CheckReflect((int)this.Circle, Caster, ref m);
 
-				m.Paralyzed = false;
-				BuffInfo.CleanupIcons( m, true );
+		    if (m.Spell != null)
+		        m.Spell.OnCasterHurt();
 
-				int toDrain = (int)( Spell.ItemSkillValue( Caster, DamageSkill, false ) - GetResistSkill( m ) );
+		    m.Paralyzed = false;
+		    BuffInfo.CleanupIcons(m, true);
 
-				if ( !m.Player )
-					toDrain /= 2;
+		    int toDrain = (int)(Spell.ItemSkillValue(Caster, DamageSkill, false) - GetResistSkill(m));
 
-				if ( toDrain < 0 )
-					toDrain = 0;
-				else if ( toDrain > m.Mana )
-					toDrain = m.Mana;
+		    if (!m.Player)
+		        toDrain /= 2;
 
-				if ( toDrain > (Caster.ManaMax - Caster.Mana) )
-					toDrain = Caster.ManaMax - Caster.Mana;
+		    if (toDrain < 0)
+		        toDrain = 0;
+		    else if (toDrain > m.Mana)
+		        toDrain = m.Mana;
 
-				m.Mana -= toDrain;
-				Caster.Mana += MyServerSettings.PlayerLevelMod( toDrain, Caster );
+		    int refunded = 0;
 
-				m.FixedParticles( 0x374A, 1, 15, 5054, PlayerSettings.GetMySpellHue( true, Caster, 23 ), 7, EffectLayer.Head );
-				m.PlaySound( 0x1F9 );
+		    PlayerMobile pmTarget = m as PlayerMobile;
+    		if (pmTarget != null && pmTarget.HasActiveAscension && pmTarget.ActiveAscension == AscensionType.Archmage)
+    		{
+    		    AscensionProgress prog = pmTarget.AscensionProfile.Get(AscensionType.Archmage);
+    		    if (prog != null && prog.Level >= 2)
+    		    {
+    		        ArchmageManaVaultAbility vault = new ArchmageManaVaultAbility();
+    		        refunded = vault.OnManaLoss(pmTarget, toDrain, Caster);
+    		    }
+    		}
 
-				Caster.FixedParticles( 0x0000, 10, 5, 2054, PlayerSettings.GetMySpellHue( true, Caster, 23 ), 7, EffectLayer.Head );
+		    int actualDrain = toDrain - refunded;
+		    if (actualDrain > 0)
+		        m.Mana -= actualDrain;
 
-				HarmfulSpell( m );
-			}
+		    if (refunded == 0)
+		        Caster.Mana += MyServerSettings.PlayerLevelMod(toDrain, Caster);
 
-			FinishSequence();
+		    m.FixedParticles(0x374A, 1, 15, 5054, PlayerSettings.GetMySpellHue(true, Caster, 23), 7, EffectLayer.Head);
+		    m.PlaySound(0x1F9);
+
+		    Caster.FixedParticles(0x0000, 10, 5, 2054, PlayerSettings.GetMySpellHue(true, Caster, 23), 7, EffectLayer.Head);
+
+		    HarmfulSpell(m);
+		    FinishSequence();
 		}
 
 		public override double GetResistPercent( Mobile target )

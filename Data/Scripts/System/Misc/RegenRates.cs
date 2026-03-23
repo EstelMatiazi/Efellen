@@ -5,6 +5,7 @@ using Server.Spells;
 using Server.Spells.Necromancy;
 using Server.Spells.Ninjitsu;
 using Server.Mobiles;
+using Server.Custom.Ascensions;
 
 namespace Server.Misc
 {
@@ -51,32 +52,47 @@ namespace Server.Misc
 		}
 
 		private static TimeSpan Mobile_HitsRegenRate( Mobile from )
-		{
-			int points = AosAttributes.GetValue( from, AosAttribute.RegenHits );
+        {
+            int points = AosAttributes.GetValue( from, AosAttribute.RegenHits );
 
-			if ( from is BaseCreature && !((BaseCreature)from).IsAnimatedDead )
-				points += 4;
+            if ( from is BaseCreature && !((BaseCreature)from).IsAnimatedDead )
+                points += 4;
 
-			if ( (from is BaseCreature && ((BaseCreature)from).IsParagon) || from is Leviathan )
-				points += 40;
+            if ( (from is BaseCreature && ((BaseCreature)from).IsParagon) || from is Leviathan )
+                points += 40;
 
-			if( Core.ML && from.Race == Race.Human )	//Is this affected by the cap?
-				points += 2;
+            if ( Core.ML && from.Race == Race.Human )
+                points += 2;
 
-			if ( points < 0 )
-				points = 0;
+            if ( points < 0 )
+                points = 0;
 
-			if( Core.ML && from is PlayerMobile )	//does racial bonus go before/after?
-				points = Math.Min( points, 18 );
+            if ( Core.ML && from is PlayerMobile )
+                points = Math.Min( points, 18 );
 
-			if ( CheckTransform( from, typeof( HorrificBeastSpell ) ) )
-				points += 20;
+            if ( CheckTransform( from, typeof( HorrificBeastSpell ) ) )
+                points += 20;
 
-			if ( CheckAnimal( from, typeof( Dog ) ) || CheckAnimal( from, typeof( Cat ) ) )
-				points += from.Skills[SkillName.Ninjitsu].Fixed / 30;
+            if ( CheckAnimal( from, typeof( Dog ) ) || CheckAnimal( from, typeof( Cat ) ) )
+                points += from.Skills[SkillName.Ninjitsu].Fixed / 30;
 
-			return TimeSpan.FromSeconds( 1.0 / (0.1 * (1 + points)) );
-		}
+            // ── Divine Power (Hierophant, level 18): +8 HP per second ───────
+            // The timer fires once per interval and adds 1 HP.
+            // To achieve +8 HP/s we add 80 regen points, which drives
+            // the interval toward 1.0 / (0.1 * (1 + points)) ≈ 0.125s per tick,
+            // effectively 8 ticks per second.
+            PlayerMobile regenPm = from as PlayerMobile;
+
+            if ( regenPm != null
+                && regenPm.ActiveAscension == AscensionType.Hierophant
+                && regenPm.HasAscensionEffect("DivinePower") )
+            {
+                points += 80;
+            }
+            // ── End Divine Power regen ────────────────────────────────────────
+
+            return TimeSpan.FromSeconds( 1.0 / (0.1 * (1 + points)) );
+        }
 
 		private static TimeSpan Mobile_StamRegenRate( Mobile from )
 		{

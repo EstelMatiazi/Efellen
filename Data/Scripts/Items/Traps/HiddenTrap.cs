@@ -1134,6 +1134,41 @@ namespace Server.Items
 				nSprung = false;
 			}
 
+			// Berserker Uncanny Dodge
+			if (m is PlayerMobile && nSprung)
+			{
+			    PlayerMobile pm = m as PlayerMobile;
+
+			    if (pm.ActiveAscension == AscensionType.Berserker && pm.AscensionProfile != null)
+			    {
+			        AscensionProgress prog = pm.AscensionProfile.Get(AscensionType.Berserker);
+
+			        if (prog != null && prog.Level >= 8)
+			        {
+			            int level = prog.Level;
+
+			            double chance;
+
+			            if (level >= 17)
+			                chance = 0.45 + (0.01 * level);
+			            else
+			                chance = 0.25 + (0.01 * level);
+
+			            if (Utility.RandomDouble() <= chance)
+			            {
+			                m.LocalOverheadMessage(
+			                    Network.MessageType.Emote,
+			                    0x3B2,
+			                    false,
+			                    "You instinctively sense danger and avoid a trap!"
+			                );
+			                m.PlaySound(0x1F2);
+			                nSprung = false;
+			            }
+			        }
+			    }
+			}
+
 			if ( m is PlayerMobile )
 			{
 				if ( m.Backpack != null && nSprung )

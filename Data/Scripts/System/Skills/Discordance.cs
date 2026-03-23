@@ -210,6 +210,26 @@ namespace Server.SkillHandlers
 
 								scalar = effect * 0.01;
 
+								// ── Cutting Words (Skald passive, level 8+)
+								PlayerMobile cuttingPm = from as PlayerMobile;
+
+								if ( cuttingPm != null && cuttingPm.ActiveAscension == AscensionType.Skald )
+								{
+								    AscensionProgress cuttingProg = cuttingPm.AscensionProfile.Get( AscensionType.Skald );
+								    int cuttingLevel = cuttingProg.Level;
+
+								    double cuttingBonus = 0.0;
+
+								    if      ( cuttingLevel >= 17 ) cuttingBonus = 0.08;
+								    else if ( cuttingLevel >= 8  ) cuttingBonus = 0.04;
+
+								    if ( cuttingBonus > 0.0 )
+									{
+								        scalar -= cuttingBonus; 
+									}
+								}
+								// ── End Cutting Words ─────────────────────────────────────────
+
 								mods.Add( new ResistanceMod( ResistanceType.Physical, effect ) );
 								mods.Add( new ResistanceMod( ResistanceType.Fire, effect ) );
 								mods.Add( new ResistanceMod( ResistanceType.Cold, effect ) );

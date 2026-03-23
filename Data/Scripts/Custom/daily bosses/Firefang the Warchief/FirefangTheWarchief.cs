@@ -14,7 +14,7 @@ using Server.EffectsUtil;
 using Server.Custom;
 using Server.Custom.DailyBosses.System;
 using Server.Custom.BossSystems;
-
+using Server.Custom.Ascensions;
 namespace Server.Mobiles
 {
 	[CorpseName( "Firefang's Corpse" )]
@@ -312,6 +312,7 @@ namespace Server.Mobiles
 			BossLootSystem.AwardBossSpecial(this, BossDrops, 15);
 			for ( int i = 0; i < 2; i++ )
 			{
+				c.DropItem( AscensionScrollFactory.CreateRandom());
 				c.DropItem( Loot.RandomArty() );
 				c.DropItem( new EtherealPowerScroll() );
 			}

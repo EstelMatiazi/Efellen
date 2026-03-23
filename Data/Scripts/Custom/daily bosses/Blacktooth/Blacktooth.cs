@@ -12,6 +12,7 @@ using Server.Commands.Generic;
 using Server.EffectsUtil;
 using Server.Custom;
 using Server.Custom.DailyBosses.System;
+using Server.Custom.Ascensions;
 
 namespace Server.Mobiles
 {
@@ -213,6 +214,7 @@ namespace Server.Mobiles
 
 			BossLootSystem.AwardBossSpecial(this,BossDrops, 15);
 			c.DropItem( new EtherealPowerScroll() );
+			c.DropItem( AscensionScrollFactory.CreateRandom());
 			// gold explosion
 		    RichesSystem.SpawnRiches( m_LastTarget, 1 );
 		}

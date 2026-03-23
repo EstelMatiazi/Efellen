@@ -7,6 +7,7 @@ using Server.Network;
 using Server.ContextMenus;
 using Server.Engines.PartySystem;
 using Server.Misc;
+using Server.Custom.Ascensions;
 
 namespace Server.Items
 {
@@ -63,10 +64,14 @@ namespace Server.Items
 
 				// = ARTIFACTS
 				int artychance = GetPlayerInfo.LuckyPlayerArtifacts( digger.Luck ) + 10;
-				if ( Utility.Random( 100 ) < ( ( level * 10 ) + artychance ) )
+				if ( Utility.Random( 50 ) < ( ( level * 10 ) + artychance ) )
 				{
 					Item arty = Loot.RandomArty();
 					DropItem( arty );
+				}
+				for ( int i = 0; i < level/3; i++ )
+				{
+					DropItem( AscensionScrollFactory.CreateRandom());
 				}
 
 				int giveRelics = level;

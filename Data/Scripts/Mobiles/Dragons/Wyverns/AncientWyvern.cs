@@ -108,7 +108,8 @@ namespace Server.Mobiles
 			    warcry: "*exhales devastating toxins!*",
 			    hue: 0xB96,
 			    rage: 2,
-			    range: 5, 
+			    range: 5,
+				physicalDmg:0, 
 			    poisonDmg: 100
 			);
 		}

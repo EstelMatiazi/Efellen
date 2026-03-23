@@ -14,6 +14,7 @@ using Server.EffectsUtil;
 using Server.Custom;
 using Server.Custom.DailyBosses.System;
 using Server.Custom.BossSystems;
+using Server.Custom.Ascensions;
 
 namespace Server.Mobiles
 {
@@ -291,6 +292,7 @@ namespace Server.Mobiles
 			{
 				c.DropItem( Loot.RandomArty() );
 				c.DropItem( new EtherealPowerScroll() );
+				c.DropItem( AscensionScrollFactory.CreateRandom());
 			}
 			
 			RichesSystem.SpawnRiches( m_LastTarget, 2 );

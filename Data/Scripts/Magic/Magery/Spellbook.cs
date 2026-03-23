@@ -162,6 +162,12 @@ namespace Server.Items
 					 this is BookOfNinjitsu || this is AncientSpellbook || this is SythSpellbook);
 		}
 
+		public bool AllowSlayers()
+		{
+			return this is ElementalSpellbook
+				|| GetType() == typeof(Spellbook);
+		}
+
 		public static void Initialize()
 		{
 			EventSink.OpenSpellbookRequest += new OpenSpellbookRequestEventHandler(EventSink_OpenSpellbookRequest);

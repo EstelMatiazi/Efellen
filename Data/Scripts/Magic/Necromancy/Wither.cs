@@ -31,7 +31,17 @@ namespace Server.Spells.Necromancy
 		public override void OnCast()
 		{
 			if( CheckSequence() )
-			{
+			{	
+				if (Caster is PlayerMobile)
+				{
+					PlayerMobile pm = Caster as PlayerMobile;
+					if (pm != null)
+					{
+					    Server.Custom.Ascensions.PalemasterDeathlessVigor.TryTrigger(pm);
+						Server.Custom.Ascensions.PalemasterUndeadGraft.TryTrigger(pm);
+						Server.Custom.Ascensions.PalemasterHeraldOfHereafter.TryTrigger(pm);
+					}					
+				}
 				/* Creates a withering frost around the Caster,
 				 * which deals Cold Damage to all valid targets in a radius of 5 tiles.
 				 */
@@ -64,7 +74,7 @@ namespace Server.Spells.Necromancy
 
 						int sdiBonus = AosAttributes.GetValue( Caster, AosAttribute.SpellDamage );
 
-						// PvP spell damage increase cap of 15% from an item’s magic property in Publish 33(SE)
+						// PvP spell damage increase cap of 15% from an itemï¿½s magic property in Publish 33(SE)
 						if( Core.SE && m.Player && Caster.Player && sdiBonus > 15 )
 							sdiBonus = 15;
 
@@ -81,8 +91,60 @@ namespace Server.Spells.Necromancy
 					}
 				}
 			}
+			if (Caster is PlayerMobile)
+			{
+			    PlayerMobile pm = Caster as PlayerMobile;
 
+			    if (pm != null)
+			    {
+			        if (Server.Custom.Ascensions.PalemasterCreepingCold.TryTrigger(pm))
+			        {
+			            ApplyWitherDamage(pm);
+			        }
+			    }
+			}
 			FinishSequence();
 		}
+		// creeping cold palemaster's proc deals 70% of wither's regular damage
+		private void ApplyWitherDamage(PlayerMobile caster)
+		{
+		    Map map = caster.Map;
+
+		    if (map == null)
+		        return;
+
+		    List<Mobile> targets = new List<Mobile>();
+
+		    foreach (Mobile m in caster.GetMobilesInRange(Core.ML ? 4 : 5))
+		        if (caster != m && caster.InLOS(m) && SpellHelper.ValidIndirectTarget(caster, m) && caster.CanBeHarmful(m, false))
+		            targets.Add(m);
+
+		    for (int i = 0; i < targets.Count; ++i)
+		    {
+		        Mobile m = targets[i];
+
+		        caster.DoHarmful(m);
+
+		        double damage = Utility.RandomMinMax(30, 35) * 0.7;
+
+		        damage *= (300 + (m.Karma / 100) + (GetDamageSkill(caster) * 10));
+		        damage /= 1000;
+
+		        int sdiBonus = AosAttributes.GetValue(caster, AosAttribute.SpellDamage);
+
+		        if (Core.SE && m.Player && caster.Player && sdiBonus > 15)
+		            sdiBonus = 15;
+
+		        damage *= (100 + sdiBonus);
+		        damage /= 100;
+
+		        int nBenefit = (int)(caster.Skills[SkillName.Necromancy].Value / 5);
+
+		        damage += nBenefit;
+
+		        SpellHelper.Damage(this, m, damage, 0, 0, 100, 0, 0);
+		    }
+		}
+
 	}
 }
