@@ -28,18 +28,18 @@ namespace Server.Custom.Ascensions
         {
             if (!CanUse(pm))
             {
-                pm.SendMessage("You cannot use your tenacity now.");
+                pm.SendMessage("Você não pode usar seu tenacity agora.");
                 return;                
             }
 
 
             if (pm.IsAbilityOnCooldown(Name))
             {
-                pm.SendMessage("Tenacity is still on cooldown.");
+                pm.SendMessage("Tenacity ainda está em cooldown.");
                 return;
             }
 
-            pm.SendMessage("Your tenacity surges!");
+            pm.SendMessage("Sua tenacidade entra em ação!");
 
             StartTenacity(pm);
 
@@ -50,7 +50,7 @@ namespace Server.Custom.Ascensions
                 delegate
                 {
                     if (pm != null && !pm.Deleted)
-                        pm.SendMessage("Your Tenacity can be called upon again.");
+                        pm.SendMessage("Sua tenacidade pode ser chamada novamente.");
                 }
             );
         }
@@ -91,7 +91,7 @@ namespace Server.Custom.Ascensions
                 if (m_Ticks >= 3)
                 {
                     Stop();
-                    m_PM.SendMessage("Your tenacity fades.");
+                    m_PM.SendMessage("Sua tenacidade desaparece.");
                     return;
                 }
 

@@ -45,7 +45,7 @@ namespace Server.Mobiles
 			BaseSoundID = 362;
 			NameHue = 0x22;
 			Hue = 0x995;
-            Title = "The Primal Terror";
+            Title = "O Terror Primordial";
 			
 			SetStr( 796, 885 );
 			SetDex( 265, 325 );

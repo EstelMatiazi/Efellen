@@ -22,7 +22,7 @@ namespace Server.Mobiles
 		public SlasherOfVoid () : base( AIType.AI_Mage, FightMode.Closest, 10, 1, 0.2, 0.4 )
 		{
 			Name = NameList.RandomName( "dragon" );
-			Title = "the slasher of the void";
+			Title = "o ceifador do vazio";
 			Body = 105;
 			Hue = 0x9A0;
 			BaseSoundID = 362;
@@ -129,7 +129,7 @@ namespace Server.Mobiles
 			BossSpecialAttack.PerformConeBreath(
 			    boss: this,
 			    target: target,
-			    warcry: "*exhales devastating flames!*",
+			    warcry: "*exala chamas devastadoras!*",
 			    hue: 0x9A0,
 			    rage: 3,
 			    range: 5,

@@ -31,23 +31,23 @@ namespace Server.Custom.Ascensions
 
             if (pm.IsAbilityOnCooldown(Name))
             {
-                pm.SendMessage("That ability is on cooldown.");
+                pm.SendMessage("Esta habilidade está em cooldown.");
                 return;
             }
 
             if (pm.Mana < 30)
             {
-                pm.SendMessage("You do not have enough mana.");
+                pm.SendMessage("Você não tem mana suficiente.");
                 return;
             }
 
             if (pm.Stam < 30)
             {
-                pm.SendMessage("You do not have enough stamina.");
+                pm.SendMessage("Você não tem stamina suficiente.");
                 return;
             }
 
-            pm.SendMessage("Target a location for the Noxious Cloud.");
+            pm.SendMessage("Selecione um local para o Noxious Cloud.");
             pm.Target = new NoxiousCloudTarget(this);
         }
 
@@ -173,7 +173,7 @@ namespace Server.Custom.Ascensions
                 if (m_Player == null || m_Player.Deleted)
                     return;
 
-                m_Player.SendMessage(0x48C, "The vapors are ready to be called again.");
+                m_Player.SendMessage(0x48C, "As nuvens venenosas estão prontas para serem chamadas novamente.");
             }
         }
 

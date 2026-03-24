@@ -86,7 +86,7 @@ namespace Server.Mobiles
 		        debuff.Start();
 		    }
 
-		    m.SendMessage(33, "*your armor burns!*");
+		    m.SendMessage(33, "*sua armadura queima!*");
 		}
 
 		public override bool CanRummageCorpses{ get{ return false; } }

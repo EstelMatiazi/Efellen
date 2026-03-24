@@ -108,7 +108,7 @@ namespace Server.Mobiles
 						this,
 						target,
 						1,
-						"*bursts with cold*",
+						"*explode com frio*",
 						0x47E,  // hue
 						0,     // physical
 						0,   // fire
@@ -123,7 +123,7 @@ namespace Server.Mobiles
 					BossSpecialAttack.PerformConeBreath(
 					    boss: this,
 					    target: target,
-					    warcry: "*exhales devastating cold!*",
+					    warcry: "*exala frio devastador!*",
 					    hue: 0x47E,
 					    rage: 2,
 						range:5,
@@ -136,7 +136,7 @@ namespace Server.Mobiles
 				{
 					BossSpecialAttack.PerformSlam(
                 	    boss: this,
-                	    warcry: "*screeches*",
+                	    warcry: "*guincha*",
                 	    hue: 0x47E,
                 	    rage: 2,
                 	    range: 6,

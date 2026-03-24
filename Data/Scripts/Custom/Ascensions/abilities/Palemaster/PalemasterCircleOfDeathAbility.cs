@@ -42,18 +42,18 @@ namespace Server.Custom.Ascensions
 
             if (pm.IsAbilityOnCooldown(Name))
             {
-                pm.SendMessage("That ability is on cooldown.");
+                pm.SendMessage("Esta habilidade está em cooldown.");
                 return;
             }
 
             if (pm.Mana < 60)
             {
-                pm.SendMessage("You do not have enough mana.");
+                pm.SendMessage("Você não tem mana suficiente.");
                 return;
             }
 
             pm.Target = new CircleTarget(this);
-            pm.SendMessage("Target a location for the Circle of Death.");
+            pm.SendMessage("Selecione um local para o Circle of Death.");
         }
 
         private class CircleTarget : Target
@@ -270,7 +270,7 @@ namespace Server.Custom.Ascensions
             protected override void OnTick()
             {
                 if (m_Player != null)
-                    m_Player.SendMessage("You may call forth another Circle of Death.");
+                    m_Player.SendMessage("Você pode invocar outro Circle of Death.");
             }
         }
     }

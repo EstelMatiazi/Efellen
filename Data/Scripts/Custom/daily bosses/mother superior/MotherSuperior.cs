@@ -37,7 +37,7 @@ namespace Server.Mobiles
 		[Constructable]
 		public MotherSuperior () : base( AIType.AI_Mage, FightMode.Evil, 20, 1, 0.4, 0.8 )
 		{
-			Title = " the Mother Superior";
+			Title = " a Madre Superiora";
 			NameHue = 0x92E;
             Body = 401; 
 			Name = NameList.RandomName( "female" );
@@ -87,21 +87,21 @@ namespace Server.Mobiles
 
 		private static readonly string[] AttackLines = new string[]
 		{
-		    "We have no wealth for you to take!",
-		    "Thou shall not harm my sisters, {0}!",
-		    "{0} is here, escape if you can!",
-            "Why do you bring violence to our sanctuary?",
-            "Sisters, pray for strength!",
-            "{0}, the heavens weep for you!",
-            "Protect the patients!",
-            "Your heart is clouded, {0}!",
-            "Repent before it is too late!",
-            "I shall pray for your soul!",
-            "Turn back, {0}! Turn back from this darkness!",
-            "You defile sacred ground!",
-            "This is a house of healing! Cease at once!",
-            "We shall outlast you!"
-        };
+			"Não temos riquezas para você tomar!",
+			"Tu não machucarás minhas irmãs, {0}!",
+			"{0} está aqui, fuja se puder!",
+			"Por que trazes violência ao nosso santuário?",
+			"Irmãs, orai por força!",
+			"{0}, os céus choram por ti!",
+			"Protegei os pacientes!",
+			"Teu coração está obscurecido, {0}!",
+			"Arrependei-vos antes que seja tarde!",
+			"Rezarei por tua alma!",
+			"Volta atrás, {0}! Volta atrás desta escuridão!",
+			"Tu profanas terra sagrada!",
+			"Esta é uma casa de cura! Cessa imediatamente!",
+			"Nós te superaremos!"
+		};
 
 		public override void OnGaveMeleeAttack(Mobile defender)
         {
@@ -234,7 +234,7 @@ namespace Server.Mobiles
 						this,
 						target,
 						m_Rage+1,
-						"*I shall smite you down!*",
+						"*Eu te abaterei!*",
 						0x9C2,  // hue
 						0,     // physical
 						50,   // fire
@@ -250,7 +250,7 @@ namespace Server.Mobiles
 						this,
 						target,
 						m_Rage+1,
-						"*Heavens protect us!*",
+						"*Os céus nos protejam!*",
 						0x9C2,  // hue
 						0,     // physical
 						50,   // fire
@@ -273,7 +273,7 @@ namespace Server.Mobiles
 		{
 			if ( m_Rage == 0 )
 			{
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Please stop this madness!" );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Por favor, pare com esta insanidade!" );
 				this.Hits = this.HitsMax;
 				this.FixedParticles( 0x376A, 9, 32, 5030, EffectLayer.Waist );
 				this.PlaySound( 0x202 );
@@ -286,7 +286,7 @@ namespace Server.Mobiles
 			}
 			else if ( m_Rage == 1 )
 			{
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "You forced my hand!" );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Tu forçaste minha mão!" );
 				this.Hits = this.HitsMax;
 				this.FixedParticles( 0x376A, 9, 32, 5030, EffectLayer.Waist );
 				this.PlaySound( 0x202 );
@@ -302,7 +302,7 @@ namespace Server.Mobiles
 			{
 				Effects.SendLocationParticles( EffectItem.Create( this.Location, this.Map, EffectItem.DefaultDuration ), 0x3728, 10, 10, 2023 );
 				this.PlaySound( 0x1FE );
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "The gods...will forgive you." );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Os deuses... irão perdoá-lo." );
                 Mobile killer = this.LastKiller;
 				if (killer != null && killer.Player && killer.Karma < 0)
             	{

@@ -68,7 +68,7 @@ namespace Server.Mobiles
 			VirtualArmor = 0;
             EquipMetalGear();
             
-            this.Title = "the Penitent";
+            this.Title = "o Penitente";
         
 		}
 		
@@ -117,7 +117,7 @@ namespace Server.Mobiles
 		                        Network.MessageType.Regular, 
 		                        0x982, 
 		                        false, 
-		                        "The Daughter of Fire sets the Penitent's ablaze!"
+		                        "A Filha do Fogo incendeia o Penitente!"
 		                    );
 		                    int healAmount = Utility.RandomMinMax(125, 425);
 			                prince.Heal(healAmount);

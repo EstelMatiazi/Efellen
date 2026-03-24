@@ -87,7 +87,7 @@ namespace Server.Mobiles
 						this,
 						target,
 						1,
-						"Just sign here...",
+						"Apenas assine aqui...",
 						Hue,  // hue
 						20,     // physical
 						20,   // fire
@@ -101,7 +101,7 @@ namespace Server.Mobiles
 				{
 					BossSpecialAttack.PerformSlam(
                 	    boss: this,
-                	    warcry: "Hell calls thy name!",
+                	    warcry: "O inferno chama seu nome!",
                 	    hue: Hue,
                 	    rage: 1,
                 	    range: 6,

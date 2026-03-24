@@ -42,32 +42,32 @@ namespace Server.Custom.Ascensions
 
             AddLabel(140, 20, 1152, AscensionTypeHelper.GetDisplayName(m_Type));
 
-            AddLabel(30, 85, 88, "Level:");
+            AddLabel(30, 85, 88, "Nível:");
             AddLabel(200, 85, 1152, m_Progress.Level.ToString());
 
-            AddLabel(30, 110, 88, "Experience:");
+            AddLabel(30, 110, 88, "Experiência:");
             AddLabel(200, 110, 1152, m_Progress.Experience.ToString());
 
             int required = m_Progress.GetRequiredExperience();
 
-            AddLabel(30, 135, 88, "Next Level XP:");
+            AddLabel(30, 135, 88, "XP Prox Nível:");
             AddLabel(200, 135, 1152, required.ToString());
 
-            AddLabel(30, 200, 1152, "Description:");
+            AddLabel(30, 200, 1152, "Descrição:");
             AddHtml(30, 230, 460, 80, AscensionDefinitions.GetDescription(m_Type), true, true);
 
-            AddLabel(30, 340, 1152, "Granted Abilities:");
+            AddLabel(30, 340, 1152, "Habilidades Concedidas:");
             AddHtml(30, 360, 460, 140, AscensionDefinitions.GetAbilities(m_Type), true, true);
 
             int bottomY = 560;
 
             if (m_From.AscensionProfile.ActiveAscension == m_Type)
             {
-                AddLabel(320, bottomY, 63, "Currently Active");
+                AddLabel(320, bottomY, 63, "Atualmente Ativa");
             }
 
             AddButton(40, bottomY, 4014, 4016, Button_Back, GumpButtonType.Reply, 0);
-            AddLabel(75, bottomY, 1152, "Back");
+            AddLabel(75, bottomY, 1152, "Voltar");
 
             if (m_Progress.CanLevelUp())
             {
@@ -79,9 +79,9 @@ namespace Server.Custom.Ascensions
                 int upgradeY = 510;
 
                 AddLabel(260, upgradeY, 1153,
-                    "Cost: " + gold + "g / " +
-                    dust + " dust / " +
-                    scrolls + " scrolls");
+                    "Custo: " + gold + "g / " +
+                    dust + " poeira / " +
+                    scrolls + " pergaminhos");
 
                 AddButton(260, upgradeY + 25, 4005, 4007, 3000 + (int)m_Type, GumpButtonType.Reply, 0);
                 AddLabel(295, upgradeY + 25, 68, "Upgrade");
@@ -90,7 +90,7 @@ namespace Server.Custom.Ascensions
             if (m_Progress.Level > 0)
             {
                 AddButton(320, bottomY, 4005, 4007, 2, GumpButtonType.Reply, 0);
-                AddLabel(355, bottomY, 1152, "Activate Ascension");
+                AddLabel(355, bottomY, 1152, "Ativar Ascensão");
             }
         }
         public override void OnResponse(NetState sender, RelayInfo info)

@@ -24,13 +24,13 @@ namespace Server.Custom.Ascensions
 
             if (pm.IsAbilityOnCooldown(Name))
             {
-                pm.SendMessage("That ability is on cooldown.");
+                pm.SendMessage("Esta habilidade está em cooldown.");
                 return;
             }
 
             if (pm.Mana < 40)
             {
-                pm.SendMessage("You do not have enough mana.");
+                pm.SendMessage("Você não tem mana suficiente.");
                 return;
             }
 
@@ -43,7 +43,7 @@ namespace Server.Custom.Ascensions
             pm.Mana -= 40;
             pm.SetAbilityCooldown(Name, Cooldown);
 
-            pm.PublicOverheadMessage(MessageType.Regular, 0x445, false, "*Chants a Song of Thunder*");
+            pm.PublicOverheadMessage(MessageType.Regular, 0x445, false, "*Canta uma Canção do Trovão*");
 
             pm.FixedParticles(0x2A4E, 10, 25, 5029, 0x445, 0, EffectLayer.Head);
             pm.PlaySound(0x29);
@@ -57,7 +57,7 @@ namespace Server.Custom.Ascensions
 
         internal void DoSongOfThunderDirect(PlayerMobile pm, int level)
         {
-            pm.PublicOverheadMessage(MessageType.Regular, 0x445, false, "*Chants a Song of Thunder*");
+            pm.PublicOverheadMessage(MessageType.Regular, 0x445, false, "*Canta uma Canção do Trovão*");
 
             pm.FixedParticles(0x2A4E, 10, 25, 5029, 0x445, 0, EffectLayer.Head);
             pm.PlaySound(0x29);
@@ -176,7 +176,7 @@ namespace Server.Custom.Ascensions
                 if (m_Player == null || m_Player.Deleted)
                     return;
 
-                m_Player.SendMessage(0x445, "You can use Song of Thunder again.");
+                m_Player.SendMessage(0x445, "Você pode usar Song of Thunder novamente.");
             }
         }
     }

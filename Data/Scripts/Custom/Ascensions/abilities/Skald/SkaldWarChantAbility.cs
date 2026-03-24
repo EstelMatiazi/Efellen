@@ -24,13 +24,13 @@ namespace Server.Custom.Ascensions
 
             if (pm.IsAbilityOnCooldown(Name))
             {
-                pm.SendMessage("That ability is on cooldown.");
+                pm.SendMessage("Esta habilidade está em cooldown.");
                 return;
             }
 
             if (pm.Mana < 20)
             {
-                pm.SendMessage("You do not have enough mana.");
+                pm.SendMessage("Você não tem mana suficiente.");
                 return;
             }
 
@@ -43,7 +43,7 @@ namespace Server.Custom.Ascensions
             pm.Mana -= 20;
             pm.SetAbilityCooldown(Name, Cooldown);
 
-            pm.PublicOverheadMessage(MessageType.Regular, 0x445, false, "*plays a war chant*");
+            pm.PublicOverheadMessage(MessageType.Regular, 0x445, false, "*toca um cântico de guerra*");
 
             int duration   = 10 + level;
             int statBonus  = 5 + level;
@@ -175,7 +175,7 @@ namespace Server.Custom.Ascensions
 
                 if (m_Level >= 20 && Utility.Random(100) < (m_Level * 2))
                 {
-                    m_Caster.SendMessage(0x445, "The war chant echoes onward!");
+                    m_Caster.SendMessage(0x445, "O cântico de guerra ecoa adiante!");
 
                     AscensionProgress prog = m_Caster.AscensionProfile.Get(AscensionType.Skald);
 
@@ -186,7 +186,7 @@ namespace Server.Custom.Ascensions
 
         internal void DoWarChantDirect(PlayerMobile pm, int level)
         {
-            pm.PublicOverheadMessage(MessageType.Regular, 0x445, false, "*the war chant continues!*");
+            pm.PublicOverheadMessage(MessageType.Regular, 0x445, false, "*o cântico de guerra continua!*");
 
             int duration   = 10 + level;
             int statBonus  = 5 + level;
@@ -219,7 +219,7 @@ namespace Server.Custom.Ascensions
                 if (m_Player == null || m_Player.Deleted)
                     return;
 
-                m_Player.SendMessage(0x445, "You can use War Chant again.");
+                m_Player.SendMessage(0x445, "Você pode usar War Chant novamente.");
             }
         }
     }

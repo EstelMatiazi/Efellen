@@ -68,7 +68,7 @@ namespace Server.Mobiles
 			VirtualArmor = 0;
             EquipMetalGear();
             
-            this.Title = "the Metalhead";
+            this.Title = "o Headbanger";
         
 		}
 		
@@ -117,7 +117,7 @@ namespace Server.Mobiles
 		                        Network.MessageType.Regular, 
 		                        0x982, 
 		                        false, 
-		                        "The Prince of Darkness chops the Metalhead's head off!"
+		                        "O Príncipe das Trevas decepa a cabeça do Headbanger!"
 		                    );
 		                    int healAmount = Utility.RandomMinMax(125, 425);
 			                prince.Heal(healAmount);

@@ -24,13 +24,13 @@ namespace Server.Custom.Ascensions
 
             if (pm.IsAbilityOnCooldown(Name))
             {
-                pm.SendMessage("That ability is on cooldown.");
+                pm.SendMessage("Esta habilidade está em cooldown.");
                 return;
             }
 
             if (pm.Mana < 35)
             {
-                pm.SendMessage("You do not have enough mana.");
+                pm.SendMessage("Você não tem mana suficiente.");
                 return;
             }
 
@@ -38,7 +38,7 @@ namespace Server.Custom.Ascensions
             if (prog == null)
                 return;
 
-            pm.SendMessage(0x439, "Choose a target location.");
+            pm.SendMessage(0x439, "Escolha um local alvo.");
             pm.Target = new DivineWrathTarget(pm, prog.Level);
         }
 
@@ -199,7 +199,7 @@ namespace Server.Custom.Ascensions
             protected override void OnTick()
             {
                 if (m_Player == null || m_Player.Deleted) return;
-                m_Player.SendMessage(0x439, "Divine Wrath can be used again.");
+                m_Player.SendMessage(0x439, "Divine Wrath pode ser usado novamente.");
             }
         }
     }

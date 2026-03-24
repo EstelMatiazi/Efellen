@@ -32,10 +32,10 @@ namespace Server.Mobiles
 
 		private static readonly string[] SummonWarcries = new string[]
 		{
-			"Lolth, I call thee!",
-			"Webspinner, bring forth thy ruin!",
-			"Fanaedar shall be thy grave eternal!",
-			"To the Demonweb with thee!"
+			"Lolth, eu te invoco!",
+			"Tecelã de Teias, traze tua ruína!",
+			"Fanaedar será tua sepultura eterna!",
+			"Para a Teia Demoníaca contigo!"
 		};
 
 		private static readonly List<Type> BossDrops = new List<Type>
@@ -60,7 +60,7 @@ namespace Server.Mobiles
             Body = 606; 
 			Utility.AssignRandomHair( this );
 			NameHue = 0x22;
-			Title = "The Shroud of the Lightless";
+			Title = "A Sudária dos Sem-Luz";
             HairHue = 1150;
 			Hue = 1316;
 			EmoteHue = 11;

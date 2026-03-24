@@ -21,7 +21,7 @@ namespace Server.Custom.Ascensions
 
             if (!pm.HasActiveAscension)
             {
-                pm.SendMessage("You do not have an active ascension.");
+                pm.SendMessage("Você não tem uma ascensão ativa.");
                 return;
             }
 

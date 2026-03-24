@@ -34,10 +34,10 @@ namespace Server.Mobiles
 		
 		private static readonly string[] SummonWarcries = new string[]
 		{
-			"Come forth, comrades!", 
-			"Lets end this menace right now!",
-			"We shall stand against the tyranny of chaos!",
-			"Hosts of heaven, answer my call!"
+			"Vinde, camaradas!",
+			"Vamos acabar com essa ameaça agora mesmo!",
+			"Nós resistiremos à tirania do caos!",
+			"Hostes do céu, atendei meu chamado!"
 		};
 
 		private static readonly List<Type> BossDrops = new List<Type>
@@ -60,7 +60,7 @@ namespace Server.Mobiles
 		public HeavenlyMarshall () : base( AIType.AI_Mage, FightMode.Evil, 10, 1, 0.2, 0.4 )
 		{
 			Name = "Heavenly Marshall";
-			Title = "The Envoy from Above";
+			Title = "O Enviado do Alto";
 			Body = 346;
 			BaseSoundID = 466;
 			NameHue = 0x92E;
@@ -236,7 +236,7 @@ namespace Server.Mobiles
 				{
 					BossSpecialAttack.PerformSlam(
                        boss: this,
-                       warcry: "Heavens smite thee!",
+                       warcry: "Que os céus te fustiguem!",
                        hue: 0x4D5,
                        rage: m_Rage+1,
                        range: 6,
@@ -251,7 +251,7 @@ namespace Server.Mobiles
 					BossSpecialAttack.PerformCrossExplosion(
 				       boss: this,
 				       target: target,
-				       warcry: "*Burn in the light!*",
+				       warcry: "*Queime na luz!*",
 				       hue: 0xb73,
 				       rage: m_Rage+1,
 					   physicalDmg:0,
@@ -262,7 +262,7 @@ namespace Server.Mobiles
 				
 				case 3: // Rage 3: holy blast (Mana drain + damage)
 				{
-					PublicOverheadMessage( MessageType.Regular, 0x21, false, "Light everlasting shall consume you!" );
+					PublicOverheadMessage( MessageType.Regular, 0x21, false, "A luz eterna te consumirá!" );
 					PlaySound( 0x228 );
 					FixedParticles( 0x3789, 10, 25, 5032, EffectLayer.Head );
 					IPooledEnumerable eable = GetMobilesInRange( 8 );
@@ -346,7 +346,7 @@ namespace Server.Mobiles
 		{
         	if ( m_Rage == 0 )
 			{
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Justice shall not falther today!" );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "A justiça não falhará hoje!" );
 				this.Hits = this.HitsMax;
 				this.FixedParticles( 0x376A, 9, 32, 5030, EffectLayer.Waist );
 				this.PlaySound( 0x202 );
@@ -357,7 +357,7 @@ namespace Server.Mobiles
 			}
 			else if ( m_Rage == 1 )
 			{
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "By the heavens above I command thee to stand down!" );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Pelo céu acima eu commando que você se renda!" );
 				this.Hits = this.HitsMax;
 				this.FixedParticles( 0x376A, 9, 32, 5030, EffectLayer.Waist );
 				this.PlaySound( 0x202 );
@@ -368,7 +368,7 @@ namespace Server.Mobiles
 			}
 			else if ( m_Rage == 2 )
 			{
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "For the Skywatch!" );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Por Skywatch!" );
 				this.Hits = this.HitsMax;
 				this.FixedParticles( 0x376A, 9, 32, 5030, EffectLayer.Waist );
 				this.PlaySound( 0x202 );
@@ -381,7 +381,7 @@ namespace Server.Mobiles
 			{
 				Effects.SendLocationParticles( EffectItem.Create( this.Location, this.Map, EffectItem.DefaultDuration ), 0x3728, 10, 10, 2023 );
 				this.PlaySound( 0x1FE );
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "I return...to the skies..." );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Eu retorno... aos céus..." );
 				Mobile killer = this.LastKiller;
 
             	if (killer != null && killer.Player && killer.Karma < 0)

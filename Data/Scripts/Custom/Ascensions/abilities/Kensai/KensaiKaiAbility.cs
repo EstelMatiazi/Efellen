@@ -28,13 +28,13 @@ namespace Server.Custom.Ascensions
 
             if (pm.IsAbilityOnCooldown(Name))
             {
-                pm.SendMessage("That ability is on cooldown.");
+                pm.SendMessage("Esta habilidade está em cooldown.");
                 return;
             }
 
             if (pm.Stam < 30)
             {
-                pm.SendMessage("You do not have enough stamina.");
+                pm.SendMessage("Você não tem stamina suficiente.");
                 return;
             }
 
@@ -45,7 +45,7 @@ namespace Server.Custom.Ascensions
             int level    = prog.Level;
             int maxRange = 3 + (level / 4);
 
-            pm.SendMessage(0x448, "Choose a destination.");
+            pm.SendMessage(0x448, "Escolha um destino.");
             pm.Target = new KaiTarget(pm, level, maxRange);
         }
 
@@ -79,7 +79,7 @@ namespace Server.Custom.Ascensions
 
                 if (m_Caster.GetDistanceToSqrt(dest) < 2)
                 {
-                    m_Caster.SendMessage("You must leap at least 2 tiles away.");
+                    m_Caster.SendMessage("Você deve pular pelo menos 2 tiles de distância.");
                     return;
                 }
 
@@ -89,7 +89,7 @@ namespace Server.Custom.Ascensions
 
                     if (!map.CanFit(dest.X, dest.Y, dest.Z, 16, false, false))
                     {
-                        m_Caster.SendMessage("You cannot end your strike there.");
+                        m_Caster.SendMessage("Você não pode terminar seu golpe ali.");
                         return;
                     }
                 }
@@ -189,7 +189,7 @@ namespace Server.Custom.Ascensions
                 if (m_Player == null || m_Player.Deleted)
                     return;
 
-                m_Player.SendMessage(0x448, "Kai can be used again.");
+                m_Player.SendMessage(0x448, "Kai pode ser usado novamente.");
             }
         }
     }

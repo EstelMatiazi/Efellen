@@ -30,13 +30,13 @@ namespace Server.Custom.Ascensions
         {
             if (!CanUse(pm))
             {
-                pm.SendMessage("You cannot use your Leap Slam now.");
+                pm.SendMessage("Você não pode usar seu Leap Slam agora.");
                 return;                
             }
 
             if (pm.IsAbilityOnCooldown(Name))
             {
-                pm.SendMessage("That ability is on cooldown.");
+                pm.SendMessage("Esta habilidade está em cooldown.");
                 return;
             }
 
@@ -44,7 +44,7 @@ namespace Server.Custom.Ascensions
             int level = prog.Level;
 
             pm.Target = new LeapTarget(this, level);
-            pm.SendMessage("Choose a location to leap to.");
+            pm.SendMessage("Escolha um local para saltar.");
         }
 
         private class LeapTarget : Target
@@ -77,19 +77,19 @@ namespace Server.Custom.Ascensions
 
                 if (pm.GetDistanceToSqrt(dest) < 2)
                 {
-                    pm.SendMessage("You must leap at least 2 tiles away.");
+                    pm.SendMessage("Você deve saltar pelo menos 2 tiles de distância.");
                     return;
                 }
 
                 if (pm.GetDistanceToSqrt(dest) > maxRange)
                 {
-                    pm.SendMessage("That location is too far away.");
+                    pm.SendMessage("Esse local está muito longe.");
                     return;
                 }
 
                 if (!map.CanFit(dest.X, dest.Y, dest.Z, 16, false, false))
                 {
-                    pm.SendMessage("You cannot land there.");
+                    pm.SendMessage("Você não pode pousar lá.");
                     return;
                 }
 

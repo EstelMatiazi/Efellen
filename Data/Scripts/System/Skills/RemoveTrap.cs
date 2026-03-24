@@ -51,7 +51,7 @@ namespace Server.SkillHandlers
 
 					if ( (int)(from.Skills[SkillName.RemoveTrap].Value ) < nTrapLevel )
 					{
-						from.SendMessage( "This trap looks too complicated for you." );
+						from.SendMessage( "Esta armadilha parece complicada demais para você." );
 						return;
 					}
 

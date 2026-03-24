@@ -21,7 +21,7 @@ namespace Server.Engines.Help
 	{
 		private Mobile m_From;
 
-		public ContainedMenu( Mobile from ) : base( "You already have an open help request. We will have someone assist you as soon as possible.  What would you like to do?", new string[]{ "Leave my old help request like it is.", "Remove my help request from the queue." } )
+		public ContainedMenu( Mobile from ) : base( "Você já tem uma solicitação de ajuda aberta. Alguém irá ajudá-lo assim que possível. O que você gostaria de fazer?", new string[]{ "Manter minha solicitação de ajuda como está.", "Remover minha solicitação de ajuda da fila." } )
 		{
 			m_From = from;
 		}
@@ -396,7 +396,7 @@ namespace Server.Engines.Help
 			button = 4005; if ( page == 10 )
 			{
 				button = 4006;
-				AddHtml( 252, 71, 739, 630, @"<BODY><BASEFONT Color=" + color + ">Throughout your journey, you may come across particular events that appear in your quest log. They may be a simple achievement of finding a strange land, or they may reference an item you must find. Quests are handled in a 'virtual' manner. What this means is that any achievements are real, but any references to items found are not. If your quest log states that you found an ebony key, you will not have an ebony key in your backpack...but you will 'virtually' have the item. The quest will keep track of this fact for you. Because of this, you will never lose that ebony key and it remains unique to your character's questing. The quest knows you found it and have it. You may be tasked to find an item in a dungeon. When there is an indication you found it, it will be 'virtually' in your possession. You will often hear a sound of victory when a quest event is reached, along with a message about it. You still may miss it, however. So check your quest log from time to time. One way to get quests is to visit taverns or inns. If you see a bulletin board called 'Seeking Brave Adventurers', single click on it to begin your life questing for fame and fortune.<BR><BR>" + MyQuests( from ) + "<BR><BR></BASEFONT></BODY>", (bool)false, (bool)true);
+				AddHtml( 252, 71, 739, 630, @"<BODY><BASEFONT Color=" + color + ">Ao longo de sua jornada, você pode encontrar eventos particulares que aparecem em seu registro de missões. Eles podem ser uma simples conquista de encontrar uma terra estranha, ou podem fazer referência a um item que você deve encontrar. As missões são tratadas de forma 'virtual'. O que isso significa é que quaisquer conquistas são reais, mas quaisquer referências a itens encontrados não são. Se seu registro de missões afirma que você encontrou uma chave de ébano, você não terá uma chave de ébano em sua mochila... mas você terá o item 'virtualmente'. A missão manterá o registro desse fato para você. Por causa disso, você nunca perderá essa chave de ébano e ela permanecerá única para a missão do seu personagem. A missão sabe que você a encontrou e a possui. Você pode ser encarregado de encontrar um item em uma masmorra. Quando houver uma indicação de que você o encontrou, ele estará 'virtualmente' em sua posse. Você ouvirá frequentemente um som de vitória quando um evento de missão for alcançado, junto com uma mensagem sobre isso. Você ainda pode perdê-lo, no entanto. Então, verifique seu registro de missões de tempos em tempos. Uma maneira de obter missões é visitar tavernas ou estalagens. Se você vir um mural chamado 'Procurando Aventureiros Corajosos', clique uma vez nele para começar sua vida de missões em busca de fama e fortuna.<BR><BR>" + MyQuests( from ) + "<BR><BR></BASEFONT></BODY>", (bool)false, (bool)true);
 			}
 			AddButton(15, r, button, button, 10, GumpButtonType.Reply, 0);
 			AddHtml( 50, r, 148, 20, @"<BODY><BASEFONT Color=" + color + ">Quests</BASEFONT></BODY>", (bool)false, (bool)false);
@@ -1417,7 +1417,7 @@ namespace Server.Engines.Help
         {
 			PlayerMobile pm = (PlayerMobile)from;
 
-			string sQuests = "Below is a brief list of current quests, along with achievements in specific discoveries. These are owned quests, which are specific to your character. Other quests (like messages in a bottle, treasure maps, or scribbled notes) are not listed here.<br><br>";
+			string sQuests = "Abaixo está uma breve lista de missões atuais, juntamente com conquistas em descobertas específicas. Estas são missões pertencentes a você, que são específicas para o seu personagem. Outras missões (como mensagens em uma garrafa, mapas do tesouro ou notas rabiscadas) não estão listadas aqui.<br><br>";
 
 			string ContractQuest = PlayerSettings.GetQuestInfo( from, "StandardQuest" );
 			if ( PlayerSettings.GetQuestState( from, "StandardQuest" ) ){ string sAdventurer = StandardQuestFunctions.QuestStatus( from ); sQuests = sQuests + "-" + sAdventurer + ".<br><br>"; }
@@ -1430,39 +1430,39 @@ namespace Server.Engines.Help
 
 			sQuests = sQuests + OtherQuests( from );
 
-			if ( PlayerSettings.GetBardsTaleQuest( from, "BardsTaleMadGodName" ) ){ sQuests = sQuests + "-Learned about the Mad God Tarjan.<br><br>"; }
-			if ( PlayerSettings.GetBardsTaleQuest( from, "BardsTaleCatacombKey" ) ){ sQuests = sQuests + "-The priest from the Mad God Temple gave me the key to the Catacombs.<br><br>"; }
-			if ( PlayerSettings.GetBardsTaleQuest( from, "BardsTaleSpectreEye" ) ){ sQuests = sQuests + "-Found a mysterious eye from the Catacombs.<br><br>"; }
-			if ( PlayerSettings.GetBardsTaleQuest( from, "BardsTaleHarkynKey" ) ){ sQuests = sQuests + "-Found a key with a symbol of a dragon on it.<br><br>"; }
-			if ( PlayerSettings.GetBardsTaleQuest( from, "BardsTaleDragonKey" ) ){ sQuests = sQuests + "-Found a rusty key from around a gray dragon's neck.<br><br>"; }
-			if ( PlayerSettings.GetBardsTaleQuest( from, "BardsTaleCrystalSword" ) ){ sQuests = sQuests + "-Found a crystal sword.<br><br>"; }
-			if ( PlayerSettings.GetBardsTaleQuest( from, "BardsTaleSilverSquare" ) ){ sQuests = sQuests + "-Found a silver square.<br><br>"; }
-			if ( PlayerSettings.GetBardsTaleQuest( from, "BardsTaleKylearanKey" ) ){ sQuests = sQuests + "-Found a key with a symbol of a unicorn on it.<br><br>"; }
-			if ( PlayerSettings.GetBardsTaleQuest( from, "BardsTaleBedroomKey" ) ){ sQuests = sQuests + "-Found a key with a symbol of a tree on it.<br><br>"; }
-			if ( PlayerSettings.GetBardsTaleQuest( from, "BardsTaleSilverTriangle" ) ){ sQuests = sQuests + "-Found a silver triangle.<br><br>"; }
-			if ( PlayerSettings.GetBardsTaleQuest( from, "BardsTaleCrystalGolem" ) ){ sQuests = sQuests + "-Destroyed the crystal golem and found a golden key.<br><br>"; }
-			if ( PlayerSettings.GetBardsTaleQuest( from, "BardsTaleEbonyKey" ) ){ sQuests = sQuests + "-Kylearan gave me an ebony key with a demon symbol on it.<br><br>"; }
-			if ( PlayerSettings.GetBardsTaleQuest( from, "BardsTaleSilverCircle" ) ){ sQuests = sQuests + "-Found a silver circle.<br><br>"; }
-			if ( PlayerSettings.GetBardsTaleQuest( from, "BardsTaleWin" ) && ((PlayerMobile)from).Fugitive != 1 ){ sQuests = sQuests + "-Defeated the evil wizard Mangar and escaped Skara Brae.<br><br>"; }
+			if ( PlayerSettings.GetBardsTaleQuest( from, "BardsTaleMadGodName" ) ){ sQuests = sQuests + "-Aprendeu sobre o Deus Louco Tarjan.<br><br>"; }
+			if ( PlayerSettings.GetBardsTaleQuest( from, "BardsTaleCatacombKey" ) ){ sQuests = sQuests + "-O sacerdote do Templo do Deus Louco me deu a chave para as Catacumbas.<br><br>"; }
+			if ( PlayerSettings.GetBardsTaleQuest( from, "BardsTaleSpectreEye" ) ){ sQuests = sQuests + "-Encontrou um olho misterioso das Catacumbas.<br><br>"; }
+			if ( PlayerSettings.GetBardsTaleQuest( from, "BardsTaleHarkynKey" ) ){ sQuests = sQuests + "-Encontrou uma chave com um símbolo de dragão.<br><br>"; }
+			if ( PlayerSettings.GetBardsTaleQuest( from, "BardsTaleDragonKey" ) ){ sQuests = sQuests + "-Encontrou uma chave enferrujada no pescoço de um dragão cinzento.<br><br>"; }
+			if ( PlayerSettings.GetBardsTaleQuest( from, "BardsTaleCrystalSword" ) ){ sQuests = sQuests + "-Encontrou uma espada de cristal.<br><br>"; }
+			if ( PlayerSettings.GetBardsTaleQuest( from, "BardsTaleSilverSquare" ) ){ sQuests = sQuests + "-Encontrou um quadrado de prata.<br><br>"; }
+			if ( PlayerSettings.GetBardsTaleQuest( from, "BardsTaleKylearanKey" ) ){ sQuests = sQuests + "-Encontrou uma chave com um símbolo de unicórnio.<br><br>"; }
+			if ( PlayerSettings.GetBardsTaleQuest( from, "BardsTaleBedroomKey" ) ){ sQuests = sQuests + "-Encontrou uma chave com um símbolo de árvore.<br><br>"; }
+			if ( PlayerSettings.GetBardsTaleQuest( from, "BardsTaleSilverTriangle" ) ){ sQuests = sQuests + "-Encontrou um triângulo de prata.<br><br>"; }
+			if ( PlayerSettings.GetBardsTaleQuest( from, "BardsTaleCrystalGolem" ) ){ sQuests = sQuests + "-Destruiu o golem de cristal e encontrou uma chave dourada.<br><br>"; }
+			if ( PlayerSettings.GetBardsTaleQuest( from, "BardsTaleEbonyKey" ) ){ sQuests = sQuests + "-Kylearan me deu uma chave de ébano com um símbolo de demônio.<br><br>"; }
+			if ( PlayerSettings.GetBardsTaleQuest( from, "BardsTaleSilverCircle" ) ){ sQuests = sQuests + "-Encontrou um círculo de prata.<br><br>"; }
+			if ( PlayerSettings.GetBardsTaleQuest( from, "BardsTaleWin" ) && ((PlayerMobile)from).Fugitive != 1 ){ sQuests = sQuests + "-Derrotou o mago maligno Mangar e escapou de Skara Brae.<br><br>"; }
 
-			if ( PlayerSettings.GetKeys( from, "UndermountainKey" ) ){ sQuests = sQuests + "-Found a key made of dwarven steel.<br><br>"; }
-			if ( PlayerSettings.GetKeys( from, "BlackKnightKey" ) ){ sQuests = sQuests + "-Found the Black Knight's key.<br><br>"; }
-			if ( PlayerSettings.GetKeys( from, "SkullGate" ) ){ sQuests = sQuests + "-Discovered the secret of Skull Gate.<br>   One is in the Undercity of Umbra in Sosaria.<br>   The other is in the Ravendark Woods.<br><br>"; }
-			if ( PlayerSettings.GetKeys( from, "SerpentPillars" ) ){ sQuests = sQuests + "-Discovered the secret of the Serpent Pillars.<br>   Sosaria: 86° 41'S, 124° 39'E<br>   Lodoria: 35° 36'S, 65° 2'E<br><br>"; }
-			if ( PlayerSettings.GetKeys( from, "RangerOutpost" ) ){ sQuests = sQuests + "-Discovered the Ranger Outpost.<br><br>"; }
-			if ( PlayerSettings.GetKeys( from, "DragonRiding" ) ){ sQuests = sQuests + "-Learned the secrets of riding draconic creatures.<br><br>"; }
+			if ( PlayerSettings.GetKeys( from, "UndermountainKey" ) ){ sQuests = sQuests + "-Encontrou uma chave feita de aço anão.<br><br>"; }
+			if ( PlayerSettings.GetKeys( from, "BlackKnightKey" ) ){ sQuests = sQuests + "-Encontrou a chave do Cavaleiro Negro.<br><br>"; }
+			if ( PlayerSettings.GetKeys( from, "SkullGate" ) ){ sQuests = sQuests + "-Descobriu o segredo do Portão da Caveira.<br>   Um está na Cidade Subterrânea de Umbra em Sosaria.<br>   O outro está na Floresta Ravendark.<br><br>"; }
+			if ( PlayerSettings.GetKeys( from, "SerpentPillars" ) ){ sQuests = sQuests + "-Descobriu o segredo dos Pilares da Serpente.<br>   Sosaria: 86° 41'S, 124° 39'E<br>   Lodoria: 35° 36'S, 65° 2'E<br><br>"; }
+			if ( PlayerSettings.GetKeys( from, "RangerOutpost" ) ){ sQuests = sQuests + "-Descobriu o Posto Avançado dos Rangers.<br><br>"; }
+			if ( PlayerSettings.GetKeys( from, "DragonRiding" ) ){ sQuests = sQuests + "-Aprendeu os segredos de montar criaturas dracônicas.<br><br>"; }
 
-			if ( PlayerSettings.GetDiscovered( from, "the Land of Sosaria" ) ){ sQuests = sQuests + "-Discovered the World of Sosaria.<br><br>"; }
-			if ( PlayerSettings.GetDiscovered( from, "the Island of Umber Veil" ) ){ sQuests = sQuests + "-Discovered Umber Veil.<br><br>"; }
-			if ( PlayerSettings.GetDiscovered( from, "the Land of Ambrosia" ) ){ sQuests = sQuests + "-Discovered Ambrosia.<br><br>"; }
-			if ( PlayerSettings.GetDiscovered( from, "the Land of Lodoria" ) ){ sQuests = sQuests + "-Discovered the Elven World of Lodoria.<br><br>"; }
-			if ( PlayerSettings.GetDiscovered( from, "the Serpent Island" ) ){ sQuests = sQuests + "-Discovered the Serpent Island.<br><br>"; }
-			if ( PlayerSettings.GetDiscovered( from, "the Isles of Dread" ) ){ sQuests = sQuests + "-Discovered the Isles of Dread.<br><br>"; }
-			if ( PlayerSettings.GetDiscovered( from, "the Savaged Empire" ) ){ sQuests = sQuests + "-Discovered the Valley of the Savaged Empire.<br><br>"; }
-			if ( PlayerSettings.GetDiscovered( from, "the Bottle World of Kuldar" ) ){ sQuests = sQuests + "-Discovered the Bottle World of Kuldar.<br><br>"; }
-			if ( PlayerSettings.GetDiscovered( from, "the Underworld" ) ){ sQuests = sQuests + "-Discovered the Underworld.<br><br>"; }
+			if ( PlayerSettings.GetDiscovered( from, "the Land of Sosaria" ) ){ sQuests = sQuests + "-Descobriu o Mundo de Sosaria.<br><br>"; }
+			if ( PlayerSettings.GetDiscovered( from, "the Island of Umber Veil" ) ){ sQuests = sQuests + "-Descobriu Umber Veil.<br><br>"; }
+			if ( PlayerSettings.GetDiscovered( from, "the Land of Ambrosia" ) ){ sQuests = sQuests + "-Descobriu Ambrosia.<br><br>"; }
+			if ( PlayerSettings.GetDiscovered( from, "the Land of Lodoria" ) ){ sQuests = sQuests + "-Descobriu o Mundo Élfico de Lodoria.<br><br>"; }
+			if ( PlayerSettings.GetDiscovered( from, "the Serpent Island" ) ){ sQuests = sQuests + "-Descobriu a Ilha da Serpente.<br><br>"; }
+			if ( PlayerSettings.GetDiscovered( from, "the Isles of Dread" ) ){ sQuests = sQuests + "-Descobriu as Ilhas do Pavor.<br><br>"; }
+			if ( PlayerSettings.GetDiscovered( from, "the Savaged Empire" ) ){ sQuests = sQuests + "-Descobriu o Vale do Império Selvagem.<br><br>"; }
+			if ( PlayerSettings.GetDiscovered( from, "the Bottle World of Kuldar" ) ){ sQuests = sQuests + "-Descobriu o Mundo da Garrafa de Kuldar.<br><br>"; }
+			if ( PlayerSettings.GetDiscovered( from, "the Underworld" ) ){ sQuests = sQuests + "-Descobriu o Submundo.<br><br>"; }
 
-			return "Quests For " + from.Name + "<br><br>" + sQuests;
+			return "Missões Para " + from.Name + "<br><br>" + sQuests;
         }
 
 		public static string OtherQuests( Mobile from )
@@ -1482,7 +1482,7 @@ namespace Server.Engines.Help
 						}
 						else
 						{
-							quests = quests + "-You have a secret note instructing you to steal something, but you will take a break from thieving and read it in about " + Server.Items.ThiefNote.ThiefAllowed( from ) + " minutes.<br><br>";
+							quests = quests + "-Você tem uma nota secreta instruindo você a roubar algo, mas vai fazer uma pausa no roubo e lê-la em cerca de " + Server.Items.ThiefNote.ThiefAllowed( from ) + " minutos.<br><br>";
 						}
 					}
 				}
@@ -1490,21 +1490,21 @@ namespace Server.Engines.Help
 				{
 					if ( ((CourierMail)item).Owner == from )
 					{
-						quests = quests + "-You need to find " + ((CourierMail)item).SearchItem + " for " + ((CourierMail)item).ForWho + ". They said in their letter that you should search in " + ((CourierMail)item).SearchDungeon + " in " + ((CourierMail)item).SearchWorld + ".<br><br>";
+						quests = quests + "-Você precisa encontrar " + ((CourierMail)item).SearchItem + " para " + ((CourierMail)item).ForWho + ". Eles disseram em sua carta que você deve procurar em " + ((CourierMail)item).SearchDungeon + " em " + ((CourierMail)item).SearchWorld + ".<br><br>";
 					}
 				}
 				else if ( item is SearchPage )
 				{
 					if ( ((SearchPage)item).Owner == from )
 					{
-						quests = quests + "-You want to find " + ((SearchPage)item).SearchItem + " in " + ((SearchPage)item).SearchDungeon + " in " + ((SearchPage)item).SearchWorld + ".<br><br>";
+						quests = quests + "-Você quer encontrar " + ((SearchPage)item).SearchItem + " em " + ((SearchPage)item).SearchDungeon + " em " + ((SearchPage)item).SearchWorld + ".<br><br>";
 					}
 				}
 				else if ( item is SummonPrison )
 				{
 					if ( ((SummonPrison)item).owner == from )
 					{
-						quests = quests + "-You currently have " + System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(((SummonPrison)item).Prisoner.ToLower()) + " in a Magical Prison.<br><br>";
+						quests = quests + "-Você atualmente tem " + System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(((SummonPrison)item).Prisoner.ToLower()) + " em uma Prisão Mágica.<br><br>";
 					}
 				}
 				else if ( item is FrankenJournal )
@@ -1519,7 +1519,7 @@ namespace Server.Engines.Help
 						if ( ((FrankenJournal)item).HasTorso > 0 ){ parts++; }
 						if ( ((FrankenJournal)item).HasHead > 0 ){ parts++; }
 
-						quests = quests + "-You currently have " + parts + " out of 6 body parts needed to create a flesh golem.<br><br>";
+						quests = quests + "-Você atualmente tem " + parts + " de 6 partes do corpo necessárias para criar um golem de carne.<br><br>";
 					}
 				}
 				else if ( item is RuneBox )
@@ -1536,14 +1536,14 @@ namespace Server.Engines.Help
 						if ( ((RuneBox)item).HasSpirituality > 0 ){ runes++; }
 						if ( ((RuneBox)item).HasValor > 0 ){ runes++; }
 
-						quests = quests + "-You currently have " + runes + " out of 8 runes of virtue.<br><br>";
+						quests = quests + "-Você atualmente tem " + runes + " de 8 runas de virtude.<br><br>";
 					}
 				}
 				else if ( item is SearchPage )
 				{
 					if ( ((SearchPage)item).owner == from )
 					{
-						quests = quests + "-You are on a quest to obtain the " + ((SearchPage)item).SearchItem + ".<br><br>";
+						quests = quests + "-Você está em uma missão para obter o " + ((SearchPage)item).SearchItem + ".<br><br>";
 					}
 				}
 				else if ( item is VortexCube )
@@ -1551,21 +1551,21 @@ namespace Server.Engines.Help
 					if ( ((VortexCube)item).CubeOwner == from )
 					{
 						VortexCube cube = (VortexCube)item;
-						quests = quests + "-You are searching for the Codex of Ultimate Wisdom.<br>";
+						quests = quests + "-Você está procurando pelo Codex of Ultimate Wisdom.<br>";
 
-						if ( cube.HasConvexLense > 0 ){ quests = quests + "   -You have the Convex Lense.<br>"; }
-						if ( cube.HasConcaveLense > 0 ){ quests = quests + "   -You have the Concave Lense.<br>"; }
+						if ( cube.HasConvexLense > 0 ){ quests = quests + "   -Você tem o Convex Lense.<br>"; }
+						if ( cube.HasConcaveLense > 0 ){ quests = quests + "   -Você tem o Concave Lense.<br>"; }
 
-						if ( cube.HasKeyLaw > 0 ){ quests = quests + "   -You have the Key of Law.<br>"; }
-						if ( cube.HasKeyBalance > 0 ){ quests = quests + "   -You have the Key of Balance.<br>"; }
-						if ( cube.HasKeyChaos > 0 ){ quests = quests + "   -You have the Key of Chaos.<br>"; }
+						if ( cube.HasKeyLaw > 0 ){ quests = quests + "   -Você tem o Key of Law.<br>"; }
+						if ( cube.HasKeyBalance > 0 ){ quests = quests + "   -Você tem o Key of Balance.<br>"; }
+						if ( cube.HasKeyChaos > 0 ){ quests = quests + "   -Você tem o Key of Chaos.<br>"; }
 
-						if ( cube.HasCrystalRed > 0 ){ quests = quests + "   -You have the Red Void Crystal.<br>"; }
-						if ( cube.HasCrystalBlue > 0 ){ quests = quests + "   -You have the Blue Void Crystal.<br>"; }
-						if ( cube.HasCrystalGreen > 0 ){ quests = quests + "   -You have the Green Void Crystal.<br>"; }
-						if ( cube.HasCrystalYellow > 0 ){ quests = quests + "   -You have the Yellow Void Crystal.<br>"; }
-						if ( cube.HasCrystalWhite > 0 ){ quests = quests + "   -You have the White Void Crystal.<br>"; }
-						if ( cube.HasCrystalPurple > 0 ){ quests = quests + "   -You have the Purple Void Crystal.<br>"; }
+						if ( cube.HasCrystalRed > 0 ){ quests = quests + "   -Você tem o Red Void Crystal.<br>"; }
+						if ( cube.HasCrystalBlue > 0 ){ quests = quests + "   -Você tem o Blue Void Crystal.<br>"; }
+						if ( cube.HasCrystalGreen > 0 ){ quests = quests + "   -Você tem o Green Void Crystal.<br>"; }
+						if ( cube.HasCrystalYellow > 0 ){ quests = quests + "   -Você tem o Yellow Void Crystal.<br>"; }
+						if ( cube.HasCrystalWhite > 0 ){ quests = quests + "   -Você tem o White Void Crystal.<br>"; }
+						if ( cube.HasCrystalPurple > 0 ){ quests = quests + "   -Você tem o Purple Void Crystal.<br>"; }
 
 						quests = quests + "<br>";
 					}
@@ -1575,17 +1575,17 @@ namespace Server.Engines.Help
 					if ( ((ObeliskTip)item).ObeliskOwner == from )
 					{
 						ObeliskTip obelisk = (ObeliskTip)item;
-						quests = quests + "-You are trying to become a Titan of Ether.<br>";
-						quests = quests + "   -You have the Obelisk Tip.<br>"; 
+						quests = quests + "-Você está tentando se tornar um Titã do Éter.<br>";
+						quests = quests + "   -Você tem o Obelisk Tip.<br>"; 
 
-						if ( obelisk.WonAir > 0 ){ quests = quests + "   -You have defeated Stratos, the Titan of Air.<br>"; }
-						else if ( obelisk.HasAir > 0 ){ quests = quests + "   -You have the Breath of Air.<br>"; }
-						if ( obelisk.WonFire > 0 ){ quests = quests + "   -You have defeated Pyros, the Titan of Fire.<br>"; }
-						else if ( obelisk.HasFire > 0 ){ quests = quests + "   -You have the Tongue of Flame.<br>"; }
-						if ( obelisk.WonEarth > 0 ){ quests = quests + "   -You have defeated Lithos, the Titan of Earth.<br>"; }
-						else if ( obelisk.HasEarth > 0 ){ quests = quests + "   -You have the Heart of Earth.<br>"; }
-						if ( obelisk.WonWater > 0 ){ quests = quests + "   -You have defeated Hydros, the Titan of Water.<br>"; }
-						else if ( obelisk.HasWater > 0 ){ quests = quests + "   -You have the Tear of the Seas.<br>"; }
+						if ( obelisk.WonAir > 0 ){ quests = quests + "   -Você derrotou Stratos, o Titã do Ar.<br>"; }
+						else if ( obelisk.HasAir > 0 ){ quests = quests + "   -Você tem o Breath of Air.<br>"; }
+						if ( obelisk.WonFire > 0 ){ quests = quests + "   -Você derrotou Pyros, o Titã do Fogo.<br>"; }
+						else if ( obelisk.HasFire > 0 ){ quests = quests + "   -Você tem o Tongue of Flame.<br>"; }
+						if ( obelisk.WonEarth > 0 ){ quests = quests + "   -Você derrotou Lithos, o Titã da Terra.<br>"; }
+						else if ( obelisk.HasEarth > 0 ){ quests = quests + "   -Você tem o Heart of Earth.<br>"; }
+						if ( obelisk.WonWater > 0 ){ quests = quests + "   -Você derrotou Hydros, o Titã da Água.<br>"; }
+						else if ( obelisk.HasWater > 0 ){ quests = quests + "   -Você tem o Tear of the Seas.<br>"; }
 
 						quests = quests + "<br>";
 					}
@@ -1594,7 +1594,7 @@ namespace Server.Engines.Help
 				{
 					if ( ((MuseumBook)item).ArtOwner == from )
 					{
-						quests = quests + "-You have found " + MuseumBook.GetTotal( (MuseumBook)item ) + " out of 60 antiques for the museum.<br><br>";
+						quests = quests + "-Você encontrou " + MuseumBook.GetTotal( (MuseumBook)item ) + " de 60 antiguidades para o museu.<br><br>";
 					}
 				}
 				else if ( item is RuneBox )
@@ -1602,14 +1602,14 @@ namespace Server.Engines.Help
 					if ( ((RuneBox)item).RuneBoxOwner == from )
 					{
 						int runes = ((RuneBox)item).HasCompassion + ((RuneBox)item).HasHonesty + ((RuneBox)item).HasHonor + ((RuneBox)item).HasHumility + ((RuneBox)item).HasJustice + ((RuneBox)item).HasSacrifice + ((RuneBox)item).HasSpirituality + ((RuneBox)item).HasValor;
-						quests = quests + "-You have found " + runes + " out of 8 runes of virtue.<br><br>";
+						quests = quests + "-Você encontrou " + runes + " de 8 runas da virtude.<br><br>";
 					}
 				}
 				else if ( item is QuestTome )
 				{
 					if ( ((QuestTome)item).QuestTomeOwner == from )
 					{
-						quests = quests + "-You are on a quest to find " + ((QuestTome)item).GoalItem4 + ".<br><br>";
+						quests = quests + "-Você está em uma missão para encontrar " + ((QuestTome)item).GoalItem4 + ".<br><br>";
 					}
 				}
 			}
@@ -1621,7 +1621,7 @@ namespace Server.Engines.Help
 					from.Backpack.FindItemByType( typeof ( BlackrockSerpentChaos ) ) != null || 
 					from.Backpack.FindItemByType( typeof ( BlackrockSerpentBalance ) ) != null )
 			{
-				quests = quests + "-You are on a quest to bring the Serpents back into balance.<br><br>";
+				quests = quests + "-Você está em uma missão para trazer os Serpentes de volta para o equilíbrio.<br><br>";
 			}
 
 			if ( 	from.Backpack.FindItemByType( typeof ( ShardOfFalsehood ) ) != null || 
@@ -1631,67 +1631,67 @@ namespace Server.Engines.Help
 					from.Backpack.FindItemByType( typeof ( BookOfTruth ) ) != null || 
 					from.Backpack.FindItemByType( typeof ( BellOfCourage ) ) != null )
 			{
-				quests = quests + "-You are on a quest to destroy the Shadowlords and construct a Gem of Immortality.<br><br>";
+				quests = quests + "-Você está em uma missão para destruir os Shadowlords e construir uma Gem of Immortality.<br><br>";
 			}
 			else if ( from.Backpack.FindItemByType( typeof ( GemImmortality ) ) != null )
 			{
-				quests = quests + "-You have constructed a Gem of Immortality.<br><br>";
+				quests = quests + "-Você construiu uma Gem of Immortality.<br><br>";
 			}
 			if(PlayerSettings.GetKeys ( from, "Soveliss"))
 			{
-				quests = quests + "-You have given Soveliss the Dreamstone, and he has gifted you the Dragonbane.<br><br>";
+				quests = quests + "-Você deu o Dreamstone para Soveliss, e ele lhe deu o Dragonbane.<br><br>";
 			}
 			if(PlayerSettings.GetKeys ( from, "Mitru"))
 			{
-				quests = quests + "-You have given Mitru the Dreamstone, and he has gifted you the Moon Dancer.<br><br>";
+				quests = quests + "-Você deu o Dreamstone para Mitru, e ele lhe deu o Moon Dancer.<br><br>";
 			}
 			if(PlayerSettings.GetKeys ( from, "Kongor"))
 			{
-				quests = quests + "-You have given Kongor the Dreamstone, and he has gifted you Kongor's Undying Rage.<br><br>";
+				quests = quests + "-Você deu o Dreamstone para Kongor, e ele lhe deu o Kongor's Undying Rage.<br><br>";
 			}
 			if(PlayerSettings.GetKeys ( from, "Masamune"))
 			{
-				quests = quests + "-You have given Melchior the Dreamstone, and he has forged you the Masamune.<br><br>";
+				quests = quests + "-Você deu o Dreamstone para Melchior, e ele lhe deu o Masamune.<br><br>";
 			}
 			if(PlayerSettings.GetKeys ( from, "DreamstoneUsed"))
 			{
-				quests = quests + "-You have used your Dreamstone.<br><br>";
+				quests = quests + "-Você usou seu Dreamstone.<br><br>";
 			}
 			if ( PlayerSettings.GetKeys( from, "Dreamstone" ) )
 			{
-				quests = quests + "-You have found the Dreamstone.<br><br>";
+				quests = quests + "-Você encontrou o Dreamstone.<br><br>";
 			}
 			if ( PlayerSettings.GetKeys( from, "Museums" ) )
 			{
-				quests = quests + "-You have found all of the antiques for the Museum.<br><br>";
+				quests = quests + "-Você encontrou todos as antiguidades para o Museu.<br><br>";
 			}
 			if ( PlayerSettings.GetKeys( from, "Gygax" ) )
 			{
-				quests = quests + "-You have obtained the Statue of Gygax.<br><br>";
+				quests = quests + "-Você obteve a Estátua de Gygax.<br><br>";
 			}
 			if ( PlayerSettings.GetKeys( from, "Virtues" ) )
 			{
-				quests = quests + "-You have cleansed all of the Runes of Virtue.<br><br>";
+				quests = quests + "-Você limpou todas as Runas da Virtude.<br><br>";
 			}
 			else if ( PlayerSettings.GetKeys( from, "Corrupt" ) )
 			{
-				quests = quests + "-You have corrupted all of the Runes of Virtue.<br><br>";
+				quests = quests + "-Você corrompeu todas as Runas da Virtude.<br><br>";
 			}
 			if ( PlayerSettings.GetKeys( from, "Exodus" ) )
 			{
-				quests = quests + "-You have destroyed the Core of Exodus.<br><br>";
+				quests = quests + "-Você destruiu o Core of Exodus.<br><br>";
 			}
 			if ( PlayerSettings.GetKeys( from, "BlackGateDemon" ) )
 			{
-				quests = quests + "-You have defeated the Black Gate Demon and found a portal to the Ethereal Plane.<br><br>";
+				quests = quests + "-Você derrotou o Demônio do Portão Negro e encontrou um portal para o Plano Etéreo.<br><br>";
 			}
 			if ( PlayerSettings.GetKeys( from, "Jormungandr" ) )
 			{
-				quests = quests + "-You have defeated the legendary serpent known as Jormungandr.<br><br>";
+				quests = quests + "-Você derrotou a serpente lendária conhecida como Jormungandr.<br><br>";
 			}
 			if ( PlayerSettings.GetKeys( from, "Dracula" ) )
 			{
-				quests = quests + "-You have destroyed Dracula, the ruler of all vampires.<br><br>";
+				quests = quests + "-Você destruiu Drácula, o governante de todos os vampiros.<br><br>";
 			}
 			if ( 	from.Backpack.FindItemByType( typeof ( StaffPartVenom ) ) != null || 
 					from.Backpack.FindItemByType( typeof ( StaffPartCaddellite ) ) != null || 
@@ -1699,27 +1699,27 @@ namespace Server.Engines.Help
 					from.Backpack.FindItemByType( typeof ( StaffPartLight ) ) != null || 
 					from.Backpack.FindItemByType( typeof ( StaffPartEnergy ) ) != null )
 			{
-				quests = quests + "-You are seeking to assemble the Staff of Ultimate Power.<br><br>";
+				quests = quests + "-Você está buscando montar o Staff of Ultimate Power.<br><br>";
 			}
 			if ( PlayerSettings.GetKeys( from, "Arachnar" ) )
 			{
-				quests = quests + "-You have defeated Arachnar, the guardian of the staff.<br><br>";
+				quests = quests + "-Você derrotou Arachnar, o guardião do cajado.<br><br>";
 			}
 			if ( PlayerSettings.GetKeys( from, "Surtaz" ) )
 			{
-				quests = quests + "-You have defeated Surtaz, the guardian of the staff.<br><br>";
+				quests = quests + "-Você derrotou Surtaz, o guardião do cajado.<br><br>";
 			}
 			if ( PlayerSettings.GetKeys( from, "Vordinax" ) )
 			{
-				quests = quests + "-You have defeated Vordinax, the guardian of the staff.<br><br>";
+				quests = quests + "-Você derrotou Vordinax, o guardião do cajado.<br><br>";
 			}
 			if ( PlayerSettings.GetKeys( from, "Vulcrum" ) )
 			{
-				quests = quests + "-You have defeated Vulcrum, the guardian of the staff.<br><br>";
+				quests = quests + "-Você derrotou Vulcrum, o guardião do cajado.<br><br>";
 			}
 			if ( PlayerSettings.GetKeys( from, "Xurtzar" ) )
 			{
-				quests = quests + "-You have defeated Xurtzar, the guardian of the staff.<br><br>";
+				quests = quests + "-Você derrotou Xurtzar, o guardião do cajado.<br><br>";
 			}
 
 			return quests;
@@ -1727,174 +1727,174 @@ namespace Server.Engines.Help
 
 		public static string MyHelp()
         {
-			string HelpText = "If you are looking for help exploring this world, you can learn about almost anything within the game world you travel. Some merchants sell scrolls or books that will explain how some skills can be performed, resources gathered, and even how elements of the world can be manipulated. A sage often sells many tomes of useful information on skills, weapon abilities, or various types of magics available. If you are totally new to this game, buy yourself a Guide to Adventure book from a sage if you lost the one you started with. This book explains how to navigate and play the game. You will also learn some things about how the world behaves such as merchant interactions, how to use items, and what to do when your character dies. Talk to the townsfolk to learn whatever you can. On this screen there are many options, information, and settings that can assist in your journey. Many of the options here have keyboard commands that are listed below. Make sure to check out the 'Info' section on your character's paperdoll as it has some vital information about your character.<br><br>"
-				+ "Common Commands: Below are the commands you can use for various things in the game.<br><br>"
-				+ "[abilitynames - Turns on/off the special weapon ability names next to the appropriate icons.<br><br>"
-				+ "[afk - Turns on/off the notification to others that you are away from keyboard.<br><br>"
-				+ "[ancient - Turns on/off whether you are using magic from the research bag or the ancient spellbook.<br><br>"
-				+ "[autoattack - Turns on/off whether you auto attack when attacked.<br><br>"
-				+ "[bandother - Bandage other command.<br><br>"
-				+ "[bandself - Bandage self command.<br><br>"
-				+ "[barbaric - Turns on/off the barbaric flavor the game provides (see end).<br><br>"
-				+ "[c - Initiates the chat system.<br><br>"
-				+ "[corpse - Helps one find their remains.<br><br>"
-				+ "[corpseclear - Removes your corpse from a ship's deck.<br><br>"
-				+ "[e - Opens the emote mini window.<br><br>"
-				+ "[emote - Opens the emote window.<br><br>"
-				+ "[evil - Turns on/off the evil flavor the game provides (see end).<br><br>"
-				+ "[loot - Automatically take certain items from common dungeon chests or corpses and put them in your backpack. The unknown items are those that will need identification, but you may decide to take them anyway. The reagent options have a few categories. Magery and necromancer reagents are those used specifically by those characters, where witches brew reagents mainly fall into the necromancer category. Alchemic reagents are those that fall outside the category of magery and necromancer reagents, and only alchemists use them. Herbalist reagents are useful in druidic herbalism.<br><br>"
-				+ "[magicgate - Helps one find the nearest magical gate.<br><br>"
-				+ "[motd - Opens the message of the day.<br><br>"
-				+ "[oriental - Turns on/off the oriental flavor the game provides (see end).<br><br>"
-				+ "[password - Change your account password. Passwords have a limit of 16 characters.<br><br>"
-				+ "[poisons - This changes how poisoned weapons work, which can be for either precise control with special weapon infectious strikes (default) or with hits of a one-handed slashing or piercing weapon.<br><br>"
-				+ "[private - Turns on/off detailed messages of your journey for the town crier and local citizen chatter.<br><br>"
-				+ "[quests - Opens a scroll to show certain quest events.<br><br>"
-				+ "[quickbar - Opens a small, vertical bar with common game functions for easier use.<br><br>"
-				+ "[checksecure - Checks player house for unsecured/unlocked items on the ground to prevent loss of items. The unsecure items will be marked with red color and a sound will be played by client if found any.<br><br>"
-				+ "[sad - Opens the weapon's special abilities.<br><br>"
-				+ "[set1 - Sets your weapon's first ability to active.<br>"
-				+ "[set2 - Sets your weapon's second ability to active.<br>"
-				+ "[set3 - Sets your weapon's third ability to active.<br>"
-				+ "[set4 - Sets your weapon's fourth ability to active.<br>"
-				+ "[set5 - Sets your weapon's fifth ability to active.<br><br>"
-				+ "[sheathe - Turns on/off the feature to sheathe your weapon when not in battle.<br><br>"
-				+ "[skill - Shows you what each skill is used for.<br><br>"
-				+ "[skilllist - Displays a more condensed list of skills you have set to 'up' and perhaps 'locked'.<br><br>"
-				+ "[spellhue ## - This command, following by a color reference hue number, will change all of your magery spell effects to that color. A value of '1' will normally render as '0' so avoid that setting as it will not produce the result you may want.<br><br>"
-				+ "[statistics - Shows you some statistics of the server.<br><br>"
-				+ "[wealth - Opens a small, horizontal bar showing your gold value for the various forms of currency and gold in your bank and backpack. Currency are items you would have a banker convert to gold for you (silver, copper, xormite, jewels, and crystals). If you put these items in your bank, you can update the values on the wealth bar by right clicking on it.<br><br>"
-				+ "[ShowSkillGainChance - toggles the skill gain chance display in your journal. <br><br>"
-				+ "[VetSupplies - automatically finds and uses veterinarian supplies from the character's inventory if they are there.<br><br>"
-				+ "[Ascension - show you the main ascension window.<br><br>"
-				+ "[AscensionQuickbar - opens the ability quickbar for the currently selected ascension.<br><br>"
-				+ "[SkillDrop - open the skill reduction gump.<br><br>"
+			string HelpText = "Se você está procurando ajuda para explorar este mundo, pode aprender sobre quase qualquer coisa dentro do mundo do jogo onde viaja. Alguns comerciantes vendem pergaminhos ou livros que explicam como algumas habilidades podem ser realizadas, recursos coletados, e até mesmo como elementos do mundo podem ser manipulados. Um sábio frequentemente vende muitos tomos com informações úteis sobre habilidades, habilidades de armas ou vários tipos de magias disponíveis. Se você é totalmente novo neste jogo, compre um livro Guia de Aventura de um sábio se perdeu o que recebeu no início. Este livro explica como navegar e jogar o jogo. Você também aprenderá algumas coisas sobre como o mundo se comporta, como interações com comerciantes, como usar itens e o que fazer quando seu personagem morrer. Converse com os habitantes da cidade para aprender o que puder. Nesta tela há muitas opções, informações e configurações que podem auxiliar em sua jornada. Muitas das opções aqui têm comandos de teclado listados abaixo. Certifique-se de verificar a seção 'Info' no paperdoll do seu personagem, pois contém algumas informações vitais sobre seu personagem.<br><br>"
+				+ "Comandos Comuns: Abaixo estão os comandos que você pode usar para várias coisas no jogo.<br><br>"
+				+ "[abilitynames - Ativa/desativa os nomes das habilidades especiais de armas ao lado dos ícones apropriados.<br><br>"
+				+ "[afk - Ativa/desativa a notificação para outros de que você está ausente do teclado.<br><br>"
+				+ "[ancient - Ativa/desativa se você está usando magia da bolsa de pesquisa ou do livro de feitiços antigos.<br><br>"
+				+ "[autoattack - Ativa/desativa se você ataca automaticamente quando atacado.<br><br>"
+				+ "[bandother - Comando de atadura em outro.<br><br>"
+				+ "[bandself - Comando de atadura em si mesmo.<br><br>"
+				+ "[barbaric - Ativa/desativa o sabor bárbaro que o jogo oferece (veja o final).<br><br>"
+				+ "[c - Inicia o sistema de bate-papo.<br><br>"
+				+ "[corpse - Ajuda a encontrar seus restos mortais.<br><br>"
+				+ "[corpseclear - Remove seu cadáver do convés de um navio.<br><br>"
+				+ "[e - Abre a mini janela de emoção.<br><br>"
+				+ "[emote - Abre a janela de emoção.<br><br>"
+				+ "[evil - Ativa/desativa o sabor maligno que o jogo oferece (veja o final).<br><br>"
+				+ "[loot - Coleta automaticamente certos itens de baús de masmorras comuns ou cadáveres e os coloca em sua mochila. Os itens desconhecidos são aqueles que precisarão de identificação, mas você pode decidir pegá-los mesmo assim. As opções de reagentes têm algumas categorias. Reagentes de magia e necromancia são aqueles usados especificamente por esses personagens, enquanto reagentes de poções de bruxaria se enquadram principalmente na categoria de necromancia. Reagentes alquímicos são aqueles que estão fora da categoria de reagentes de magia e necromancia, e apenas alquimistas os usam. Reagentes de herbalismo são úteis no herbalismo druídico.<br><br>"
+				+ "[magicgate - Ajuda a encontrar o portal mágico mais próximo.<br><br>"
+				+ "[motd - Abre a mensagem do dia.<br><br>"
+				+ "[oriental - Ativa/desativa o sabor oriental que o jogo oferece (veja o final).<br><br>"
+				+ "[password - Altera a senha da sua conta. As senhas têm um limite de 16 caracteres.<br><br>"
+				+ "[poisons - Isso altera como as armas envenenadas funcionam, que pode ser para controle preciso com golpes infecciosos de armas especiais (padrão) ou com golpes de uma arma de corte ou perfuração de uma mão.<br><br>"
+				+ "[private - Ativa/desativa mensagens detalhadas de sua jornada para o pregoeiro e conversas de cidadãos locais.<br><br>"
+				+ "[quests - Abre um pergaminho para mostrar certos eventos de missão.<br><br>"
+				+ "[quickbar - Abre uma pequena barra vertical com funções comuns do jogo para facilitar o uso.<br><br>"
+				+ "[checksecure - Verifica a casa do jogador em busca de itens não seguros/destrancados no chão para evitar perda de itens. Os itens não seguros serão marcados com cor vermelha e um som será reproduzido pelo cliente se algum for encontrado.<br><br>"
+				+ "[sad - Abre as habilidades especiais da arma.<br><br>"
+				+ "[set1 - Define a primeira habilidade da sua arma como ativa.<br>"
+				+ "[set2 - Define a segunda habilidade da sua arma como ativa.<br>"
+				+ "[set3 - Define a terceira habilidade da sua arma como ativa.<br>"
+				+ "[set4 - Define a quarta habilidade da sua arma como ativa.<br>"
+				+ "[set5 - Define a quinta habilidade da sua arma como ativa.<br><br>"
+				+ "[sheathe - Ativa/desativa a função de embainhar sua arma quando não está em batalha.<br><br>"
+				+ "[skill - Mostra para que cada habilidade é usada.<br><br>"
+				+ "[skilllist - Exibe uma lista mais condensada das habilidades que você definiu como 'up' e talvez 'locked'.<br><br>"
+				+ "[spellhue ## - Este comando, seguido por um número de referência de cor, mudará todos os seus efeitos de feitiços de magia para aquela cor. Um valor de '1' normalmente será renderizado como '0', então evite essa configuração, pois não produzirá o resultado desejado.<br><br>"
+				+ "[statistics - Mostra algumas estatísticas do servidor.<br><br>"
+				+ "[wealth - Abre uma pequena barra horizontal mostrando o valor do seu ouro para as várias formas de moeda e ouro em seu banco e mochila. Moeda são itens que você faria um banqueiro converter em ouro para você (prata, cobre, xormita, joias e cristais). Se você colocar esses itens em seu banco, pode atualizar os valores na barra de riqueza clicando com o botão direito nela.<br><br>"
+				+ "[ShowSkillGainChance - alterna a exibição da chance de ganho de habilidade no seu diário.<br><br>"
+				+ "[VetSupplies - encontra e usa automaticamente suprimentos veterinários do inventário do personagem, se estiverem lá.<br><br>"
+				+ "[Ascension - mostra a janela principal de ascensão.<br><br>"
+				+ "[AscensionQuickbar - abre a barra de habilidades rápidas para a ascensão atualmente selecionada.<br><br>"
+				+ "[SkillDrop - abre o gump de redução de habilidade.<br><br>"
 
 				+ "<br><br>"
 
-				+ "Area Difficulty Levels: When you enter many dangerous areas, there will be a message to you that you entered a particular area. There may be a level of difficulty shown in parenthesis, that will give you an indication on the difficulty of the area. Below are the descriptions for each level.<br><br>"
-				+ " - Easy (Not much of a challenge)<br><br>"
-				+ " - Normal (An average level of<br>"
-				+ "        challenge)<br><br>"
-				+ " - Difficult (A tad more difficult)<br><br>"
-				+ " - Challenging (You will probably<br>"
-				+ "        run away alot)<br><br>"
-				+ " - Hard (You will probably die alot)<br><br>"
-				+ " - Deadly (I dare you)<br><br>"
-				+ " - Epic (For Titans of Ether)<br><br>"
+				+ "Níveis de Dificuldade da Área: Quando você entra em muitas áreas perigosas, haverá uma mensagem informando que você entrou em uma determinada área. Pode haver um nível de dificuldade mostrado entre parênteses, que lhe dará uma indicação sobre a dificuldade da área. Abaixo estão as descrições para cada nível.<br><br>"
+				+ " - Fácil (Não é muito desafiador)<br><br>"
+				+ " - Normal (Um nível médio de<br>"
+				+ "        desafio)<br><br>"
+				+ " - Difícil (Um pouco mais difícil)<br><br>"
+				+ " - Desafiador (Você provavelmente<br>"
+				+ "        vai fugir muito)<br><br>"
+				+ " - Duro (Você provavelmente vai morrer muito)<br><br>"
+				+ " - Mortal (Eu te desafio)<br><br>"
+				+ " - Épico (Para Titãs do Éter)<br><br>"
 
 				+ "<br><br>"
 
-				+ "Skill Titles: You can set your default title for your character. Although you may be a Grandmaster Driven, you may want your title to reflect your Apprentice Wizard title instead. This is how you set it...<br><br>"
-				+ "Type the '[SkillName' command followed by the name of the skill you want to set as your default. Make sure you surround the skill name in quotes and all lowercase. Example...<br>"
+				+ "Títulos de Habilidade: Você pode definir seu título padrão para seu personagem. Embora você possa ser um Mestre Driven, pode querer que seu título reflita seu título de Aprendiz de Mago. É assim que você o define...<br><br>"
+				+ "Digite o comando '[SkillName' seguido pelo nome da habilidade que você deseja definir como padrão. Certifique-se de colocar o nome da habilidade entre aspas e em letras minúsculas. Exemplo...<br>"
 				+ "  [SkillName \"taming\"<br><br>"
-				+ "If you want the game to manage your character's title, simply use the same command with a skill name of \"clear\".<br><br>"
+				+ "Se você quer que o jogo gerencie o título do seu personagem, use o mesmo comando com um nome de habilidade \"clear\".<br><br>"
 
 				+ "<br><br>"
 
-				+ "Reagent Bars: Below are the commands you can use to watch your reagent quantities as you cast spells or create potions. These are customizable bars that will show the quantities of the reagents you are carrying. These will show updated quantities of reagents whenever you cast a spell or make a potion that uses them. Otherwise you can make a macro to these commands and use them to refresh the amounts manually.<br><br>"
-				+ "[regbar - Opens the reagent bar.<br><br>"
-				+ "[regclose - Closes the reagent bar.<br><br>"
+				+ "Barras de Reagentes: Abaixo estão os comandos que você pode usar para monitorar suas quantidades de reagentes enquanto lança feitiços ou cria poções. Estas são barras personalizáveis que mostrarão as quantidades dos reagentes que você está carregando. Elas mostrarão quantidades atualizadas de reagentes sempre que você lançar um feitiço ou fizer uma poção que os utilize. Caso contrário, você pode criar uma macro para esses comandos e usá-los para atualizar os valores manualmente.<br><br>"
+				+ "[regbar - Abre a barra de reagentes.<br><br>"
+				+ "[regclose - Fecha a barra de reagentes.<br><br>"
 
 				+ "<br><br>"
 
-				+ "Magic Toolbars: Below are the commands you can use to manage magic toolbars that might help you play better.<br><br>"
-				+ "[archspell1 - Opens the 1st ancient spell bar editor.<br><br>"
-				+ "[archspell2 - Opens the 2nd ancient spell bar editor.<br><br>"
-				+ "[archspell3 - Opens the 3rd ancient spell bar editor.<br><br>"
-				+ "[archspell4 - Opens the 4th ancient spell bar editor.<br><br>"
-				+ "[bardsong1 - Opens the 1st bard song bar editor.<br><br>"
-				+ "[bardsong2 - Opens the 2nd bard song bar editor.<br><br>"
-				+ "[knightspell1 - Opens the 1st knight spell bar editor.<br><br>"
-				+ "[knightspell2 - Opens the 2nd knight spell bar editor.<br><br>"
-				+ "[deathspell1 - Opens the 1st death knight spell bar editor.<br><br>"
-				+ "[deathspell2 - Opens the 2nd death knight spell bar editor.<br><br>"
-				+ "[elementspell1 - Opens the 1st elemental spell bar editor.<br><br>"
-				+ "[elementspell2 - Opens the 2nd elemental spell bar editor.<br><br>"
-				+ "[holyspell1 - Opens the 1st priest prayer bar editor.<br><br>"
-				+ "[holyspell2 - Opens the 2nd priest prayer bar editor.<br><br>"
-				+ "[magespell1 - Opens the 1st mage spell bar editor.<br><br>"
-				+ "[magespell2 - Opens the 2nd mage spell bar editor.<br><br>"
-				+ "[magespell3 - Opens the 3rd mage spell bar editor.<br><br>"
-				+ "[magespell4 - Opens the 4th mage spell bar editor.<br><br>"
-				+ "[monkspell1 - Opens the 1st monk ability bar editor.<br><br>"
-				+ "[monkspell2 - Opens the 2nd monk ability bar editor.<br><br>"
-				+ "[necrospell1 - Opens the 1st necromancer spell bar editor.<br><br>"
-				+ "[necrospell2 - Opens the 2nd necromancer spell bar editor.<br><br>"
+				+ "Barras de Ferramentas Mágicas: Abaixo estão os comandos que você pode usar para gerenciar barras de ferramentas mágicas que podem ajudá-lo a jogar melhor.<br><br>"
+				+ "[archspell1 - Abre o editor da 1ª barra de feitiços antigos.<br><br>"
+				+ "[archspell2 - Abre o editor da 2ª barra de feitiços antigos.<br><br>"
+				+ "[archspell3 - Abre o editor da 3ª barra de feitiços antigos.<br><br>"
+				+ "[archspell4 - Abre o editor da 4ª barra de feitiços antigos.<br><br>"
+				+ "[bardsong1 - Abre o editor da 1ª barra de canções de bardo.<br><br>"
+				+ "[bardsong2 - Abre o editor da 2ª barra de canções de bardo.<br><br>"
+				+ "[knightspell1 - Abre o editor da 1ª barra de feitiços de cavaleiro.<br><br>"
+				+ "[knightspell2 - Abre o editor da 2ª barra de feitiços de cavaleiro.<br><br>"
+				+ "[deathspell1 - Abre o editor da 1ª barra de feitiços de cavaleiro da morte.<br><br>"
+				+ "[deathspell2 - Abre o editor da 2ª barra de feitiços de cavaleiro da morte.<br><br>"
+				+ "[elementspell1 - Abre o editor da 1ª barra de feitiços elementais.<br><br>"
+				+ "[elementspell2 - Abre o editor da 2ª barra de feitiços elementais.<br><br>"
+				+ "[holyspell1 - Abre o editor da 1ª barra de preces de sacerdote.<br><br>"
+				+ "[holyspell2 - Abre o editor da 2ª barra de preces de sacerdote.<br><br>"
+				+ "[magespell1 - Abre o editor da 1ª barra de feitiços de mago.<br><br>"
+				+ "[magespell2 - Abre o editor da 2ª barra de feitiços de mago.<br><br>"
+				+ "[magespell3 - Abre o editor da 3ª barra de feitiços de mago.<br><br>"
+				+ "[magespell4 - Abre o editor da 4ª barra de feitiços de mago.<br><br>"
+				+ "[monkspell1 - Abre o editor da 1ª barra de habilidades de monge.<br><br>"
+				+ "[monkspell2 - Abre o editor da 2ª barra de habilidades de monge.<br><br>"
+				+ "[necrospell1 - Abre o editor da 1ª barra de feitiços de necromante.<br><br>"
+				+ "[necrospell2 - Abre o editor da 2ª barra de feitiços de necromante.<br><br>"
 
 				+ "<br><br>"
 
-				+ "[archtool1 - Opens the 1st ancient spell bar.<br><br>"
-				+ "[archtool2 - Opens the 2nd ancient spell bar.<br><br>"
-				+ "[archtool3 - Opens the 3rd ancient spell bar.<br><br>"
-				+ "[archtool4 - Opens the 4th ancient spell bar.<br><br>"
-				+ "[monktool1 - Opens the 1st monk ability bar.<br><br>"
-				+ "[monktool2 - Opens the 2nd monk ability bar.<br><br>"
-				+ "[bardtool1 - Opens the 1st bard song bar.<br><br>"
-				+ "[bardtool2 - Opens the 2nd bard song bar.<br><br>"
-				+ "[knighttool1 - Opens the 1st knight spell bar.<br><br>"
-				+ "[knighttool2 - Opens the 2nd knight spell bar.<br><br>"
-				+ "[deathtool1 - Opens the 1st death knight spell bar.<br><br>"
-				+ "[deathtool2 - Opens the 2nd death knight spell bar.<br><br>"
-				+ "[elementtool1 - Opens the 1st elemental spell bar.<br><br>"
-				+ "[elementtool2 - Opens the 2nd elemental spell bar.<br><br>"
-				+ "[holytool1 - Opens the 1st priest prayer bar.<br><br>"
-				+ "[holytool2 - Opens the 2nd priest prayer bar.<br><br>"
-				+ "[magetool1 - Opens the 1st mage spell bar.<br><br>"
-				+ "[magetool2 - Opens the 2nd mage spell bar.<br><br>"
-				+ "[magetool3 - Opens the 3rd mage spell bar.<br><br>"
-				+ "[magetool4 - Opens the 4th mage spell bar.<br><br>"
-				+ "[monktool1 - Opens the 1st monk ability bar.<br><br>"
-				+ "[monktool2 - Opens the 2nd monk ability bar.<br><br>"
-				+ "[necrotool1 - Opens the 1st necromancer spell bar.<br><br>"
-				+ "[necrotool2 - Opens the 2nd necromancer spell bar.<br><br>"
+				+ "[archtool1 - Abre a 1ª barra de feitiços antigos.<br><br>"
+				+ "[archtool2 - Abre a 2ª barra de feitiços antigos.<br><br>"
+				+ "[archtool3 - Abre a 3ª barra de feitiços antigos.<br><br>"
+				+ "[archtool4 - Abre a 4ª barra de feitiços antigos.<br><br>"
+				+ "[monktool1 - Abre a 1ª barra de habilidades de monge.<br><br>"
+				+ "[monktool2 - Abre a 2ª barra de habilidades de monge.<br><br>"
+				+ "[bardtool1 - Abre a 1ª barra de canções de bardo.<br><br>"
+				+ "[bardtool2 - Abre a 2ª barra de canções de bardo.<br><br>"
+				+ "[knighttool1 - Abre a 1ª barra de feitiços de cavaleiro.<br><br>"
+				+ "[knighttool2 - Abre a 2ª barra de feitiços de cavaleiro.<br><br>"
+				+ "[deathtool1 - Abre a 1ª barra de feitiços de cavaleiro da morte.<br><br>"
+				+ "[deathtool2 - Abre a 2ª barra de feitiços de cavaleiro da morte.<br><br>"
+				+ "[elementtool1 - Abre a 1ª barra de feitiços elementais.<br><br>"
+				+ "[elementtool2 - Abre a 2ª barra de feitiços elementais.<br><br>"
+				+ "[holytool1 - Abre a 1ª barra de preces de sacerdote.<br><br>"
+				+ "[holytool2 - Abre a 2ª barra de preces de sacerdote.<br><br>"
+				+ "[magetool1 - Abre a 1ª barra de feitiços de mago.<br><br>"
+				+ "[magetool2 - Abre a 2ª barra de feitiços de mago.<br><br>"
+				+ "[magetool3 - Abre a 3ª barra de feitiços de mago.<br><br>"
+				+ "[magetool4 - Abre a 4ª barra de feitiços de mago.<br><br>"
+				+ "[monktool1 - Abre a 1ª barra de habilidades de monge.<br><br>"
+				+ "[monktool2 - Abre a 2ª barra de habilidades de monge.<br><br>"
+				+ "[necrotool1 - Abre a 1ª barra de feitiços de necromante.<br><br>"
+				+ "[necrotool2 - Abre a 2ª barra de feitiços de necromante.<br><br>"
 
 				+ "<br><br>"
 
-				+ "[archclose1 - Closes the 1st ancient spell bar.<br><br>"
-				+ "[archclose2 - Closes the 2nd ancient spell bar.<br><br>"
-				+ "[archclose3 - Closes the 3rd ancient spell bar.<br><br>"
-				+ "[archclose4 - Closes the 4th ancient spell bar.<br><br>"
-				+ "[bardclose1 - Closes the 1st bard song bar.<br><br>"
-				+ "[bardclose2 - Closes the 2nd bard song bar.<br><br>"
-				+ "[knightclose1 - Closes the 1st knight spell bar.<br><br>"
-				+ "[knightclose2 - Closes the 2nd knight spell bar.<br><br>"
-				+ "[deathclose1 - Closes the 1st death knight spell bar.<br><br>"
-				+ "[deathclose2 - Closes the 2nd death knight spell bar.<br><br>"
-				+ "[elementclose1 - Closes the 1st elemental spell bar.<br><br>"
-				+ "[elementclose2 - Closes the 2nd elemental spell bar.<br><br>"
-				+ "[holyclose1 - Closes the 1st priest prayer bar.<br><br>"
-				+ "[holyclose2 - Closes the 2nd priest prayer bar.<br><br>"
-				+ "[mageclose1 - Closes the 1st mage spell bar.<br><br>"
-				+ "[mageclose2 - Closes the 2nd mage spell bar.<br><br>"
-				+ "[mageclose3 - Closes the 3rd mage spell bar.<br><br>"
-				+ "[mageclose4 - Closes the 4th mage spell bar.<br><br>"
-				+ "[monkclose1 - Closes the 1st monk ability bar.<br><br>"
-				+ "[monkclose2 - Closes the 2nd monk ability bar.<br><br>"
-				+ "[necroclose1 - Closes the 1st necromancer spell bar.<br><br>"
-				+ "[necroclose2 - Closes the 2nd necromancer spell bar.<br><br>"
+				+ "[archclose1 - Fecha a 1ª barra de feitiços antigos.<br><br>"
+				+ "[archclose2 - Fecha a 2ª barra de feitiços antigos.<br><br>"
+				+ "[archclose3 - Fecha a 3ª barra de feitiços antigos.<br><br>"
+				+ "[archclose4 - Fecha a 4ª barra de feitiços antigos.<br><br>"
+				+ "[bardclose1 - Fecha a 1ª barra de canções de bardo.<br><br>"
+				+ "[bardclose2 - Fecha a 2ª barra de canções de bardo.<br><br>"
+				+ "[knightclose1 - Fecha a 1ª barra de feitiços de cavaleiro.<br><br>"
+				+ "[knightclose2 - Fecha a 2ª barra de feitiços de cavaleiro.<br><br>"
+				+ "[deathclose1 - Fecha a 1ª barra de feitiços de cavaleiro da morte.<br><br>"
+				+ "[deathclose2 - Fecha a 2ª barra de feitiços de cavaleiro da morte.<br><br>"
+				+ "[elementclose1 - Fecha a 1ª barra de feitiços elementais.<br><br>"
+				+ "[elementclose2 - Fecha a 2ª barra de feitiços elementais.<br><br>"
+				+ "[holyclose1 - Fecha a 1ª barra de preces de sacerdote.<br><br>"
+				+ "[holyclose2 - Fecha a 2ª barra de preces de sacerdote.<br><br>"
+				+ "[mageclose1 - Fecha a 1ª barra de feitiços de mago.<br><br>"
+				+ "[mageclose2 - Fecha a 2ª barra de feitiços de mago.<br><br>"
+				+ "[mageclose3 - Fecha a 3ª barra de feitiços de mago.<br><br>"
+				+ "[mageclose4 - Fecha a 4ª barra de feitiços de mago.<br><br>"
+				+ "[monkclose1 - Fecha a 1ª barra de habilidades de monge.<br><br>"
+				+ "[monkclose2 - Fecha a 2ª barra de habilidades de monge.<br><br>"
+				+ "[necroclose1 - Fecha a 1ª barra de feitiços de necromante.<br><br>"
+				+ "[necroclose2 - Fecha a 2ª barra de feitiços de necromante.<br><br>"
 
 				+ "<br><br>"
 
-				+ "Music: There is many different pieces of classic music in the game, and they play depending on areas you visit. Some of the music is from the original game, but there are some pieces from older games. There are also some pieces from computer games in the 1990's, but they really fit the theme when traveling the land. You can choose to listen to them, or change the music you are listening to when exploring the world. Keep in mind that when you change the music, and you enter a new area, the default music for that area will play and you may have to change your music again. Also keep in mind that your game client will want to play the song for a few seconds before allowing a switch of new music. You can use the below command to open a window that allows you to choose a song to play. Almost all of them play in a loop, where there are three that do not and are marked with an asterisk. There are two pages of songs to choose from so use the top arrow to go back and forth to each screen. When your music begins to play, then press the OKAY button to exit the screen. Although an unnecessary function, it does give you some control over the music in the game.<br><br>"
-				+ "[music - Opens the music playlist and player.<br><br>"
-				+ "The below command will simply toggle your music preference to play a different set of music in the dungeons. When turned on, it will play music you normally hear when traveling the land, instead of the music commonly played in dungeons.<br><br>"
-				+ "[musical - Sets the default dungeon music.<br><br>"
+				+ "Música: Há muitas peças de música clássica diferentes no jogo, e elas tocam dependendo das áreas que você visita. Algumas das músicas são do jogo original, mas há algumas peças de jogos mais antigos. Há também algumas peças de jogos de computador dos anos 1990, mas elas realmente se encaixam no tema ao viajar pela terra. Você pode optar por ouvi-las ou mudar a música que está ouvindo ao explorar o mundo. Lembre-se de que, quando você muda a música e entra em uma nova área, a música padrão para aquela área será reproduzida e você pode ter que mudar sua música novamente. Lembre-se também de que seu cliente do jogo vai querer tocar a música por alguns segundos antes de permitir a troca para uma nova música. Você pode usar o comando abaixo para abrir uma janela que permite escolher uma música para tocar. Quase todas tocam em loop, exceto três que não e são marcadas com um asterisco. Há duas páginas de músicas para escolher, então use a seta superior para ir e voltar entre cada tela. Quando sua música começar a tocar, pressione o botão OK para sair da tela. Embora seja uma função desnecessária, ela lhe dá algum controle sobre a música no jogo.<br><br>"
+				+ "[music - Abre a lista de reprodução e o player de música.<br><br>"
+				+ "O comando abaixo simplesmente alternará sua preferência de música para tocar um conjunto diferente de músicas nas masmorras. Quando ativado, tocará a música que você normalmente ouve ao viajar pela terra, em vez da música comumente tocada em masmorras.<br><br>"
+				+ "[musical - Define a música padrão da masmorra.<br><br>"
 
 				+ "<br><br>"
 
-				+ "Evil Style: There is an evil element to the game that some want to participate in. With classes such as Necromancers, some players may want to travel a world with this flavor added. This particular setting allows you to toggle between regular and evil flavors. When in the evil mode, some of the treasure you will find will often have a name that fits in the evil style. When you stay within negative karma, skill titles will change for you as well, but not all. Look over the book of skill titles (found within the game world) to see which titles will change based on karma. Some of the relics you will find may also have this style, to perhaps decorate a home in this fashion. This option can be turned off and on at any time. You can only have one type of play style active at any one time.<br><br>"
-				+ "[evil - Turns on/off the evil flavor the game provides.<br><br>"
+				+ "Estilo Maligno: Há um elemento maligno no jogo no qual alguns desejam participar. Com classes como Necromantes, alguns jogadores podem querer viajar por um mundo com este sabor adicionado. Esta configuração específica permite que você alterne entre os sabores normal e maligno. No modo maligno, parte do tesouro que você encontrará frequentemente terá um nome que se encaixa no estilo maligno. Quando você permanece com karma negativo, os títulos de habilidade também mudarão para você, mas não todos. Consulte o livro de títulos de habilidade (encontrado no mundo do jogo) para ver quais títulos mudarão com base no karma. Algumas das relíquias que você encontrará também podem ter este estilo, para talvez decorar uma casa dessa forma. Esta opção pode ser ativada e desativada a qualquer momento. Você só pode ter um tipo de estilo de jogo ativo por vez.<br><br>"
+				+ "[evil - Ativa/desativa o sabor maligno que o jogo oferece.<br><br>"
 
 				+ "<br><br>"
 
-				+ "Oriental Style: There is an oriental element to the game that most do not want to participate in. With classes such as Ninja and Samurai, some players may want to travel a world with this flavor added. This particular setting allows you to toggle between fantasy and oriental. When in the oriental mode, half of the treasure you will find will be of Chinese or Japanese historical origins. These types of items will most times be named to match the style. Items that once belonged to someone, will often have a name that fits in the oriental style. Some of the skill titles will change for you as well, but not all. Look over the book of skill titles (found within the game world) to see which titles will change based on this play style. Some of the relics and artwork you will find will also have this style, to perhaps decorate a home in this fashion. This option can be turned off and on at any time. You can only have one type of play style active at any one time.<br><br>"
-				+ "[oriental - Turns on/off the oriental flavor the game provides.<br><br>"
+				+ "Estilo Oriental: Há um elemento oriental no jogo no qual a maioria não deseja participar. Com classes como Ninja e Samurai, alguns jogadores podem querer viajar por um mundo com este sabor adicionado. Esta configuração específica permite que você alterne entre fantasia e oriental. No modo oriental, metade do tesouro que você encontrará será de origens históricas chinesas ou japonesas. Esses tipos de itens geralmente serão nomeados para combinar com o estilo. Itens que já pertenceram a alguém frequentemente terão um nome que se encaixa no estilo oriental. Alguns dos títulos de habilidade também mudarão para você, mas não todos. Consulte o livro de títulos de habilidade (encontrado no mundo do jogo) para ver quais títulos mudarão com base neste estilo de jogo. Algumas das relíquias e obras de arte que você encontrará também terão este estilo, para talvez decorar uma casa dessa forma. Esta opção pode ser ativada e desativada a qualquer momento. Você só pode ter um tipo de estilo de jogo ativo por vez.<br><br>"
+				+ "[oriental - Ativa/desativa o sabor oriental que o jogo oferece.<br><br>"
 
 				+ "<br><br>"
 
-				+ "Barbaric Style: The default game does not lend itself to a sword and sorcery experience. This means that it is not the most optimal play experience to be a loin cloth wearing barbarian that roams the land with a huge axe. Characters generally get as much equipment as they can in order to maximize their rate of survivability. This particular play style can help in this regard. Choosing to play in this style will have a satchel appear in your main pack. You cannot store anything in this satchel, as its purpose is to change certain pieces of equipment you place into it. It will change shields, hats, helms, tunics, sleeves, leggings, boots, gorgets, gloves, necklaces, cloaks, and robes. When these items get changed, they will become something that appears differently but behave in the same way the previous item did. These different items can be equipped but may not appear on your character. Also note that when you wear robes, they cover your character's tunics and sleeves. Wearing a sword and sorcery robe will do the same thing so you will have to remove the robe in order to get to the sleeves and/or tunic. This play style has their own set of skill titles for many skills as well. If you are playing a female character, pressing the button further will convert any 'Barbarian' titles to 'Amazon'. You can open your satchel to learn more about this play style. This option can be turned off and on at any time. You can only have one type of play style active at any one time.<br><br>"
-				+ "[barbaric - Turns on/off the barbaric flavor the game provides.<br><br>"
+				+ "Estilo Bárbaro: O jogo padrão não se presta a uma experiência de espada e feitiçaria. Isso significa que não é a experiência de jogo mais ideal ser um bárbaro de tanga que vagueia pela terra com um enorme machado. Os personagens geralmente obtêm o máximo de equipamento possível para maximizar sua taxa de sobrevivência. Este estilo de jogo específico pode ajudar nesse aspecto. Escolher jogar neste estilo fará com que uma alforje apareça em sua mochila principal. Você não pode armazenar nada nesta alforje, pois seu propósito é mudar certas peças de equipamento que você coloca nela. Ele mudará escudos, chapéus, elmos, túnicas, mangas, calças, botas, gorjeiras, luvas, colares, capas e vestimentas. Quando esses itens são alterados, eles se tornarão algo que aparece de forma diferente, mas se comporta da mesma forma que o item anterior. Esses itens diferentes podem ser equipados, mas podem não aparecer em seu personagem. Observe também que, quando você usa vestimentas, elas cobrem as túnicas e mangas do seu personagem. Usar uma vestimenta de espada e feitiçaria fará a mesma coisa, então você terá que remover a vestimenta para acessar as mangas e/ou túnica. Este estilo de jogo também tem seu próprio conjunto de títulos de habilidade para muitas habilidades. Se você está jogando com um personagem feminino, pressionar o botão adicional converterá quaisquer títulos 'Bárbaro' para 'Amazona'. Você pode abrir sua alforje para aprender mais sobre este estilo de jogo. Esta opção pode ser ativada e desativada a qualquer momento. Você só pode ter um tipo de estilo de jogo ativo por vez.<br><br>"
+				+ "[barbaric - Ativa/desativa o sabor bárbaro que o jogo oferece.<br><br>"
 
 			+ "";
 
@@ -1925,173 +1925,173 @@ namespace Server.Gumps
 			if ( page == 82 )
 			{
 				scrollbar = false;
-				title = "Music Tone";
-				info = "This option will simply toggle your music preference to play a different set of music in the dungeons. When turned on, it will play music you normally hear when traveling the land, instead of the music commonly played in dungeons.";
+				title = "Tom Musical";
+				info = "Esta opção simplesmente alternará sua preferência de música para tocar um conjunto diferente de músicas nas masmorras. Quando ativado, tocará a música que você normalmente ouve ao viajar pela terra, em vez da música comumente tocada em masmorras.";
 			}
 			else if ( page == 83 )
 			{
-				title = "Music Playlist";
-				info = "This gives you a complete list of the in-game music. You can select the music you like and those choices will randomly play as you go from region to region. To listen to a song for review, select the blue gem icon. Note that the client has a delay time when you can start another song so selecting the blue gem may not respond if you started a song too soon before that. Wait for a few seconds and try clicking the blue gem again to see if that song starts to play. Playlists are disabled by default, so if you want your playlist to function, make sure to enable it.";
+				title = "Lista de Reprodução";
+				info = "Isso lhe dá uma lista completa das músicas do jogo. Você pode selecionar as músicas que gosta e essas escolhas tocarão aleatoriamente conforme você vai de região para região. Para ouvir uma música para avaliação, selecione o ícone de gema azul. Observe que o cliente tem um tempo de atraso quando você pode começar outra música, então selecionar a gema azul pode não responder se você começou uma música muito cedo antes disso. Aguarde alguns segundos e tente clicar na gema azul novamente para ver se essa música começa a tocar. As listas de reprodução estão desativadas por padrão, então se você quer que sua lista de reprodução funcione, certifique-se de ativá-la.";
 			}
 			else if ( page == 84 )
 			{
 				scrollbar = false;
-				title = "Private Play";
-				info = "This option turns on or off the detailed messages of your journey for the town crier and local citizen chatter. This keeps your activities private so others will not see where you are traveling the world.";
+				title = "Jogo Privado";
+				info = "Esta opção ativa ou desativa as mensagens detalhadas de sua jornada para o pregoeiro e conversas de cidadãos locais. Isso mantém suas atividades privadas para que outros não vejam onde você está viajando pelo mundo.";
 			}
 			else if ( page == 85 )
 			{
-				title = "Loot Options";
-				info = "This lets you select from a list of categories, where they will automatically take those types of items from common dungeon chests or corpses and put them in your backpack. If you select coins, you will take wealth in the form of currency or gold nuggets. If you take gems and jewels, this will consist of gems, gemstones, jewelry, jewels, and crystals. The unknown items are those that will need identification, but you may decide to take them anyway. The reagent options have a few categories. Magery and necromancer reagents are those used specifically by those characters, where witches brew reagents fall into the necromancer category. Alchemic reagents are those that fall outside the category of magery and necromancer reagents, and only alchemists use them. Herbalist reagents are useful druidic herbalism.";
+				title = "Opções de Saque";
+				info = "Isso permite que você selecione em uma lista de categorias, onde elas coletarão automaticamente esses tipos de itens de baús de masmorras comuns ou cadáveres e os colocarão em sua mochila. Se você selecionar moedas, você pegará riquezas na forma de moeda ou pepitas de ouro. Se você pegar gemas e joias, isso consistirá em gemas, pedras preciosas, joias, jóias e cristais. Os itens desconhecidos são aqueles que precisarão de identificação, mas você pode decidir pegá-los mesmo assim. As opções de reagentes têm algumas categorias. Reagentes de magia e necromancia são aqueles usados especificamente por esses personagens, onde reagentes de poções de bruxaria se enquadram na categoria de necromancia. Reagentes alquímicos são aqueles que estão fora da categoria de reagentes de magia e necromancia, e apenas alquimistas os usam. Reagentes de herbalismo são úteis no herbalismo druídico.";
 			}
 			else if ( page == 86 )
 			{
-				title = "Classic Poisoning";
-				info = "There are two methods that assassins use to handle poisoned weapons. One is the simple method of soaking the blade and having it poison whenever it strikes their opponent. With this method, known as classic poisoning, there is little control on the dosage given but it is easier to maneuver. When this option is turned off, it has the newer and more tactical method, where only certain weapons can be poisoned and the assassin can control when the poison is administered with the hit. Although the tactical method requires more thought, it does have the potential to allow an assassin to poison certain arrows, for example. The choice of methods can be switched at any time, but only one method can be in use at a given time.";
+				title = "Envenenamento Clássico";
+				info = "Existem dois métodos que os assassinos usam para lidar com armas envenenadas. Um é o método simples de mergulhar a lâmina e fazê-la envenenar sempre que atinge seu oponente. Com este método, conhecido como envenenamento clássico, há pouco controle sobre a dosagem dada, mas é mais fácil de manobrar. Quando esta opção está desativada, tem o método mais novo e tático, onde apenas certas armas podem ser envenenadas e o assassino pode controlar quando o veneno é administrado com o golpe. Embora o método tático exija mais pensamento, ele tem o potencial de permitir que um assassino envenene certas flechas, por exemplo. A escolha dos métodos pode ser alternada a qualquer momento, mas apenas um método pode estar em uso por vez.";
 			}
 			else if ( page == 87 )
 			{
-				title = "Skill Title";
-				info = "When you don't set your skill title here, the game will take your highest skill and make that into your character's title. Choosing a skill here will force your title to that profession. So if you always want to be known as a wizard, then select the 'Magery' option (for example). You can let the game manage this at any time by setting it back to 'Auto Title'. Be warned when choosing a skill, if you have zero skill points in it, you will be titled 'the Village Idiot'. If you get at least 0.1, you will at least be 'Aspiring'.";
+				title = "Título de Habilidade";
+				info = "Quando você não define seu título de habilidade aqui, o jogo pegará sua habilidade mais alta e fará disso o título do seu personagem. Escolher uma habilidade aqui forçará seu título para aquela profissão. Então, se você sempre quer ser conhecido como um mago, selecione a opção 'Magia' (por exemplo). Você pode deixar o jogo gerenciar isso a qualquer momento, voltando para 'Título Automático'. Esteja avisado ao escolher uma habilidade: se você tiver zero pontos de habilidade nela, você será intitulado 'o Idiota da Vila'. Se você obtiver pelo menos 0.1, você será pelo menos 'Aspirante'.";
 			}
 			else if ( page == 88 )
 			{
 				scrollbar = false;
-				title = "Message Color";
-				info = "By default, most of the messages appearing on the lower left of the screen are gray in color. Enabling this option will change those messages to have a random color whenenver a new message appears. This feature can help some more easily see such messages and the varying colors can also help distinguish individual messages that may be scrolling by.";
+				title = "Cor da Mensagem";
+				info = "Por padrão, a maioria das mensagens que aparecem no canto inferior esquerdo da tela são de cor cinza. Ativar esta opção mudará essas mensagens para ter uma cor aleatória sempre que uma nova mensagem aparecer. Este recurso pode ajudar alguns a ver essas mensagens com mais facilidade, e as cores variadas também podem ajudar a distinguir mensagens individuais que podem estar passando rapidamente.";
 			}
 			else if ( page == 89 )
 			{
 				scrollbar = false;
-				title = "Auto Attack";
-				info = "By default, when you are attacked you will automatically attack back. If you want to instead decide when or if you want to attack back, you can turn this option off. This can be helpful if you do not want to kill innocents by accident, or you are trying to tame an angry creature.";
+				title = "Ataque Automático";
+				info = "Por padrão, quando você é atacado, você automaticamente revida. Se você quiser decidir quando ou se quer revidar, pode desativar esta opção. Isso pode ser útil se você não quiser matar inocentes acidentalmente, ou se estiver tentando domar uma criatura irritada.";
 			}
 			else if ( page == 92 )
 			{
-				title = "Play Style - Normal";
-				info = "This is the default play style for the " + MySettings.S_ServerName + ". It is designed for a classic fantasy world experience for the players. There are two other play styles available, evil and oriental. Play styles do not change the mechanics of the game playing experience, but it does change the flavor of the treasure you find and the henchman you hire. For example, you can set your play style to an 'evil' style of play. What happens is you will find treasure geared toward that play style. Where you would normally find a blue 'mace of might', the evil style would have you find a black 'mace of ghostly death'. They are simply a way to tweak your character's experience in the game.";
+				title = "Estilo de Jogo - Normal";
+				info = "Este é o estilo de jogo padrão para " + MySettings.S_ServerName + ". É projetado para uma experiência de mundo de fantasia clássica para os jogadores. Existem outros dois estilos de jogo disponíveis, maligno e oriental. Os estilos de jogo não mudam a mecânica da experiência de jogo, mas mudam o sabor do tesouro que você encontra e dos capangas que você contrata. Por exemplo, você pode definir seu estilo de jogo para um estilo de jogo 'maligno'. O que acontece é que você encontrará tesouros voltados para esse estilo de jogo. Onde você normalmente encontraria um 'maça do poder' azul, o estilo maligno faria você encontrar uma 'maça da morte fantasmagórica' preta. Eles são simplesmente uma maneira de ajustar a experiência do seu personagem no jogo.";
 			}
 			else if ( page == 93 )
 			{
-				title = "Play Style - Evil";
-				info = "There is an evil element to the game that some want to participate in. With classes such as Necromancers, some players may want to travel a world with this flavor added. This particular setting allows you to toggle between regular and evil flavors. When in the evil mode, some of the treasure you will find will often have a name that fits in the evil style. When you stay within negative karma, skill titles will change for you as well, but not all. Look over the book of skill titles (found within the game world) to see which titles will change based on karma. Some of the relics you will find may also have this style, to perhaps decorate a home in this fashion. This option can be turned off and on at any time. You can only have one type of play style active at any one time.<br><br>"
-				+ "[evil - Turns on/off the evil flavor the game provides.";
+				title = "Estilo de Jogo - Maligno";
+				info = "Há um elemento maligno no jogo no qual alguns desejam participar. Com classes como Necromantes, alguns jogadores podem querer viajar por um mundo com este sabor adicionado. Esta configuração específica permite que você alterne entre os sabores normal e maligno. No modo maligno, parte do tesouro que você encontrará frequentemente terá um nome que se encaixa no estilo maligno. Quando você permanece com karma negativo, os títulos de habilidade também mudarão para você, mas não todos. Consulte o livro de títulos de habilidade (encontrado no mundo do jogo) para ver quais títulos mudarão com base no karma. Algumas das relíquias que você encontrará também podem ter este estilo, para talvez decorar uma casa dessa forma. Esta opção pode ser ativada e desativada a qualquer momento. Você só pode ter um tipo de estilo de jogo ativo por vez.<br><br>"
+				+ "[evil - Ativa/desativa o sabor maligno que o jogo oferece.";
 			}
 			else if ( page == 94 )
 			{
-				title = "Play Style - Oriental";
-				info = "There is an oriental element to the game that most do not want to participate in. With classes such as Ninja and Samurai, some players may want to travel a world with this flavor added. This particular setting allows you to toggle between fantasy and oriental. When in the oriental mode, much of the treasure you will find will be of Chinese or Japanese historical origins. These types of items will most times be named to match the style. Items that once belonged to someone, will often have a name that fits in the oriental style. Some of the skill titles will change for you as well, but not all. Look over the book of skill titles (found within the game world) to see which titles will change based on this play style. Some of the relics and artwork you will find will also have this style, to perhaps decorate a home in this fashion. This option can be turned off and on at any time. You can only have one type of play style active at any one time.";
+				title = "Estilo de Jogo - Oriental";
+				info = "Há um elemento oriental no jogo no qual a maioria não deseja participar. Com classes como Ninja e Samurai, alguns jogadores podem querer viajar por um mundo com este sabor adicionado. Esta configuração específica permite que você alterne entre fantasia e oriental. No modo oriental, grande parte do tesouro que você encontrará será de origens históricas chinesas ou japonesas. Esses tipos de itens geralmente serão nomeados para combinar com o estilo. Itens que já pertenceram a alguém frequentemente terão um nome que se encaixa no estilo oriental. Alguns dos títulos de habilidade também mudarão para você, mas não todos. Consulte o livro de títulos de habilidade (encontrado no mundo do jogo) para ver quais títulos mudarão com base neste estilo de jogo. Algumas das relíquias e obras de arte que você encontrará também terão este estilo, para talvez decorar uma casa dessa forma. Esta opção pode ser ativada e desativada a qualquer momento. Você só pode ter um tipo de estilo de jogo ativo por vez.";
 			}
 			else if ( page == 95 )
 			{
 				m_Origin = 7;
-				title = "Magic Toolbars";
-				info = "These toolbars can be configured for all areas of magical-style spells in the game. Each school of magic has two separate toolbars you can customize, except for magery which has four available. The large number of spells for magery benefit from the extra two toolbars. These toolbars allow you to select spells that you like to cast often, and set whether the bar will appear vertical or horizontal. If you choose to have the toolbar appear vertical, you have the additional option of showing the spell names next to the icons. These toolbars can be moved around and you need only single click the appropriate icon to cast the spell. If you have spells selected for a toolbar, but lack the spell in your spellbook, the icon will not appear when you open the toolbar. These toolbars cannot be closed by normal means, to avoid the chance you close them by accident when in combat. You can either use the command button available in the 'Help' section, or the appropriate typed keyboard command.";
+				title = "Barras de Ferramentas Mágicas";
+				info = "Estas barras de ferramentas podem ser configuradas para todas as áreas de feitiços de estilo mágico no jogo. Cada escola de magia tem duas barras de ferramentas separadas que você pode personalizar, exceto para magia, que tem quatro disponíveis. O grande número de feitiços para magia se beneficia das duas barras de ferramentas extras. Essas barras de ferramentas permitem que você selecione feitiços que gosta de lançar com frequência e defina se a barra aparecerá vertical ou horizontalmente. Se você escolher que a barra de ferramentas apareça vertical, você tem a opção adicional de mostrar os nomes dos feitiços ao lado dos ícones. Essas barras de ferramentas podem ser movidas e você só precisa clicar uma vez no ícone apropriado para lançar o feitiço. Se você tiver feitiços selecionados para uma barra de ferramentas, mas não tiver o feitiço em seu livro de feitiços, o ícone não aparecerá quando você abrir a barra de ferramentas. Essas barras de ferramentas não podem ser fechadas por meios normais, para evitar que você as feche acidentalmente durante o combate. Você pode usar o botão de comando disponível na seção 'Ajuda' ou o comando de teclado apropriado.";
 			}
 			else if ( page == 96 )
 			{
 				scrollbar = false;
-				title = "Magery Spell Color";
-				info = "You can change the color for all of your magery spell effects here. There are a limited amount of choices given here. Once set, your spells will be that color for every effect. If you want to set it back to normal, then select the 'Default' option. You can also use the '[spellhue' command followed by a number of any color you want to set it to.";
+				title = "Cor do Feitiço de Magia";
+				info = "Você pode mudar a cor de todos os seus efeitos de feitiços de magia aqui. Há um número limitado de opções fornecidas aqui. Uma vez definido, seus feitiços serão dessa cor para cada efeito. Se você quiser voltar ao normal, selecione a opção 'Padrão'. Você também pode usar o comando '[spellhue' seguido por um número de qualquer cor que desejar definir.";
 			}
 			else if ( page == 97 )
 			{
 				scrollbar = false;
-				title = "Custom Title";
-				info = "This allows you to enter a custom title for your character, instead of relying on the game to assign you one based on your best skill or the skill you choose to have represent you. To clear out a custom title you may have set with this option, enter the word of 'clear' to remove it.";
+				title = "Título Personalizado";
+				info = "Isso permite que você insira um título personalizado para seu personagem, em vez de depender do jogo para atribuir um com base em sua melhor habilidade ou na habilidade que você escolhe para representá-lo. Para limpar um título personalizado que você possa ter definido com esta opção, digite a palavra 'clear' para removê-lo.";
 			}
 			else if ( page == 99 )
 			{
 				scrollbar = false;
-				title = "Weapon Ability Names";
-				info = "When you get good enough with tactics and a weapon type, you will get special abilities that they can perform. These usually appear as simple icons you can select to do the action, but this option will turn on or off the special weapon ability names next to the appropriate icons.";
+				title = "Nomes de Habilidades de Armas";
+				info = "Quando você se torna bom o suficiente em táticas e um tipo de arma, você obterá habilidades especiais que pode realizar. Elas geralmente aparecem como ícones simples que você pode selecionar para realizar a ação, mas esta opção ativará ou desativará os nomes das habilidades especiais de armas ao lado dos ícones apropriados.";
 			}
 			else if ( page == 100 )
 			{
 				scrollbar = false;
-				title = "Auto Sheath";
-				info = "This option turns on or off the feature to sheathe your weapon when not in battle. When you put your character back into war mode, they will draw the weapon.";
+				title = "Embainhamento Automático";
+				info = "Esta opção ativa ou desativa a função de embainhar sua arma quando não está em batalha. Quando você coloca seu personagem de volta no modo de guerra, ele sacará a arma.";
 			}
 			else if ( page == 101 )
 			{
 				scrollbar = false;
-				title = "Gump Images";
-				info = "Many window gumps have a faded image in the background. Turning this off will have those windows only be black in color, with no background image.";
+				title = "Imagens de Fundo";
+				info = "Muitas janelas de gump têm uma imagem desbotada no fundo. Desativar isso fará com que essas janelas sejam apenas de cor preta, sem imagem de fundo.";
 			}
 			else if ( page == 102 )
 			{
 				scrollbar = false;
-				title = "Weapon Ability Bar";
-				info = "This option turns on or off the auto-opening of the weapon ability icon bar, meaning you will have to do it manually if you turn it off.";
+				title = "Barra de Habilidades de Armas";
+				info = "Esta opção ativa ou desativa a abertura automática da barra de ícones de habilidades de armas, o que significa que você terá que fazê-lo manualmente se a desativar.";
 			}
 			else if ( page == 103 )
 			{
 				scrollbar = false;
-				title = "Creature Magic";
-				info = "Some creatures have a natural ability for magic. This setting lets you change which school of magic you want to focus on: magery, necromancy, or elementalism. This allows magery or necromancy creatures to move their focus into elementalism, or to switch between magery and necromancy.";
+				title = "Magia de Criaturas";
+				info = "Algumas criaturas têm uma habilidade natural para magia. Esta configuração permite que você mude para qual escola de magia você quer focar: magia, necromancia ou elementalismo. Isso permite que criaturas de magia ou necromancia movam seu foco para o elementalismo, ou alternem entre magia e necromancia.";
 			}
 			else if ( page == 104 )
 			{
 				scrollbar = false;
-				title = "Creature Type";
-				info = "Some creature species has more than one option for appearance. This setting lets you change to another of that species if another appearance is available. You can also turn yourself into a human if you choose. If you become human, you will remain that way forever.";
+				title = "Tipo de Criatura";
+				info = "Algumas espécies de criaturas têm mais de uma opção de aparência. Esta configuração permite que você mude para outra dessa espécie se outra aparência estiver disponível. Você também pode se transformar em humano, se escolher. Se você se tornar humano, permanecerá assim para sempre.";
 			}
 			else if ( page == 105 )
 			{
 				scrollbar = false;
-				title = "Creature Sounds";
-				info = "Since you are a creature, you sometimes make sounds when attacking or getting hurt from attacks. You can turn these sounds on or off here.";
+				title = "Sons de Criaturas";
+				info = "Como você é uma criatura, às vezes você faz sons ao atacar ou ser ferido por ataques. Você pode ativar ou desativar esses sons aqui.";
 			}
 			else if ( page == 106 )
 			{
 				scrollbar = false;
-				title = "Ancient Spellbook";
-				info = "If you begin researching the 64 ancient spells that were long forgotten, enabling this setting means you will be casting such magic from a book instead of using your research bag. If you have this enabled, you will need reagents to cast spells and the spells being cast must be in your book. Disabling this checks your research bag to see if you have the spell prepared ahead of time.";
+				title = "Livro de Feitiços Antigos";
+				info = "Se você começar a pesquisar os 64 feitiços antigos que foram há muito esquecidos, ativar esta configuração significa que você lançará essa magia de um livro em vez de usar sua bolsa de pesquisa. Se você tiver isso ativado, precisará de reagentes para lançar feitiços e os feitiços lançados devem estar em seu livro. Desativar isso verifica sua bolsa de pesquisa para ver se você tem o feitiço preparado antecipadamente.";
 			}
 			else if ( page == 107 )
 			{
 				scrollbar = false;
-				title = "Set Crafting Container";
-				info = "This allows you to set a container, where items will go when you are creating them through crafting. The container must be in your main pack in order to collect the items, and not within another container.";
+				title = "Definir Recipiente de Criação";
+				info = "Isso permite que você defina um recipiente, onde os itens irão quando você os estiver criando através de crafting. O recipiente deve estar em sua mochila principal para coletar os itens, e não dentro de outro recipiente.";
 			}
 			else if ( page == 108 )
 			{
 				scrollbar = false;
-				title = "Set Harvesting Container";
-				info = "This allows you to set a container, where items will go when you are harvesting for items. These are items you get from activities like mining, lumberjacking, and fishing. The container must be in your main pack in order to collect the items, and not within another container.";
+				title = "Definir Recipiente de Coleta";
+				info = "Isso permite que você defina um recipiente, onde os itens irão quando você estiver coletando itens. Estes são itens que você obtém de atividades como mineração, corte de madeira e pesca. O recipiente deve estar em sua mochila principal para coletar os itens, e não dentro de outro recipiente.";
 			}
 			else if ( page == 109 )
 			{
 				scrollbar = false;
-				title = "Set Loot Container";
-				info = "This allows you to set a container, where items will go that you configured in the Loot Options setting. The container must be in your main pack in order to collect the items, and not within another container.";
+				title = "Definir Recipiente de Saque";
+				info = "Isso permite que você defina um recipiente, onde os itens irão que você configurou na configuração de Opções de Saque. O recipiente deve estar em sua mochila principal para coletar os itens, e não dentro de outro recipiente.";
 			}
 			else if ( page == 110 )
 			{
 				scrollbar = false;
-				title = "Ordinary Resources";
-				info = "Turning this setting on will have your character only harvest or gather ordinary resources like wood, leather, granite, iron and bones. This means you will not be collecting higher resourced items when skinning, mining, or lumberjacking.";
+				title = "Recursos Ordinários";
+				info = "Ativar esta configuração fará com que seu personagem apenas colete ou reúna recursos ordinários como madeira, couro, granito, ferro e ossos. Isso significa que você não coletará itens de recursos superiores ao esfolar, minerar ou cortar madeira.";
 			}
 			else if ( page == 111 )
 			{
 				scrollbar = false;
-				title = "Double Click to ID Items";
-				info = "Enabling this will allow your character to try and identify items by double clicking them.<BR><BR>NOTE: if you are using any third party software, that tries to open all of your containers, then that third party software will try to identify these items without your consent.";
+				title = "Clique Duas Vezes para ID de Itens";
+				info = "Ativar isso permitirá que seu personagem tente identificar itens clicando duas vezes neles.<BR><BR>NOTA: se você estiver usando qualquer software de terceiros que tente abrir todos os seus recipientes, esse software de terceiros tentará identificar esses itens sem o seu consentimento.";
 			}
 			else if ( page == 198 )
 			{
-				title = "Play Style - Barbaric";
-				info = "The default game does not lend itself to a sword and sorcery experience. This means that it is not the most optimal play experience to be a loin cloth wearing barbarian that roams the land with a huge axe. Characters generally get as much equipment as they can in order to maximize their rate of survivability. This particular play style can help in this regard. Choosing to play in this style will have a satchel appear in your main pack. You cannot store anything in this satchel, as its purpose is to change certain pieces of equipment you place into it. It will change shields, hats, helms, tunics, sleeves, leggings, boots, gorgets, gloves, necklaces, cloaks, and robes. When these items get changed, they will become something that appears differently but behave in the same way the previous item did. These different items can be equipped but may not appear on your character. Also note that when you wear robes, they cover your character's tunics and sleeves. Wearing a sword and sorcery robe will do the same thing so you will have to remove the robe in order to get to the sleeves and/or tunic. This play style has their own set of skill titles for many skills as well. If you are playing a female character, pressing the button further will convert any 'Barbarian' titles to 'Amazon'. You can open your satchel to learn more about this play style. This option can be turned off and on at any time. You can only have one type of play style active at any one time.";
+				title = "Estilo de Jogo - Bárbaro";
+				info = "O jogo padrão não se presta a uma experiência de espada e feitiçaria. Isso significa que não é a experiência de jogo mais ideal ser um bárbaro de tanga que vagueia pela terra com um enorme machado. Os personagens geralmente obtêm o máximo de equipamento possível para maximizar sua taxa de sobrevivência. Este estilo de jogo específico pode ajudar nesse aspecto. Escolher jogar neste estilo fará com que uma alforje apareça em sua mochila principal. Você não pode armazenar nada nesta alforje, pois seu propósito é mudar certas peças de equipamento que você coloca nela. Ele mudará escudos, chapéus, elmos, túnicas, mangas, calças, botas, gorjeiras, luvas, colares, capas e vestimentas. Quando esses itens são alterados, eles se tornarão algo que aparece de forma diferente, mas se comporta da mesma forma que o item anterior. Esses itens diferentes podem ser equipados, mas podem não aparecer em seu personagem. Observe também que, quando você usa vestimentas, elas cobrem as túnicas e mangas do seu personagem. Usar uma vestimenta de espada e feitiçaria fará a mesma coisa, então você terá que remover a vestimenta para acessar as mangas e/ou túnica. Este estilo de jogo também tem seu próprio conjunto de títulos de habilidade para muitas habilidades. Se você está jogando com um personagem feminino, pressionar o botão adicional converterá quaisquer títulos 'Bárbaro' para 'Amazona'. Você pode abrir sua alforje para aprender mais sobre este estilo de jogo. Esta opção pode ser ativada e desativada a qualquer momento. Você só pode ter um tipo de estilo de jogo ativo por vez.";
 			}
 			else if ( page == 199 )
 			{
-				title = "Skill Lists";
-				info = "Skill lists are an alternative to the normal skill lists you can get from clicking the appropriate button on the paper doll. Although you still need to use that for skill management (up, down, lock), skill lists have a more condensed appearance for when you play the game. In order for skills to appear in this alternate list, they have to either be set to 'up', or they can be set to 'locked'. The 'locked' skills will only display in this list if you change your settings here to reflect that. The list does not refresh in real time, but it will often refresh itself to show your skill status in both real and enhanced values. Any skill that appears in orange indicates a skill that you have locked. You can open this list with the '[skilllist' command, or the appropriate button on the main screen.";
+				title = "Listas de Habilidades";
+				info = "Listas de habilidades são uma alternativa às listas de habilidades normais que você pode obter clicando no botão apropriado no paperdoll. Embora você ainda precise usar isso para gerenciamento de habilidades (up, down, lock), as listas de habilidades têm uma aparência mais condensada para quando você joga o jogo. Para que as habilidades apareçam nesta lista alternativa, elas devem estar definidas como 'up', ou podem estar definidas como 'locked'. As habilidades 'locked' só serão exibidas nesta lista se você alterar suas configurações aqui para refletir isso. A lista não é atualizada em tempo real, mas frequentemente se atualizará para mostrar o status de suas habilidades em valores reais e aprimorados. Qualquer habilidade que apareça em laranja indica uma habilidade que você bloqueou. Você pode abrir esta lista com o comando '[skilllist', ou o botão apropriado na tela principal.";
 			}
 			else if ( page == 1000 )
 			{
-				title = "Flip Deed";
-				info = "This option allows you to flip some deeds that can come in one of two direction facings. So if a deed states that furniture faces east, then you can set the deed on the floor of your house and flip it to face south instead. This can flip almost any deed-like items in this manner, but not all items are called 'deeds' or look like deeds. Some items behave as deeds and those can be flipped in the same manner. Tents or bear rugs, for example, have a facing and you can flip those with this command..";
+				title = "Virar Escritura";
+				info = "Esta opção permite que você vire algumas escrituras que podem vir em uma de duas direções de face. Então, se uma escritura afirma que um móvel fica de frente para o leste, você pode colocar a escritura no chão de sua casa e virá-la para ficar de frente para o sul. Isso pode virar quase qualquer item semelhante a escritura dessa maneira, mas nem todos os itens são chamados de 'escrituras' ou parecem escrituras. Alguns itens se comportam como escrituras e esses podem ser virados da mesma maneira. Tendas ou tapetes de urso, por exemplo, têm uma face e você pode virá-los com este comando.";
 			}
 
 			AddPage(0);

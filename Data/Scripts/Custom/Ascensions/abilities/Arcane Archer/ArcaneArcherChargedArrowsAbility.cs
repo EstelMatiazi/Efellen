@@ -37,20 +37,20 @@ namespace Server.Custom.Ascensions
 
             if (pm.IsAbilityOnCooldown(Name))
             {
-                pm.SendMessage("That ability is on cooldown.");
+                pm.SendMessage("Essa habilidade está em cooldown.");
                 return;
             }
 
             if (pm.Mana < 50)
             {
-                pm.SendMessage("You do not have enough mana.");
+                pm.SendMessage("Você não tem mana suficiente.");
                 return;
             }
 
             BaseWeapon weapon = pm.Weapon as BaseWeapon;
             if (weapon == null || !(weapon is BaseRanged))
             {
-                pm.SendMessage("You must be wielding a ranged weapon.");
+                pm.SendMessage("Você precisa estar empunhando uma arma de longo alcance.");
                 return;
             }
 
@@ -60,7 +60,7 @@ namespace Server.Custom.Ascensions
 
             int level = prog.Level;
 
-            pm.SendMessage(0x48F, "Choose a direction to fire.");
+            pm.SendMessage(0x48F, "Escolha uma direção para disparar.");
             pm.Target = new ChargedArrowsTarget(pm, level);
         }
 
@@ -166,7 +166,7 @@ namespace Server.Custom.Ascensions
                 if (m_Level >= 12 && Utility.Random(10000) < (m_Level * 50))
                 {
                     m_Caster.SetAbilityCooldown("ArcaneVolley", TimeSpan.Zero);
-                    m_Caster.SendMessage(0x48F, "Arcane Volley can be used again.");
+                    m_Caster.SendMessage(0x48F, "Arcane Volley pode ser usado novamente.");
                 }
 
                 new CooldownNotifyTimer(m_Caster, TimeSpan.FromMinutes(1)).Start();
@@ -189,7 +189,7 @@ namespace Server.Custom.Ascensions
             protected override void OnTick()
             {
                 if (m_Player == null || m_Player.Deleted) return;
-                m_Player.SendMessage(0x48F, "Charged Arrows can be used again.");
+                m_Player.SendMessage(0x48F, "Charged Arrows pode ser usado novamente.");
             }
         }
     }

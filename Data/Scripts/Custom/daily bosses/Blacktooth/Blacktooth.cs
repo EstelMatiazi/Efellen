@@ -35,7 +35,7 @@ namespace Server.Mobiles
 		[Constructable]
 		public Blacktooth () : base( AIType.AI_Melee, FightMode.Closest, 20, 1, 0.4, 0.8 )
 		{
-			Title = " the Vicious";
+			Title = " o Cruel";
 			NameHue = 0x92E;
             Body = 736;
 			BaseSoundID = 0xA3;
@@ -123,7 +123,7 @@ namespace Server.Mobiles
                 case 0:
                      BossSpecialAttack.PerformRampage(
                        boss: this,
-                       warcry: "*Screeches and charges forward!*",
+                       warcry: "*Guincha e avança!*",
                        hue: 660,
                        rage: m_Rage+1,
                        stunDuration: 4.0
@@ -133,7 +133,7 @@ namespace Server.Mobiles
                 case 1:
                    BossSpecialAttack.PerformFear(
 				      boss: this,
-				      warcry: "*Unleashes a bestial roar!*",
+				      warcry: "*Lança um rugido bestial!*",
 				      range: 6,
 				      rage: m_Rage+1,
 				      terror: 70  // Knightship 70+ saves from fear
@@ -144,7 +144,7 @@ namespace Server.Mobiles
                     BossSpecialAttack.SummonHonorGuard(
                         boss: this,
                         target: target,
-                        warcry: "Ancestors! Aid me!",
+                        warcry: "Ancestrais! Ajudai-me!",
                         amount: m_Rage>1?m_Rage:1,
                         creatureType: typeof(SummonDireBear),
                         hue: 660
@@ -154,7 +154,7 @@ namespace Server.Mobiles
                 case 3:
                     BossSpecialAttack.PerformSlam(
                        boss: this,
-                       warcry: "The ground shakes!",
+                       warcry: "O chão treme!",
                        hue: 660,
                        rage: m_Rage+1,
                        range: 6,
@@ -196,7 +196,7 @@ namespace Server.Mobiles
 			{
 				Effects.SendLocationParticles( EffectItem.Create( this.Location, this.Map, EffectItem.DefaultDuration ), 0x3728, 10, 10, 2023 );
 				this.PlaySound( 0x1FE );
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "I go...Home...." );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Eu vou... para casa...." );
                 Mobile killer = this.LastKiller;
 				if (killer != null && killer.Player && killer.Karma < 0)
             	{

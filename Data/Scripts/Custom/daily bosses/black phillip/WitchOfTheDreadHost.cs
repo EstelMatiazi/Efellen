@@ -14,7 +14,7 @@ namespace Server.Mobiles
 		public WitchOfTheDreadHost() : base( AIType.AI_Mage, FightMode.Closest, 10, 1, 0.2, 0.4 )
 		{
 			Name = NameList.RandomName( "evil witch" );
-            Title = "Witch of the Dread Host";
+            Title = "Bruxa da Hoste do Pavor";
 			Hue = 743;
 			Body = 0x191;
 			Utility.AssignRandomHair( this );

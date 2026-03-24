@@ -22,13 +22,13 @@ namespace Server.Custom.Ascensions
 
             if (pm.IsAbilityOnCooldown(Name))
             {
-                pm.SendMessage("That ability is on cooldown.");
+                pm.SendMessage("Esta habilidade está em cooldown.");
                 return;
             }
 
             if (pm.Mana < 30 || pm.Stam < 30)
             {
-                pm.SendMessage("You do not have enough mana or stamina.");
+                pm.SendMessage("Você não tem mana ou stamina suficientes.");
                 return;
             }
 
@@ -68,7 +68,7 @@ namespace Server.Custom.Ascensions
                 if (m_Player == null || m_Player.Deleted)
                     return;
 
-                m_Player.SendMessage(0x675, "You can now use Absolute Tyranny again.");
+                m_Player.SendMessage(0x675, "Você pode usar Absolute Tyranny novamente.");
             }
         }
     }

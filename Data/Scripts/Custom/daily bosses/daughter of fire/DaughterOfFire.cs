@@ -33,10 +33,10 @@ namespace Server.Mobiles
 
 		private static readonly string[] SummonWarcries = new string[]
 		{
-			"Fire walks with me!",
-			"Soon you shall be ash and memory!",
-			"We will turn your hopes and dreams into cinder!",
-			"Hellfire shall bear witness to your demise!"
+			"O fogo caminha comigo!",
+			"Logo você será cinzas e memória!",
+			"Transformaremos suas esperanças e sonhos em brasas!",
+			"O fogo do inferno testemunhará sua morte!"
 		};
 		
 		private static readonly List<Type> BossDrops = new List<Type>
@@ -59,7 +59,7 @@ namespace Server.Mobiles
 		public DaughterOfFire () : base( AIType.AI_Mage, FightMode.Closest, 20, 1, 0.4, 0.8 )
 		{
 			Name = "Daughter of Fire";
-            Title = "The Emissary of Pain";
+            Title = "A Emissária da Dor";
 			Body = 149;
 			BaseSoundID = 0x4B0;
 			NameHue = 0x22;
@@ -160,7 +160,7 @@ namespace Server.Mobiles
 				{
 					BossSpecialAttack.PerformSlam(
                        boss: this,
-                       warcry: "BURN!",
+                       warcry: "QUEIME!",
                        hue: 0xb73,
                        rage: m_Rage+1,
                        range: 6,
@@ -174,7 +174,7 @@ namespace Server.Mobiles
 					BossSpecialAttack.SummonHonorGuard(
                         boss: this,
                         target: target,
-                        warcry: "Awake the volcano!",
+                        warcry: "Desperte o vulcão!",
                         amount: 4,
                         creatureType: typeof(EvilScorchingVortex),
                         hue: 0xb73
@@ -187,7 +187,7 @@ namespace Server.Mobiles
                         return;
                     int range = 7;
                     this.PlaySound(0x208);
-                    PublicOverheadMessage(Network.MessageType.Emote, 0x22, false, "*lashes a blazing whip of fire!*");
+                    PublicOverheadMessage(Network.MessageType.Emote, 0x22, false, "*açoita com um chicote flamejante!*");
                     Point3D start = this.Location;
                     int dx = 0, dy = 0;
 					int minDamage = (50+m_Rage*3);
@@ -271,7 +271,7 @@ namespace Server.Mobiles
 		{
 			if ( m_Rage == 0 )
 			{
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "We are just getting started, honey!" );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Nós estamos apenas começando, querida!" );
 				this.Hits = this.HitsMax;
 				this.FixedParticles( 0x376A, 9, 32, 5030, EffectLayer.Waist );
 				this.PlaySound( 0x202 );
@@ -282,7 +282,7 @@ namespace Server.Mobiles
 			}
 			else if ( m_Rage == 1 )
 			{
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Feeling the heat yet?" );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Já está sentindo o calor?" );
 				this.Hits = this.HitsMax;
 				this.FixedParticles( 0x376A, 9, 32, 5030, EffectLayer.Waist );
 				this.PlaySound( 0x202 );
@@ -294,13 +294,13 @@ namespace Server.Mobiles
 			}
 			else if ( m_Rage == 2 )
 			{
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Hellfire shall be your eternal lover!" );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "O fogo do inferno será seu amante eterno!" );
 				this.Hits = this.HitsMax;
 				this.FixedParticles( 0x376A, 9, 32, 5030, EffectLayer.Waist );
 				this.PlaySound( 0x202 );
 				SetDamage( 26, 30 );
 				VirtualArmor += 10;
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Fool! I'm fire everlasting" );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Tolo! Eu sou o fogo eterno" );
 				m_Rage = 3;
 				return false;
 			}
@@ -308,7 +308,7 @@ namespace Server.Mobiles
 			{
 				Effects.SendLocationParticles( EffectItem.Create( this.Location, this.Map, EffectItem.DefaultDuration ), 0x3728, 10, 10, 2023 );
 				this.PlaySound( 0x1FE );
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "You win...this time..." );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Você venceu... desta vez..." );
 				Mobile killer = this.LastKiller;
 				if (killer != null && killer.Player && killer.Karma > 0)
             	{

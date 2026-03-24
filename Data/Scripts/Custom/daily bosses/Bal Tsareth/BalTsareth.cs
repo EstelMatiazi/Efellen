@@ -32,10 +32,10 @@ namespace Server.Mobiles
 
 		private static readonly string[] SummonWarcries = new string[]
 		{
-			"The weave answers to me!",
-			"My magic has outlasted civilizations, taste it!",
-			"This is MY HOME! MINE!",
-			"I've forgotten magic that your civilization is yet to learn!"
+			"O tecido responde a mim!",
+			"Minha magia sobreviveu a civilizações, prove-a!",
+			"Esta é MINHA CASA! MINHA!",
+			"Esqueci magias que sua civilização ainda vai aprender!"
 		};
 
 		private static readonly List<Type> BossDrops = new List<Type>
@@ -62,7 +62,7 @@ namespace Server.Mobiles
 			HairHue = Utility.RandomHairHue();
             Hue = Utility.RandomSkinHue(); 
 			NameHue = 0x22;
-			Title = "The Ancient Lorekeeper";
+			Title = "O Guardião do Conhecimento Ancestral";
 			
 			SetStr( 596, 785 );
 			SetDex( 165, 225 );
@@ -172,7 +172,7 @@ namespace Server.Mobiles
                 if ( map.CanSpawnMobile( p ) )
                 {
                     Location = p;
-                    PublicOverheadMessage( MessageType.Emote, 0x3B2, false, "*Steps into the weave*" );
+                    PublicOverheadMessage( MessageType.Emote, 0x3B2, false, "*Adentra o Tecido Mágico*" );
                     Effects.SendLocationEffect( p, map, 0x3728, 13, 10, 0, 0 );
                     Effects.PlaySound( p, map, 0x1FE );
                     break;
@@ -190,10 +190,10 @@ namespace Server.Mobiles
 			switch ( attackChoice )
 			{
 				case 1:
-					BossSpecialAttack.PerformSlam( this, "MINE! ALL OF THESE SECRETS ARE MINE!", 0x0213, m_Rage+1, 6, 20, 20, 20, 20, 20 );
+					BossSpecialAttack.PerformSlam( this, "MEU! TODOS ESTES SEGREDOS SÃO MEUS!", 0x0213, m_Rage+1, 6, 20, 20, 20, 20, 20 );
 					break;
 				case 2:
-					BossSpecialAttack.PerformDegenAura( this, "You dare to attack me? ME? IN MY HOME?", 8, m_Rage+1, 16, 29, "mana", 0x0213 );
+					BossSpecialAttack.PerformDegenAura( this, "Você ousa atacar-me? EU? EM MINHA CASA?", 8, m_Rage+1, 16, 29, "mana", 0x0213 );
 					break;
 				case 3:
 					Type summonType;
@@ -210,7 +210,7 @@ namespace Server.Mobiles
 							break;
 					}
 
-					BossSpecialAttack.SummonHonorGuard( this, target, "The elements are mine! I unravelled their secrets before your kingdom was born!", m_Rage+1, summonType, 0x0213 );
+					BossSpecialAttack.SummonHonorGuard( this, target, "Os elementos são meus! Desvendei seus segredos antes mesmo do seu reino nascer!", m_Rage+1, summonType, 0x0213 );
 					break;
 			}
 		}
@@ -235,7 +235,7 @@ namespace Server.Mobiles
 		{
 			if ( m_Rage == 0 )
 			{
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "You will forever guard my tomb!" );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Você guardará minha tumba para sempre!" );
 				this.Hits = this.HitsMax;
 				this.FixedParticles( 0x376A, 9, 32, 5030, EffectLayer.Waist );
 				this.PlaySound( 0x202 );
@@ -246,7 +246,7 @@ namespace Server.Mobiles
 			}
 			else if ( m_Rage == 1 )
 			{
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Surrender your mind to me!" );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Renda sua mente a mim!" );
 				this.Hits = this.HitsMax;
 				this.FixedParticles( 0x376A, 9, 32, 5030, EffectLayer.Waist );
 				this.PlaySound( 0x202 );
@@ -257,7 +257,7 @@ namespace Server.Mobiles
 			}
 			else if ( m_Rage == 2 )
 			{
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "I WILL DESTROY YOU!" );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "EU VOU DESTRUIR VOCÊ!" );
 				this.Hits = this.HitsMax;
 				this.FixedParticles( 0x376A, 9, 32, 5030, EffectLayer.Waist );
 				this.PlaySound( 0x202 );
@@ -270,7 +270,7 @@ namespace Server.Mobiles
 			{
 				Effects.SendLocationParticles( EffectItem.Create( this.Location, this.Map, EffectItem.DefaultDuration ), 0x3728, 10, 10, 2023 );
 				this.PlaySound( 0x1FE );
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "I shall rise again...in another thousand years..." );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Eu me levantarei novamente... em outros mil anos..." );
 				Mobile killer = this.LastKiller;
 				if ( killer != null && killer.Player && killer.Karma > 0 )
             	{

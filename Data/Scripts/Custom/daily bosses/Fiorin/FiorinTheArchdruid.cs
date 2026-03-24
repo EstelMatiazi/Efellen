@@ -33,10 +33,10 @@ namespace Server.Mobiles
 
 		private static readonly string[] SummonWarcries = new string[]
 		{
-			"Come, my pack! Prey approaches!",
-			"We shall end your vile existance!",
-			"Comrades of the grove, it is time for the hunt!",
-			"With the moon as our witness we shall put you down!"
+			"Vinde, minha alcateia! A presa se aproxima!",
+			"Acabaremos com sua existência vil!",
+			"Companheiros do bosque, é hora da caçada!",
+			"Com a lua como testemunha, nós o abateremos!"
 		};
 
 		private static readonly List<Type> BossDrops = new List<Type>
@@ -59,7 +59,7 @@ namespace Server.Mobiles
 		public FiorinTheArchdruid () : base( AIType.AI_Mage, FightMode.Evil, 20, 1, 0.4, 0.8 )
 		{
 			Name = "Fiorin";
-			Title = "The Archdruid";
+			Title = "O Arquidruida";
 			Body = 400; 			
 			FacialHairItemID = Utility.RandomList( 0, 0, 8254, 8255, 8256, 8257, 8267, 8268, 8269 );
 			NameHue = 0x92E;
@@ -239,7 +239,7 @@ namespace Server.Mobiles
 				{
 					BossSpecialAttack.PerformEntangle(
     				    boss: this,
-    				    warcry: "*Gaia, guide my hand!*",
+    				    warcry: "*Gaia, guia minha mão!*",
     				    hue: 0x4F6,
     				    rage: m_Rage+1,
     				    range: 6,
@@ -254,7 +254,7 @@ namespace Server.Mobiles
 						this,
 						target,
 						m_Rage+1,
-						"The Hour of the Wolf is upon thee!",
+						"A Hora do Lobo está sobre ti!",
 						669,  // hue
 						50,     // physical
 						0,   // fire
@@ -270,7 +270,7 @@ namespace Server.Mobiles
 					BossSpecialAttack.SummonHonorGuard(
                         boss: this,
                         target: target,
-                        warcry: "Spirits, aid me!",
+                        warcry: "Espíritos, socorrei-me!",
                         amount: 4,
                         creatureType: typeof(GuardianPanda),
                         hue: 0xb73
@@ -301,7 +301,7 @@ namespace Server.Mobiles
 		{
 			if ( m_Rage == 0 )
 			{
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Stand together, for Gaia!" );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Unidos, por Gaia!" );
 				this.Hits = this.HitsMax;
 				this.FixedParticles( 0x376A, 9, 32, 5030, EffectLayer.Waist );
 				this.PlaySound( 0x202 );
@@ -311,7 +311,7 @@ namespace Server.Mobiles
 			}
 			else if ( m_Rage == 1 )
 			{
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "We shall hunt you down!" );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Vamos caçar você!" );
 				this.Hits = this.HitsMax;
 				this.FixedParticles( 0x376A, 9, 32, 5030, EffectLayer.Waist );
 				this.PlaySound( 0x202 );
@@ -322,7 +322,7 @@ namespace Server.Mobiles
 			}
 			else if ( m_Rage == 2 )
 			{
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Mother Gaia, I call thee!" );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Mãe Gaia, eu te chamo!" );
 				this.Hits = this.HitsMax;
 				this.FixedParticles( 0x376A, 9, 32, 5030, EffectLayer.Waist );
 				this.PlaySound( 0x202 );
@@ -340,7 +340,7 @@ namespace Server.Mobiles
 			{
 				Effects.SendLocationParticles( EffectItem.Create( this.Location, this.Map, EffectItem.DefaultDuration ), 0x3728, 10, 10, 2023 );
 				this.PlaySound( 0x1FE );
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "I...I return...To Gaia..." );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Eu... eu retorno... Para Gaia..." );
 				Mobile killer = this.LastKiller;
 				if (killer != null && killer.Player && killer.Karma > 0)
             	{

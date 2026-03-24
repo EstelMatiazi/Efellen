@@ -35,9 +35,9 @@ namespace Server.Mobiles
 		private static readonly string[] SummonWarcries = new string[]
 		{
 			"Sabbath bloody sabbath!",
-			"All aboard! HahaHAha!",
-			"Bark at the moon!",
-			"Generals gathered in their masses!"
+			"Todos a bordo! HahaHAha!",
+			"Uive para a lua!",
+			"Generais reunidos em suas massas!"
 		};
 
 		private static readonly List<Type> BossDrops = new List<Type>
@@ -60,7 +60,7 @@ namespace Server.Mobiles
 		public PrinceOfDarkness () : base( AIType.AI_Mage, FightMode.Closest, 10, 1, 0.2, 0.4 )
 		{
 			Name = "Prince of Darkness";
-			Title = "The Lord of This World";
+			Title = "O Senhor Deste Mundo";
 			Body = 0x58;
 			BaseSoundID = 838;
 			NameHue = 0x22;
@@ -138,7 +138,7 @@ namespace Server.Mobiles
 				{
 					BossSpecialAttack.PerformSlam(
                     boss: this,
-                    warcry: "The blizzard of Ozz!",
+                    warcry: "A Tempestade de Ozz!",
                     hue: 0x25,
                     rage: m_Rage+1,
                     range: 6,
@@ -152,7 +152,7 @@ namespace Server.Mobiles
 				{
 					BossSpecialAttack.PerformEntangle(
     			    boss: this,
-    			    warcry: "I just want you!",
+    			    warcry: "Eu só quero você!",
     			    hue: 0x25,
     			    rage: m_Rage+1,
     			    range: 6,
@@ -166,7 +166,7 @@ namespace Server.Mobiles
 					BossSpecialAttack.PerformCrossExplosion(
 				    boss: this,
 				    target: target,
-				    warcry: "The sun, the moon and the stars all bear my seal!",
+				    warcry: "O sol, a lua e as estrelas carregam meu selo!",
 				    hue: 0x25,
 				    rage: m_Rage+1,
 				    coldDmg: 20,
@@ -271,7 +271,7 @@ namespace Server.Mobiles
 			}
 			else if ( m_Rage == 1 )
 			{
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "I don't wanna stop!" );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Eu não quero parar!" );
 				this.Hits = this.HitsMax;
 				this.FixedParticles( 0x376A, 9, 32, 5030, EffectLayer.Waist );
 				this.PlaySound( 0x202 );
@@ -282,7 +282,7 @@ namespace Server.Mobiles
 			}
 			else if ( m_Rage == 2 )
 			{
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "No one in the world can change me!" );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Ninguém no mundo pode me mudar!" );
 				this.Hits = this.HitsMax;
 				this.FixedParticles( 0x376A, 9, 32, 5030, EffectLayer.Waist );
 				this.PlaySound( 0x202 );

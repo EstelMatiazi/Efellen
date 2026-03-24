@@ -30,10 +30,10 @@ namespace Server.Mobiles
 
 		private static readonly string[] SummonWarcries = new string[]
 		{
-			"Will you sign my contract?",
-			"We are covenant!",
-			"Wouldst thou like to live deliciously?",
-			"Does thou crave the taste of butter?"
+			"Você assinará meu contrato?",
+			"Nós somos pacto!",
+			"Gostarias de viver deliciosamente?",
+			"Tu anseias pelo sabor da manteiga?"
 		};
 
 		private static readonly List<Type> BossDrops = new List<Type>
@@ -55,7 +55,7 @@ namespace Server.Mobiles
 		public BlackPhillip () : base( AIType.AI_Mage, FightMode.Closest, 20, 1, 0.4, 0.8 )
 		{
 			Name = "Black Phillip";
-			Title = "Harbinger from Beyond";
+			Title = "Arauto do Além";
 			Body = 380;
 			NameHue = 0x22;
 			Hue = 1109;
@@ -161,7 +161,7 @@ namespace Server.Mobiles
 						this,
 						target,
 						m_Rage+1,
-						"WOUDST THOU SING MY BOOK?",
+						"QUERES TU CANTAR MEU LIVRO?",
 						0x845,  // hue
 						0,     // physical
 						50,   // fire
@@ -176,7 +176,7 @@ namespace Server.Mobiles
 					BossSpecialAttack.SummonHonorGuard(
                         boss: this,
                         target: target,
-                        warcry: "Come the little children unto me!",
+                        warcry: "Vinde a mim as criancinhas!",
                         amount: 6,
                         creatureType: typeof(WitchOfTheDreadHost),
                         hue: 0x845
@@ -187,7 +187,7 @@ namespace Server.Mobiles
 				{
 					BossSpecialAttack.PerformDelayedExplosion(
 					    this,
-					    "YOUR SOUL IS MINE!",
+					    "SEU ALMA É MINHA!",
 					    0x845,   // hue
 					    16,     // radius
 					    m_Rage+1,
@@ -224,7 +224,7 @@ namespace Server.Mobiles
 		{
 			if ( m_Rage == 0 )
 			{
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "I shall enjoy your bloodletting!" );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Vou apreciar sua sangria!" );
 				this.Hits = this.HitsMax;
 				this.FixedParticles( 0x376A, 9, 32, 5030, EffectLayer.Waist );
 				this.PlaySound( 0x202 );
@@ -235,7 +235,7 @@ namespace Server.Mobiles
 			}
 			else if ( m_Rage == 1 )
 			{
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Come closer..." );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Aproxime-se..." );
 				this.Hits = this.HitsMax;
 				this.FixedParticles( 0x376A, 9, 32, 5030, EffectLayer.Waist );
 				this.PlaySound( 0x202 );
@@ -246,7 +246,7 @@ namespace Server.Mobiles
 			}
 			else if ( m_Rage == 2 )
 			{
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "You bore me, mortal!" );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Você me entedia, mortal!" );
 				this.Hits = this.HitsMax;
 				this.FixedParticles( 0x376A, 9, 32, 5030, EffectLayer.Waist );
 				this.PlaySound( 0x202 );
@@ -259,7 +259,7 @@ namespace Server.Mobiles
 			{
 				Effects.SendLocationParticles( EffectItem.Create( this.Location, this.Map, EffectItem.DefaultDuration ), 0x3728, 10, 10, 2023 );
 				this.PlaySound( 0x1FE );
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "I shalll return!" );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Eu voltarei!" );
 				Mobile killer = this.LastKiller;
 				if (killer != null && killer.Player && killer.Karma > 0)
 				{

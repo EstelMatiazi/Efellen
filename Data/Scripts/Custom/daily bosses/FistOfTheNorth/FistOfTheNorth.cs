@@ -30,10 +30,10 @@ namespace Server.Mobiles
 
 		private static readonly string[] SummonWarcries = new string[]
 		{
-			"Kin of frost, I call thee!",
-			"This land belongs to us! Thou shall regret invading it!",
-			"We shall make trophies of thy bones!",
-			"Brothers, prey approaches!"
+			"Parentes do gelo, eu vos chamo!",
+			"Esta terra nos pertence! Tu te arrependerás de invadi-la!",
+			"Faremos troféus de teus ossos!",
+			"Irmãos, a presa se aproxima!"
 		};
 		
 		private static readonly List<Type> BossDrops = new List<Type>
@@ -56,7 +56,7 @@ namespace Server.Mobiles
 		public FistOfTheNorth () : base( AIType.AI_Melee, FightMode.Closest, 20, 1, 0.4, 0.8 )
 		{
 			Name = "Hrimah";
-            Title = "The fist of the north";
+            Title = "O Punho do Norte";
 			Body = 0x20;
 			BaseSoundID = 609;
 			NameHue = 0x22;
@@ -155,7 +155,7 @@ namespace Server.Mobiles
                 {
                    BossSpecialAttack.PerformRampage(
                        boss: this,
-                       warcry: "*Hrimah chaarges!*",
+                       warcry: "*Hrimah avança!*",
                        hue: 1153,
                        rage: m_Rage+1,
                        stunDuration: 4.0
@@ -167,7 +167,7 @@ namespace Server.Mobiles
                     BossSpecialAttack.SummonHonorGuard(
                         boss: this,
                         target: target,
-                        warcry: "Come hither, my kin!",
+                        warcry: "Vinde, meus parentes!",
                         amount: 5,
                         creatureType: typeof(IceGiant),
                         hue: 1153
@@ -178,7 +178,7 @@ namespace Server.Mobiles
                 {
                     BossSpecialAttack.PerformSlam(
                        boss: this,
-                       warcry: "Frost shall end thee!",
+                       warcry: "O gelo te findará!",
                        hue: 1153,
                        rage: m_Rage+1,
                        range: 6,
@@ -213,7 +213,7 @@ namespace Server.Mobiles
 		{
 			if ( m_Rage == 0 )
 			{
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "For winter's biting blessing!" );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Pela bênção cortante do inverno!" );
 				this.Hits = this.HitsMax;
 				this.FixedParticles( 0x376A, 9, 32, 5030, EffectLayer.Waist );
 				this.PlaySound( 0x202 );
@@ -224,7 +224,7 @@ namespace Server.Mobiles
 			}
 			else if ( m_Rage == 1 )
 			{
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Cold shall be thy tomb!" );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "O frio será tua tumba!" );
 				this.Hits = this.HitsMax;
 				this.FixedParticles( 0x376A, 9, 32, 5030, EffectLayer.Waist );
 				this.PlaySound( 0x202 );
@@ -235,7 +235,7 @@ namespace Server.Mobiles
 			}
 			else if ( m_Rage == 2 )
 			{
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Hell shall freeze over before you can defeat me!" );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "O inferno congelará antes que você possa me derrotar!" );
 				this.Hits = this.HitsMax;
 				this.FixedParticles( 0x376A, 9, 32, 5030, EffectLayer.Waist );
 				this.PlaySound( 0x202 );
@@ -248,7 +248,7 @@ namespace Server.Mobiles
 			{
 				Effects.SendLocationParticles( EffectItem.Create( this.Location, this.Map, EffectItem.DefaultDuration ), 0x3728, 10, 10, 2023 );
 				this.PlaySound( 0x1FE );
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Ancestors...Here I come..." );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Ancestrais... aqui vou eu..." );
 				Mobile killer = this.LastKiller;
 				if (killer != null && killer.Player && killer.Karma > 0)
             	{

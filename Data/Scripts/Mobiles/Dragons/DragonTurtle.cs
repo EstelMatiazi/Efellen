@@ -130,7 +130,7 @@ namespace Server.Mobiles
 			BossSpecialAttack.PerformConeBreath(
 			    boss: this,
 			    target: target,
-			    warcry: "*exhales devastating fire!*",
+			    warcry: "*exala fogo devastador!*",
 			    hue: 1160,
 			    rage: 2,
 			    range: 5, 

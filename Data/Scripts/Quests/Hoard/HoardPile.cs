@@ -59,19 +59,19 @@ namespace Server.Items
         {
             if (from.Blessed)
             {
-                from.SendMessage("You cannot look through that while in this state.");
+                from.SendMessage("Você não pode examinar isso enquanto está neste estado.");
                 return;
             }
 
             if (!from.InRange(GetWorldLocation(), 3))
             {
-                from.SendMessage("You will have to get closer to it!");
+                from.SendMessage("Você terá que se aproximar mais!");
                 return;
             }
 
             if (m_Uses >= 5)
             {
-                from.SendMessage("There is nothing else worth taking from this pile!");
+                from.SendMessage("Não há mais nada de valor a ser retirado deste monte!");
                 Delete();
                 return;
             }
@@ -82,7 +82,7 @@ namespace Server.Items
                 m_Uses--;
 
             from.PlaySound(0x2E5);
-            from.SendMessage("You pull something from the treasure hoard!");
+            from.SendMessage("Você puxa algo do tesouro!");
 
             Item item = GetHoardItem(from);
 

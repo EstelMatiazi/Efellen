@@ -33,19 +33,19 @@ namespace Server.Custom.Ascensions
 
             if (!HasGold(pm, gold))
             {
-                pm.SendMessage("You do not have enough gold.");
+                pm.SendMessage("Você não tem ouro suficiente.");
                 return false;
             }
 
             if (!HasArcaneDust(pm, dust))
             {
-                pm.SendMessage("You do not have enough arcane dust.");
+                pm.SendMessage("Você não tem pó arcano suficiente.");
                 return false;
             }
 
             if (!HasScrolls(pm, type, scrolls))
             {
-                pm.SendMessage("You do not have enough " + type.ToString() + " ascension scrolls.");
+                pm.SendMessage("Você não tem pergaminhos de ascensão " + type.ToString() + " suficientes.");
                 return false;
             }
 
@@ -58,7 +58,7 @@ namespace Server.Custom.Ascensions
             prog.Level       = 1;
             prog.Experience  = 0;
 
-            pm.SendMessage("You have unlocked the " + type.ToString() + " ascension.");
+            pm.SendMessage("Você desbloqueou a ascensão " + type.ToString() + ".");
 
             return true;
         }

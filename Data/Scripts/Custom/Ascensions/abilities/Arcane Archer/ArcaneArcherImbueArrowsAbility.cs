@@ -22,13 +22,13 @@ namespace Server.Custom.Ascensions
 
             if (pm.IsAbilityOnCooldown(Name))
             {
-                pm.SendMessage("That ability is on cooldown.");
+                pm.SendMessage("Essa habilidade está em cooldown.");
                 return;
             }
 
             if (pm.Mana < 40)
             {
-                pm.SendMessage("You do not have enough mana.");
+                pm.SendMessage("Você não tem mana suficiente.");
                 return;
             }
 
@@ -77,7 +77,7 @@ namespace Server.Custom.Ascensions
                 if (level >= 20 && Utility.Random(100) < level)
                 {
                     m_Player.SetAbilityCooldown("Barrage", TimeSpan.Zero);
-                    m_Player.SendMessage(0x48F, "Barrage can be used again.");
+                    m_Player.SendMessage(0x48F, "Barrage pode ser usado novamente.");
                 }
             }
         }
@@ -96,7 +96,7 @@ namespace Server.Custom.Ascensions
             protected override void OnTick()
             {
                 if (m_Player == null || m_Player.Deleted) return;
-                m_Player.SendMessage(0x48F, "Imbue Arrows can be used again.");
+                m_Player.SendMessage(0x48F, "Imbue Arrows pode ser usado novamente.");
             }
         }
     }

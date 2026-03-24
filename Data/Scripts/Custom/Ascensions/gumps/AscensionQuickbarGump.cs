@@ -27,8 +27,8 @@ namespace Server.Custom.Ascensions
 
             int required = prog.GetRequiredExperience();
             string xpText = required > 0
-                ? "Experience: " + prog.Experience + " / " + required
-                : "Experience: MAX";
+                ? "Experiência: " + prog.Experience + " / " + required
+                : "Experiência: MAX";
 
             AddLabel(15, TopPadding, 1152, xpText);
 

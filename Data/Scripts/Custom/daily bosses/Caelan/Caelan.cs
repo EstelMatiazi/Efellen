@@ -35,7 +35,7 @@ namespace Server.Mobiles
 		public Caelan () : base( AIType.AI_Melee, FightMode.Aggressor, 20, 1, 0.4, 0.8 )
 		{
 			Name = "Caelan";
-            Title = "The Dread Knight";
+            Title = "O Cavaleiro do Pavor";
 			Body = 0x147;
 			NameHue = 0x22;
 			Body = 400; 			
@@ -134,7 +134,7 @@ namespace Server.Mobiles
                 {
                     BossSpecialAttack.PerformSlam(
                        boss: this,
-                       warcry: "Your guts shall decorate these halls!",
+                       warcry: "Suas tripas vão decorar esses salões!",
                        hue: 0x0AA5,
                        rage: m_Rage+1,
                        range: 6,
@@ -146,7 +146,7 @@ namespace Server.Mobiles
                 {
                    BossSpecialAttack.PerformRampage(
                        boss: this,
-                       warcry: "*The Dreadful knight charges!*",
+                       warcry: "*O cavaleiro do pavor avança!*",
                        hue: 0x0AA5,
                        rage: m_Rage+1,
                        stunDuration: 3.0
@@ -158,7 +158,7 @@ namespace Server.Mobiles
                     BossSpecialAttack.SummonHonorGuard(
                         boss: this,
                         target: target,
-                        warcry: "Come, my brothers!",
+                        warcry: "Vem, meus irmãos!",
                         amount: 3,
                         creatureType: typeof(BloodstoneKeepKnight),
                         hue: 0x09d3
@@ -192,7 +192,7 @@ namespace Server.Mobiles
 		{
 			if ( m_Rage == 0 )
 			{
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Tis' folly to challenge me!" );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "É loucura me desafiar!" );
 				this.Hits = this.HitsMax;
 				this.FixedParticles( 0x376A, 9, 32, 5030, EffectLayer.Waist );
 				this.PlaySound( 0x202 );
@@ -203,7 +203,7 @@ namespace Server.Mobiles
 			}
 			else if ( m_Rage == 1 )
 			{
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "I shall make an example out of you!" );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Farei de você um exemplo!" );
 				this.Hits = this.HitsMax;
 				this.FixedParticles( 0x376A, 9, 32, 5030, EffectLayer.Waist );
 				this.PlaySound( 0x202 );
@@ -215,7 +215,7 @@ namespace Server.Mobiles
 			}
 			else if ( m_Rage == 2 )
 			{
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "You shall regret crossing me!" );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Você vai se arrepender de me desafiar!" );
 				this.Hits = this.HitsMax;
 				this.FixedParticles( 0x376A, 9, 32, 5030, EffectLayer.Waist );
 				this.PlaySound( 0x202 );
@@ -228,7 +228,7 @@ namespace Server.Mobiles
 			{
 				Effects.SendLocationParticles( EffectItem.Create( this.Location, this.Map, EffectItem.DefaultDuration ), 0x3728, 10, 10, 2023 );
 				this.PlaySound( 0x1FE );
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "I am...Finally...bested" );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Eu fui... finalmente... derrotado" );
 				Mobile killer = this.LastKiller;
 				if (killer != null && killer.Player && killer.Karma > 0)
             	{

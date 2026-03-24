@@ -23,13 +23,13 @@ namespace Server.Custom.Ascensions
 
             if (pm.IsAbilityOnCooldown(Name))
             {
-                pm.SendMessage("That ability is on cooldown.");
+                pm.SendMessage("Esta habilidade está em cooldown.");
                 return;
             }
 
             if (pm.Mana < 25 || pm.Stam < 25)
             {
-                pm.SendMessage("You do not have enough mana or stamina.");
+                pm.SendMessage("Você não tem mana ou stamina suficientes.");
                 return;
             }
 
@@ -120,7 +120,7 @@ namespace Server.Custom.Ascensions
             if (level >= 16 && Utility.Random(10000) < (level * 50))
             {
                 pm.SetAbilityCooldown("Exsanguinate", TimeSpan.Zero);
-                pm.SendMessage(0x675, "You can now use Exsanguinate again.");
+                pm.SendMessage(0x675, "Você pode usar Exsanguinate novamente.");
             }
 
             new CooldownNotifyTimer(pm, Cooldown).Start();
@@ -142,7 +142,7 @@ namespace Server.Custom.Ascensions
                 if (m_Player == null || m_Player.Deleted)
                     return;
 
-                m_Player.SendMessage(0x675, "You can now use Bloodstorm again.");
+                m_Player.SendMessage(0x675, "Você pode usar Bloodstorm novamente.");
             }
         }
     }

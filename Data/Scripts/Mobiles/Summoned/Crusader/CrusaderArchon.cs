@@ -96,7 +96,7 @@ namespace Server.Mobiles
 						this,
 						target,
 						1,
-						"Heavens burn thee!",
+						"Que os céus te queimem!",
 						0x498,  // hue
 						20,     // physical
 						20,   // fire
@@ -111,7 +111,7 @@ namespace Server.Mobiles
 					BossSpecialAttack.PerformCrossExplosion(
 					    boss: this,
 					    target: target,
-					    warcry: "Light everlasting!",
+					    warcry: "Luz eterna!",
 					    hue: 0x498,
 					    rage: 2,
 					    coldDmg: 20,
@@ -126,7 +126,7 @@ namespace Server.Mobiles
 				{
 					BossSpecialAttack.PerformSlam(
                 	    boss: this,
-                	    warcry: "Face judgement!",
+                	    warcry: "Encare o julgamento!",
                 	    hue: 0x498,
                 	    rage: 2,
                 	    range: 6,

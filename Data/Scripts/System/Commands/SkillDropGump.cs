@@ -24,7 +24,7 @@ namespace Server.Custom
         }
 
         [Usage("SkillDrop")]
-        [Description("Opens the Skill Drop gump, allowing you to reduce your skills.")]
+        [Description("Abre o gump de Redução de Skills, permitindo que você reduza suas habilidades.")]
         private static void SkillDrop_OnCommand(CommandEventArgs e)
         {
             PlayerMobile pm = e.Mobile as PlayerMobile;
@@ -69,7 +69,7 @@ namespace Server.Custom
             AddLabel(230, 45, 1152, "-1");
             AddLabel(290, 45, 1152, "-5");
             AddLabel(350, 45, 1152, "-10");
-            AddLabel(420, 45, 1152, "Set to Zero");
+            AddLabel(420, 45, 1152, "Zerar");
 
             int y = 75;
 
@@ -181,19 +181,19 @@ namespace Server.Custom
             AddBackground(0, 0, 360, 160, 9270);
             AddAlphaRegion(10, 10, 340, 140);
 
-            AddLabel(85, 20, 1152, "Confirm Skill Reset");
+            AddLabel(85, 20, 1152, "Confirmar Reset de Skill");
 
-            AddLabel(20,  55, 33, "Are you sure you want to set");
-            AddLabel(20,  75, 33, skillName + " to zero?");
-            AddLabel(20,  95, 33, "This cannot be undone.");
+            AddLabel(20,  55, 33, "Tem certeza que deseja reduzir");
+            AddLabel(20,  75, 33, skillName + " a zero?");
+            AddLabel(20, 95, 33, "Isto não pode ser desfeito.");
 
             // Confirm
             AddButton(60,  125, 4005, 4007, ButtonConfirm, GumpButtonType.Reply, 0);
-            AddLabel(95,  125, 68,  "Yes, set to zero");
+            AddLabel(95,  125, 68,  "Sim, zerar");
 
             // Cancel
             AddButton(230, 125, 4017, 4019, ButtonCancel, GumpButtonType.Reply, 0);
-            AddLabel(265, 125, 33,  "Cancel");
+            AddLabel(265, 125, 33,  "Cancelar");
         }
 
         public override void OnResponse(NetState sender, RelayInfo info)
@@ -209,7 +209,7 @@ namespace Server.Custom
                 if (skill != null)
                 {
                     skill.Base = 0.0;
-                    pm.SendMessage(68, skill.Name + " has been set to zero.");
+                    pm.SendMessage(68, skill.Name + " foi zerada.");
                 }
 
                 pm.CloseGump(typeof(SkillDropGump));
