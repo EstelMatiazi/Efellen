@@ -28,19 +28,19 @@ namespace Server.Custom.Ascensions
 
             if (pm.IsAbilityOnCooldown(Name))
             {
-                pm.SendMessage("That ability is on cooldown.");
+                pm.SendMessage("Esta habilidade está em cooldown.");
                 return;
             }
 
             if (pm.Mana < 50)
             {
-                pm.SendMessage("You do not have enough mana.");
+                pm.SendMessage("Você não tem mana suficiente.");
                 return;
             }
 
             if (pm.Stam < 50)
             {
-                pm.SendMessage("You do not have enough stamina.");
+                pm.SendMessage("Você não tem stamina suficiente.");
                 return;
             }
 
@@ -48,7 +48,7 @@ namespace Server.Custom.Ascensions
             if (prog == null)
                 return;
 
-            pm.SendMessage("Target a creature for Cleansing Annihilation.");
+            pm.SendMessage("Selecione uma criatura para Cleansing Annihilation.");
             pm.Target = new CleansingTarget(this, prog.Level);
         }
 
@@ -177,7 +177,7 @@ namespace Server.Custom.Ascensions
                 if (m_Player == null || m_Player.Deleted)
                     return;
 
-                m_Player.SendMessage(0x233, "You can use Cleansing Annihilation again.");
+                m_Player.SendMessage(0x233, "Você pode usar Cleansing Annihilation novamente.");
             }
         }
     }

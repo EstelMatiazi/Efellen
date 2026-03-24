@@ -24,13 +24,13 @@ namespace Server.Custom.Ascensions
         {
             if (!CanUse(pm))
             {
-                pm.SendMessage("You cannot use Arcane Storm.");
+                pm.SendMessage("Você não pode usar Arcane Storm.");
                 return;
             }
 
             if (pm.IsAbilityOnCooldown(Name))
             {
-                pm.SendMessage("That ability is on cooldown.");
+                pm.SendMessage("Esta habilidade está em cooldown.");
                 return;
             }
 
@@ -40,7 +40,7 @@ namespace Server.Custom.Ascensions
                 return;
             }
 
-            pm.SendMessage("Select your target.");
+            pm.SendMessage("Selecione seu alvo.");
             pm.Target = new ArcaneStormTarget(this);
         }
 
@@ -64,7 +64,7 @@ namespace Server.Custom.Ascensions
 
                 if (target == null || !target.Alive || !pm.CanBeHarmful(target))
                 {
-                    pm.SendMessage("That is not a valid target.");
+                    pm.SendMessage("Esse não é um alvo válido.");
                     return;
                 }
 
@@ -172,7 +172,7 @@ namespace Server.Custom.Ascensions
                 if (m_Level >= 20 && !m_Target.Alive)
                 {
                     m_Caster.SetAbilityCooldown("Conflux", TimeSpan.Zero);
-                    m_Caster.SendMessage("Your Conflux cooldown has been reset!");
+                    m_Caster.SendMessage("A recarga do seu Conflux foi reiniciada!");
                 }
             }
         }

@@ -24,13 +24,13 @@ namespace Server.Custom.Ascensions
 
             if (pm.IsAbilityOnCooldown(Name))
             {
-                pm.SendMessage("That ability is on cooldown.");
+                pm.SendMessage("Esta habilidade está em cooldown.");
                 return;
             }
 
             if (pm.Mana < 30)
             {
-                pm.SendMessage("You do not have enough mana.");
+                pm.SendMessage("Você não tem mana suficiente.");
                 return;
             }
 
@@ -214,7 +214,7 @@ namespace Server.Custom.Ascensions
                 if (m_Player == null || m_Player.Deleted)
                     return;
 
-                m_Player.SendMessage(0x47E, "You can use Chains of Ice again.");
+                m_Player.SendMessage(0x47E, "Você pode usar Chains of Ice novamente.");
             }
         }
     }

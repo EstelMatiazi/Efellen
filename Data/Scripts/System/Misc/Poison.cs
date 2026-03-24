@@ -121,10 +121,10 @@ namespace Server
 			        if ( m_Mobile.CurePoison( m_Mobile ) )
 			        {
 			            m_Mobile.LocalOverheadMessage( MessageType.Emote, 0x3F, true,
-			                "* You feel yourself resisting the effects of the poison *" );
+			                "* Você sente que está resistindo aos efeitos do veneno *" );
 
 			            m_Mobile.NonlocalOverheadMessage( MessageType.Emote, 0x3F, true,
-			                String.Format( "* {0} seems resistant to the poison *", m_Mobile.Name ) );
+			                String.Format( "* {0} parece resistente ao veneno *", m_Mobile.Name ) );
 
 			            Stop();
 			            return;
@@ -156,10 +156,10 @@ namespace Server
 			                if ( pm.CurePoison( pm ) )
 			                {
 			                    pm.LocalOverheadMessage( MessageType.Emote, 0x3F, true,
-			                        "* Divine Grace purges the poison from your body *" );
+			                        "* A Graça Divina purga o veneno do seu corpo *" );
 
 			                    pm.NonlocalOverheadMessage( MessageType.Emote, 0x3F, true,
-			                        String.Format( "* Divine Grace purges the poison from {0}'s body *", pm.Name ) );
+			                        String.Format( "* A Graça Divina purga o veneno do corpo de {0} *", pm.Name ) );
 
 			                    Stop();
 			                    return;

@@ -30,14 +30,14 @@ namespace Server.Custom.Ascensions
         {
             if (!CanUse(pm))
             {
-                pm.SendMessage("You cannot use your warcry now");
+                pm.SendMessage("Você não pode usar seu warcry agora");
                 return;                
             }
 
 
             if (pm.IsAbilityOnCooldown(Name))
             {
-                pm.SendMessage("That ability is on cooldown.");
+                pm.SendMessage("Esta habilidade está em cooldown.");
                 return;
             }
 
@@ -64,13 +64,13 @@ namespace Server.Custom.Ascensions
             }
 
             pm.SetAbilityCooldown(Name, Cooldown);
-            pm.SendMessage("You unleash a terrifying warcry!");
+            pm.SendMessage("Você desencadeia um warcry assustador!");
             Timer.DelayCall(
                 Cooldown,
                 delegate
                 {
                     if (pm != null && !pm.Deleted)
-                        pm.SendMessage("You can use your Warcry again.");
+                        pm.SendMessage("Você pode usar seu Warcry novamente.");
                 }
             );
         }

@@ -29,13 +29,13 @@ namespace Server.Custom.Ascensions
 
             if (pm.IsAbilityOnCooldown(Name))
             {
-                pm.SendMessage("That ability is on cooldown.");
+                pm.SendMessage("Esta habilidade está em cooldown.");
                 return;
             }
 
             if (pm.Stam < 15 || pm.Mana < 15)
             {
-                pm.SendMessage("You do not have enough stamina or mana.");
+                pm.SendMessage("Você não tem stamina ou mana suficientes.");
                 return;
             }
 
@@ -397,7 +397,7 @@ namespace Server.Custom.Ascensions
                 if (m_Player == null || m_Player.Deleted)
                     return;
 
-                m_Player.SendMessage(0x675, "You can now use Gorge again.");
+                m_Player.SendMessage(0x675, "Você pode usar Gorge novamente.");
             }
         }
     }

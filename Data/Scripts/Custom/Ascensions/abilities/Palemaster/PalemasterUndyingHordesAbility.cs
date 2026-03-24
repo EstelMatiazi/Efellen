@@ -27,7 +27,7 @@ namespace Server.Custom.Ascensions
 
             if (pm.IsAbilityOnCooldown(Name))
             {
-                pm.SendMessage("That ability is on cooldown.");
+                pm.SendMessage("Esta habilidade está em cooldown.");
                 return;
             }
 
@@ -38,7 +38,7 @@ namespace Server.Custom.Ascensions
             int level = prog.Level;
 
             pm.PublicOverheadMessage(MessageType.Regular, 0x48C, false, "*Undying Hordes*");
-            pm.SendMessage("You call forth the undying hordes!");
+            pm.SendMessage("Você invoca as hordas imortais!");
             pm.SetAbilityCooldown(Name, Cooldown);
 
             List<BaseCreature> summons = SpawnHorde(pm, level);
@@ -187,7 +187,7 @@ namespace Server.Custom.Ascensions
             protected override void OnTick()
             {
                 if (m_Player != null)
-                    m_Player.SendMessage("You can call the undying hordes again.");
+                    m_Player.SendMessage("Você pode invocar as hordas imortais novamente.");
             }
         }
     }

@@ -34,14 +34,14 @@ namespace Server.Custom.Ascensions
             AscensionType type;
             if (!Enum.TryParse<AscensionType>(e.GetString(0), true, out type))
             {
-                from.SendMessage("Invalid ascension type.");
+                from.SendMessage("Tipo de ascensão inválido.");
                 return;
             }
 
             int level;
             if (!int.TryParse(e.GetString(1), out level))
             {
-                from.SendMessage("Invalid level.");
+                from.SendMessage("Nível inválido.");
                 return;
             }
 
@@ -53,7 +53,7 @@ namespace Server.Custom.Ascensions
 
             if (pm.AscensionProfile == null)
             {
-                from.SendMessage("You do not have an ascension profile.");
+                from.SendMessage("Você não tem um perfil de ascensão.");
                 return;
             }
 
@@ -63,7 +63,7 @@ namespace Server.Custom.Ascensions
             prog.Level = level;
 
             from.SendMessage(
-                String.Format("Your {0} ascension is now level {1}.", type, level)
+                String.Format("Sua ascensão {0} agora está no nível {1}.", type, level)
             );
         }
     }

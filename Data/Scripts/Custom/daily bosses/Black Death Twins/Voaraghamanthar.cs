@@ -40,7 +40,7 @@ namespace Server.Mobiles
 		{
 			Name = "Voaraghamanthar";
             NameHue = 0x22;
-			Title = "The Black Death";
+			Title = "A Peste Negra";
 			EmoteHue = 11;
 			Body = 123;
 			BaseSoundID = 362;
@@ -136,7 +136,7 @@ namespace Server.Mobiles
 					BossSpecialAttack.PerformConeBreath(
 				    boss: this,
 				    target: target,
-				    warcry: "*exhales noxious acid!*",
+				    warcry:  "*exala ácido nocivo!*",
 				    hue: 1285,
 				    rage: m_Rage*3,
 				    range: 8, 
@@ -147,7 +147,7 @@ namespace Server.Mobiles
 				case 2:
 					BossSpecialAttack.PerformDegenAura( 
 						this, 
-						"You shall rot in our hoard!", 
+						"Você apodrecerá em nosso tesouro!",
 						8, 
 						m_Rage+1, 
 						16, 
@@ -167,7 +167,7 @@ namespace Server.Mobiles
 		{
 			if ( m_Rage == 0 )
 			{
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "You are nothing to me, nothing!" );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Você não é nada para mim, nada!" );
 				this.Hits = this.HitsMax;
 				this.FixedParticles( 0x376A, 9, 32, 5030, EffectLayer.Waist );
 				this.PlaySound( 0x202 );
@@ -178,7 +178,7 @@ namespace Server.Mobiles
 			}
 			else if ( m_Rage == 1 )
 			{
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "My brother and I shall enjoy your bloodletting!" );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Eu e meu irmão vamos apreciar sua sangria!" );
 				this.Hits = this.HitsMax;
 				this.FixedParticles( 0x376A, 9, 32, 5030, EffectLayer.Waist );
 				this.PlaySound( 0x202 );
@@ -189,7 +189,7 @@ namespace Server.Mobiles
 			}
 			else if ( m_Rage == 2 )
 			{
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "You...We will end you!" );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Você... Nós vamos acabar com você!" );
 				this.Hits = this.HitsMax;
 				this.FixedParticles( 0x376A, 9, 32, 5030, EffectLayer.Waist );
 				this.PlaySound( 0x202 );
@@ -202,7 +202,7 @@ namespace Server.Mobiles
 			{
 				Effects.SendLocationParticles( EffectItem.Create( this.Location, this.Map, EffectItem.DefaultDuration ), 0x3728, 10, 10, 2023 );
 				this.PlaySound( 0x1FE );
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Brother...!" );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Irmão...!" );
 				Mobile killer = this.LastKiller;
 				if ( killer != null && killer.Player && killer.Karma > 0 )
             	{

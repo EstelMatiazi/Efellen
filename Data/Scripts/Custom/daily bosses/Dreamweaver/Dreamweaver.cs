@@ -64,7 +64,7 @@ namespace Server.Mobiles
 			BaseSoundID = 377;
 			NameHue = 0x22;
 			Hue = 0x96;
-            Title = "The Shepherd of Filth";
+            Title = "O Pastor da Imundície";
 			
 			SetStr( 796, 885 );
 			SetDex( 165, 225 );

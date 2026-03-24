@@ -41,19 +41,19 @@ namespace Server.Custom.Ascensions
             AddLabel(30, y, 1152, AscensionTypeHelper.GetDisplayName(type)); // was type.ToString()
             if (prog.Unlocked)
             {
-                AddLabel(200, y, 68, "Level: " + prog.Level);
+                AddLabel(200, y, 68, "Nível: " + prog.Level);
                 int required = prog.GetRequiredExperience();
                 string expText = required > 0
-                    ? "Experience: " + prog.Experience + " / " + required
-                    : "Experience: MAX";
+                    ? "Experiência: " + prog.Experience + " / " + required
+                    : "Experiência: MAX";
                 AddLabel(280, y, 1152, expText);
                 AddButton(540, y, 4005, 4007, 3000 + (int)type, GumpButtonType.Reply, 0);
-                AddLabel(575, y, 68, "Activate");
+                AddLabel(575, y, 68, "Ativar");
             }
             else
             {
                 AddButton(200, y, 4005, 4007, 1000 + (int)type, GumpButtonType.Reply, 0);
-                AddLabel(235, y, 33, "Unlock");
+                AddLabel(235, y, 33, "Desbloquear");
             }
             AddButton(480, y, 4011, 4013, 2000 + (int)type, GumpButtonType.Reply, 0);
             AddLabel(515, y, 1152, "?");
@@ -71,7 +71,7 @@ namespace Server.Custom.Ascensions
 
                 if (AscensionUnlocking.TryUnlock(m_Player, type))
                 {
-                    m_Player.SendMessage(0x55, "You have unlocked the " + AscensionTypeHelper.GetDisplayName(type) + " ascension."); // was type.ToString()
+                    m_Player.SendMessage(0x55, "Você desbloqueou a ascensão " + AscensionTypeHelper.GetDisplayName(type) + ".");
                 }
 
                 m_Player.SendGump(new AscensionSelectionGump(m_Player));
@@ -95,7 +95,7 @@ namespace Server.Custom.Ascensions
                 }
                 else
                 {
-                    m_Player.SendMessage("You must unlock this ascension first.");
+                    m_Player.SendMessage("Você deve desbloquear esta ascensão primeiro.");
                 }
                 m_Player.SendGump(new AscensionSelectionGump(m_Player));
             }

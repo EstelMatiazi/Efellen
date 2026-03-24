@@ -31,10 +31,10 @@ namespace Server.Mobiles
 
 		private static readonly string[] SummonWarcries = new string[]
 		{
-			"*Releases spores that animate vines!*",
-			"*Causes mushrooms to grow with a psychic surge!*",
-			"*A psychic surge brings forth creatures from the underdark!*",
-			"*Weeds rise and form into new monstrosities!*"
+			"*Libera esporos que animam vinhas!*",
+			"*Faz cogumelos crescerem com uma onda psíquica!*",
+			"*Uma onda psíquica traz criaturas do subterrâneo!*",
+			"*Ervas daninhas se erguem e formam novas monstruosidades!*"
 		};
 
 		private static readonly List<Type> BossDrops = new List<Type>
@@ -56,7 +56,7 @@ namespace Server.Mobiles
 		public SporeMother () : base( AIType.AI_Mage, FightMode.Closest, 20, 1, 0.4, 0.8 )
 		{
 			Name = "Spore Mother";
-			Title = "The Living Infestation";
+			Title = "A Infestação Viva";
 			Body = 341;
 			NameHue = 0x22;
 			Hue = 0x497;
@@ -177,7 +177,7 @@ namespace Server.Mobiles
 				{
 					BossSpecialAttack.PerformSlam(
                        boss: this,
-                       warcry: "*Releases a burst of crippling poison!*",
+                       warcry: "*Libera uma explosão de veneno incapacitante!*",
                        hue: 267,
                        rage: m_Rage+1,
                        range: 6,
@@ -191,7 +191,7 @@ namespace Server.Mobiles
 				{
 					BossSpecialAttack.PerformEntangle(
     				    boss: this,
-    				    warcry: "*calls forth piercing vines*",
+    				    warcry: "*chama vinhas perfurantes*",
     				    hue: 0x4F6,
     				    rage: m_Rage+1,
     				    range: 6,
@@ -204,7 +204,7 @@ namespace Server.Mobiles
 					BossSpecialAttack.PerformCrossExplosion(
 				       boss: this,
 				       target: target,
-				       warcry: "*Spores burst and explode!*",
+				       warcry: "*Esporos explodem e detonam!*",
 				       hue: 0x4F6,
 				       rage: m_Rage+1,
 					   physicalDmg:0,
@@ -233,7 +233,7 @@ namespace Server.Mobiles
 		{
 			if ( m_Rage == 0 )
 			{
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "*releases a psychic shriek!*" );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "*libera um grito psíquico!*" );
 				this.Hits = this.HitsMax;
 				this.FixedParticles( 0x376A, 9, 32, 5030, EffectLayer.Waist );
 				this.PlaySound( 0x202 );
@@ -244,7 +244,7 @@ namespace Server.Mobiles
 			}
 			else if ( m_Rage == 1 )
 			{
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "*releases a crushing psychic scream!*" );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "*libera um grito psíquico esmagador!*" );
 				this.Hits = this.HitsMax;
 				this.FixedParticles( 0x376A, 9, 32, 5030, EffectLayer.Waist );
 				this.PlaySound( 0x202 );
@@ -255,7 +255,7 @@ namespace Server.Mobiles
 			}
 			else if ( m_Rage == 2 )
 			{
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "*releases an agonizing psychic scream!*" );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "*libera um grito psíquico agonizante!*" );
 				this.Hits = this.HitsMax;
 				this.FixedParticles( 0x376A, 9, 32, 5030, EffectLayer.Waist );
 				this.PlaySound( 0x202 );
@@ -268,7 +268,7 @@ namespace Server.Mobiles
 			{
 				Effects.SendLocationParticles( EffectItem.Create( this.Location, this.Map, EffectItem.DefaultDuration ), 0x3728, 10, 10, 2023 );
 				this.PlaySound( 0x1FE );
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "*withers into nothingness...*" );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "*definha até o nada...*");
 				Mobile killer = this.LastKiller;
 				if (killer != null && killer.Player && killer.Karma > 0)
             	{

@@ -98,7 +98,7 @@ namespace Server.Mobiles
                     BossSpecialAttack.PerformConeBreath(
 					    boss: this,
 					    target: target,
-					    warcry: "*exhales devastating fumes!*",
+					    warcry: "*exala vapores devastadores!*",
 					    hue: 267,
 					    rage: 1,
 					    range: 6, 
@@ -114,7 +114,7 @@ namespace Server.Mobiles
 				{
 					BossSpecialAttack.PerformDegenAura(
 		                this,
-		                "*Channels the powers of undeath!*",
+		                "*Canaliza os poderes da não-morte!*",
 		                6,          // radius
 		                2,     		// rage level
 		                12,         // duration - 12 + rage*2 seconds, damage happens every 2 seconds 

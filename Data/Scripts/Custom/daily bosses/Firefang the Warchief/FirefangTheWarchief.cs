@@ -31,10 +31,10 @@ namespace Server.Mobiles
 
 		private static readonly string[] SummonWarcries = new string[]
 		{
-			"ME MATES WILL CUT YOU!",
-			"WE WILL EAT YOU RAW!",
-			"KILL IT WITH FIRE!",
-			"KILL IT KILL IT FASTA!"
+			"MEUS AMIGOS CORTAR VOCÊ!",
+			"VAMOS TE COMER CRU!",
+			"MATA COM FOGO!",
+			"MATA MATA MAIS RÁPIDO!"
 		};
 
 		private static readonly List<Type> BossDrops = new List<Type>
@@ -60,7 +60,7 @@ namespace Server.Mobiles
 		public FirefangTheWarchief () : base( AIType.AI_Mage, FightMode.Closest, 20, 1, 0.4, 0.8 )
 		{
 			Name = "Firefang";
-			Title = "The Warchief";
+			Title = "O Chefe de Guerra";
 			Body = 0x1d9;
 			NameHue = 0x22;
 			Hue = 348;
@@ -179,7 +179,7 @@ namespace Server.Mobiles
 						this,
 						target,
 						m_Rage+1,
-						"*BOOM TIME!*",
+						"*HORA DO BOOM!*",
 						348,  // hue
 						0,     // physical
 						100,   // fire
@@ -193,7 +193,7 @@ namespace Server.Mobiles
 				{
 					BossSpecialAttack.PerformDelayedExplosion(
 					    this,
-					    "*LIGHT DA FUSES BOYS!*",
+					    "*ACENDE OS PAVIOS, RAPAZES!*",
 					    348,   // hue
 					    8,     // radius
 					    m_Rage+1,
@@ -209,7 +209,7 @@ namespace Server.Mobiles
 				{
 					 BossSpecialAttack.PerformDelayedExplosion(
 		                this,
-		                "*LIGHT DA FUSES BOYS!*",
+		                "*ACENDE OS PAVIOS, RAPAZES!*",
 		                348,   // hue
 		                16,    // radius
 		                m_Rage+2,
@@ -246,7 +246,7 @@ namespace Server.Mobiles
 		{
 			if ( m_Rage == 0 )
 			{
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "ME NO HURT!" );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "EU NÃO TÔ MACHUCADO!" );
 				this.Hits = this.HitsMax;
 				this.FixedParticles( 0x376A, 9, 32, 5030, EffectLayer.Waist );
 				this.PlaySound( 0x202 );
@@ -257,7 +257,7 @@ namespace Server.Mobiles
 			}
 			else if ( m_Rage == 1 )
 			{
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "ME WILL CHEW UR BONES*" );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "EU MORDER SEUS OSSOS" );
 				this.Hits = this.HitsMax;
 				this.FixedParticles( 0x376A, 9, 32, 5030, EffectLayer.Waist );
 				this.PlaySound( 0x202 );
@@ -268,7 +268,7 @@ namespace Server.Mobiles
 			}
 			else if ( m_Rage == 2 )
 			{
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "ME WILL BLOW U UP*" );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "EU EXPLODIR VOCÊ*" );
 				this.Hits = this.HitsMax;
 				this.FixedParticles( 0x376A, 9, 32, 5030, EffectLayer.Waist );
 				this.PlaySound( 0x202 );
@@ -281,7 +281,7 @@ namespace Server.Mobiles
 			{
 				Effects.SendLocationParticles( EffectItem.Create( this.Location, this.Map, EffectItem.DefaultDuration ), 0x3728, 10, 10, 2023 );
 				this.PlaySound( 0x1FE );
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "AM...DONE*" );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "ACABOU...*" );
 				Mobile killer = this.LastKiller;
 				if (killer != null && killer.Player && killer.Karma > 0)
 				{

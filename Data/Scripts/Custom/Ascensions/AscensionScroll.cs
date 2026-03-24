@@ -32,7 +32,7 @@ namespace Server.Custom.Ascensions
             Name = AscensionTypeHelper.GetDisplayName(type) + " Ascension Scroll";
         }
 
-        public override string DefaultDescription{ get{ return "Scrolls of ascension are a form of currency used to unlock powerful abilities. Each scroll is tied to one specific form of ascension, and each ascension has its own set of prerequisites. Use [Ascension for more information."; } }
+        public override string DefaultDescription{ get{ return "Pergaminhos de ascensão são uma forma de moeda usada para desbloquear habilidades poderosas. Cada pergaminho está ligado a uma forma específica de ascensão, e cada ascensão tem seu próprio conjunto de pré-requisitos. Use [Ascension para mais informações."; } }
 
         public AscensionScroll(Serial serial) : base(serial)
         {
@@ -60,7 +60,7 @@ namespace Server.Custom.Ascensions
         public override void GetProperties(ObjectPropertyList list)
         {
             base.GetProperties(list);
-            list.Add("Required for unlocking and advancing the " + AscensionTypeHelper.GetDisplayName(m_Ascension) + " Ascension.");
+            list.Add("Necessário para desbloquear e avançar na Ascensão " + AscensionTypeHelper.GetDisplayName(m_Ascension) + ".");
         }
 
         public override void Serialize(GenericWriter writer)

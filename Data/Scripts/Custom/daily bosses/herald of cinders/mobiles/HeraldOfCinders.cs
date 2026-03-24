@@ -33,10 +33,10 @@ namespace Server.Mobiles
 
 		private static readonly string[] SummonWarcries = new string[]
 		{
-			"Feed the wyrmlings!",
-			"Come, children, it's time to feast!",
-			"Thou shall not leave my lair unscathed! Come forth, my spawn!",
-			"Spawn of Ashardalon, Awaken!"
+			"Alimentem os dragõezinhos!",
+			"Venham, crianças, é hora do banquete!",
+			"Não sairás de meu covil ileso! Avante, minha prole!",
+			"Prole de Ashardalon, Despertai!"
 		};
 
 		private static readonly List<Type> BossDrops = new List<Type>
@@ -70,7 +70,7 @@ namespace Server.Mobiles
 		public HeraldOfCinders () : base( AIType.AI_Mage, FightMode.Closest, 10, 1, 0.2, 0.4 )
 		{
 			Name = "The Herald of Cinders";
-			Title = "The Everlasting Flame";
+			Title = "A Chama Eterna";
 			Body = 713;
 			BaseSoundID = 362;
 			NameHue = 0x22;
@@ -178,7 +178,7 @@ namespace Server.Mobiles
 				BossSpecialAttack.PerformConeBreath(
 				    boss: this,
 				    target: from,
-				    warcry: "*exhales devastating flames!*",
+				    warcry: "*exala chamas devastadoras!*",
 				    hue: 1160,
 				    rage: m_Rage+1,
 				    range: 5,
@@ -205,7 +205,7 @@ namespace Server.Mobiles
 						BossSpecialAttack.PerformConeBreath(
 				    	    boss: this,
 				    	    target: target,
-				    	    warcry: "*exhales devastating flames!*",
+				    	    warcry: "*exala chamas devastadoras!*",
 				    	    hue: 1160,
 				    	    rage: m_Rage+1,
 				    	    range: 8,
@@ -220,7 +220,7 @@ namespace Server.Mobiles
 							this,
 							target,
 							m_Rage+1,
-							"We are fire eternal!",
+							"Somos fogo eterno!",
 							1160,  // hue
 							0,     // physical
 							100,   // fire
@@ -243,7 +243,7 @@ namespace Server.Mobiles
 			if ( Map == null )
 				return;
 
-			PublicOverheadMessage( MessageType.Regular, 0x21, false, "The ground trembles with fury!" );
+			PublicOverheadMessage( MessageType.Regular, 0x21, false, "O chão treme de fúria!" );
 			PlaySound( 0x307 );
 
 			int tileCount = Utility.RandomMinMax( 22, 32 );
@@ -354,7 +354,7 @@ namespace Server.Mobiles
 		{
 			if ( rage == 0 )
 			{
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "You shall burn!" );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Você queimará!" );
 				this.Hits = this.HitsMax;
 				this.FixedParticles( 0x376A, 9, 32, 5030, EffectLayer.Waist );
 				this.PlaySound( 0x202 );
@@ -364,7 +364,7 @@ namespace Server.Mobiles
 			}
 			else if ( rage == 1 )
 			{
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Fire eternal shall consume you!" );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Fogo eterno te consumirá!" );
 				this.Hits = this.HitsMax;
 				this.FixedParticles( 0x376A, 9, 32, 5030, EffectLayer.Waist );
 				this.PlaySound( 0x202 );
@@ -375,7 +375,7 @@ namespace Server.Mobiles
 			}
 			else if ( rage == 2 )
 			{
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Ashardalon, heed my call!" );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Ashardalon, atende meu chamado!" );
 				this.Hits = this.HitsMax;
 				this.FixedParticles( 0x376A, 9, 32, 5030, EffectLayer.Waist );
 				this.PlaySound( 0x202 );
@@ -388,7 +388,7 @@ namespace Server.Mobiles
 			{
 				Effects.SendLocationParticles( EffectItem.Create( this.Location, this.Map, EffectItem.DefaultDuration ), 0x3728, 10, 10, 2023 );
 				this.PlaySound( 0x1FE );
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Forgive me...My lord..." );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Perdoe-me... meu senhor..." );
 				Mobile killer = this.LastKiller;
 				if ( killer != null && killer.Player && killer.Karma > 0 )
 				{

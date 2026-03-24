@@ -38,7 +38,7 @@ namespace Server.Custom.Ascensions
                 return;
 
             HealControlledUndead(pm, level);
-            pm.SendMessage("Your undead mastery is unmatched!");
+            pm.SendMessage("Sua maestria sobre mortos-vivos é incomparável!");
         }
 
         private static bool HasFullBoneSet(PlayerMobile pm)

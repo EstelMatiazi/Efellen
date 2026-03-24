@@ -32,10 +32,10 @@ namespace Server.Mobiles
 
 		private static readonly string[] SummonWarcries = new string[]
 		{
-			"Lolth guides my hand!",
-			"The hosts of the demomweb come for thee!",
-			"Long shall be thy suffering!",
-			"Lolth, answer thy daughter!"
+			"Lolth guia minha mão!",
+			"As hostes da teia demoníaca vêm por ti!",
+			"Longo será teu sofrimento!",
+			"Lolth, atende a tua filha!"
 		};
 
 		private static readonly List<Type> BossDrops = new List<Type>
@@ -58,7 +58,7 @@ namespace Server.Mobiles
             Body = 606; 
 			Utility.AssignRandomHair( this );
 			NameHue = 0x22;
-			Title = "The Voice of Lolth";
+			Title = "A Voz de Lolth";
             HairHue = 1150;
 			Hue = 1316;
 			EmoteHue = 11;
@@ -201,7 +201,7 @@ namespace Server.Mobiles
 				case 1:
 					BossSpecialAttack.PerformPull(
                         this,
-                        "Spider Queen, I offer thee a sacrifice!",
+                        "Rainha Aranha, eu te ofereço um sacrifício!",
                         1316,
                         m_Rage+1,
                         true
@@ -211,7 +211,7 @@ namespace Server.Mobiles
 					BossSpecialAttack.SummonHonorGuard(
                         boss: this,
                         target: target,
-                        warcry: "Come hither, Lolth's favored!",
+                        warcry: "Vem aqui, favorito de Lolth!",
                         amount: 4+m_Rage,
                         creatureType: typeof(DemonwebSpinner),
                         hue: 0x845
@@ -246,7 +246,7 @@ namespace Server.Mobiles
 		{
 			if ( m_Rage == 0 )
 			{
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Delightful guest, have a taste of Lolth's hospitality!" );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Convidado agradável, experimente a hospitalidade de Lolth!" );
 				this.Hits = this.HitsMax;
 				this.FixedParticles( 0x376A, 9, 32, 5030, EffectLayer.Waist );
 				this.PlaySound( 0x202 );
@@ -257,7 +257,7 @@ namespace Server.Mobiles
 			}
 			else if ( m_Rage == 1 )
 			{
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "This is my city, my house! In here my will is supreme!" );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Esta é minha cidade, minha casa! Aqui, minha vontade é suprema!" );
 				this.Hits = this.HitsMax;
 				this.FixedParticles( 0x376A, 9, 32, 5030, EffectLayer.Waist );
 				this.PlaySound( 0x202 );
@@ -268,7 +268,7 @@ namespace Server.Mobiles
 			}
 			else if ( m_Rage == 2 )
 			{
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Lolth, prepare for the feast!" );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Lolth, prepare-se para o banquete!" );
 				this.Hits = this.HitsMax;
 				this.FixedParticles( 0x376A, 9, 32, 5030, EffectLayer.Waist );
 				this.PlaySound( 0x202 );
@@ -281,7 +281,7 @@ namespace Server.Mobiles
 			{
 				Effects.SendLocationParticles( EffectItem.Create( this.Location, this.Map, EffectItem.DefaultDuration ), 0x3728, 10, 10, 2023 );
 				this.PlaySound( 0x1FE );
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Lolth will have you answer for this insolence!" );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Lolth te fará responder por esta insolência!" );
 				Mobile killer = this.LastKiller;
 				if ( killer != null && killer.Player && killer.Karma > 0 )
             	{

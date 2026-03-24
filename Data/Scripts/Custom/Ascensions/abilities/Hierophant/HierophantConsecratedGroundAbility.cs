@@ -38,13 +38,13 @@ namespace Server.Custom.Ascensions
 
             if (pm.IsAbilityOnCooldown(Name))
             {
-                pm.SendMessage("That ability is on cooldown.");
+                pm.SendMessage("Esta habilidade está em cooldown.");
                 return;
             }
 
             if (pm.Mana < 55)
             {
-                pm.SendMessage("You do not have enough mana.");
+                pm.SendMessage("Você não tem mana suficiente.");
                 return;
             }
 
@@ -192,7 +192,7 @@ namespace Server.Custom.Ascensions
             protected override void OnTick()
             {
                 if (m_Player == null || m_Player.Deleted) return;
-                m_Player.SendMessage(0x439, "Consecrated Ground can be used again.");
+                m_Player.SendMessage(0x439, "Consecrated Ground pode ser usado novamente.");
             }
         }
     }

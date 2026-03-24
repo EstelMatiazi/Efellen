@@ -492,7 +492,7 @@ namespace Server.Mobiles
 
 			        if (skill == null || skill.Base < 95)
 			        {
-			            SendMessage("You lack the required skill to activate this ascension.");
+			            SendMessage("Você não tem a habilidade necessária para ativar esta ascensão.");
 			            return false;
 			        }
 			    }
@@ -500,7 +500,7 @@ namespace Server.Mobiles
 
 		    if (prog == null || prog.Level <= 0)
 		    {
-		        SendMessage("You have not unlocked that ascension.");
+		        SendMessage("Você não desbloqueou essa ascensão.");
 		        return false;
 		    }
 
@@ -509,7 +509,7 @@ namespace Server.Mobiles
 			CloseGump(typeof(AscensionQuickbarGump));
 			SendGump(new AscensionQuickbarGump(this));
 
-		    SendMessage(1153, "You are now aligned with the " + type.ToString() + " ascension.");
+		    SendMessage(1153, "Agora você está alinhado com a ascensão " + type.ToString() + ".");
 
 		    return true;
 		}
@@ -727,7 +727,7 @@ namespace Server.Mobiles
 		{
 		    SetAbilityCooldown("BerserkerWarCry", TimeSpan.Zero);
 
-		    SendMessage(0x22, "Your can warcry again!");
+		   SendMessage(0x22, "Seu warcry pode ser usado novamente!");
 		}
 
 
@@ -736,7 +736,7 @@ namespace Server.Mobiles
 		    FixedParticles(0x376A, 10, 15, 5032, 1153, 0, EffectLayer.Waist);
 		    PlaySound(0x1F2);
 
-		    SendMessage(0x22, "Your Undying Wrath refuses death!");
+		    SendMessage(0x22, "Sua Fúria Imortal desafia a morte!");
 
 		    LocalOverheadMessage(Network.MessageType.Regular, 0x22, false, "*UNYIELDING*");
 		}
@@ -1617,9 +1617,9 @@ namespace Server.Mobiles
 				if ( message )
 				{
 					if ( target.Title == null )
-						SendMessage( "{0} the vendor cannot be harmed.", target.Name );
+						SendMessage( "{0} não pode ser ferido.", target.Name );
 					else
-						SendMessage( "{0} {1} cannot be harmed.", target.Name, target.Title );
+						SendMessage( "{0} {1} não pode ser ferido.", target.Name, target.Title );
 				}
 
 				return false;

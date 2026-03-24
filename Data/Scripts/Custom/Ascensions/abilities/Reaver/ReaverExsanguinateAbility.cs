@@ -24,13 +24,13 @@ namespace Server.Custom.Ascensions
 
             if (pm.IsAbilityOnCooldown(Name))
             {
-                pm.SendMessage("That ability is on cooldown.");
+                pm.SendMessage("Esta habilidade está em cooldown.");
                 return;
             }
 
             if (pm.Mana < 20 || pm.Stam < 20)
             {
-                pm.SendMessage("You do not have enough mana or stamina.");
+                pm.SendMessage("Você não tem mana ou stamina suficientes.");
                 return;
             }
 
@@ -41,7 +41,7 @@ namespace Server.Custom.Ascensions
             BaseWeapon weapon = pm.Weapon as BaseWeapon;
             if (weapon == null)
             {
-                pm.SendMessage("You must be wielding a weapon.");
+                pm.SendMessage("Você deve estar empunhando uma arma.");
                 return;
             }
 
@@ -193,7 +193,7 @@ namespace Server.Custom.Ascensions
                 if (m_Player == null || m_Player.Deleted)
                     return;
 
-                m_Player.SendMessage(0x675, "You can now use Exsanguinate again.");
+                m_Player.SendMessage(0x675, "Você pode usar Exsanguinate novamente.");
             }
         }
     }

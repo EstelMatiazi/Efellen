@@ -35,7 +35,7 @@ namespace Server.Mobiles
 		[Constructable]
 		public UndeadButcher () : base( AIType.AI_Melee, FightMode.Closest, 20, 1, 0.4, 0.8 )
 		{
-			Title = " the Hungry";
+			Title = " o Faminto";
 			NameHue = 0x92E;
             Body = 999;
             Hue = 0x845;
@@ -137,7 +137,7 @@ namespace Server.Mobiles
                 case 2:
                     BossSpecialAttack.PerformDegenAura(
 		                this,
-		                "*spreads its innards around!*",
+		                "*espalha suas entranhas ao redor!*",
 		                8,          // radius
 		                m_Rage+1,     // rage level
 		                12,         // duration - 12 + rage*2 seconds, damage happens every 2 seconds 
@@ -181,7 +181,7 @@ namespace Server.Mobiles
 			{
 				Effects.SendLocationParticles( EffectItem.Create( this.Location, this.Map, EffectItem.DefaultDuration ), 0x3728, 10, 10, 2023 );
 				this.PlaySound( 0x1FE );
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "I go...Home...." );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Eu vou... para casa...." );
                 Mobile killer = this.LastKiller;
 				if (killer != null && killer.Player && killer.Karma < 0)
             	{

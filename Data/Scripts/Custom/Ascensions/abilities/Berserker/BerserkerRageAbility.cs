@@ -38,12 +38,12 @@ namespace Server.Custom.Ascensions
         {
             if (!CanUse(pm))
             {
-                pm.SendMessage("You cannot use your Rage now.");
+                pm.SendMessage("Você não pode usar seu Rage agora.");
                 return;                
             }
             if (pm.IsAbilityOnCooldown(Name))
             {
-                pm.SendMessage("That ability is on cooldown.");
+                pm.SendMessage("Esta habilidade está em cooldown.");
                 return;
             }
 
@@ -81,7 +81,7 @@ namespace Server.Custom.Ascensions
                 )
             );
 
-            pm.SendMessage("You enter a berserker rage!");
+            pm.SendMessage("Você entra em uma fúria berserker!");
 
             pm.SetAbilityCooldown(Name, Cooldown);
 
@@ -100,7 +100,7 @@ namespace Server.Custom.Ascensions
                             "*calms down*"
                         );
 
-                        pm.SendMessage("Your rage subsides.");
+                        pm.SendMessage("Sua fúria diminui.");
                     }
                 }
             );
@@ -110,7 +110,7 @@ namespace Server.Custom.Ascensions
                 delegate
                 {
                     if (pm != null && !pm.Deleted)
-                        pm.SendMessage("You can rage again.");
+                        pm.SendMessage("Você pode entrar em fúria novamente.");
                 }
             );
         }

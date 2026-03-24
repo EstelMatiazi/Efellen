@@ -24,19 +24,19 @@ namespace Server.Custom.Ascensions
         {
             if (!CanUse(pm))
             {
-                pm.SendMessage("You cannot use Time Stop.");
+                pm.SendMessage("Você não pode usar Time Stop.");
                 return;
             }
 
             if (pm.IsAbilityOnCooldown(Name))
             {
-                pm.SendMessage("That ability is on cooldown.");
+                pm.SendMessage("Esta habilidade está em cooldown.");
                 return;
             }
 
             if (pm.Mana < 60)
             {
-                pm.SendMessage("You do not have enough mana.");
+                pm.SendMessage("Você não tem mana suficiente.");
                 return;
             }
 

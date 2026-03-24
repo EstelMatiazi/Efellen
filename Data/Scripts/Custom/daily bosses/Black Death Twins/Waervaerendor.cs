@@ -40,7 +40,7 @@ namespace Server.Mobiles
 		{
 			Name = "Waervaerendor";
             NameHue = 0x22;
-			Title = "The Rapacious Raider";
+			Title = "O Saqueador Rapaz";
 			EmoteHue = 11;
 			Body = 123;
 			BaseSoundID = 362;
@@ -136,7 +136,7 @@ namespace Server.Mobiles
 					BossSpecialAttack.PerformConeBreath(
 					    boss: this,
 					    target: target,
-					    warcry: "*exhales noxious acid!*",
+					    warcry:  "*exala ácido nocivo!*",
 					    hue: 1285,
 					    rage: m_Rage*3,
 					    range: 8, 
@@ -148,7 +148,7 @@ namespace Server.Mobiles
 					BossSpecialAttack.PerformResistBreach(
 						boss: this,
 						target: target,
-						warcry: "*exhales noxious fumes*",
+						warcry:  "*exala fumaças nocivas*",
 						hue: 1285,
 						rage: m_Rage,
 						radius: 6,
@@ -167,7 +167,7 @@ namespace Server.Mobiles
 		{
 			if ( m_Rage == 0 )
 			{
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "We will consume you!" );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Nós vamos consumir você!" );
 				this.Hits = this.HitsMax;
 				this.FixedParticles( 0x376A, 9, 32, 5030, EffectLayer.Waist );
 				this.PlaySound( 0x202 );
@@ -178,7 +178,7 @@ namespace Server.Mobiles
 			}
 			else if ( m_Rage == 1 )
 			{
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Brother, let us end this!" );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Irmão, vamos acabar com isso!" );
 				this.Hits = this.HitsMax;
 				this.FixedParticles( 0x376A, 9, 32, 5030, EffectLayer.Waist );
 				this.PlaySound( 0x202 );
@@ -189,7 +189,7 @@ namespace Server.Mobiles
 			}
 			else if ( m_Rage == 2 )
 			{
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "We are vengeance!" );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Nós somos vingança!" );
 				this.Hits = this.HitsMax;
 				this.FixedParticles( 0x376A, 9, 32, 5030, EffectLayer.Waist );
 				this.PlaySound( 0x202 );
@@ -202,7 +202,7 @@ namespace Server.Mobiles
 			{
 				Effects.SendLocationParticles( EffectItem.Create( this.Location, this.Map, EffectItem.DefaultDuration ), 0x3728, 10, 10, 2023 );
 				this.PlaySound( 0x1FE );
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Brother...!" );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Irmão...!" );
 				Mobile killer = this.LastKiller;
 				if ( killer != null && killer.Player && killer.Karma > 0 )
             	{

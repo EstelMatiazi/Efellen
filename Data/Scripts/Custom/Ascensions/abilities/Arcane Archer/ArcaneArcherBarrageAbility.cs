@@ -23,27 +23,27 @@ namespace Server.Custom.Ascensions
 
             if (pm.IsAbilityOnCooldown(Name))
             {
-                pm.SendMessage("That ability is on cooldown.");
+                pm.SendMessage("Essa habilidade está em cooldown.");
                 return;
             }
 
             if (pm.Mana < 70)
             {
-                pm.SendMessage("You do not have enough mana.");
+                pm.SendMessage("Você não tem mana suficiente.");
                 return;
             }
 
             BaseWeapon weapon = pm.Weapon as BaseWeapon;
             if (weapon == null || !(weapon is BaseRanged))
             {
-                pm.SendMessage("You must be wielding a ranged weapon.");
+                pm.SendMessage("Você precisa estar empunhando uma arma de longo alcance.");
                 return;
             }
 
             Mobile target = pm.Combatant;
             if (target == null || target.Deleted || !target.Alive)
             {
-                pm.SendMessage("You have no target.");
+                pm.SendMessage("Você não tem um alvo.");
                 return;
             }
 
@@ -130,7 +130,7 @@ namespace Server.Custom.Ascensions
             protected override void OnTick()
             {
                 if (m_Player == null || m_Player.Deleted) return;
-                m_Player.SendMessage(0x48F, "Barrage can be used again.");
+                m_Player.SendMessage(0x48F, "Barrage pode ser usado novamente.");
             }
         }
     }

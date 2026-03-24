@@ -24,13 +24,13 @@ namespace Server.Custom.Ascensions
 
             if (pm.IsAbilityOnCooldown(Name))
             {
-                pm.SendMessage("That ability is on cooldown.");
+                pm.SendMessage("Esta habilidade está em cooldown.");
                 return;
             }
 
             if (pm.Mana < 20)
             {
-                pm.SendMessage("You do not have enough mana.");
+                pm.SendMessage("Você não tem mana suficiente.");
                 return;
             }
 
@@ -82,7 +82,7 @@ namespace Server.Custom.Ascensions
                 int manaDrain = m_Player.Mana / 2;
                 m_Player.Mana -= manaDrain;
 
-                m_Player.SendMessage(0x47E, "The dark trance fades, draining your magical reserves.");
+                m_Player.SendMessage(0x47E, "O transe sombrio desaparece, drenando suas reservas mágicas.");
                 m_Player.FixedParticles(0x374A, 10, 15, 5021, 0x47E, 0, EffectLayer.Waist);
                 m_Player.PlaySound(0x1FB);
             }
@@ -104,7 +104,7 @@ namespace Server.Custom.Ascensions
                 if (m_Player == null || m_Player.Deleted)
                     return;
 
-                m_Player.SendMessage(0x47E, "You can use Dark Succor again.");
+                m_Player.SendMessage(0x47E, "Você pode usar Dark Succor novamente.");
             }
         }
     }

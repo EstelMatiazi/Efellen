@@ -39,7 +39,7 @@ namespace Server.Custom.Ascensions
 
             prog.AddExperience(amount);
 
-            pm.SendMessage(1153, "You gain " + amount + " ascension experience.");
+            pm.SendMessage(1153, "Você ganha " + amount + " de experiência de ascensão.");
         }
         private static bool CanGainExperience(PlayerMobile pm, AscensionDefinition def, AscensionProgress prog)
         {
@@ -104,13 +104,13 @@ namespace Server.Custom.Ascensions
 
             if (!CanGainExperience(pm, def, prog))
             {
-                pm.SendMessage("You either have restricted skills that prevent you from gaining experience on this Ascension or you have the incorrect required karma for it");
+                pm.SendMessage("Você tem habilidades restritas que impedem você de ganhar experiência nesta Ascensão ou não tem o karma necessário para ela");
                 return;
             }
 
             prog.AddExperience(amount);
 
-            pm.SendMessage(1153, "You gain " + amount + " ascension experience.");
+            pm.SendMessage(1153, "Você ganha " + amount + " de experiência de ascensão.");
 
             if (pm.HasGump(typeof(AscensionQuickbarGump)))
             {

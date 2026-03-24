@@ -25,23 +25,23 @@ namespace Server.Custom.Ascensions
         {
             if (!CanUse(pm))
             {
-                pm.SendMessage("You cannot use this ability.");
+                pm.SendMessage("Você não pode usar esta habilidade.");
                 return;
             }
 
             if (pm.IsAbilityOnCooldown(Name))
             {
-                pm.SendMessage("That ability is on cooldown.");
+                pm.SendMessage("Esta habilidade está em cooldown.");
                 return;
             }
 
             if (pm.Mana < 50)
             {
-                pm.SendMessage("You do not have enough mana.");
+                pm.SendMessage("Você não tem mana suficiente.");
                 return;
             }
 
-            pm.SendMessage("Select a location for the singularity.");
+            pm.SendMessage("Selecione um local para a singularidade.");
             pm.Target = new SingularityTarget(this);
         }
 
@@ -64,7 +64,7 @@ namespace Server.Custom.Ascensions
                 IPoint3D p = targeted as IPoint3D;
                 if (p == null)
                 {
-                    pm.SendMessage("That is not a valid location.");
+                    pm.SendMessage("Esse não é um local válido.");
                     return;
                 }
 
@@ -87,7 +87,7 @@ namespace Server.Custom.Ascensions
 
             if (caster.GetDistanceToSqrt(loc) > maxRange)
             {
-                caster.SendMessage("That location is too far away.");
+                caster.SendMessage("Esse local está muito longe.");
                 return;
             }
 
@@ -216,7 +216,7 @@ namespace Server.Custom.Ascensions
                 if (manaReturn > 0)
                 {
                     m_Caster.Mana += manaReturn;
-                    m_Caster.SendMessage("You absorb arcane energy from your enemies!");
+                    m_Caster.SendMessage("Você absorve energia arcana de seus inimigos!");
                 }
             }
         }

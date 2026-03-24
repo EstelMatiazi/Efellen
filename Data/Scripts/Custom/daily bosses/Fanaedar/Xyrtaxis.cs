@@ -44,7 +44,7 @@ namespace Server.Mobiles
 			Utility.AssignRandomHair( this );
 			HairHue = 1150;
 			NameHue = 0x22;
-			Title = "The Dean of the Black Arts";
+			Title = "O Decano das Artes Negras";
 			
 			SetStr( 596, 785 );
 			SetDex( 165, 225 );
@@ -139,7 +139,7 @@ namespace Server.Mobiles
 		        if ( map.CanSpawnMobile( p ) )
 		        {
 		            Location = p;
-		            PublicOverheadMessage( MessageType.Emote, 0x3B2, false, "*Steps into the weave*" );
+		            PublicOverheadMessage( MessageType.Emote, 0x3B2, false, "*Adentra a teia*" );
 		            Effects.SendLocationEffect( p, map, 0x3728, 13, 10, 0, 0 );
 		            Effects.PlaySound( p, map, 0x1FE );
 		            return;
@@ -156,7 +156,7 @@ namespace Server.Mobiles
 		        if ( map.CanSpawnMobile( p ) )
 		        {
 		            Location = p;
-		            PublicOverheadMessage( MessageType.Emote, 0x3B2, false, "*Steps into the weave*" );
+		            PublicOverheadMessage( MessageType.Emote, 0x3B2, false, "*Adentra a teia*" );
 		            Effects.SendLocationEffect( p, map, 0x3728, 13, 10, 0, 0 );
 		            Effects.PlaySound( p, map, 0x1FE );
 		            return;
@@ -178,7 +178,7 @@ namespace Server.Mobiles
 						this,
 						target,
 						m_Rage+1,
-						"You will regret this interruption!",
+						"Você vai se arrepender desta interrupção!",
 						1316,  // hue
 						20,     // physical
 						20,   // fire
@@ -188,12 +188,12 @@ namespace Server.Mobiles
 					);
 					break;
 				case 2:
-					BossSpecialAttack.PerformDegenAura( this, "I shall unravel you!", 8, m_Rage+1, 16, 29, "mana", 0x0213 );
+					BossSpecialAttack.PerformDegenAura( this, "Eu vou te desfazer!", 8, m_Rage+1, 16, 29, "mana", 0x0213 );
 					break;
 				case 3:
                     BossSpecialAttack.PerformEntangle(
         			    boss: this,
-        			    warcry: "Bleed for Lolth!",
+        			    warcry: "Sangre por Lolth!",
         			    hue: 1316,
         			    rage: m_Rage+1,
         			    range: 8,
@@ -212,7 +212,7 @@ namespace Server.Mobiles
 		{
 			if ( m_Rage == 0 )
 			{
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Must I be interrupted at every time?!" );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Devo ser interrompida a cada momento?!" );
 				this.Hits = this.HitsMax;
 				this.FixedParticles( 0x376A, 9, 32, 5030, EffectLayer.Waist );
 				this.PlaySound( 0x202 );
@@ -223,7 +223,7 @@ namespace Server.Mobiles
 			}
 			else if ( m_Rage == 1 )
 			{
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Your optimism is so touching!" );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Sua otimismo é tão tocante!" );
 				this.Hits = this.HitsMax;
 				this.FixedParticles( 0x376A, 9, 32, 5030, EffectLayer.Waist );
 				this.PlaySound( 0x202 );
@@ -234,7 +234,7 @@ namespace Server.Mobiles
 			}
 			else if ( m_Rage == 2 )
 			{
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "This is beyond my attention!" );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Isso está além da minha atenção!" );
 				this.Hits = this.HitsMax;
 				this.FixedParticles( 0x376A, 9, 32, 5030, EffectLayer.Waist );
 				this.PlaySound( 0x202 );
@@ -247,7 +247,7 @@ namespace Server.Mobiles
 			{
 				Effects.SendLocationParticles( EffectItem.Create( this.Location, this.Map, EffectItem.DefaultDuration ), 0x3728, 10, 10, 2023 );
 				this.PlaySound( 0x1FE );
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "You...You killed...me?" );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Você...Você me matou...?" );
 				Mobile killer = this.LastKiller;
 				if ( killer != null && killer.Player && killer.Karma > 0 )
             	{

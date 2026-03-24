@@ -21,13 +21,13 @@ namespace Server.Custom.Ascensions
 
             if (pm.IsAbilityOnCooldown(Name))
             {
-                pm.SendMessage("That ability is on cooldown.");
+                pm.SendMessage("Esta habilidade está em cooldown.");
                 return;
             }
 
             if (pm.Stam < 20)
             {
-                pm.SendMessage("You do not have enough stamina.");
+                pm.SendMessage("Você não tem stamina suficiente.");
                 return;
             }
 
@@ -68,7 +68,7 @@ namespace Server.Custom.Ascensions
                 if (m_Player == null || m_Player.Deleted)
                     return;
 
-                m_Player.SendMessage(0x448, "Battle Meditation can be used again.");
+                m_Player.SendMessage(0x448, "Battle Meditation pode ser usado novamente.");
             }
         }
     }

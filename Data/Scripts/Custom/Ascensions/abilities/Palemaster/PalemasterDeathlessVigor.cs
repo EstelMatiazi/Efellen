@@ -44,7 +44,7 @@ namespace Server.Custom.Ascensions
                     pm.Hits = pm.HitsMax;
 
                 PlayEffect(pm);
-                pm.SendMessage("Deathless Vigor restores your vitality.");
+                pm.SendMessage("Deathless Vigor restaura sua vitalidade.");
             }
         }
 
@@ -85,12 +85,12 @@ namespace Server.Custom.Ascensions
             );
 
             PlayEffect(pm);
-            pm.SendMessage("Death empowers your necromancy.");
+            pm.SendMessage("A morte fortalece sua necromancia.");
 
             Timer.DelayCall(span, () =>
             {
                 if (pm != null && !pm.Deleted)
-                    pm.SendMessage("Your deathless vigor fades.");
+                    pm.SendMessage("Seu deathless vigor desaparece.");
             });
         }
 

@@ -25,13 +25,13 @@ namespace Server.Custom.Ascensions
 
             if (pm.IsAbilityOnCooldown(Name))
             {
-                pm.SendMessage("That ability is on cooldown.");
+                pm.SendMessage("Esta habilidade está em cooldown.");
                 return;
             }
 
             if (pm.Mana < ManaCost)
             {
-                pm.SendMessage("You do not have enough mana.");
+                pm.SendMessage("Você não tem mana suficiente.");
                 return;
             }
 
@@ -45,7 +45,7 @@ namespace Server.Custom.Ascensions
             pm.SetAbilityCooldown(Name, Cooldown);
 
             pm.PublicOverheadMessage(MessageType.Regular, 0x445, false, "*Dirge of the Fallen*");
-            pm.SendMessage(0x9C2, "You call forth the heroes of legend!");
+            pm.SendMessage(0x9C2, "Você invoca os heróis da lenda!");
 
             pm.FixedParticles(0x376A, 9, 32, 5030, 0x445, 0, EffectLayer.Waist);
             pm.PlaySound(0x1F5);
@@ -198,7 +198,7 @@ namespace Server.Custom.Ascensions
                 if (m_Player == null || m_Player.Deleted)
                     return;
 
-                m_Player.SendMessage(0x445, "You can call the heroes of legend again.");
+                m_Player.SendMessage(0x445, "Você pode invocar os heróis da lenda novamente.");
             }
         }
     }

@@ -21,25 +21,25 @@ namespace Server.Custom.Ascensions
         {
             if (!CanUse(pm))
             {
-                pm.SendMessage("You cannot use Smite.");
+                pm.SendMessage("Você não pode usar Smite.");
                 return;
             }
 
             if (pm.IsAbilityOnCooldown(Name))
             {
-                pm.SendMessage("That ability is on cooldown.");
+                pm.SendMessage("Esta habilidade está em cooldown.");
                 return;
             }
 
             if (pm.Mana < 20)
             {
-                pm.SendMessage("You do not have enough mana.");
+                pm.SendMessage("Você não tem mana suficiente.");
                 return;
             }
 
             if (pm.Stam < 20)
             {
-                pm.SendMessage("You do not have enough Stamina.");
+                pm.SendMessage("Você não tem stamina suficiente.");
                 return;
             }
 

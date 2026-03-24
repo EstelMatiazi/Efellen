@@ -63,7 +63,7 @@ namespace Server.Custom.Ascensions
                 });
             }
 
-            pm.SendMessage("Your Mana Vault protects your energy!");
+            pm.SendMessage("Seu Mana Vault protege sua energia!");
             pm.PrivateOverheadMessage(MessageType.Regular, 0x22, false, "*Mana Vault*", pm.NetState);
             return amount;
         }

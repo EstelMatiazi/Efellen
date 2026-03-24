@@ -19,20 +19,20 @@ namespace Server.Custom.Ascensions
         {
             if (!CanUse(pm))
             {
-                pm.SendMessage("You cannot use Death's Advance right now.");
+                pm.SendMessage("Você não pode usar Death's Advance agora.");
                 return;
             }
 
             if (pm.IsAbilityOnCooldown(Name))
             {
-                pm.SendMessage("That ability is on cooldown.");
+                pm.SendMessage("Esta habilidade está em cooldown.");
                 return;
             }
 
             AscensionProgress prog = pm.AscensionProfile.Get(Ascension);
 
             pm.Target = new AdvanceTarget(this, prog.Level);
-            pm.SendMessage("Choose a location to advance to.");
+            pm.SendMessage("Escolha um local para avançar.");
         }
 
         private class AdvanceTarget : Target
@@ -64,19 +64,19 @@ namespace Server.Custom.Ascensions
 
                 if (pm.GetDistanceToSqrt(dest) < 2)
                 {
-                    pm.SendMessage("You must advance at least 2 tiles.");
+                    pm.SendMessage("Você deve avançar pelo menos 2 tiles.");
                     return;
                 }
 
                 if (pm.GetDistanceToSqrt(dest) > maxRange)
                 {
-                    pm.SendMessage("That location is too far away.");
+                    pm.SendMessage("Esse local está muito longe.");
                     return;
                 }
 
                 if (!map.CanFit(dest.X, dest.Y, dest.Z, 16, false, false))
                 {
-                    pm.SendMessage("You cannot advance there.");
+                    pm.SendMessage("Você não pode avançar para lá.");
                     return;
                 }
 
@@ -205,7 +205,7 @@ namespace Server.Custom.Ascensions
                 if (m_Player == null || m_Player.Deleted)
                     return;
 
-                m_Player.SendMessage(0x47E, "You can use Death's Advance again.");
+                m_Player.SendMessage(0x47E, "Você pode usar Death's Advance novamente.");
             }
         }
     }

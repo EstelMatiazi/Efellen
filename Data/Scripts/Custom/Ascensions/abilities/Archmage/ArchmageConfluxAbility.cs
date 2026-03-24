@@ -36,13 +36,13 @@ namespace Server.Custom.Ascensions
         {
             if (!CanUse(pm))
             {
-                pm.SendMessage("You cannot use Conflux.");
+                pm.SendMessage("Você não pode usar Conflux.");
                 return;
             }
 
             if (pm.IsAbilityOnCooldown(Name))
             {
-                pm.SendMessage("That ability is on cooldown.");
+                pm.SendMessage("Esta habilidade está em cooldown.");
                 return;
             }
 
@@ -64,7 +64,7 @@ namespace Server.Custom.Ascensions
                     delegate
                     {
                         if (pm != null && !pm.Deleted)
-                            pm.SendMessage("You may use Conflux again.");
+                            pm.SendMessage("Você pode usar Conflux novamente.");
                     }
                 )
             );
@@ -81,7 +81,7 @@ namespace Server.Custom.Ascensions
 
             int duration = 10 + level;
 
-            pm.SendMessage("Arcane power surges through you!");
+            pm.SendMessage("Poder arcano flui através de você!");
 
             pm.ArchmageConfluxScalar = scalar;
             pm.ArchmageConfluxEnd = DateTime.UtcNow + TimeSpan.FromSeconds(duration);
@@ -101,7 +101,7 @@ namespace Server.Custom.Ascensions
                 return;
 
             pm.ArchmageConfluxScalar = 0.0;
-            pm.SendMessage("The Conflux fades.");
+            pm.SendMessage("O Conflux desaparece.");
         }
     }
 }

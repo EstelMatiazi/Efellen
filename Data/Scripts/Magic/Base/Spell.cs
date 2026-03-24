@@ -518,11 +518,11 @@ namespace Server.Spells
 			{
 				if ( this is HolyManSpell )
 				{
-					m_Caster.SendMessage( "Your concentration is disturbed, thus ruining thy prayer." );
+					m_Caster.SendMessage( "Sua concentração é perturbada, arruinando assim sua prece." );
 				}
 				else if ( this is MysticSpell || this is JesterSpell )
 				{
-					m_Caster.SendMessage( "Your concentration is disturbed, thus ruining thy attempt." );
+					m_Caster.SendMessage( "Sua concentração é perturbada, arruinando assim sua tentativa." );
 				}
 				else
 				{
@@ -557,17 +557,17 @@ namespace Server.Spells
 
 			if ( m_Caster.Blessed )
 			{
-				m_Caster.SendMessage( "You cannot do that while in this state." );
+				m_Caster.SendMessage( "Você não pode fazer isso neste estado." );
 				return false;
 			}
 			if ( !CanCastSpell( m_Caster, this ) )
 			{
-				m_Caster.SendMessage( "The darkness of the Underworld seems to be affecting this spell." );
+				m_Caster.SendMessage( "A escuridão do Submundo parece estar afetando este feitiço." );
 				return false;
 			}
 			if ( !CantMixSpell( m_Caster, this ) )
 			{
-				m_Caster.SendMessage( "Elementalism, with magery or necromancy, are affecting your magic." );
+				m_Caster.SendMessage( "O elementalismo, junto com magia ou necromancia, está afetando sua magia." );
 				return false;
 			}
 			else if ( !m_Caster.CheckAlive() )
@@ -730,7 +730,7 @@ namespace Server.Spells
 
 		    
 
-		    m.SendMessage("You cannot cast that spell while in wild shape.");
+		    m.SendMessage("Você não pode lançar esse feitiço enquanto está na forma selvagem.");
 		    return false;
 		}
 
@@ -998,7 +998,7 @@ namespace Server.Spells
 
 		    if (Utility.RandomDouble() < (chance / 100.0))
 		    {
-		        pm.SendMessage("The weave begins to unravel!");
+		        pm.SendMessage("O tecido começa a se desfazer!");
 
 		        WeaveUnravelingAbility.Trigger(pm, target);
 		    }
@@ -1021,7 +1021,7 @@ namespace Server.Spells
 
 		    if (Utility.RandomDouble() < (procChance / 100.0))
 		    {
-		        pm.SendMessage("Arcane Tempest triggers a Mana Singularity!");
+		        pm.SendMessage("Tempestade Arcana desencadeia uma Singularidade de Mana!");
 
 		        ArchmageManaSingularityAbility ability = new ArchmageManaSingularityAbility();
 
@@ -1034,7 +1034,7 @@ namespace Server.Spells
 		            if (Utility.RandomDouble() < (resetChance / 100.0))
 		            {
 		                pm.SetAbilityCooldown("Arcane Storm", TimeSpan.Zero);
-		                pm.SendMessage("Your Arcane Storm cooldown has been reset!");
+		                pm.SendMessage("A recarga da sua Tempestade Arcana foi reiniciada!");
 		            }
 		        }
 		    }

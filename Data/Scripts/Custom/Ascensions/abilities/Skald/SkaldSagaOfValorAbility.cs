@@ -24,13 +24,13 @@ namespace Server.Custom.Ascensions
 
             if (pm.IsAbilityOnCooldown(Name))
             {
-                pm.SendMessage("That ability is on cooldown.");
+                pm.SendMessage("Esta habilidade está em cooldown.");
                 return;
             }
 
             if (pm.Mana < 30)
             {
-                pm.SendMessage("You do not have enough mana.");
+                pm.SendMessage("Você não tem mana suficiente.");
                 return;
             }
 
@@ -43,7 +43,7 @@ namespace Server.Custom.Ascensions
             pm.Mana -= 30;
             pm.SetAbilityCooldown(Name, Cooldown);
 
-            pm.PublicOverheadMessage(MessageType.Regular, 0x445, false, "*Chants a Saga of Valor*");
+            pm.PublicOverheadMessage(MessageType.Regular, 0x445, false, "*Canta uma Saga de Valor*");
 
             int duration  = 15 + level;
             int hitBonus  = level / 2;
@@ -150,7 +150,7 @@ namespace Server.Custom.Ascensions
                 if (m_Player == null || m_Player.Deleted)
                     return;
 
-                m_Player.SendMessage(0x445, "You can use Saga of Valor again.");
+                m_Player.SendMessage(0x445, "Você pode usar Saga de Valor novamente.");
             }
         }
     }

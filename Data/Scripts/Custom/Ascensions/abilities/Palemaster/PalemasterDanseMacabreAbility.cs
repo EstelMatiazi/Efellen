@@ -31,13 +31,13 @@ namespace Server.Custom.Ascensions
 
             if (pm.IsAbilityOnCooldown(Name))
             {
-                pm.SendMessage("That ability is on cooldown.");
+                pm.SendMessage("Esta habilidade está em cooldown.");
                 return;
             }
 
             if (pm.Mana < 80)
             {
-                pm.SendMessage("You do not have enough mana.");
+                pm.SendMessage("Você não tem mana suficiente.");
                 return;
             }
 
@@ -304,7 +304,7 @@ namespace Server.Custom.Ascensions
             protected override void OnTick()
             {
                 if (m_Player != null)
-                    m_Player.SendMessage("The dead can dance again.");
+                    m_Player.SendMessage("Os mortos podem dançar novamente.");
             }
         }
     }

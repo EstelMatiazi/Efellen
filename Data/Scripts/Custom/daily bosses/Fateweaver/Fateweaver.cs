@@ -33,10 +33,10 @@ namespace Server.Mobiles
 
 		private static readonly string[] SummonWarcries = new string[]
 		{
-			"*Focuses its alien insectoid eyes*",
-			"*Screeches violently*",
-			"*Diabolically focuses its alien eyes*",
-			"*Stares maniacally into the cave ceiling above*"
+			"*Foca seus olhos alienígenas de inseto*",
+			"*Guincha violentamente*",
+			"*Foca diabolicamente seus olhos alienígenas*",
+			"*Encara o teto da caverna acima maniacamente*"
 		};
 
 		private static readonly List<Type> BossDrops = new List<Type>
@@ -64,7 +64,7 @@ namespace Server.Mobiles
 			BaseSoundID = 0x388;
 			NameHue = 0x22;
 			Hue = 2498;
-            Title = "The Mirrorbreaker";
+            Title = "O Quebrador de Espelhos";
 			
 			SetStr( 796, 1085 );
 			SetDex( 275 );
@@ -169,7 +169,7 @@ namespace Server.Mobiles
                     BossSpecialAttack.PerformCrossExplosion(
 				       this,
 				       target,
-				       "*Cocoons burst and explode!*",
+				       "*Casulos se rompem e explodem!*",
 				       2498,
 				       m_Rage+1,
 					   0,      // physical
@@ -184,7 +184,7 @@ namespace Server.Mobiles
 				{
                     BossSpecialAttack.PerformEntangle(
     				    this,
-    				    "*calls forth thick webs*",
+    				    "*invoca teias espessas*",
     				    2498,
     				    m_Rage+1,
     				    7,
@@ -196,7 +196,7 @@ namespace Server.Mobiles
 				{
                     BossSpecialAttack.PerformDelayedExplosion(
 				        this,
-				        "*spreads poisonous eggs*",
+				        "*espalha ovos venenosos*",
 				        2498,   // hue
 				        12,     // radius
 				        m_Rage+1,
@@ -232,7 +232,7 @@ namespace Server.Mobiles
 		{
 			if ( m_Rage == 0 )
 			{
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "*Stares defiantly*" );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "*Encara desafiadoramente*" );
 				this.Hits = this.HitsMax;
 				this.FixedParticles( 0x376A, 9, 32, 5030, EffectLayer.Waist );
 				this.PlaySound( 0x202 );
@@ -243,7 +243,7 @@ namespace Server.Mobiles
 			}
 			else if ( m_Rage == 1 )
 			{
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "*Jumps forward in anticipation*" );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "*Pula para frente em antecipação*" );
 				this.Hits = this.HitsMax;
 				this.FixedParticles( 0x376A, 9, 32, 5030, EffectLayer.Waist );
 				this.PlaySound( 0x202 );
@@ -254,7 +254,7 @@ namespace Server.Mobiles
 			}
 			else if ( m_Rage == 2 )
 			{
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "*Thrashes around maniacly*" );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "*Debate-se maniacamente*" );
 				this.Hits = this.HitsMax;
 				this.FixedParticles( 0x376A, 9, 32, 5030, EffectLayer.Waist );
 				this.PlaySound( 0x202 );
@@ -267,7 +267,7 @@ namespace Server.Mobiles
 			{
 				Effects.SendLocationParticles( EffectItem.Create( this.Location, this.Map, EffectItem.DefaultDuration ), 0x3728, 10, 10, 2023 );
 				this.PlaySound( 0x1FE );
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "*Twitches and falls one last time*" );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "*Contorce-se e cai uma última vez*" );
 				Mobile killer = this.LastKiller;
 				if (killer != null && killer.Player && killer.Karma > 0)
             	{

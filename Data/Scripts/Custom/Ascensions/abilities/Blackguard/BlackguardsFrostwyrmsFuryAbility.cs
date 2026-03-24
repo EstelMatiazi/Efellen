@@ -21,31 +21,31 @@ namespace Server.Custom.Ascensions
         {
             if (!CanUse(pm))
             {
-                pm.SendMessage("You cannot use Frostwyrm's Fury.");
+                pm.SendMessage("Você não pode usar Frostwyrm's Fury.");
                 return;
             }
 
             if (pm.IsAbilityOnCooldown(Name))
             {
-                pm.SendMessage("That ability is on cooldown.");
+                pm.SendMessage("Esta habilidade está em cooldown.");
                 return;
             }
 
             if (pm.Mana < 60)
             {
-                pm.SendMessage("You do not have enough mana.");
+                pm.SendMessage("Você não tem mana suficiente.");
                 return;
             }
 
             if (pm.Stam < 60)
             {
-                pm.SendMessage("You do not have enough stamina.");
+                pm.SendMessage("Você não tem stamina suficiente.");
                 return;
             }
 
             if (pm.Followers + 2 > pm.FollowersMax)
             {
-                pm.SendMessage("You have too many followers to use this ability.");
+                pm.SendMessage("Você tem muitos seguidores para usar esta habilidade.");
                 return;
             }
 
@@ -76,7 +76,7 @@ namespace Server.Custom.Ascensions
             );
             pm.PlaySound(0x29);
 
-            new CooldownNotifyTimer(pm, Cooldown, "You can call forth the Frostwyrm's Fury once again.").Start();
+            new CooldownNotifyTimer(pm, Cooldown, "Você pode invocar a Fúria do Frostwyrm novamente.").Start();
         }
 
         private static void SummonCreature(PlayerMobile pm)

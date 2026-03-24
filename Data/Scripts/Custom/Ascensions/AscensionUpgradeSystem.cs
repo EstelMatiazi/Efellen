@@ -11,7 +11,7 @@ namespace Server.Custom.Ascensions
 
             if (!prog.CanLevelUp())
             {
-                pm.SendMessage("You do not have enough experience.");
+                pm.SendMessage("Você não tem experiência suficiente.");
                 return false;
             }
 
@@ -23,26 +23,26 @@ namespace Server.Custom.Ascensions
             
             if (prog.Level >= AscensionConstants.MaxAscensionLevel)
             {
-                pm.SendMessage("You already mastered this ascension.");
+                pm.SendMessage("Você já dominou esta ascensão.");
                 return false;
             }
 
 
             if (!AscensionUnlocking.HasGold(pm, goldCost))
             {
-                pm.SendMessage("You do not have enough gold.");
+                pm.SendMessage("Você não tem ouro suficiente.");
                 return false;
             }
 
             if (!AscensionUnlocking.HasArcaneDust(pm, dustCost))
             {
-                pm.SendMessage("You do not have enough arcane dust.");
+                pm.SendMessage("Você não tem pó arcano suficiente.");
                 return false;
             }
 
             if (!AscensionUnlocking.HasScrolls(pm, type, scrollCost))
             {
-                pm.SendMessage("You do not have enough ascension scrolls.");
+                pm.SendMessage("Você não tem pergaminhos de ascensão suficientes.");
                 return false;
             }
 
@@ -52,7 +52,7 @@ namespace Server.Custom.Ascensions
 
             prog.Level = nextLevel;
 
-            pm.SendMessage("Your " + type.ToString() + " ascension has reached level " + nextLevel + "!");
+            pm.SendMessage("Sua ascensão " + type.ToString() + " alcançou o nível " + nextLevel + "!");
 
             return true;
         }
