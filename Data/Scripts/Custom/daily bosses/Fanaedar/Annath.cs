@@ -198,7 +198,7 @@ namespace Server.Mobiles
 					RallyMinions();
 					break;
 				case 2:
-					BossSpecialAttack.PerformDegenAura( this, "By my goddess and by church, thou shall perish!", 8, m_Rage+1, 16, 29, "health", 1316 );
+					BossSpecialAttack.PerformDegenAura( this, "Por minha deusa e pela igreja, tu perecerás!", 8, m_Rage+1, 16, 29, "health", 1316 );
 					break;
 				case 3:
 					BossSpecialAttack.PerformSlam(
@@ -217,7 +217,7 @@ namespace Server.Mobiles
 		    if (Combatant == null)
 		        return;
 
-			PublicOverheadMessage( MessageType.Regular, 0x21, false, "Lolth, nurture thy children!" );
+			PublicOverheadMessage( MessageType.Regular, 0x21, false, "Lolth, nutre teus filhos!" );
 
 		    PlaySound(0x1FB);
 		    PlaySound(0x5C3);
@@ -329,7 +329,7 @@ namespace Server.Mobiles
 		{
 			if ( m_Rage == 0 )
 			{
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Lolth, bring me hatred!" );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Lolth, traga-me ódio!" );
 				this.Hits = this.HitsMax;
 				this.FixedParticles( 0x376A, 9, 32, 5030, EffectLayer.Waist );
 				this.PlaySound( 0x202 );
@@ -340,7 +340,7 @@ namespace Server.Mobiles
 			}
 			else if ( m_Rage == 1 )
 			{
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Lolth, bring me ruin!" );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Lolth, traga-me ruína!" );
 				this.Hits = this.HitsMax;
 				this.FixedParticles( 0x376A, 9, 32, 5030, EffectLayer.Waist );
 				this.PlaySound( 0x202 );
@@ -351,7 +351,7 @@ namespace Server.Mobiles
 			}
 			else if ( m_Rage == 2 )
 			{
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Lolth, bring me vengeance!" );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Lolth, traga-me vingança!" );
 				this.Hits = this.HitsMax;
 				this.FixedParticles( 0x376A, 9, 32, 5030, EffectLayer.Waist );
 				this.PlaySound( 0x202 );
@@ -364,7 +364,7 @@ namespace Server.Mobiles
 			{
 				Effects.SendLocationParticles( EffectItem.Create( this.Location, this.Map, EffectItem.DefaultDuration ), 0x3728, 10, 10, 2023 );
 				this.PlaySound( 0x1FE );
-				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Lolth will be the end of you!" );
+				PublicOverheadMessage( MessageType.Regular, 0x21, false, "Lolth será o seu fim!" );
 				Mobile killer = this.LastKiller;
 				if ( killer != null && killer.Player && killer.Karma > 0 )
             	{
