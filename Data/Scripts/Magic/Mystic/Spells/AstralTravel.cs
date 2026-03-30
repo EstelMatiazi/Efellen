@@ -18,7 +18,7 @@ namespace Server.Spells.Mystic
 				0
 			);
 
-		public override TimeSpan CastDelayBase { get { return TimeSpan.FromSeconds( 3 ); } }
+		public override TimeSpan CastDelayBase { get { return TimeSpan.FromSeconds( 2 ); } }
 		public override int RequiredTithing{ get{ return 35; } }
 		public override double RequiredSkill{ get{ return 50.0; } }
 		public override int RequiredMana{ get{ return 40; } }

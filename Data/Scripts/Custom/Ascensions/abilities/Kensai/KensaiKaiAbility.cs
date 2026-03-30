@@ -5,6 +5,7 @@ using Server.Mobiles;
 using Server.Network;
 using Server.Items;
 using Server.Targeting;
+using Server.Spells;
 
 namespace Server.Custom.Ascensions
 {
@@ -70,12 +71,29 @@ namespace Server.Custom.Ascensions
                 if (p == null)
                     return;
 
+                PlayerMobile pm = (PlayerMobile)from;
                 Map map = m_Caster.Map;
 
                 if (map == null)
                     return;
 
                 Point3D dest = new Point3D(p.X, p.Y, p.Z);
+
+                if ( Server.Misc.WeightOverloading.IsOverloaded( pm ) )
+			    {
+			    	pm.SendLocalizedMessage( 502359, "", 0x22 ); // Thou art too encumbered to move.
+			    	return;
+			    }
+                else if ( map == null || !map.CanSpawnMobile( p.X, p.Y, p.Z ) )
+			    {
+			    	pm.SendLocalizedMessage( 501942 ); // That location is blocked.
+                    return;
+			    }
+			    else if ( SpellHelper.CheckMulti( new Point3D( p ), map ) )
+			    {
+			    	pm.SendLocalizedMessage( 501942 ); // That location is blocked.
+                    return;
+			    }
 
                 if (m_Caster.GetDistanceToSqrt(dest) < 2)
                 {

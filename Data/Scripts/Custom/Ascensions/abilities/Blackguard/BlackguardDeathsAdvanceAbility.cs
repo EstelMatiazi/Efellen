@@ -3,6 +3,7 @@ using Server;
 using Server.Mobiles;
 using Server.Targeting;
 using Server.Network;
+using Server.Spells;
 
 namespace Server.Custom.Ascensions
 {
@@ -61,6 +62,22 @@ namespace Server.Custom.Ascensions
                 Point3D dest = new Point3D(p);
 
                 int maxRange = 3 + (m_Level / 5);
+
+                if ( Server.Misc.WeightOverloading.IsOverloaded( pm ) )
+			    {
+			    	pm.SendLocalizedMessage( 502359, "", 0x22 ); // Thou art too encumbered to move.
+			    	return;
+			    }
+                else if ( map == null || !map.CanSpawnMobile( p.X, p.Y, p.Z ) )
+			    {
+			    	pm.SendLocalizedMessage( 501942 ); // That location is blocked.
+                    return;
+			    }
+			    else if ( SpellHelper.CheckMulti( new Point3D( p ), map ) )
+			    {
+			    	pm.SendLocalizedMessage( 501942 ); // That location is blocked.
+                    return;
+			    }
 
                 if (pm.GetDistanceToSqrt(dest) < 2)
                 {

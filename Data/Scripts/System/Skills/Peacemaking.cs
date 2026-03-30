@@ -176,15 +176,17 @@ namespace Server.SkillHandlers
 
 							if ( music > 100.0 )
 								diff -= (music - 100.0) * 0.5;
+							
+							double minSkill = diff - 25;
+							double maxSkill = diff + 25;
+								
+							if ( from.Skills[SkillName.Peacemaking].Value < minSkill )
+							{
+								from.SendMessage("You need at least '{0}' Peacemaking skill to pacify the target.", minSkill.ToString("F1"));
+								return;
+							}
 
-							double seconds = 100 - (diff / 1.5);
-
-							if ( seconds > 120 )
-								seconds = 120;
-							else if ( seconds < 10 )
-								seconds = 10;
-
-							if ( !from.CheckTargetSkill( SkillName.Peacemaking, targ, diff - 25.0, diff + 25.0 ) )
+							if ( !from.CheckTargetSkill( SkillName.Peacemaking, targ, minSkill, maxSkill ) )
 							{
 								from.SendLocalizedMessage( 1049531 ); // You attempt to calm your target, but fail.
 								m_Instrument.PlayInstrumentBadly( from );
@@ -194,6 +196,13 @@ namespace Server.SkillHandlers
 							{
 								m_Instrument.PlayInstrumentWell( from );
 								m_Instrument.ConsumeUse( from );
+
+								double seconds = 100 - (diff / 1.5);
+
+								if ( seconds > 120 )
+									seconds = 120;
+								else if ( seconds < 10 )
+									seconds = 10;
 
 								from.NextSkillTime = DateTime.Now + TimeSpan.FromSeconds( 5.0 );
 								if ( targ is BaseCreature )

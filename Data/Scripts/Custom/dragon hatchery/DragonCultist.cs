@@ -73,8 +73,6 @@ namespace Server.Mobiles
 			PackReg( Utility.RandomMinMax( 2, 10 ) );
             if ( 0.7 > Utility.RandomDouble() )
 				PackItem( new ArcaneGem() );
-            if ( 0.15 > Utility.RandomDouble() )
-				PackItem( new DraconicKey() );
         }
 
         public virtual int GetRandomHue()

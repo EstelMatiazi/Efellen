@@ -180,6 +180,15 @@ namespace Server.SkillHandlers
 						if ( music > 100.0 )
 							diff -= (music - 100.0) * 0.5;
 
+						double minSkill = diff - 25;
+						double maxSkill = diff + 25;
+
+						if ( from.Skills[SkillName.Discordance].Value < minSkill )
+						{
+                		    from.SendMessage("You need at least '{0}' Discordance skill to disrupt the target.", minSkill.ToString("F1"));
+							return;
+						}
+
 						if ( !BaseInstrument.CheckMusicianship( from ) )
 						{
 							from.SendLocalizedMessage( 500612 ); // You play poorly, and there is no effect.

@@ -75,6 +75,22 @@ namespace Server.Custom.Ascensions
 
                 int maxRange = 3 + (m_Level / 4);
 
+                if ( Server.Misc.WeightOverloading.IsOverloaded( pm ) )
+			    {
+			    	pm.SendLocalizedMessage( 502359, "", 0x22 ); // Thou art too encumbered to move.
+			    	return;
+			    }
+                else if ( map == null || !map.CanSpawnMobile( p.X, p.Y, p.Z ) )
+			    {
+			    	pm.SendLocalizedMessage( 501942 ); // That location is blocked.
+                    return;
+			    }
+			    else if ( SpellHelper.CheckMulti( new Point3D( p ), map ) )
+			    {
+			    	pm.SendLocalizedMessage( 501942 ); // That location is blocked.
+                    return;
+			    }
+
                 if (pm.GetDistanceToSqrt(dest) < 2)
                 {
                     pm.SendMessage("Você deve saltar pelo menos 2 tiles de distância.");

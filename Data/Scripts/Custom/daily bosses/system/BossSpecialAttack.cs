@@ -308,7 +308,7 @@ namespace Server.Custom.DailyBosses.System
 
                 if (m.Skills.Knightship.Value >= terror)
                 {
-                    m.SendMessage("Sua bravura te protege do medo!");
+                    m.SendMessage("Your bravery protects you from fear!");
                     m.FixedParticles(0x375A, 10, 15, 5037, EffectLayer.Waist);
                     continue;
                 }
@@ -316,7 +316,7 @@ namespace Server.Custom.DailyBosses.System
                 boss.DoHarmful(m);
 
                 m.Paralyze(TimeSpan.FromSeconds(GetParalyzeDuration(m,rage)));
-                m.SendMessage("Você está paralisado de terror!");
+                m.SendMessage("You are frozen in terror!");
                 m.FixedParticles(0x376A, 9, 32, 5030, EffectLayer.Head);
             }
             eable.Free();
@@ -380,7 +380,7 @@ namespace Server.Custom.DailyBosses.System
 
                     int paralyzeDuration = GetParalyzeDuration(m, rage);
                     m.Paralyze(TimeSpan.FromSeconds(paralyzeDuration));
-                    m.SendMessage("Você está paralisado pelo ataque!");
+                    m.SendMessage("You are paralyzed by the attack!");
 
                     if (!Server.Items.BaseRace.IsBleeder(m))
                         continue;
@@ -393,7 +393,7 @@ namespace Server.Custom.DailyBosses.System
 
                     if (m is PlayerMobile)
                     {
-                        m.LocalOverheadMessage(MessageType.Regular, 0x982, false, "Você está sangrando profusamente!");
+                        m.LocalOverheadMessage(MessageType.Regular, 0x982, false, "You are bleeding profusely!");
                     }
 
                     BeginBossBleed(m, boss, bleedLevel);
@@ -708,7 +708,7 @@ namespace Server.Custom.DailyBosses.System
             if (range > 8)
                 range = 8;
 
-            boss.PublicOverheadMessage(MessageType.Regular, hue, false, "*" + boss.Name + " está enchendo os pulmões!*");
+            boss.PublicOverheadMessage(MessageType.Regular, hue, false, "*" + boss.Name + " is preparing an attack!*");
             boss.PlaySound(0x227);
             boss.FixedParticles(0x375A, 10, 15, 5037, hue, 0, EffectLayer.Head);
 
@@ -1307,7 +1307,7 @@ namespace Server.Custom.DailyBosses.System
                 MessageType.Regular,
                 hue,
                 false,
-                "Lolth, eu te dou tudo de mim! Destrói esses intrusos!"
+                "Lolth, I give thee my everything! Destroy these interlopers!"
             );
 
             boss.PlaySound(0x20F);
@@ -1930,7 +1930,7 @@ namespace Server.Custom.DailyBosses.System
             m_BossBleeds.Remove(entry);
 
             if (message && m is PlayerMobile)
-                m.SendMessage("O sangramento parou.");
+                m.SendMessage("The bleeding has stopped.");
         }
 
 

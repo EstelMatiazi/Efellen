@@ -13,7 +13,7 @@ namespace Server.Spells.Mystic
 				0
 			);
 
-		public override TimeSpan CastDelayBase { get { return TimeSpan.FromSeconds( 3 ); } }
+		public override TimeSpan CastDelayBase { get { return TimeSpan.FromSeconds( 2 ); } }
 		public override int RequiredTithing{ get{ return 15; } }
 		public override double RequiredSkill{ get{ return 30.0; } }
 		public override int RequiredMana{ get{ return 35; } }
@@ -62,10 +62,10 @@ namespace Server.Spells.Mystic
 
 				SpellHelper.CheckReflect( 5, ref from, ref target );
 
-				int damage = (int)((Caster.Skills[SkillName.FistFighting].Value + Caster.Int) / 4);
+				int damage = (int)((Caster.Skills[SkillName.FistFighting].Value + Caster.Int) / 3);
 				
-				if ( damage > 60 )
-					damage = 60;
+				if ( damage > 90 )
+					damage = 90;
 
 				Timer.DelayCall( TimeSpan.FromSeconds( 0.1 ),
 					new TimerStateCallback( AosDelay_Callback ),

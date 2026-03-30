@@ -2110,7 +2110,7 @@ namespace Server.Items
 		        manaLeech        += wraithLeech;
 		    }
 
-		    if (lifeLeech != 0)
+		    if (lifeLeech != 0 && !(defender is PlayerMobile))
 		    {
 		        bool leechImmune = defender is BaseCreature && ((BaseCreature)defender).LeechImmune;
 		        if (!leechImmune)

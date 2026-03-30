@@ -44,7 +44,7 @@ namespace Server.Items
 			ResourceMods.DefaultItemHue( item );
 		}
 
-		public static readonly TimeSpan UseDelay = TimeSpan.FromSeconds( 7.0 );
+		public static readonly TimeSpan UseDelay = TimeSpan.FromSeconds( 2.0 );
 
 		private List<RunebookEntry> m_Entries;
 		private string m_Description;

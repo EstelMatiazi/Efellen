@@ -1,6 +1,7 @@
 using System; 
 using Server;
 using Server.Items;
+using Server.Custom.DailyBosses.System;
 
 namespace Server.Mobiles 
 { 
@@ -22,11 +23,11 @@ namespace Server.Mobiles
 
 			PackItem( new Robe( Utility.RandomMetalHue() ) ); 
 
-			SetStr( 81, 105 );
+			SetStr( 101, 145 );
 			SetDex( 191, 215 );
-			SetInt( 126, 150 );
+			SetInt( 156, 250 );
 
-			SetHits( 81, 105 );
+			SetHits( 171, 205 );
 
 			SetDamage( 5, 10 );
 
@@ -118,7 +119,33 @@ namespace Server.Mobiles
 				return;
 
 			if ( Utility.RandomMinMax( 1, 20 ) == 1 )
-				SpawnCreature( target );
+			{
+				int attackChoice = Utility.RandomMinMax( 1, 2 );
+
+				switch ( attackChoice  )
+				{
+					case 1:
+					{
+						SpawnCreature( target );
+            	   		break;
+					}
+
+					case 2:
+					{
+						BossSpecialAttack.PerformConeBreath(
+						    boss: this,
+						    target: target,
+						    warcry: "*Releases a psionic blast!*",
+						    hue: 1160,
+						    rage: 2,
+						    range: 5, 
+							physicalDmg:0,
+						    energyDmg: 100
+						);
+    					break;
+					}
+				}
+			}
 		}
 
 		public override void OnGotMeleeAttack( Mobile attacker )
