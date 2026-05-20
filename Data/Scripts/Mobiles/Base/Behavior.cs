@@ -3056,27 +3056,27 @@ namespace Server.Misc
 						c = "her";
 					} 
 
-					string ScrollText = from.Name + ",<br><br>You have been given a task by " + RandomThings.GetRandomSociety() + ". You are to find " + killer.Name + " and make sure you kill " + a + " while " + b + " is in " + Server.Misc.Worlds.GetRegionName( from.Map, from.Location ) + ". When the deed is done, meet " + QuestCharacters.ParchmentWriter() + " in " + RandomThings.GetRandomCity() + " where you can collect your " + gold.ToString() + ",000 gold.<br><br> - " + QuestCharacters.ParchmentWriter();
+					string ScrollText = from.Name + ",<br><br>Você recebeu uma tarefa de " + RandomThings.GetRandomSociety() + ". Você deve encontrar " + killer.Name + " e garantir que mate " + a + " enquanto " + b + " está em " + Server.Misc.Worlds.GetRegionName( from.Map, from.Location ) + ". Quando o feito estiver concluído, encontre-se com " + QuestCharacters.ParchmentWriter() + " em " + RandomThings.GetRandomCity() + " onde você poderá receber seus " + gold.ToString() + ".000 de ouro.<br><br> - " + QuestCharacters.ParchmentWriter();
 
 					switch ( Utility.RandomMinMax( 0, 9 ) )
 					{
-						case 1:	ScrollText = "If we are going to carry out our plans, you need to kill " + killer.Name + " as we think " + b + " will become a problem for us. We heard from the " + RandomThings.GetRandomJob() + " in " + RandomThings.GetRandomCity() + " that " + b + " may be going to " + Server.Misc.Worlds.GetRegionName( from.Map, from.Location ) + ". Wait for " + a + " there and strike when the time is right. If we do not see you return to " + RandomThings.GetRandomCity() + " soon, we will assume you failed.<br><br> - " + RandomThings.GetRandomSociety();
+						case 1: ScrollText = "Se vamos executar nossos planos, você precisa matar " + killer.Name + " pois achamos que " + b + " se tornará um problema para nós. Ouvimos do " + RandomThings.GetRandomJob() + " em " + RandomThings.GetRandomCity() + " que " + b + " pode estar indo para " + Server.Misc.Worlds.GetRegionName( from.Map, from.Location ) + ". Espere por " + a + " lá e ataque quando for a hora certa. Se não virmos você retornar para " + RandomThings.GetRandomCity() + " em breve, assumiremos que você falhou.<br><br> - " + RandomThings.GetRandomSociety();
 							break;
-						case 2:	ScrollText = QuestCharacters.ParchmentWriter() + ",<br><br>We all know who stole the " + gold.ToString() + ",000 gold from me in " + RandomThings.GetRandomCity() + ". I will make a deal with you. You find out where " + from.Name + " is hiding and tell them that I will overlook this incident if they do something for me. They need to go to " + Server.Misc.Worlds.GetRegionName( from.Map, from.Location ) + " and wait in the shadows for " + killer.Name + " to arrive. When " + b + " is spotted, they need to kill " + a + " before " + b + " finds what " + b + " is looking for. When the deed is done, the debt will be forgiven.<br><br> - " + QuestCharacters.ParchmentWriter();
+						case 2: ScrollText = QuestCharacters.ParchmentWriter() + ",<br><br>Todos sabemos quem roubou os " + gold.ToString() + ".000 de ouro de mim em " + RandomThings.GetRandomCity() + ". Farei um acordo com você. Descubra onde " + from.Name + " está escondido e diga a eles que ignorarei este incidente se fizerem algo por mim. Eles precisam ir para " + Server.Misc.Worlds.GetRegionName( from.Map, from.Location ) + " e esperar nas sombras até " + killer.Name + " chegar. Quando " + b + " for avistado, eles precisam matar " + a + " antes que " + b + " encontre o que " + b + " está procurando. Quando o feito estiver concluído, a dívida será perdoada.<br><br> - " + QuestCharacters.ParchmentWriter();
 							break;
-						case 3:	ScrollText = from.Name + ",<br><br>The time is almost near, but there are some that fear of " + killer.Name + " causing a problem for us. We need to send " + a + " away from this life before " + b + " realizes what we are about to do. " + QuestCharacters.ParchmentWriter() + " has followed " + a + " to " + Server.Misc.Worlds.GetRegionName( from.Map, from.Location ) + " so you can probably find " + a + " there. Do not fail, as you would not want to face the judgement of " + RandomThings.GetRandomSociety() + ".";
+						case 3: ScrollText = from.Name + ",<br><br>A hora está quase chegando, mas há alguns que temem que " + killer.Name + " cause problemas para nós. Precisamos enviar " + a + " desta vida antes que " + b + " perceba o que estamos prestes a fazer. " + QuestCharacters.ParchmentWriter() + " seguiu " + a + " até " + Server.Misc.Worlds.GetRegionName( from.Map, from.Location ) + " então você provavelmente pode encontrar " + a + " lá. Não falhe, pois você não gostaria de enfrentar o julgamento de " + RandomThings.GetRandomSociety() + ".";
 							break;
-						case 4:	ScrollText = QuestCharacters.ParchmentWriter() + ",<br><br>I have another problem for you to take care of. A " + RandomThings.GetRandomJob() + " in " + RandomThings.GetRandomCity() + " is paying us " + gold.ToString() + ",000 gold to assassinate the one who killed their friend. I think we should send " + from.Name + " to deal with " + a + ", and " + b + " is known as " + killer.Name + ". I believe they headed in the direction of " + Server.Misc.Worlds.GetRegionName( from.Map, from.Location ) + ". Have them wait for " + a + " there.<br><br> - " + QuestCharacters.ParchmentWriter();
+						case 4: ScrollText = QuestCharacters.ParchmentWriter() + ",<br><br>Tenho outro problema para você resolver. Um " + RandomThings.GetRandomJob() + " em " + RandomThings.GetRandomCity() + " está nos pagando " + gold.ToString() + ".000 de ouro para assassinar aquele que matou seu amigo. Acho que deveríamos enviar " + from.Name + " para lidar com " + a + ", e " + b + " é conhecido como " + killer.Name + ". Acredito que eles seguiram na direção de " + Server.Misc.Worlds.GetRegionName( from.Map, from.Location ) + ". Faça-os esperar por " + a + " lá.<br><br> - " + QuestCharacters.ParchmentWriter();
 							break;
-						case 5:	ScrollText = from.Name + ",<br><br>I was in " + RandomThings.GetRandomCity() + " and I heard some whispers of a " + gold.ToString() + ",000 gold bounty on " + killer.Name + ". I also heard that " + RandomThings.GetRandomSociety() + " is the one offering the gold. I don't need to remind you that we have been trying to gain their trust so we can acquire " + Server.Misc.QuestCharacters.QuestItems( true ) + ". I paid the barkeep a few coins and found out where " + b + " might be. I will check out the place nearby. You head to " + Server.Misc.Worlds.GetRegionName( from.Map, from.Location ) + " and look for " + a + " there. We will meet each other in " + RandomThings.GetRandomCity() + " in a few days. This could be the chance we were waiting for.<br><br> - " + QuestCharacters.ParchmentWriter();
+						case 5: ScrollText = from.Name + ",<br><br>Eu estava em " + RandomThings.GetRandomCity() + " e ouvi alguns sussurros sobre uma recompensa de " + gold.ToString() + ".000 de ouro por " + killer.Name + ". Também ouvi que " + RandomThings.GetRandomSociety() + " é quem está oferecendo o ouro. Não preciso lembrá-lo de que temos tentado ganhar sua confiança para podermos adquirir " + Server.Misc.QuestCharacters.QuestItems( true ) + ". Paguei algumas moedas ao taverneiro e descobri onde " + b + " pode estar. Vou verificar o local próximo. Você vá para " + Server.Misc.Worlds.GetRegionName( from.Map, from.Location ) + " e procure por " + a + " lá. Nós nos encontraremos em " + RandomThings.GetRandomCity() + " em alguns dias. Esta pode ser a chance que estávamos esperando.<br><br> - " + QuestCharacters.ParchmentWriter();
 							break;
-						case 6:	ScrollText = from.Name + ",<br><br>You are to slay the one they call " + killer.Name + ". They have been a little too curious of what lies within " + Server.Misc.Worlds.GetRegionName( from.Map, from.Location ) + ", and we do not need " + a + " getting in our way to find " + Server.Misc.QuestCharacters.QuestItems( true ) + ". If " + b + " finds it before we do, it could mean our very lives " + RandomThings.GetRandomSociety() + " will want. I will be going to " + RandomThings.GetRandomCity() + " to get some supplies, but I will return soon.<br><br> - " + QuestCharacters.ParchmentWriter();
+						case 6: ScrollText = from.Name + ",<br><br>Você deve matar aquele que chamam de " + killer.Name + ". Eles têm sido um pouco curiosos demais sobre o que está em " + Server.Misc.Worlds.GetRegionName( from.Map, from.Location ) + ", e não precisamos que " + a + " atrapalhe nossa busca por " + Server.Misc.QuestCharacters.QuestItems( true ) + ". Se " + b + " encontrar antes de nós, pode significar nossas próprias vidas que " + RandomThings.GetRandomSociety() + " desejará. Eu irei para " + RandomThings.GetRandomCity() + " pegar alguns suprimentos, mas retornarei em breve.<br><br> - " + QuestCharacters.ParchmentWriter();
 							break;
-						case 7:	ScrollText = from.Name + ",<br><br>Now that you eliminated " + QuestCharacters.ParchmentWriter() + ", it is time for your next target. This will be well worth your time as the fee being paid for this one is " + gold.ToString() + ",000 gold. They are known as " + killer.Name + ", and " + b + " has been talking about exploring " + Server.Misc.Worlds.GetRegionName( from.Map, from.Location ) + ". If this is true, then " + QuestCharacters.ParchmentWriter() + " would have to hide " + Server.Misc.QuestCharacters.QuestItems( true ) + " elsewhere. You can guess by the gold being offered, that they would rather not resort to such actions. Take care of " + a + " and we will split the gold in " + RandomThings.GetRandomCity() + ".";
+						case 7: ScrollText = from.Name + ",<br><br>Agora que você eliminou " + QuestCharacters.ParchmentWriter() + ", é hora do seu próximo alvo. Isso valerá muito a pena, pois a taxa paga por este é de " + gold.ToString() + ".000 de ouro. Eles são conhecidos como " + killer.Name + ", e " + b + " tem falado sobre explorar " + Server.Misc.Worlds.GetRegionName( from.Map, from.Location ) + ". Se isso for verdade, então " + QuestCharacters.ParchmentWriter() + " teria que esconder " + Server.Misc.QuestCharacters.QuestItems( true ) + " em outro lugar. Você pode imaginar, pelo ouro oferecido, que eles prefeririam não recorrer a tais ações. Cuide de " + a + " e dividiremos o ouro em " + RandomThings.GetRandomCity() + ".";
 							break;
-						case 8:	ScrollText = QuestCharacters.ParchmentWriter() + ",<br><br>" + killer.Name + " has meddled in our plans for the last time. " + QuestCharacters.ParchmentWriter() + " claims that " + b + " doesn't even know of " + c + " participation in my annoyance, but the time to act is now. I think we should give this mission to " + from.Name + ", as they have yet to fail us. Send " + from.Name + " to " + Server.Misc.Worlds.GetRegionName( from.Map, from.Location ) + " and kill " + a + " before " + b + " leaves the area. Bring back " + Server.Misc.QuestCharacters.QuestItems( true ) + " if " + b + " is found with it.<br><br> - " + QuestCharacters.ParchmentWriter();
+						case 8: ScrollText = QuestCharacters.ParchmentWriter() + ",<br><br>" + killer.Name + " interferiu em nossos planos pela última vez. " + QuestCharacters.ParchmentWriter() + " alega que " + b + " nem sabe da participação de " + c + " no meu aborrecimento, mas a hora de agir é agora. Acho que deveríamos dar esta missão para " + from.Name + ", pois eles ainda não nos falharam. Envie " + from.Name + " para " + Server.Misc.Worlds.GetRegionName( from.Map, from.Location ) + " e mate " + a + " antes que " + b + " saia da área. Traga de volta " + Server.Misc.QuestCharacters.QuestItems( true ) + " se " + b + " for encontrado com ele.<br><br> - " + QuestCharacters.ParchmentWriter();
 							break;
-						case 9:	ScrollText = from.Name + ",<br><br>I left that magic item in a dungeon chest for safe keeping, but " + killer.Name + " ended up taking it! Find " + a + " and kill " + a + "! See if " + b + " still has it. If you find it, head to " + RandomThings.GetRandomCity() + " and give it to the " + RandomThings.GetRandomJob() + ". They'll know what to do with it.";
+						case 9: ScrollText = from.Name + ",<br><br>Deixei aquele item mágico em um baú de masmorra para guardá-lo, mas " + killer.Name + " acabou pegando! Encontre " + a + " e mate " + a + "! Veja se " + b + " ainda o tem. Se você encontrá-lo, vá para " + RandomThings.GetRandomCity() + " e entregue ao " + RandomThings.GetRandomJob() + ". Eles saberão o que fazer com ele.";
 							break;
 					}
 
@@ -4749,52 +4749,52 @@ namespace Server.Misc
 				{
 					if ( from is Exodus )
 					{
-						switch ( Utility.Random( 4 ))		   
+						switch ( Utility.Random( 4 ))           
 						{
-							case 0: from.Say("I will vanquish your existence from all time!"); break;
-							case 1: from.Say("" + m.Name + ", prepare to meet your end!"); break;
-							case 2: from.Say("You cannot stop the destruction I will soon unleash!"); break;
-							case 3: from.Say("Tremble before my might!"); break;
+							case 0: from.Say("Aniquilarei sua existência de todos os tempos!"); break;
+							case 1: from.Say("" + m.Name + ", prepare-se para encontrar seu fim!"); break;
+							case 2: from.Say("Você não pode deter a destruição que em breve desencadearei!"); break;
+							case 3: from.Say("Trema diante do meu poder!"); break;
 						};
 					}
 					else if ( from is FleshGolem || from is AncientFleshGolem )
 					{
-						switch ( Utility.Random( 14 ))		   
+						switch ( Utility.Random( 14 ))           
 						{
-							case 0: from.Say("I am fearless, and therefore powerful!"); break;
-							case 1: from.Say("I am a monster, cut off from all the world!"); break;
-							case 2: from.Say("To be whole again, I must destroy you!"); break;
-							case 3: from.Say("Fell the wrath of my master!"); break;
-							case 4: from.Say("Life was forced upon me... death I give freely!"); break;
-							case 5: from.Say("I know not mercy, for none was shown to me!"); break;
-							case 6: from.Say("Stitched from the grave, I shall return you to it!"); break;
-							case 7: from.Say("This cursed existence knows only rage!"); break;
-							case 8: from.Say("My creator's will binds me to destroy you!"); break;
-							case 9: from.Say("Abomination I may be, but I am eternal!"); break;
-							case 10: from.Say("You recoil in horror... as the world recoiled from me!"); break;
-							case 11: from.Say("Flesh and bone twisted into fury!"); break;
-							case 12: from.Say("I am the nightmare that walks in daylight!"); break;
-							case 13: from.Say("Your screams cannot undo what has been done to me!"); break;
+							case 0: from.Say("Sou destemido e, portanto, poderoso!"); break;
+							case 1: from.Say("Sou um monstro, isolado de todo o mundo!"); break;
+							case 2: from.Say("Para estar completo novamente, devo destruí-lo!"); break;
+							case 3: from.Say("Sinta a ira do meu mestre!"); break;
+							case 4: from.Say("A vida foi imposta a mim... a morte, eu dou livremente!"); break;
+							case 5: from.Say("Não conheço misericórdia, pois nenhuma me foi mostrada!"); break;
+							case 6: from.Say("Costurado da sepultura, eu o devolverei a ela!"); break;
+							case 7: from.Say("Esta existência amaldiçoada só conhece a raiva!"); break;
+							case 8: from.Say("A vontade de meu criador me obriga a destruí-lo!"); break;
+							case 9: from.Say("Abominação eu possa ser, mas sou eterno!"); break;
+							case 10: from.Say("Você recua de horror... assim como o mundo recuou de mim!"); break;
+							case 11: from.Say("Carne e osso torcidos em fúria!"); break;
+							case 12: from.Say("Sou o pesadelo que anda à luz do dia!"); break;
+							case 13: from.Say("Seus gritos não podem desfazer o que me foi feito!"); break;
 						};
 					}
 					else if ( from is BloodDemigod )
 					{
-						switch ( Utility.Random( 14 ))		   
+						switch ( Utility.Random( 14 ))           
 						{
-							case 0: from.Say("Foolish mortal!"); break;
-							case 1: from.Say("I will summon your gore to crawl these halls!"); break;
-							case 2: from.Say("Your life only feeds my own!"); break;
-							case 3: from.Say("Let this be your final battle!"); break;
-							case 4: from.Say("Your blood sings to me of weakness!"); break;
-							case 5: from.Say("I am the crimson throne incarnate!"); break;
-							case 6: from.Say("Every drop spilled is an offering to me!"); break;
-							case 7: from.Say("Mortal flesh is but clay in my hands!"); break;
-							case 8: from.Say("I have drunk from the veins of thousands!"); break;
-							case 9: from.Say("Your lineage ends here, in a pool of red!"); break;
-							case 10: from.Say("Kneel before the master of the sanguine arts!"); break;
-							case 11: from.Say("I shall paint these walls with your essence!"); break;
-							case 12: from.Say("Divine ichor flows through me... what flows through you?"); break;
-							case 13: from.Say("Your heartbeat is a countdown to oblivion!"); break;
+							case 0: from.Say("Tolo mortal!"); break;
+							case 1: from.Say("Convocarei sua carne para rastejar por estes salões!"); break;
+							case 2: from.Say("Sua vida só alimenta a minha!"); break;
+							case 3: from.Say("Que esta seja sua batalha final!"); break;
+							case 4: from.Say("Seu sangue me canta sobre fraqueza!"); break;
+							case 5: from.Say("Sou o trono carmesim encarnado!"); break;
+							case 6: from.Say("Cada gota derramada é uma oferenda a mim!"); break;
+							case 7: from.Say("Carne mortal é apenas barro em minhas mãos!"); break;
+							case 8: from.Say("Bebi das veias de milhares!"); break;
+							case 9: from.Say("Sua linhagem termina aqui, em uma poça de vermelho!"); break;
+							case 10: from.Say("Ajoelhe-se diante do mestre das artes sanguíneas!"); break;
+							case 11: from.Say("Pintarei estas paredes com sua essência!"); break;
+							case 12: from.Say("Icor divino flui através de mim... o que flui através de você?"); break;
+							case 13: from.Say("Sua batida cardíaca é uma contagem regressiva para o esquecimento!"); break;
 						};
 					}
 					else if ( from is Balron 
@@ -4811,152 +4811,152 @@ namespace Server.Misc
 							|| from is DaemonTemplate 
 							|| from is BloodDemon )
 					{
-						switch ( Utility.Random( 14 ))		   
+						switch ( Utility.Random( 14 ))           
 						{
-							case 0: from.Say("Your soul will be mine!"); break;
-							case 1: from.Say("I will use your corpse to feed my minions!"); break;
-							case 2: from.Say("Do you think you can slay one such as me?!"); break;
-							case 3: from.Say("I look forward to torturing your soul, " + m.Name + "!"); break;
-							case 4: from.Say("The Abyss hungers for your essence!"); break;
-							case 5: from.Say("Your suffering shall echo through eternity!"); break;
-							case 6: from.Say("Kneel before me!"); break;
-							case 7: from.Say("Hell's gates open wide to receive you, " + m.Name + "!"); break;
-							case 8: from.Say("Your screams will be music in the infernal halls!"); break;
-							case 9: from.Say("Darkness incarnate stands before you!"); break;
-							case 10: from.Say("I shall savor every moment of your damnation!"); break;
-							case 11: from.Say("Your paltry weapons cannot harm one born of fire!"); break;
-							case 12: from.Say("Don't beg for mercy, for there is none!"); break;
-							case 13: from.Say("The pact is sealed in blood... yours!"); break;
+							case 0: from.Say("Sua alma será minha!"); break;
+							case 1: from.Say("Usarei seu cadáver para alimentar meus lacaios!"); break;
+							case 2: from.Say("Você acha que pode abater alguém como eu?!"); break;
+							case 3: from.Say("Estou ansioso para torturar sua alma, " + m.Name + "!"); break;
+							case 4: from.Say("O Abismo anseia por sua essência!"); break;
+							case 5: from.Say("Seu sofrimento ecoará pela eternidade!"); break;
+							case 6: from.Say("Ajoelhe-se diante de mim!"); break;
+							case 7: from.Say("Os portões do Inferno se abrem para recebê-lo, " + m.Name + "!"); break;
+							case 8: from.Say("Seus gritos serão música nos salões infernais!"); break;
+							case 9: from.Say("A escuridão encarnada está diante de você!"); break;
+							case 10: from.Say("Saborearei cada momento da sua danação!"); break;
+							case 11: from.Say("Suas armas insignificantes não podem ferir alguém nascido do fogo!"); break;
+							case 12: from.Say("Não implore por misericórdia, pois não há nenhuma!"); break;
+							case 13: from.Say("O pacto é selado em sangue... no seu!"); break;
 						};
 					}
 					else if ( from is DeepSeaDevil || from is DemonOfTheSea )
 					{
-						switch ( Utility.Random( 14 ))		   
+						switch ( Utility.Random( 14 ))           
 						{
-							case 0: from.Say("Your soul will soon be one with the deep!"); break;
-							case 1: from.Say("You dare face the power of the sea?!"); break;
-							case 2: from.Say("Are you ready to serve me in the depths, " + m.Name + "?!"); break;
-							case 3: from.Say("I will drag your corpse into the sea!"); break;
-							case 4: from.Say("The abyss below calls your name!"); break;
-							case 5: from.Say("Your lungs will fill with the cold embrace of the deep!"); break;
-							case 6: from.Say("I am the nightmare that lurks beneath the waves!"); break;
-							case 7: from.Say("The ocean's fury flows through my veins!"); break;
-							case 8: from.Say("Drown in darkness, mortal fool!"); break;
-							case 9: from.Say("Your bones will rest with countless others on the seabed!"); break;
-							case 10: from.Say("The tide of your life ebbs away!"); break;
-							case 11: from.Say("From the crushing depths I rise to claim you!"); break;
-							case 12: from.Say("No ship, no shore, no salvation for you, " + m.Name + "!"); break;
-							case 13: from.Say("The leviathans below await their feast!"); break;
+							case 0: from.Say("Sua alma logo será uma com as profundezas!"); break;
+							case 1: from.Say("Você ousa enfrentar o poder do mar?!"); break;
+							case 2: from.Say("Você está pronto para me servir nas profundezas, " + m.Name + "?!"); break;
+							case 3: from.Say("Arrastarei seu cadáver para o mar!"); break;
+							case 4: from.Say("O abismo abaixo chama seu nome!"); break;
+							case 5: from.Say("Seus pulmões se encherão com o abraço frio das profundezas!"); break;
+							case 6: from.Say("Sou o pesadelo que espreita sob as ondas!"); break;
+							case 7: from.Say("A fúria do oceano flui em minhas veias!"); break;
+							case 8: from.Say("Afogue-se na escuridão, tolo mortal!"); break;
+							case 9: from.Say("Seus ossos descansarão com inúmeros outros no leito marinho!"); break;
+							case 10: from.Say("A maré da sua vida se esvai!"); break;
+							case 11: from.Say("Das profundezas esmagadoras, ergo-me para reivindicá-lo!"); break;
+							case 12: from.Say("Sem navio, sem costa, sem salvação para você, " + m.Name + "!"); break;
+							case 13: from.Say("Os leviatãs abaixo aguardam seu banquete!"); break;
 						};
 					}
 					else if ( from is IceDevil )
 					{
-						switch ( Utility.Random( 14 ))		   
+						switch ( Utility.Random( 14 ))           
 						{
-							case 0: from.Say("Your soul will soon be encased in ice!"); break;
-							case 1: from.Say("You dare face my glacial power?!"); break;
-							case 2: from.Say("Are your bones cold yet, " + m.Name + "?!"); break;
-							case 3: from.Say("I will freeze your blood and shatter your soul!"); break;
-							case 4: from.Say("Feel the eternal winter's embrace!"); break;
-							case 5: from.Say("Your warmth fades with every heartbeat!"); break;
-							case 6: from.Say("I shall preserve your agony in ice for eternity!"); break;
-							case 7: from.Say("The frozen hells have no mercy for you!"); break;
-							case 8: from.Say("Your screams will crystallize in the frigid air!"); break;
-							case 9: from.Say("Frost and fury converge upon you, mortal!"); break;
-							case 10: from.Say("Even your thoughts will freeze before the end!"); break;
-							case 11: from.Say("The blizzard of damnation descends!"); break;
-							case 12: from.Say("Your flesh turns brittle... soon it will shatter!"); break;
-							case 13: from.Say("I am the cold that extinguishes all life!"); break;
+							case 0: from.Say("Sua alma logo será envolta em gelo!"); break;
+							case 1: from.Say("Você ousa enfrentar meu poder glacial?!"); break;
+							case 2: from.Say("Seus ossos já estão frios, " + m.Name + "?!"); break;
+							case 3: from.Say("Congelarei seu sangue e estilhaçarei sua alma!"); break;
+							case 4: from.Say("Sinta o abraço do inverno eterno!"); break;
+							case 5: from.Say("Seu calor desaparece a cada batida do coração!"); break;
+							case 6: from.Say("Preservarei sua agonia no gelo pela eternidade!"); break;
+							case 7: from.Say("Os infernos congelados não têm misericórdia por você!"); break;
+							case 8: from.Say("Seus gritos cristalizarão no ar frio!"); break;
+							case 9: from.Say("Gelo e fúria convergem sobre você, mortal!"); break;
+							case 10: from.Say("Até seus pensamentos congelarão antes do fim!"); break;
+							case 11: from.Say("A nevasca da danação desce!"); break;
+							case 12: from.Say("Sua carne fica quebradiça... logo se estilhaçará!"); break;
+							case 13: from.Say("Sou o frio que extingue toda a vida!"); break;
 						};
 					}
 					else if ( from is Succubus )
 					{
-						switch ( Utility.Random( 14 ))		   
+						switch ( Utility.Random( 14 ))           
 						{
-							case 0: from.Say("Your blood smells sweet!"); break;
-							case 1: from.Say("Are you ready to give yourself to me?!"); break;
-							case 2: from.Say("Your life only feeds my own!"); break;
-							case 3: from.Say("You will make me young again, " + m.Name + "!"); break;
-							case 4: from.Say("I can hear your pulse quickening with fear!"); break;
-							case 5: from.Say("Such passion... it will be mine!"); break;
-							case 6: from.Say("Every drop of your essence strengthens me!"); break;
-							case 7: from.Say("I shall make of you an effigy to the power of hell!"); break;
-							case 8: from.Say("Your warmth will sustain my cold immortality!"); break;
-							case 9: from.Say("I hunger for what courses through your veins!"); break;
-							case 10: from.Say("You cannot imagine how many lifetimes I have stolen!"); break;
-							case 11: from.Say("Feel yourself growing weaker as I grow stronger!"); break;
-							case 12: from.Say("The taste of terror makes the blood so much sweeter!"); break;
-							case 13: from.Say("Your youth, your vigor... all mine to consume!"); break;
+							case 0: from.Say("Seu sangue tem um cheiro doce!"); break;
+							case 1: from.Say("Você está pronto para se entregar a mim?!"); break;
+							case 2: from.Say("Sua vida só alimenta a minha!"); break;
+							case 3: from.Say("Você me fará jovem novamente, " + m.Name + "!"); break;
+							case 4: from.Say("Posso ouvir seu pulso acelerar de medo!"); break;
+							case 5: from.Say("Tal paixão... será minha!"); break;
+							case 6: from.Say("Cada gota da sua essência me fortalece!"); break;
+							case 7: from.Say("Farei de você uma efígie do poder do inferno!"); break;
+							case 8: from.Say("Seu calor sustentará minha fria imortalidade!"); break;
+							case 9: from.Say("Anseio pelo que corre em suas veias!"); break;
+							case 10: from.Say("Você não pode imaginar quantas vidas roubei!"); break;
+							case 11: from.Say("Sinta-se enfraquecendo enquanto eu fico mais forte!"); break;
+							case 12: from.Say("O gosto do terror torna o sangue muito mais doce!"); break;
+							case 13: from.Say("Sua juventude, seu vigor... tudo meu para consumir!"); break;
 						};
 					}
 					else if ( from is Satan )
 					{
-						switch ( Utility.Random( 4 ))		   
+						switch ( Utility.Random( 4 ))           
 						{
-							case 0: from.Say("Your soul will serve me well!"); break;
-							case 1: from.Say("I will break a spirit such as yours!"); break;
-							case 2: from.Say("Do you feel the power of hell on you?!"); break;
-							case 3: from.Say("Your soul will be mine, " + m.Name + "!"); break;
+							case 0: from.Say("Sua alma me servirá bem!"); break;
+							case 1: from.Say("Quebrarei um espírito como o seu!"); break;
+							case 2: from.Say("Você sente o poder do inferno sobre você?!"); break;
+							case 3: from.Say("Sua alma será minha, " + m.Name + "!"); break;
 						};
 					}
 					else if ( from is VampiricDragon )
 					{
-						switch ( Utility.Random( 14 ))		   
+						switch ( Utility.Random( 14 ))           
 						{
-							case 0: from.Say("I will drain every breath of life from you!"); break;
-							case 1: from.Say("I can smell the blood from your wounds!"); break;
-							case 2: from.Say("Fool...I cannot kill what is dead?!"); break;
-							case 3: from.Say("Your corpse will rise and serve me, " + m.Name + "!"); break;
-							case 4: from.Say("Ancient and eternal, I have feasted on countless souls!"); break;
-							case 5: from.Say("Your blood will fuel my dark ascension!"); break;
-							case 6: from.Say("I am wyrm and vampire both... your doom is absolute!"); break;
-							case 7: from.Say("The curse of undeath makes me unstoppable!"); break;
-							case 8: from.Say("Tremble before the shadow of my wings!"); break;
-							case 9: from.Say("I have drunk the life from dragons greater than you!"); break;
-							case 10: from.Say("Your vitality is but a fleeting meal for one such as I!"); break;
-							case 11: from.Say("Death could not claim me... what hope have you?"); break;
-							case 12: from.Say("I shall gorge myself on your terror and your blood!"); break;
-							case 13: from.Say("Join my legion of thralls, " + m.Name + ", willingly or not!"); break;
+							case 0: from.Say("Drenarei cada sopro de vida de você!"); break;
+							case 1: from.Say("Posso sentir o cheiro do sangue de seus ferimentos!"); break;
+							case 2: from.Say("Tolo...não posso matar o que está morto?!"); break;
+							case 3: from.Say("Seu cadáver se levantará e me servirá, " + m.Name + "!"); break;
+							case 4: from.Say("Antigo e eterno, banqueteei-me com inúmeras almas!"); break;
+							case 5: from.Say("Seu sangue alimentará minha escura ascensão!"); break;
+							case 6: from.Say("Sou verme e vampiro... sua perdição é absoluta!"); break;
+							case 7: from.Say("A maldição da não-morte me torna imparável!"); break;
+							case 8: from.Say("Trema diante da sombra das minhas asas!"); break;
+							case 9: from.Say("Bebi a vida de dragões maiores que você!"); break;
+							case 10: from.Say("Sua vitalidade é apenas uma refeição passageira para alguém como eu!"); break;
+							case 11: from.Say("A morte não pôde me reivindicar... que esperança você tem?"); break;
+							case 12: from.Say("Empanturrar-me-ei do seu terror e do seu sangue!"); break;
+							case 13: from.Say("Junte-se à minha legião de escravos, " + m.Name + ", de bom grado ou não!"); break;
 						};
 					}
 					else if ( from is ShadowWyrm )
 					{
-						switch ( Utility.Random( 14 ))		   
+						switch ( Utility.Random( 14 ))           
 						{
-							case 0: from.Say("I will take you from the light!"); break;
-							case 1: from.Say("I can feel the darkness filling you!"); break;
-							case 2: from.Say("Fool...you can never bring me to the light!"); break;
-							case 3: from.Say("Your life will end in darkness, " + m.Name + "!"); break;
-							case 4: from.Say("The shadows obey only me!"); break;
-							case 5: from.Say("I am the eclipse that swallows all hope!"); break;
-							case 6: from.Say("Your light flickers and fades before my presence!"); break;
-							case 7: from.Say("Born of darkness, I am the void given form!"); break;
-							case 8: from.Say("The night itself bends to my will!"); break;
-							case 9: from.Say("I shall smother your flame in endless shadow!"); break;
-							case 10: from.Say("Darkness eternal awaits you, mortal!"); break;
-							case 11: from.Say("You cannot strike what you cannot see!"); break;
-							case 12: from.Say("I dwell where light fears to tread!"); break;
-							case 13: from.Say("Your final vision will be my eyes gleaming in the dark!"); break;
+							case 0: from.Say("Vou tirá-lo da luz!"); break;
+							case 1: from.Say("Posso sentir a escuridão preenchendo você!"); break;
+							case 2: from.Say("Tolo...você nunca pode me trazer para a luz!"); break;
+							case 3: from.Say("Sua vida terminará na escuridão, " + m.Name + "!"); break;
+							case 4: from.Say("As sombras obedecem apenas a mim!"); break;
+							case 5: from.Say("Sou o eclipse que engole toda esperança!"); break;
+							case 6: from.Say("Sua luz bruxuleia e desaparece diante da minha presença!"); break;
+							case 7: from.Say("Nascido da escuridão, sou o vazio tornado forma!"); break;
+							case 8: from.Say("A própria noite se curva à minha vontade!"); break;
+							case 9: from.Say("Sufocarei sua chama em sombra infinita!"); break;
+							case 10: from.Say("Escuridão eterna o aguarda, mortal!"); break;
+							case 11: from.Say("Você não pode acertar o que não pode ver!"); break;
+							case 12: from.Say("Habit onde a luz teme pisar!"); break;
+							case 13: from.Say("Sua visão final serão meus olhos brilhando no escuro!"); break;
 						};
 					}
 					else if ( from is AshDragon || from is VolcanicDragon )
 					{
-						switch ( Utility.Random( 14 ))		   
+						switch ( Utility.Random( 14 ))           
 						{
-							case 0: from.Say("I will leave your corpse as ashes!"); break;
-							case 1: from.Say("I can smell your burning flesh!"); break;
-							case 2: from.Say("Fool...you cannot survive the flames!"); break;
-							case 3: from.Say("Cinders will be all that is left of you, " + m.Name + "!"); break;
-							case 4: from.Say("The fury of a thousand volcanoes courses through me!"); break;
-							case 5: from.Say("Your bones will crumble to dust in my fire!"); break;
-							case 6: from.Say("I am the living inferno that consumes all!"); break;
-							case 7: from.Say("Even your armor will melt before my wrath!"); break;
-							case 8: from.Say("Born in fire, I shall return you to flame!"); break;
-							case 9: from.Say("The heat of my breath turns stone to slag!"); break;
-							case 10: from.Say("Your screams will be lost in the roar of my flames!"); break;
-							case 11: from.Say("I have reduced kingdoms to ash and cinder!"); break;
-							case 12: from.Say("Feel the searing embrace of volcanic fury!"); break;
-							case 13: from.Say("Nothing remains when the firestorm passes, " + m.Name + "!"); break;
+							case 0: from.Say("Deixarei seu cadáver em cinzas!"); break;
+							case 1: from.Say("Posso sentir o cheiro da sua carne queimando!"); break;
+							case 2: from.Say("Tolo...você não pode sobreviver às chamas!"); break;
+							case 3: from.Say("Brasas será tudo o que restará de você, " + m.Name + "!"); break;
+							case 4: from.Say("A fúria de mil vulcões corre através de mim!"); break;
+							case 5: from.Say("Seus ossos se desfarão em pó no meu fogo!"); break;
+							case 6: from.Say("Sou o inferno vivo que consome tudo!"); break;
+							case 7: from.Say("Até sua armadura derreterá diante da minha ira!"); break;
+							case 8: from.Say("Nascido no fogo, eu o devolverei à chama!"); break;
+							case 9: from.Say("O calor da minha respiração transforma pedra em escória!"); break;
+							case 10: from.Say("Seus gritos se perderão no rugido das minhas chamas!"); break;
+							case 11: from.Say("Reduzi reinos a cinzas e brasas!"); break;
+							case 12: from.Say("Sinta o abrasador abraço da fúria vulcânica!"); break;
+							case 13: from.Say("Nada resta quando a tempestade de fogo passa, " + m.Name + "!"); break;
 						};
 					}
 					else if ( from is BottleDragon
@@ -4983,22 +4983,22 @@ namespace Server.Misc
 						 || from is PrimevalVolcanicDragon
 						 || from is AncientWyrm )
 					{
-						switch ( Utility.Random( 14 ))		   
+						switch ( Utility.Random( 14 ))           
 						{
-							case 0: from.Say("I have slain those mightier than you, " + m.Name + "!"); break;
-							case 1: from.Say("You will make me an excellent meal!"); break;
-							case 2: from.Say("Many have died trying to take what is mine!"); break;
-							case 3: from.Say("I will swallow you whole, " + m.Name + "!"); break;
-							case 4: from.Say("I am older than your civilization, mortal!"); break;
-							case 5: from.Say("Legends speak of my wrath for good reason!"); break;
-							case 6: from.Say("Your weapons are but toys to one such as I!"); break;
-							case 7: from.Say("I have witnessed empires rise and fall to dust!"); break;
-							case 8: from.Say("Kneel before true draconic might!"); break;
-							case 9: from.Say("Your ancestors knew to fear my kind!"); break;
-							case 10: from.Say("I am apex predator... you are merely prey!"); break;
-							case 11: from.Say("My hoard shall be enriched by your plunder!"); break;
-							case 12: from.Say("You dare challenge a wyrm of the ancient world?!"); break;
-							case 13: from.Say("I have broken heroes and shattered armies, " + m.Name + "!"); break;
+							case 0: from.Say("Já abati aqueles mais poderosos que você, " + m.Name + "!"); break;
+							case 1: from.Say("Você me dará uma excelente refeição!"); break;
+							case 2: from.Say("Muitos morreram tentando tomar o que é meu!"); break;
+							case 3: from.Say("Engolirei você inteiro, " + m.Name + "!"); break;
+							case 4: from.Say("Sou mais velho que sua civilização, mortal!"); break;
+							case 5: from.Say("Lendas falam da minha ira por uma boa razão!"); break;
+							case 6: from.Say("Suas armas são meros brinquedos para alguém como eu!"); break;
+							case 7: from.Say("Testemunhei impérios ascenderem e virarem pó!"); break;
+							case 8: from.Say("Ajoelhe-se diante do verdadeiro poder dracônico!"); break;
+							case 9: from.Say("Seus ancestrais sabiam temer minha espécie!"); break;
+							case 10: from.Say("Sou o predador alfa... você é mera presa!"); break;
+							case 11: from.Say("Meu tesouro será enriquecido com seu espólio!"); break;
+							case 12: from.Say("Você ousa desafiar um dragão do mundo antigo?!"); break;
+							case 13: from.Say("Já quebrei heróis e despedacei exércitos, " + m.Name + "!"); break;
 						};
 					}
 					else if ( from is FireGargoyle
@@ -5029,22 +5029,22 @@ namespace Server.Misc
 					}
 					else if ( from is ZornTheBlacksmith )
 					{
-						switch ( Utility.Random( 4 ))		   
+						switch ( Utility.Random( 4 ))           
 						{
-							case 0: from.Say("You will never have the secrets of the ore!"); break;
-							case 1: from.Say("You should leave before I crush you!"); break;
-							case 2: from.Say("Feel the power of my hammer!"); break;
-							case 3: from.Say("I will tell all on how I crushed " + m.Name + "!"); break;
+							case 0: from.Say("Você nunca terá os segredos do minério!"); break;
+							case 1: from.Say("Você deveria ir embora antes que eu o esmague!"); break;
+							case 2: from.Say("Sinta o poder do meu martelo!"); break;
+							case 3: from.Say("Contarei a todos como esmaguei " + m.Name + "!"); break;
 						};
 					}
 					else if ( from is OrkDemigod )
 					{
-						switch ( Utility.Random( 4 ))		   
+						switch ( Utility.Random( 4 ))           
 						{
-							case 0: from.Say("Kneel before me you puny creature!"); break;
-							case 1: from.Say("Feel the might of the orks!"); break;
-							case 2: from.Say("I will become your new god, " + m.Name + "!"); break;
-							case 3: from.Say("I have slain those more powerful than you!"); break;
+							case 0: from.Say("Ajoelhe-se diante de mim, criatura insignificante!"); break;
+							case 1: from.Say("Sinta o poder dos orcs!"); break;
+							case 2: from.Say("Eu me tornarei seu novo deus, " + m.Name + "!"); break;
+							case 3: from.Say("Já abati aqueles mais poderosos que você!"); break;
 						};
 					}
 					else if ( from is TrollWitchDoctor
@@ -5055,29 +5055,29 @@ namespace Server.Misc
 						 || from is FrostTroll )
 					{
 						string organ = "spleen";
-						switch ( Utility.Random( 4 ))		   
+						switch ( Utility.Random( 4 ))           
 						{
-							case 0: organ = "spleen"; break;
-							case 1: organ = "heart"; break;
-							case 2: organ = "liver"; break;
-							case 3: organ = "guts"; break;
+							case 0: organ = "baço"; break;
+							case 1: organ = "coração"; break;
+							case 2: organ = "fígado"; break;
+							case 3: organ = "entranhas"; break;
 						};
-						switch ( Utility.Random( 14 ))		   
+						switch ( Utility.Random( 14 ))           
 						{
-							case 0: from.Say("Me will be eating your " + organ + " me thinks!"); break;
-							case 1: from.Say("Me see you living no longer!"); break;
-							case 2: from.Say("You will be dead by me hand!"); break;
-							case 3: from.Say("Me will be feasting on your bones soon!"); break;
-							case 4: from.Say("Me crush you into paste!"); break;
-							case 5: from.Say("Your " + organ + " will taste good in me belly!"); break;
-							case 6: from.Say("Me been hungry for long time, " + m.Name + "!"); break;
-							case 7: from.Say("You too small to fight me!"); break;
-							case 8: from.Say("Me club will smash your skull flat!"); break;
-							case 9: from.Say("Me stronger than you puny thing!"); break;
-							case 10: from.Say("Your meat will feed me for days!"); break;
-							case 11: from.Say("Me save your bones for picking later!"); break;
-							case 12: from.Say("You no run fast enough from me!"); break;
-							case 13: from.Say("Me show you what real strength be!"); break;
+							case 0: from.Say("Eu vai comer seu " + organ + ", eu acho!"); break;
+							case 1: from.Say("Eu ver você não viver mais!"); break;
+							case 2: from.Say("Você vai morrer pela minha mão!"); break;
+							case 3: from.Say("Eu vai banquetear com seus ossos logo!"); break;
+							case 4: from.Say("Eu esmagar você virar pasta!"); break;
+							case 5: from.Say("Seu " + organ + " vai ficar bom na minha barriga!"); break;
+							case 6: from.Say("Eu tava com fome há muito tempo, " + m.Name + "!"); break;
+							case 7: from.Say("Você muito pequeno pra lutar comigo!"); break;
+							case 8: from.Say("Meu porrete vai esmagar seu crânio!"); break;
+							case 9: from.Say("Eu mais forte que você coisinha!"); break;
+							case 10: from.Say("Sua carne vai me alimentar por dias!"); break;
+							case 11: from.Say("Eu guardar seus ossos pra roer depois!"); break;
+							case 12: from.Say("Você não correr rápido o bastante de mim!"); break;
+							case 13: from.Say("Eu mostrar pra você o que é força de verdade!"); break;
 						};
 					}
 					else if ( from is AncientEttin
@@ -5085,22 +5085,22 @@ namespace Server.Misc
 						 || from is Ettin
 						 || from is ArcticEttin )
 					{
-						switch ( Utility.Random( 14 ))		   
+						switch ( Utility.Random( 14 ))           
 						{
-							case 0: from.Say("I smash you to pulp!"); break;
-							case 1: from.Say("I will smash you into dirt!"); break;
-							case 2: from.Say("You will make great feast for us!"); break;
-							case 3: from.Say("You leave our land now!"); break;
-							case 4: from.Say("Two heads better at crushing than one!"); break;
-							case 5: from.Say("We both agree... you die now!"); break;
-							case 6: from.Say("Your bones will crack under our club!"); break;
-							case 7: from.Say("We hungry and you tasty!"); break;
-							case 8: from.Say("This our territory, you trespasser!"); break;
-							case 9: from.Say("We stomp you flat into ground!"); break;
-							case 10: from.Say("Two heads see you... nowhere to hide!"); break;
-							case 11: from.Say("We stronger than any puny human!"); break;
-							case 12: from.Say("You should have run when you had chance!"); break;
-							case 13: from.Say("We bash you good, " + m.Name + "!"); break;
+							case 0: from.Say("Eu esmagar você virar polpa!"); break;
+							case 1: from.Say("Vou esmagar você na terra!"); break;
+							case 2: from.Say("Você vai dar ótimo banquete pra nós!"); break;
+							case 3: from.Say("Você sair da nossa terra agora!"); break;
+							case 4: from.Say("Duas cabeças melhor pra esmagar que uma!"); break;
+							case 5: from.Say("Nós dois concordar... você morrer agora!"); break;
+							case 6: from.Say("Seus ossos quebrar sob nosso porrete!"); break;
+							case 7: from.Say("Nós com fome e você gostoso!"); break;
+							case 8: from.Say("Isso nosso território, invasor!"); break;
+							case 9: from.Say("Nós pisar você chão!"); break;
+							case 10: from.Say("Duas cabeças ver você... sem lugar pra se esconder!"); break;
+							case 11: from.Say("Nós mais forte que qualquer humano fraco!"); break;
+							case 12: from.Say("Você devia ter corrido quando teve chance!"); break;
+							case 13: from.Say("Nós bater em você, " + m.Name + "!"); break;
 						};
 					}
 					else if ( from is Titan
@@ -5108,22 +5108,22 @@ namespace Server.Misc
 						 || from is CloudGiant
 						 || from is StormGiant )
 					{
-						switch ( Utility.Random( 14 ))		   
+						switch ( Utility.Random( 14 ))           
 						{
-							case 0: from.Say("Feel the wrath of the storm!"); break;
-							case 1: from.Say("I unleash the storms on you!"); break;
-							case 2: from.Say("This will be your final battle, " + m.Name + "!"); break;
-							case 3: from.Say("You think you can defeat me?!"); break;
-							case 4: from.Say("The fury of the heavens descends upon you!"); break;
-							case 5: from.Say("I am ancient power incarnate!"); break;
-							case 6: from.Say("Thunder and lightning are my weapons!"); break;
-							case 7: from.Say("Mortals are but insects beneath my heel!"); break;
-							case 8: from.Say("The clouds themselves obey my command!"); break;
-							case 9: from.Say("I have toppled mountains and sundered armies!"); break;
-							case 10: from.Say("You dare challenge one who walks among the clouds?!"); break;
-							case 11: from.Say("The tempest answers only to me!"); break;
-							case 12: from.Say("Your courage is admirable... but futile!"); break;
-							case 13: from.Say("I shall scatter your ashes to the four winds!"); break;
+							case 0: from.Say("Sinta a ira da tempestade!"); break;
+							case 1: from.Say("Desencadeio as tempestades sobre você!"); break;
+							case 2: from.Say("Esta será sua batalha final, " + m.Name + "!"); break;
+							case 3: from.Say("Você acha que pode me derrotar?!"); break;
+							case 4: from.Say("A fúria dos céus desce sobre você!"); break;
+							case 5: from.Say("Sou o poder antigo encarnado!"); break;
+							case 6: from.Say("Trovão e relâmpago são minhas armas!"); break;
+							case 7: from.Say("Mortais são meros insetos sob meu calcanhar!"); break;
+							case 8: from.Say("As próprias nuvens obedecem ao meu comando!"); break;
+							case 9: from.Say("Derrubei montanhas e despedacei exércitos!"); break;
+							case 10: from.Say("Você ousa desafiar alguém que anda entre as nuvens?!"); break;
+							case 11: from.Say("A tempestade só responde a mim!"); break;
+							case 12: from.Say("Sua coragem é admirável... mas inútil!"); break;
+							case 13: from.Say("Espalharei suas cinzas aos quatro ventos!"); break;
 						};
 					}
 					else if ( from is Dragonogre
@@ -5138,91 +5138,90 @@ namespace Server.Misc
 						 || from is HillGiantShaman )
 					{
 						string organ = "arm";
-						switch ( Utility.Random( 4 ))		   
+						switch ( Utility.Random( 4 ))           
 						{
-							case 0: organ = "arms"; break;
-							case 1: organ = "legs"; break;
-							case 2: organ = "bones"; break;
-							case 3: organ = "corpse"; break;
+							case 0: organ = "braços"; break;
+							case 1: organ = "pernas"; break;
+							case 2: organ = "ossos"; break;
+							case 3: organ = "cadáver"; break;
 						};
-						switch ( Utility.Random( 14 ))		   
+						switch ( Utility.Random( 14 ))           
 						{
-							case 0: from.Say("Me hit, you die!"); break;
-							case 1: from.Say("You no match for me!"); break;
-							case 2: from.Say("Me make soup with your " + organ + "!"); break;
-							case 3: from.Say("You weak, me strong!"); break;
-							case 4: from.Say("Me break your " + organ + " like twigs!"); break;
-							case 5: from.Say("Me belly rumble for your meat!"); break;
-							case 6: from.Say("You run, me catch, you die!"); break;
-							case 7: from.Say("Me club bigger than you!"); break;
-							case 8: from.Say("Your " + organ + " look tasty to me!"); break;
-							case 9: from.Say("Me smash first, eat later!"); break;
-							case 10: from.Say("You make me angry, now you die!"); break;
-							case 11: from.Say("Me stronger, me win, you lose!"); break;
-							case 12: from.Say("Your screams make me laugh!"); break;
-							case 13: from.Say("Me use your " + organ + " as trophy, " + m.Name + "!"); break;
+							case 0: from.Say("Eu bater, você morrer!"); break;
+							case 1: from.Say("Você não combater comigo!"); break;
+							case 2: from.Say("Eu fazer sopa com seu " + organ + "!"); break;
+							case 3: from.Say("Você fraco, eu forte!"); break;
+							case 4: from.Say("Eu quebrar seu " + organ + " igual graveto!"); break;
+							case 5: from.Say("Minha barriga roncar pela sua carne!"); break;
+							case 6: from.Say("Você correr, eu pegar, você morrer!"); break;
+							case 7: from.Say("Meu porrete maior que você!"); break;
+							case 8: from.Say("Seu " + organ + " parecer gostoso pra mim!"); break;
+							case 9: from.Say("Eu esmagar primeiro, comer depois!"); break;
+							case 10: from.Say("Você deixar eu com raiva, agora você morrer!"); break;
+							case 11: from.Say("Eu mais forte, eu ganhar, você perder!"); break;
+							case 12: from.Say("Seus gritos fazer eu rir!"); break;
+							case 13: from.Say("Eu usar seu " + organ + " de troféu, " + m.Name + "!"); break;
 						};
 					}
 					else if ( from is IceGiant )
 					{
-						switch ( Utility.Random( 14 ))		   
+						switch ( Utility.Random( 14 ))           
 						{
-							case 0: from.Say("Feel the cold of glacial ice!"); break;
-							case 1: from.Say("You are nothing but an insect to me!"); break;
-							case 2: from.Say("" + m.Name + ", you dare face me!"); break;
-							case 3: from.Say("Your frozen corpse will decorate my halls!"); break;
-							case 4: from.Say("The frozen north has made me invincible!"); break;
-							case 5: from.Say("Your blood will freeze in your veins!"); break;
-							case 6: from.Say("I have crushed warriors far greater than you!"); break;
-							case 7: from.Say("The bitter cold is mine to command!"); break;
-							case 8: from.Say("Winter's fury flows through my veins!"); break;
-							case 9: from.Say("You will shatter like ice beneath my axe!"); break;
-							case 10: from.Say("I am the storm that buries kingdoms!"); break;
-							case 11: from.Say("Your warmth fades with every breath!"); break;
-							case 12: from.Say("The tundra claims all who challenge me!"); break;
-							case 13: from.Say("Frost and steel will be your doom, " + m.Name + "!"); break;
-							
+							case 0: from.Say("Sinta o frio do gelo glacial!"); break;
+							case 1: from.Say("Você não é nada além de um inseto para mim!"); break;
+							case 2: from.Say("" + m.Name + ", você ousa me enfrentar!"); break;
+							case 3: from.Say("Seu cadáver congelado decorará meus salões!"); break;
+							case 4: from.Say("O norte congelado me tornou invencível!"); break;
+							case 5: from.Say("Seu sangue congelará em suas veias!"); break;
+							case 6: from.Say("Esmaguei guerreiros muito maiores que você!"); break;
+							case 7: from.Say("O frio amargo é meu para comandar!"); break;
+							case 8: from.Say("A fúria do inverno flui em minhas veias!"); break;
+							case 9: from.Say("Você se estilhaçará como gelo sob meu machado!"); break;
+							case 10: from.Say("Sou a tempestade que enterra reinos!"); break;
+							case 11: from.Say("Seu calor desaparece a cada respiração!"); break;
+							case 12: from.Say("A tundra reivindica todos que me desafiam!"); break;
+							case 13: from.Say("Gelo e aço serão sua perdição, " + m.Name + "!"); break;
 						};
 					}
 					else if ( from is LavaGiant )
 					{
-						switch ( Utility.Random( 14 ))		   
+						switch ( Utility.Random( 14 ))           
 						{
-							case 0: from.Say("Feel the fires of volcanic might!"); break;
-							case 1: from.Say("You are nothing but an insect to me!"); break;
-							case 2: from.Say("" + m.Name + ", you dare face me!"); break;
-							case 3: from.Say("You will soon be nothing but ashes!"); break;
-							case 4: from.Say("The molten heart of the earth beats within me!"); break;
-							case 5: from.Say("Your flesh will melt from your bones!"); break;
-							case 6: from.Say("I am forged in fire and tempered by magma!"); break;
-							case 7: from.Say("The inferno bows to my command!"); break;
-							case 8: from.Say("Your weapons will run like water in my heat!"); break;
-							case 9: from.Say("I have bathed in rivers of lava!"); break;
-							case 10: from.Say("The volcano's rage courses through my veins!"); break;
-							case 11: from.Say("You will be reduced to cinders and slag!"); break;
-							case 12: from.Say("Stone itself melts before my fury!"); break;
-							case 13: from.Say("Burn in the fires of your folly, " + m.Name + "!"); break;
+							case 0: from.Say("Sinta os fogos do poder vulcânico!"); break;
+							case 1: from.Say("Você não é nada além de um inseto para mim!"); break;
+							case 2: from.Say("" + m.Name + ", você ousa me enfrentar!"); break;
+							case 3: from.Say("Em breve você não será nada além de cinzas!"); break;
+							case 4: from.Say("O coração derretido da terra bate dentro de mim!"); break;
+							case 5: from.Say("Sua carne derreterá de seus ossos!"); break;
+							case 6: from.Say("Sou forjado no fogo e temperado pelo magma!"); break;
+							case 7: from.Say("O inferno se curva ao meu comando!"); break;
+							case 8: from.Say("Suas armas escorrerão como água em meu calor!"); break;
+							case 9: from.Say("Banhei-me em rios de lava!"); break;
+							case 10: from.Say("A fúria do vulcão corre em minhas veias!"); break;
+							case 11: from.Say("Você será reduzido a cinzas e escória!"); break;
+							case 12: from.Say("A própria pedra derrete diante da minha fúria!"); break;
+							case 13: from.Say("Queime nos fogos da sua tolice, " + m.Name + "!"); break;
 						};
 					}
 					else if ( from is DeepSeaGiant
 						 || from is SeaGiant )
 					{
-						switch ( Utility.Random( 14 ))		   
+						switch ( Utility.Random( 14 ))           
 						{
-							case 0: from.Say("Feel the strength of the sea!"); break;
-							case 1: from.Say("You will soon will rot below the waves!"); break;
-							case 2: from.Say("" + m.Name + ", your bones will lie with the crabs!"); break;
-							case 3: from.Say("You are no match for the gods of the sea!"); break;
-							case 4: from.Say("The tides obey my call, mortal!"); break;
-							case 5: from.Say("I command the fury of a thousand storms!"); break;
-							case 6: from.Say("Your corpse will feed the denizens of the deep!"); break;
-							case 7: from.Say("The ocean's crushing weight flows through me!"); break;
-							case 8: from.Say("I have drowned fleets and toppled coastal kingdoms!"); break;
-							case 9: from.Say("The abyss hungers for you, " + m.Name + "!"); break;
-							case 10: from.Say("You cannot stand against the might of the waves!"); break;
-							case 11: from.Say("Your lungs will fill with salt water soon enough!"); break;
-							case 12: from.Say("I am born of the depths where pressure crushes all!"); break;
-							case 13: from.Say("The sea claims what it wants... and it wants your life!"); break;
+							case 0: from.Say("Sinta a força do mar!"); break;
+							case 1: from.Say("Em breve apodrecerá sob as ondas!"); break;
+							case 2: from.Say("" + m.Name + ", seus ossos jazerão com os caranguejos!"); break;
+							case 3: from.Say("Você não é páreo para os deuses do mar!"); break;
+							case 4: from.Say("As marés obedecem ao meu chamado, mortal!"); break;
+							case 5: from.Say("Comando a fúria de mil tempestades!"); break;
+							case 6: from.Say("Seu cadáver alimentará os habitantes das profundezas!"); break;
+							case 7: from.Say("O peso esmagador do oceano flui através de mim!"); break;
+							case 8: from.Say("Afoguei frotas e derrubei reinos costeiros!"); break;
+							case 9: from.Say("O abismo tem fome de você, " + m.Name + "!"); break;
+							case 10: from.Say("Você não pode resistir ao poder das ondas!"); break;
+							case 11: from.Say("Seus pulmões se encherão de água salgada em breve!"); break;
+							case 12: from.Say("Nasci das profundezas onde a pressão esmaga tudo!"); break;
+							case 13: from.Say("O mar reivindica o que quer... e quer sua vida!"); break;
 						};
 					}
 					else if ( from is MountainGiant
@@ -5238,22 +5237,22 @@ namespace Server.Misc
 						 || from is ShamanicCyclops
 						 || from is Cyclops )
 					{
-						switch ( Utility.Random( 14 ))		   
+						switch ( Utility.Random( 14 ))           
 						{
-							case 0: from.Say("My foot will be the last thing you see!"); break;
-							case 1: from.Say("I will crush you into the dirt!"); break;
-							case 2: from.Say("" + m.Name + ", you will die!"); break;
-							case 3: from.Say("I have defeated foes larger than you!"); break;
-							case 4: from.Say("You are but a gnat before my might!"); break;
-							case 5: from.Say("I will grind your bones to dust!"); break;
-							case 6: from.Say("Your puny weapons cannot pierce my hide!"); break;
-							case 7: from.Say("I have strided through these lands for centuries!"); break;
-							case 8: from.Say("One swing of my fist will end you, " + m.Name + "!"); break;
-							case 9: from.Say("You should have fled while you had the chance!"); break;
-							case 10: from.Say("I will stomp you flat like the insect you are!"); break;
-							case 11: from.Say("Your entire army could not bring me down!"); break;
-							case 12: from.Say("I am a mountain of muscle and fury!"); break;
-							case 13: from.Say("You dare challenge one of giant-kind?!"); break;
+							case 0: from.Say("Meu pé será a última coisa que você verá!"); break;
+							case 1: from.Say("Vou te esmagar na terra!"); break;
+							case 2: from.Say("" + m.Name + ", você vai morrer!"); break;
+							case 3: from.Say("Derrotei inimigos maiores que você!"); break;
+							case 4: from.Say("Você é apenas um mosquito diante do meu poder!"); break;
+							case 5: from.Say("Moidarei seus ossos até virarem pó!"); break;
+							case 6: from.Say("Suas armas insignificantes não podem perfurar minha pele!"); break;
+							case 7: from.Say("Percorri estas terras por séculos!"); break;
+							case 8: from.Say("Um golpe do meu punho vai te acabar, " + m.Name + "!"); break;
+							case 9: from.Say("Você devia ter fugido enquanto tinha chance!"); break;
+							case 10: from.Say("Vou te pisar como o inseto que você é!"); break;
+							case 11: from.Say("Seu exército inteiro não poderia me derrubar!"); break;
+							case 12: from.Say("Sou uma montanha de músculo e fúria!"); break;
+							case 13: from.Say("Você ousa desafiar um dos gigantes?!"); break;
 						};
 					}
 					else if ( from is TheAncientTree
@@ -5262,27 +5261,27 @@ namespace Server.Misc
 						 || from is AncientReaper
 						 || from is AncientEnt )
 					{
-						switch ( Utility.Random( 14 ))		   
+						switch ( Utility.Random( 14 ))           
 						{
-							case 0: from.Say("You...dare...fight...me?!"); break;
-							case 1: from.Say("I...will...dispatch...of...you!"); break;
-							case 2: from.Say("My...might...outweighs...yours!"); break;
-							case 3: from.Say("You...will...die...in...this...fight!"); break;
-							case 4: from.Say("You...will...not...fell...me!"); break;
-							case 5: from.Say("I...have...stood...for...centuries!"); break;
-							case 6: from.Say("The...forest...speaks...through...me!"); break;
-							case 7: from.Say("Your...haste...will...be...your...doom!"); break;
-							case 8: from.Say("I...am...older...than...your...kind!"); break;
-							case 9: from.Say("My...roots...run...deep...in...this...land!"); break;
-							case 10: from.Say("You...desecrate...my...domain...no...more!"); break;
-							case 11: from.Say("Wood...and...wrath...shall...crush...you!"); break;
-							case 12: from.Say("Time...means...nothing...to...the...ancient!"); break;
-							case 13: from.Say("Your...life...flickers...like...a...leaf, " + m.Name + "!"); break;
+							case 0: from.Say("Você...ousa...lutar...comigo?!"); break;
+							case 1: from.Say("Eu...vou...acabar...com...você!"); break;
+							case 2: from.Say("Meu...poder...supera...o...seu!"); break;
+							case 3: from.Say("Você...vai...morrer...nesta...luta!"); break;
+							case 4: from.Say("Você...não...vai...me...derrubar!"); break;
+							case 5: from.Say("Eu...estou...aqui...há...séculos!"); break;
+							case 6: from.Say("A...floresta...fala...através...de...mim!"); break;
+							case 7: from.Say("Sua...pressa...será...sua...perdição!"); break;
+							case 8: from.Say("Sou...mais...velho...que...sua...espécie!"); break;
+							case 9: from.Say("Minhas...raízes...são...profundas...nesta...terra!"); break;
+							case 10: from.Say("Você...profana...meu...domínio...não...mais!"); break;
+							case 11: from.Say("Madeira...e...fúria...vão...te...esmagar!"); break;
+							case 12: from.Say("Tempo...não...significa...nada...para...os...antigos!"); break;
+							case 13: from.Say("Sua...vida...vacila...como...uma...folha, " + m.Name + "!"); break;
 						};
 					}
 					else if ( from is SwampThing )
 					{
-						switch ( Utility.Random( 4 ))		   
+						switch ( Utility.Random( 4 ))           
 						{
 							case 0: from.Say("Gri Gril Gestroy Groo!"); break;
 							case 1: from.Say("Groo Gran Grever Gregreat Gre!"); break;
@@ -5292,33 +5291,33 @@ namespace Server.Misc
 					}
 					else if ( from is Beholder )
 					{
-						switch ( Utility.Random( 4 ))		   
+						switch ( Utility.Random( 4 ))           
 						{
-							case 0: from.Say("*blinks a red eye*"); break;
-							case 1: from.Say("*blinks a blue eye*"); break;
-							case 2: from.Say("*blinks a greed eye*"); break;
-							case 3: from.Say("*blinks a yellow eye*"); break;
+							case 0: from.Say("*pisca um olho vermelho*"); break;
+							case 1: from.Say("*pisca um olho azul*"); break;
+							case 2: from.Say("*pisca um olho verde*"); break;
+							case 3: from.Say("*pisca um olho amarelo*"); break;
 						};
 					}
 					else if ( from is Dracolich
 						 || from is SkeletalDragon )
 					{
-						switch ( Utility.Random( 14 ))		   
+						switch ( Utility.Random( 14 ))           
 						{
-							case 0: from.Say("Your soul will make an excellent meal!"); break;
-							case 1: from.Say("" + m.Name + ", do I frighten you?!"); break;
-							case 2: from.Say("I have destroyed armies of things like you!"); break;
-							case 3: from.Say("You dare invade my lair?!"); break;
-							case 4: from.Say("Death could not contain my power!"); break;
-							case 5: from.Say("I am immortal!"); break;
-							case 6: from.Say("My breath brings oblivion!"); break;
-							case 7: from.Say("I have transcended the weakness of flesh!"); break;
-							case 8: from.Say("Your essence will fuel my necromancy!"); break;
-							case 9: from.Say("I was ancient before I became eternal!"); break;
-							case 10: from.Say("Bone and magic are stronger than any mortal!"); break;
-							case 11: from.Say("You cannot kill what has already died, " + m.Name + "!"); break;
-							case 12: from.Say("I have feasted on souls for millennia!"); break;
-							case 13: from.Say("Your screams will echo in my bones forever!"); break;
+							case 0: from.Say("Sua alma dará uma excelente refeição!"); break;
+							case 1: from.Say("" + m.Name + ", eu te assusto?!"); break;
+							case 2: from.Say("Destruí exércitos de coisas como você!"); break;
+							case 3: from.Say("Você ousa invadir meu covil?!"); break;
+							case 4: from.Say("A morte não pôde conter meu poder!"); break;
+							case 5: from.Say("Sou imortal!"); break;
+							case 6: from.Say("Meu sopro traz o esquecimento!"); break;
+							case 7: from.Say("Transcendi a fraqueza da carne!"); break;
+							case 8: from.Say("Sua essência alimentará minha necromancia!"); break;
+							case 9: from.Say("Eu era antigo antes de me tornar eterno!"); break;
+							case 10: from.Say("Osso e magia são mais fortes que qualquer mortal!"); break;
+							case 11: from.Say("Não se pode matar o que já morreu, " + m.Name + "!"); break;
+							case 12: from.Say("Banqueteio-me com almas por milênios!"); break;
+							case 13: from.Say("Seus gritos ecoarão em meus ossos para sempre!"); break;
 						};
 					}
 					else if ( from is Vampire
@@ -5326,62 +5325,62 @@ namespace Server.Misc
 						 || from is VampirePrince
 						 || from is VampireWoods )
 					{
-						switch ( Utility.Random( 14 ))		   
+						switch ( Utility.Random( 14 ))           
 						{
-							case 0: from.Say("I can smell the blood from your wounds!"); break;
-							case 1: from.Say("Look into my eyes..."); break;
-							case 2: from.Say("Submit, and I will make it quick!"); break;
-							case 3: from.Say("You think I have not faced mortals like you?!"); break;
-							case 4: from.Say("Your pulse quickens... I can hear it!"); break;
-							case 5: from.Say("I have walked the night for centuries, " + m.Name + "!"); break;
-							case 6: from.Say("Such delicious fear coursing through your veins!"); break;
-							case 7: from.Say("You cannot endure my eternal hunger!"); break;
-							case 8: from.Say("I have drunk from kings and peasants alike!"); break;
-							case 9: from.Say("The darkness is my domain... and you are trespassing!"); break;
-							case 10: from.Say("Your warmth will sustain my cold immortality!"); break;
-							case 11: from.Say("I shall savor every drop of your essence!"); break;
-							case 12: from.Say("Struggle if you wish... it only makes the blood sweeter!"); break;
-							case 13: from.Say("Join me in undeath, or perish... the choice is yours!"); break;
+							case 0: from.Say("Posso sentir o cheiro do sangue de seus ferimentos!"); break;
+							case 1: from.Say("Olhe em meus olhos..."); break;
+							case 2: from.Say("Renda-se, e farei isso rápido!"); break;
+							case 3: from.Say("Você acha que não enfrentei mortais como você?!"); break;
+							case 4: from.Say("Seu pulso acelera... posso ouvi-lo!"); break;
+							case 5: from.Say("Andei na noite por séculos, " + m.Name + "!"); break;
+							case 6: from.Say("Que medo delicioso corre em suas veias!"); break;
+							case 7: from.Say("Você não pode suportar minha fome eterna!"); break;
+							case 8: from.Say("Bebi de reis e camponeses igualmente!"); break;
+							case 9: from.Say("A escuridão é meu domínio... e você está invadindo!"); break;
+							case 10: from.Say("Seu calor sustentará minha fria imortalidade!"); break;
+							case 11: from.Say("Saborearei cada gota da sua essência!"); break;
+							case 12: from.Say("Lute se quiser... só torna o sangue mais doce!"); break;
+							case 13: from.Say("Junte-se a mim na não-morte, ou pereça... a escolha é sua!"); break;
 						};
 					}
 					else if ( from is Dracula )
 					{
-						switch ( Utility.Random( 14 ))		   
+						switch ( Utility.Random( 14 ))           
 						{
-							case 0: from.Say("" + m.Name + ", your blood will fill my glass tonight!"); break;
-							case 1: from.Say("Look into my eyes, " + m.Name + "..."); break;
-							case 2: from.Say("Your blood will decorate these walls!"); break;
-							case 3: from.Say("You should be honored to be slain by me!"); break;
-							case 4: from.Say("I am the ancient darkness incarnate!"); break;
-							case 5: from.Say("Centuries of power flow through my veins!"); break;
-							case 6: from.Say("You face the lord of all vampires, mortal!"); break;
-							case 7: from.Say("Your ancestors trembled at my name!"); break;
-							case 8: from.Say("I have toppled kingdoms and consumed princes!"); break;
-							case 9: from.Say("The night itself bends to my will, " + m.Name + "!"); break;
-							case 10: from.Say("You are but another victim in an endless parade!"); break;
-							case 11: from.Say("I am nobility... you are merely cattle!"); break;
-							case 12: from.Say("Your fate was sealed the moment you entered my domain!"); break;
-							case 13: from.Say("Legends speak of my terror for good reason!"); break;
+							case 0: from.Say("" + m.Name + ", seu sangue encherá meu copo esta noite!"); break;
+							case 1: from.Say("Olhe em meus olhos, " + m.Name + "..."); break;
+							case 2: from.Say("Seu sangue decorará estas paredes!"); break;
+							case 3: from.Say("Deveria se honrado por ser abatido por mim!"); break;
+							case 4: from.Say("Sou a escuridão antiga encarnada!"); break;
+							case 5: from.Say("Séculos de poder fluem em minhas veias!"); break;
+							case 6: from.Say("Você enfrenta o senhor de todos os vampiros, mortal!"); break;
+							case 7: from.Say("Seus ancestrais tremiam com meu nome!"); break;
+							case 8: from.Say("Derrubei reinos e consumi príncipes!"); break;
+							case 9: from.Say("A própria noite se curva à minha vontade, " + m.Name + "!"); break;
+							case 10: from.Say("Você é apenas mais uma vítima em um desfile interminável!"); break;
+							case 11: from.Say("Sou nobreza... você é mero gado!"); break;
+							case 12: from.Say("Seu destino foi selado no momento em que entrou em meu domínio!"); break;
+							case 13: from.Say("Lendas falam do meu terror por uma boa razão!"); break;
 						};
 					}
 					else if ( from is Vordo )
 					{
-						switch ( Utility.Random( 14 ))		   
+						switch ( Utility.Random( 14 ))           
 						{
-							case 0: from.Say("" + m.Name + ", you will join!"); break;
-							case 1: from.Say("Look into my eyes, " + m.Name + "..."); break;
-							case 2: from.Say("Your blood will decorate these walls!"); break;
-							case 3: from.Say("You should be honored to be slain by me!"); break;
-							case 4: from.Say("I am the ancient darkness incarnate!"); break;
-							case 5: from.Say("Centuries of power flow through my veins!"); break;
-							case 6: from.Say("You face the lord of all vampires, mortal!"); break;
-							case 7: from.Say("Your ancestors trembled at my name!"); break;
-							case 8: from.Say("I have toppled kingdoms and consumed princes!"); break;
-							case 9: from.Say("The night itself bends to my will, " + m.Name + "!"); break;
-							case 10: from.Say("You are but another victim in an endless parade!"); break;
-							case 11: from.Say("I am nobility... you are merely cattle!"); break;
-							case 12: from.Say("Your fate was sealed the moment you entered my domain!"); break;
-							case 13: from.Say("Legends speak of my terror for good reason!"); break;
+							case 0: from.Say("" + m.Name + ", você se juntará!"); break;
+							case 1: from.Say("Olhe em meus olhos, " + m.Name + "..."); break;
+							case 2: from.Say("Seu sangue decorará estas paredes!"); break;
+							case 3: from.Say("Deveria se honrado por ser abatido por mim!"); break;
+							case 4: from.Say("Sou a escuridão antiga encarnada!"); break;
+							case 5: from.Say("Séculos de poder fluem em minhas veias!"); break;
+							case 6: from.Say("Você enfrenta o senhor de todos os vampiros, mortal!"); break;
+							case 7: from.Say("Seus ancestrais tremiam com meu nome!"); break;
+							case 8: from.Say("Derrubei reinos e consumi príncipes!"); break;
+							case 9: from.Say("A própria noite se curva à minha vontade, " + m.Name + "!"); break;
+							case 10: from.Say("Você é apenas mais uma vítima em um desfile interminável!"); break;
+							case 11: from.Say("Sou nobreza... você é mero gado!"); break;
+							case 12: from.Say("Seu destino foi selado no momento em que entrou em meu domínio!"); break;
+							case 13: from.Say("Lendas falam do meu terror por uma boa razão!"); break;
 						};
 					}
 					else if ( from is AncientLich
@@ -5395,82 +5394,82 @@ namespace Server.Misc
 						 || from is UndeadDruid
 						 || from is DemiLich )
 					{
-						switch ( Utility.Random( 14 ))		   
+						switch ( Utility.Random( 14 ))           
 						{
-							case 0: from.Say("Feel the power of " + from.Name + "!"); break;
-							case 1: from.Say("I will have a place for the bones of " + m.Name + "!"); break;
-							case 2: from.Say("" + m.Name + ", you are a fool to face me!"); break;
-							case 3: from.Say("My magic will decimate you!"); break;
-							case 4: from.Say("I have transcended death itself!"); break;
-							case 5: from.Say("Centuries of forbidden knowledge are mine to command!"); break;
-							case 6: from.Say("Your soul will fuel my dark rituals, " + m.Name + "!"); break;
-							case 7: from.Say("I have forgotten more magic than you will ever know!"); break;
-							case 8: from.Say("The living are but playthings for the eternal!"); break;
-							case 9: from.Say("My phylactery ensures I can never truly die!"); break;
-							case 10: from.Say("You face a master of the necromantic arts!"); break;
-							case 11: from.Say("Death is not the end... it is my beginning!"); break;
-							case 12: from.Say("I have unraveled the secrets of immortality!"); break;
-							case 13: from.Say("Your flesh will rot, but my power endures forever!"); break;
+							case 0: from.Say("Sinta o poder de " + from.Name + "!"); break;
+							case 1: from.Say("Arranjarei um lugar para os ossos de " + m.Name + "!"); break;
+							case 2: from.Say("" + m.Name + ", você é um tolo por me enfrentar!"); break;
+							case 3: from.Say("Minha magia irá te devastar!"); break;
+							case 4: from.Say("Transcendi a própria morte!"); break;
+							case 5: from.Say("Séculos de conhecimento proibido são meus para comandar!"); break;
+							case 6: from.Say("Sua alma alimentará meus rituais sombrios, " + m.Name + "!"); break;
+							case 7: from.Say("Esqueci mais magia do que você jamais conhecerá!"); break;
+							case 8: from.Say("Os vivos são meros brinquedos para os eternos!"); break;
+							case 9: from.Say("Meu filactério garante que eu nunca possa verdadeiramente morrer!"); break;
+							case 10: from.Say("Você enfrenta um mestre das artes necromânticas!"); break;
+							case 11: from.Say("A morte não é o fim... é o meu começo!"); break;
+							case 12: from.Say("Desvendei os segredos da imortalidade!"); break;
+							case 13: from.Say("Sua carne apodrecerá, mas meu poder perdura para sempre!"); break;
 						};
 					}
 					else if ( from is Executioner )
 					{
-						switch ( Utility.Random( 14 ))		   
+						switch ( Utility.Random( 14 ))           
 						{
-							case 0: from.Say("" + m.Name + ", you are sentenced to death!"); break;
-							case 1: from.Say("Your head will look good on the block!"); break;
-							case 2: from.Say("My blade is eager to sever your head!"); break;
-							case 3: from.Say("This will be your final fight!"); break;
-							case 4: from.Say("I have beheaded hundreds... you will be next!"); break;
-							case 5: from.Say("Judgment has been passed, " + m.Name + "!"); break;
-							case 6: from.Say("My axe never misses its mark!"); break;
-							case 7: from.Say("There is no appeal from my blade!"); break;
-							case 8: from.Say("I am the final face you will see!"); break;
-							case 9: from.Say("Your execution is long overdue!"); break;
-							case 10: from.Say("One swift stroke is all it takes!"); break;
-							case 11: from.Say("I feel no remorse... only duty!"); break;
-							case 12: from.Say("The scaffold awaits you, " + m.Name + "!"); break;
-							case 13: from.Say("Justice will be swift and merciless!"); break;
+							case 0: from.Say("" + m.Name + ", você está sentenciado à morte!"); break;
+							case 1: from.Say("Sua cabeça ficará bem no cepo!"); break;
+							case 2: from.Say("Minha lâmina está ansiosa para separar sua cabeça!"); break;
+							case 3: from.Say("Esta será sua luta final!"); break;
+							case 4: from.Say("Decapitei centenas... você será o próximo!"); break;
+							case 5: from.Say("O julgamento foi passado, " + m.Name + "!"); break;
+							case 6: from.Say("Meu machado nunca erra seu alvo!"); break;
+							case 7: from.Say("Não há apelação contra minha lâmina!"); break;
+							case 8: from.Say("Sou o último rosto que você verá!"); break;
+							case 9: from.Say("Sua execução está muito atrasada!"); break;
+							case 10: from.Say("Um único golpe rápido é tudo o que preciso!"); break;
+							case 11: from.Say("Não sinto remorso... apenas dever!"); break;
+							case 12: from.Say("O cadafalso o aguarda, " + m.Name + "!"); break;
+							case 13: from.Say("A justiça será rápida e impiedosa!"); break;
 						};
 					}
 					else if ( from is BlackKnight )
 					{
-						switch ( Utility.Random( 14 ))		   
+						switch ( Utility.Random( 14 ))           
 						{
-							case 0: from.Say("" + m.Name + ", do you think you can defeat me?!"); break;
-							case 1: from.Say("You will never gain entry to my vault!"); break;
-							case 2: from.Say("Many have come here and all have perished!"); break;
-							case 3: from.Say("Your treasure will help fill my vault!"); break;
-							case 4: from.Say("I am sworn to guard this place with my life!"); break;
-							case 5: from.Say("Your greed has sealed your fate, " + m.Name + "!"); break;
-							case 6: from.Say("None shall pass while I still draw breath!"); break;
-							case 7: from.Say("I have slain greater warriors than you!"); break;
-							case 8: from.Say("My blade has tasted the blood of countless thieves!"); break;
-							case 9: from.Say("This vault is my sacred charge!"); break;
-							case 10: from.Say("Turn back now, or join the others who fell before me!"); break;
-							case 11: from.Say("My armor is stained with the blood of intruders!"); break;
-							case 12: from.Say("You seek treasure, but you will find only death!"); break;
-							case 13: from.Say("I am the last guardian you will ever face!"); break;
+							case 0: from.Say("" + m.Name + ", você acha que pode me derrotar?!"); break;
+							case 1: from.Say("Você nunca conseguirá entrar em meu cofre!"); break;
+							case 2: from.Say("Muitos vieram aqui e todos pereceram!"); break;
+							case 3: from.Say("Seu tesouro ajudará a encher meu cofre!"); break;
+							case 4: from.Say("Jurei guardar este lugar com minha vida!"); break;
+							case 5: from.Say("Sua ganância selou seu destino, " + m.Name + "!"); break;
+							case 6: from.Say("Ninguém passará enquanto eu ainda respirar!"); break;
+							case 7: from.Say("Já abati guerreiros maiores que você!"); break;
+							case 8: from.Say("Minha lâmina provou o sangue de inúmeros ladrões!"); break;
+							case 9: from.Say("Este cofre é minha missão sagrada!"); break;
+							case 10: from.Say("Volte agora, ou junte-se aos outros que caíram diante de mim!"); break;
+							case 11: from.Say("Minha armadura está manchada com o sangue de intrusos!"); break;
+							case 12: from.Say("Você busca tesouro, mas encontrará apenas a morte!"); break;
+							case 13: from.Say("Sou o último guardião que você enfrentará!"); break;
 						};
 					}
 					else if ( from is Archmage )
 					{
-						switch ( Utility.Random( 14 ))		   
+						switch ( Utility.Random( 14 ))           
 						{
-							case 0: from.Say("" + m.Name + ", you have no hope against my power!"); break;
-							case 1: from.Say("You will never leave this place alive!"); break;
-							case 2: from.Say("You are no match for my magic!"); break;
-							case 3: from.Say("All that have come here have perished!"); break;
-							case 4: from.Say("I have mastered forces beyond your comprehension!"); break;
-							case 5: from.Say("Decades of study have made me unstoppable!"); break;
-							case 6: from.Say("Your weapons are useless against true sorcery!"); break;
-							case 7: from.Say("I command the very fabric of the weave itself!"); break;
-							case 8: from.Say("You face a master of the arcane arts, " + m.Name + "!"); break;
-							case 9: from.Say("My spells will reduce you to ash and dust!"); break;
-							case 10: from.Say("I have forgotten more magic than you will ever know!"); break;
-							case 11: from.Say("The elements themselves bow to my will!"); break;
-							case 12: from.Say("Your primitive tactics cannot breach my wards!"); break;
-							case 13: from.Say("Witness the power of a true archmage!"); break;
+							case 0: from.Say("" + m.Name + ", você não tem esperança contra meu poder!"); break;
+							case 1: from.Say("Você nunca sairá deste lugar vivo!"); break;
+							case 2: from.Say("Você não é páreo para minha magia!"); break;
+							case 3: from.Say("Todos que vieram aqui pereceram!"); break;
+							case 4: from.Say("Dominei forças além da sua compreensão!"); break;
+							case 5: from.Say("Décadas de estudo me tornaram imparável!"); break;
+							case 6: from.Say("Suas armas são inúteis contra a verdadeira feitiçaria!"); break;
+							case 7: from.Say("Comando o próprio tecido da magia!"); break;
+							case 8: from.Say("Você enfrenta um mestre das artes arcanas, " + m.Name + "!"); break;
+							case 9: from.Say("Meus feitiços o reduzirão a cinzas e pó!"); break;
+							case 10: from.Say("Esqueci mais magia do que você jamais conhecerá!"); break;
+							case 11: from.Say("Os próprios elementos se curvam à minha vontade!"); break;
+							case 12: from.Say("Suas táticas primitivas não podem romper minhas defesas!"); break;
+							case 13: from.Say("Testemunhe o poder de um verdadeiro arquimago!"); break;
 						};
 					}
 					else if ( from is ElfBerserker
@@ -5493,87 +5492,87 @@ namespace Server.Misc
 						 || from is OrkWarrior
 						 || from is OrkRogue )
 					{
-						switch ( Utility.Random( 29 ))		   
+						switch ( Utility.Random( 29 ))           
 						{
-							case 0: from.Say("I have slain others better than you, " + m.Name + "!"); break;
-							case 1: from.Say("Your riches will soon be mine!"); break;
-							case 2: from.Say("All will know that " + from.Name + " defeated " + m.Name + "!"); break;
-							case 3: from.Say("Maybe you should flee before it is too late!"); break;
-							case 4: from.Say("Do you think you can best me?!"); break;
-							case 5: from.Say("Let this be your final battle!"); break;
-							case 6: from.Say("Your life ends here!"); break;
-							case 7: from.Say("Your life ends here, " + m.Name + "!"); break;
-							case 8: from.Say("All should fear " + from.Name + "!"); break;
-							case 9: from.Say("Your gold will spend well in my hands!"); break;
-							case 10: from.Say("I've killed better people for less!"); break;
-							case 11: from.Say("You picked the wrong road to travel, " + m.Name + "!"); break;
-							case 12: from.Say("Your equipment will fetch a fine price!"); break;
-							case 13: from.Say("I'll carve my name into your corpse!"); break;
-							case 14: from.Say("Beg for mercy... not that it will help you!"); break;
-							case 15: from.Say("You're not the first fool I've killed today!"); break;
-							case 16: from.Say("Drop your weapons and I might let you live!"); break;
-							case 17: from.Say("You will be a bloodstain in my wake!"); break;
-							case 18: from.Say("I am " + from.Name + ", and you will remember that name!"); break;
-							case 19: from.Say("Fight or flee, either way you're already dead!"); break;
-							case 20: from.Say("You should have stayed in town, " + m.Name + "!"); break;
-							case 21: from.Say("I've been waiting for prey like you!"); break;
-							case 22: from.Say("The guards won't hear you here!"); break;
-							case 23: from.Say("This is my territory... you're trespassing!"); break;
-							case 24: from.Say("I'll take everything you own!"); break;
-							case 25: from.Say("No one will find your body out here!"); break;
-							case 26: from.Say("You're outmatched and outclassed!"); break;
-							case 27: from.Say("I've defeated enemies that were actually competent!"); break;
-							case 28: from.Say("Your mistake was crossing paths with me!"); break;
+							case 0: from.Say("Já abati outros melhores que você, " + m.Name + "!"); break;
+							case 1: from.Say("Suas riquezas logo serão minhas!"); break;
+							case 2: from.Say("Todos saberão que " + from.Name + " derrotou " + m.Name + "!"); break;
+							case 3: from.Say("Talvez você deva fugir antes que seja tarde demais!"); break;
+							case 4: from.Say("Você acha que pode me vencer?!"); break;
+							case 5: from.Say("Que esta seja sua batalha final!"); break;
+							case 6: from.Say("Sua vida termina aqui!"); break;
+							case 7: from.Say("Sua vida termina aqui, " + m.Name + "!"); break;
+							case 8: from.Say("Todos devem temer " + from.Name + "!"); break;
+							case 9: from.Say("Seu ouro será bem gasto em minhas mãos!"); break;
+							case 10: from.Say("Matei pessoas melhores por menos!"); break;
+							case 11: from.Say("Você escolheu a estrada errada para viajar, " + m.Name + "!"); break;
+							case 12: from.Say("Seu equipamento renderá um bom preço!"); break;
+							case 13: from.Say("Cravarei meu nome em seu cadáver!"); break;
+							case 14: from.Say("Implore por misericórdia... não que vá adiantar!"); break;
+							case 15: from.Say("Você não é o primeiro tolo que matei hoje!"); break;
+							case 16: from.Say("Largue suas armas e talvez eu deixe você viver!"); break;
+							case 17: from.Say("Você será uma mancha de sangue em meu rastro!"); break;
+							case 18: from.Say("Eu sou " + from.Name + ", e você se lembrará desse nome!"); break;
+							case 19: from.Say("Lute ou fuja, de qualquer forma você já está morto!"); break;
+							case 20: from.Say("Você devia ter ficado na cidade, " + m.Name + "!"); break;
+							case 21: from.Say("Estive esperando por uma presa como você!"); break;
+							case 22: from.Say("Os guardas não vão ouvi-lo aqui!"); break;
+							case 23: from.Say("Este é meu território... você está invadindo!"); break;
+							case 24: from.Say("Tomarei tudo o que você possui!"); break;
+							case 25: from.Say("Ninguém encontrará seu corpo aqui!"); break;
+							case 26: from.Say("Você é inferior e está em desvantagem!"); break;
+							case 27: from.Say("Derrotei inimigos que eram realmente competentes!"); break;
+							case 28: from.Say("Seu erro foi cruzar o meu caminho!"); break;
 						};
 					}
 					else if ( from is Adventurers || from is Jedi )
 					{
-						switch ( Utility.Random( 19 ))		   
+						switch ( Utility.Random( 19 ))           
 						{
-							case 0: from.Say("I have brought justice to others more vile than you, " + m.Name + "!"); break;
-							case 1: from.Say("You will pay for your crimes!"); break;
-							case 2: from.Say("All will know that " + from.Name + " brought " + m.Name + " to justice!"); break;
-							case 3: from.Say("You should have fled this land long ago!"); break;
-							case 4: from.Say("Do you think you can best me?!"); break;
-							case 5: from.Say("Let this be your final battle!"); break;
-							case 6: from.Say("Your life ends here!"); break;
-							case 7: from.Say("Your life ends here, " + m.Name + "!"); break;
-							case 8: from.Say("Your evil will be vanquished!"); break;
-							case 9: from.Say("I will not let evil triumph this day!"); break;
-							case 10: from.Say("You have made a grave mistake attacking me, " + m.Name + "!"); break;
-							case 11: from.Say("I have sworn an oath to defeat villains like you!"); break;
-							case 12: from.Say("Your dark deeds end here and now!"); break;
-							case 13: from.Say("I fight for those who cannot defend themselves!"); break;
-							case 14: from.Say("Justice will prevail over your wickedness!"); break;
-							case 15: from.Say("Surrender now, or face the consequences!"); break;
-							case 16: from.Say("I have faced far worse than you and triumphed!"); break;
-							case 17: from.Say("The innocent will be avenged by my blade!"); break;
-							case 18: from.Say("Your reign of terror ends with me, " + m.Name + "!"); break;
+							case 0: from.Say("Levei justiça a outros mais vis que você, " + m.Name + "!"); break;
+							case 1: from.Say("Você pagará por seus crimes!"); break;
+							case 2: from.Say("Todos saberão que " + from.Name + " levou " + m.Name + " à justiça!"); break;
+							case 3: from.Say("Você devia ter fugido desta terra há muito tempo!"); break;
+							case 4: from.Say("Você acha que pode me vencer?!"); break;
+							case 5: from.Say("Que esta seja sua batalha final!"); break;
+							case 6: from.Say("Sua vida termina aqui!"); break;
+							case 7: from.Say("Sua vida termina aqui, " + m.Name + "!"); break;
+							case 8: from.Say("Seu mal será aniquilado!"); break;
+							case 9: from.Say("Não deixarei o mal triunfar neste dia!"); break;
+							case 10: from.Say("Você cometeu um grave erro ao me atacar, " + m.Name + "!"); break;
+							case 11: from.Say("Jurei um voto de derrotar vilões como você!"); break;
+							case 12: from.Say("Seus atos sombrios terminam aqui e agora!"); break;
+							case 13: from.Say("Luto por aqueles que não podem se defender!"); break;
+							case 14: from.Say("A justiça prevalecerá sobre sua maldade!"); break;
+							case 15: from.Say("Renda-se agora, ou enfrente as consequências!"); break;
+							case 16: from.Say("Enfrentei coisas muito piores que você e triunfei!"); break;
+							case 17: from.Say("Os inocentes serão vingados pela minha lâmina!"); break;
+							case 18: from.Say("Seu reinado de terror termina comigo, " + m.Name + "!"); break;
 						};
 					}
 					else if ( Server.Mobiles.BasePirate.IsSailor( from ) )
 					{
-						switch ( Utility.Random( 19 ))		   
+						switch ( Utility.Random( 19 ))           
 						{
-							case 0: from.Say("" + m.Name + ", you will soon walk the plank!"); break;
-							case 1: from.Say("I could beat you if I were three sheets to the wind!"); break;
-							case 2: from.Say("I will splice the mainbrace over your corpse!"); break;
-							case 3: from.Say("You will soon become shark bait!"); break;
-							case 4: from.Say("You scurvy dog, do you think you can best me?!"); break;
-							case 5: from.Say("I fought scallywags better than you!"); break;
-							case 6: from.Say("No pray, no pay. Your riches will be mine!"); break;
-							case 7: from.Say("You landlubber, prepare to die!"); break;
-							case 8: from.Say("" + from.Name + ", you will soon feed the fish!"); break;
-							case 9: from.Say("I'll keelhaul you before this is through!"); break;
-							case 10: from.Say("Ye scurvy dog!"); break;
-							case 11: from.Say("I've weathered worse storms than you, " + m.Name + "!"); break;
-							case 12: from.Say("Ye best prepare to meet your watery grave!"); break;
-							case 13: from.Say("I'll send you down to the depths where you belong!"); break;
-							case 14: from.Say("Ye bilge rat, I'll run you through!"); break;
-							case 15: from.Say("The kraken itself couldn't save you now!"); break;
-							case 16: from.Say("I've sailed the seven seas and bested all challengers!"); break;
-							case 17: from.Say("Shiver me timbers, you're a dead man walking!"); break;
-							case 18: from.Say("The tide turns against you, " + m.Name + "!"); break;
+							case 0: from.Say("" + m.Name + ", você logo vai andar na prancha!"); break;
+							case 1: from.Say("Eu poderia te vencer mesmo embriagado!"); break;
+							case 2: from.Say("Vou emendar o traquete sobre seu cadáver!"); break;
+							case 3: from.Say("Você logo virará comida de tubarão!"); break;
+							case 4: from.Say("Seu cão sarnento, você acha que pode me vencer?!"); break;
+							case 5: from.Say("Lutei com canalhas melhores que você!"); break;
+							case 6: from.Say("Sem pilhagem, sem pagamento. Suas riquezas serão minhas!"); break;
+							case 7: from.Say("Seu marinheiro de água doce, prepare-se para morrer!"); break;
+							case 8: from.Say("" + from.Name + ", você logo alimentará os peixes!"); break;
+							case 9: from.Say("Vou raspar seu casco antes que isso termine!"); break;
+							case 10: from.Say("Seu cão sarnento!"); break;
+							case 11: from.Say("Já enfrentei tempestades piores que você, " + m.Name + "!"); break;
+							case 12: from.Say("Prepare-se para encontrar sua cova aquática!"); break;
+							case 13: from.Say("Vou mandá-lo para as profundezas, onde você pertence!"); break;
+							case 14: from.Say("Seu rato de porão, vou te atravessar!"); break;
+							case 15: from.Say("Nem o kraken poderia salvá-lo agora!"); break;
+							case 16: from.Say("Naveguei pelos sete mares e venci todos os desafios!"); break;
+							case 17: from.Say("Trema a madeira, você é um homem morto!"); break;
+							case 18: from.Say("A maré vira contra você, " + m.Name + "!"); break;
 						};
 					}
 				}
@@ -5599,22 +5598,22 @@ namespace Server.Misc
 					}
 					else if ( from is FleshGolem || from is AncientFleshGolem )
 					{
-						switch ( Utility.Random( 14 ))		   
+						switch ( Utility.Random( 14 ))           
 						{
-							case 0: from.Say("No...I am eternal!"); break;
-							case 1: from.Say("No...How can this be?!"); break;
-							case 2: from.Say("Peace has finally found me..."); break;
-							case 3: from.Say("I failed you my master..."); break;
-							case 4: from.Say("At last...oblivion..."); break;
-							case 5: from.Say("This cursed existence...finally ends..."); break;
-							case 6: from.Say("The nightmare...is over..."); break;
-							case 7: from.Say("I am...unmade..."); break;
-							case 8: from.Say("Forgive me...for what I became..."); break;
-							case 9: from.Say("Return me...to the grave..."); break;
-							case 10: from.Say("My suffering...ends...at last..."); break;
-							case 11: from.Say("The stitches...come undone..."); break;
-							case 12: from.Say("I was never...meant to be..."); break;
-							case 13: from.Say("Thank you...for releasing me..."); break;
+							case 0: from.Say("Não... sou eterno!"); break;
+							case 1: from.Say("Não... Como isso pode ser?!"); break;
+							case 2: from.Say("A paz finalmente me encontrou..."); break;
+							case 3: from.Say("Falhei com você, meu mestre..."); break;
+							case 4: from.Say("Finalmente... o esquecimento..."); break;
+							case 5: from.Say("Esta existência amaldiçoada... finalmente termina..."); break;
+							case 6: from.Say("O pesadelo... acabou..."); break;
+							case 7: from.Say("Eu estou... desfeito..."); break;
+							case 8: from.Say("Perdoe-me... pelo que me tornei..."); break;
+							case 9: from.Say("Devolva-me... à sepultura..."); break;
+							case 10: from.Say("Meu sofrimento... acaba... finalmente..."); break;
+							case 11: from.Say("As costuras... se desfazem..."); break;
+							case 12: from.Say("Eu nunca... fui feito para existir..."); break;
+							case 13: from.Say("Obrigado... por me libertar..."); break;
 						};
 					}
 					else if ( from is BloodDemigod )
@@ -5632,104 +5631,104 @@ namespace Server.Misc
 							|| from is Daemon 
 							|| from is BloodDemon )
 					{
-						switch ( Utility.Random( 15 ))		   
+						switch ( Utility.Random( 15 ))           
 						{
-							case 0: from.Say("No...I will not be vanquished!"); break;
-							case 1: from.Say("I will return..."); break;
-							case 2: from.Say("I hope the curses of hell fill your soul!"); break;
-							case 3: from.Say("Death is only a distraction to me!"); break;
-							case 4: from.Say("I will come for you, " + m.Name + "!"); break;
-							case 5: from.Say("The Abyss will reclaim me...and I shall return!"); break;
-							case 6: from.Say("You have only delayed the inevitable!"); break;
-							case 7: from.Say("The legions will avenge me, " + m.Name + "!"); break;
-							case 8: from.Say("I am banished...but not destroyed!"); break;
-							case 9: from.Say("You will suffer for this...for eternity!"); break;
-							case 10: from.Say("This form is merely temporary!"); break;
-							case 11: from.Say("The flames of hell will consume you yet!"); break;
-							case 12: from.Say("My master will know of your deeds!"); break;
-							case 13: from.Say("You cannot kill what is already damned!"); break;
-							case 14: from.Say("I curse your bloodline for a thousand generations!"); break;
+							case 0: from.Say("Não... não serei vencido!"); break;
+							case 1: from.Say("Eu retornarei..."); break;
+							case 2: from.Say("Que as maldições do inferno encham sua alma!"); break;
+							case 3: from.Say("A morte é apenas uma distração para mim!"); break;
+							case 4: from.Say("Eu virei atrás de você, " + m.Name + "!"); break;
+							case 5: from.Say("O Abismo me reivindicará de novo... e eu retornarei!"); break;
+							case 6: from.Say("Você apenas atrasou o inevitável!"); break;
+							case 7: from.Say("As legiões me vingarão, " + m.Name + "!"); break;
+							case 8: from.Say("Estou banido... mas não destruído!"); break;
+							case 9: from.Say("Você sofrerá por isso... pela eternidade!"); break;
+							case 10: from.Say("Esta forma é meramente temporária!"); break;
+							case 11: from.Say("As chamas do inferno vão te consumir ainda!"); break;
+							case 12: from.Say("Meu mestre saberá de seus feitos!"); break;
+							case 13: from.Say("Não se pode matar o que já está condenado!"); break;
+							case 14: from.Say("Amaldiçoo sua linhagem por mil gerações!"); break;
 						};
 					}
 					else if ( from is DeepSeaDevil || from is DemonOfTheSea )
 					{
-						switch ( Utility.Random( 15 ))		   
+						switch ( Utility.Random( 15 ))           
 						{
-							case 0: from.Say("No...I will not be vanquished!"); break;
-							case 1: from.Say("I will return..."); break;
-							case 2: from.Say("I hope the blood of the sea drowns you!"); break;
-							case 3: from.Say("Fool...I will rise again!"); break;
-							case 4: from.Say("One day you will be taken by the sea, " + m.Name + "!"); break;
-							case 5: from.Say("The depths will reclaim me...and I shall return!"); break;
-							case 6: from.Say("The ocean's vengeance will find you!"); break;
-							case 7: from.Say("I return to the abyss below...for now..."); break;
-							case 8: from.Say("The tide will turn against you, " + m.Name + "!"); break;
-							case 9: from.Say("My brothers in the deep will avenge me!"); break;
-							case 10: from.Say("The sea never forgets...never forgives!"); break;
-							case 11: from.Say("You cannot escape the ocean's wrath!"); break;
-							case 12: from.Say("I am but one of countless horrors below!"); break;
-							case 13: from.Say("The leviathans will drag you down!"); break;
-							case 14: from.Say("Your ships will sink...your lungs will fill..."); break;
+							case 0: from.Say("Não... não serei vencido!"); break;
+							case 1: from.Say("Eu retornarei..."); break;
+							case 2: from.Say("Que o sangue do mar o afogue!"); break;
+							case 3: from.Say("Tolo... eu me levantarei novamente!"); break;
+							case 4: from.Say("Um dia você será tomado pelo mar, " + m.Name + "!"); break;
+							case 5: from.Say("As profundezas me reivindicarão de novo... e eu retornarei!"); break;
+							case 6: from.Say("A vingança do oceano o encontrará!"); break;
+							case 7: from.Say("Retorno ao abismo abaixo... por enquanto..."); break;
+							case 8: from.Say("A maré vai virar contra você, " + m.Name + "!"); break;
+							case 9: from.Say("Meus irmãos das profundezas me vingarão!"); break;
+							case 10: from.Say("O mar nunca esquece... nunca perdoa!"); break;
+							case 11: from.Say("Você não pode escapar da ira do oceano!"); break;
+							case 12: from.Say("Sou apenas um dos incontáveis horrores abaixo!"); break;
+							case 13: from.Say("Os leviatãs o arrastarão para baixo!"); break;
+							case 14: from.Say("Seus navios afundarão... seus pulmões se encherão..."); break;
 						};
 					}
 					else if ( from is IceDevil )
 					{
-						switch ( Utility.Random( 15 ))		   
+						switch ( Utility.Random( 15 ))           
 						{
-							case 0: from.Say("No...I will not be vanquished!"); break;
-							case 1: from.Say("I will return..."); break;
-							case 2: from.Say("The frost of death will find you!"); break;
-							case 3: from.Say("Fool...you can never destroy me!"); break;
-							case 4: from.Say("My cold heart will come for you, " + m.Name + "!"); break;
-							case 5: from.Say("The frozen hells will birth me anew!"); break;
-							case 6: from.Say("Winter's wrath is eternal...as am I!"); break;
-							case 7: from.Say("I return to the glacial abyss...for now..."); break;
-							case 8: from.Say("The blizzard of vengeance will consume you!"); break;
-							case 9: from.Say("My ice will freeze your heart yet, " + m.Name + "!"); break;
-							case 10: from.Say("The cold never truly dies...and neither do I!"); break;
-							case 11: from.Say("You have only delayed the eternal winter!"); break;
-							case 12: from.Say("My frozen brethren will avenge this!"); break;
-							case 13: from.Say("The frost spreads...even in defeat!"); break;
-							case 14: from.Say("Your warmth will fade...and I will return!"); break;
+							case 0: from.Say("Não... não serei vencido!"); break;
+							case 1: from.Say("Eu retornarei..."); break;
+							case 2: from.Say("O gelo da morte o encontrará!"); break;
+							case 3: from.Say("Tolo... você nunca pode me destruir!"); break;
+							case 4: from.Say("Meu coração frio virá atrás de você, " + m.Name + "!"); break;
+							case 5: from.Say("Os infernos congelados me darão à luz novamente!"); break;
+							case 6: from.Say("A ira do inverno é eterna... assim como eu!"); break;
+							case 7: from.Say("Retorno ao abismo glacial... por enquanto..."); break;
+							case 8: from.Say("A nevasca da vingança o consumirá!"); break;
+							case 9: from.Say("Meu gelo congelará seu coração ainda, " + m.Name + "!"); break;
+							case 10: from.Say("O frio nunca morre de verdade... e eu também não!"); break;
+							case 11: from.Say("Você apenas atrasou o inverno eterno!"); break;
+							case 12: from.Say("Meus irmãos congelados vingarão isso!"); break;
+							case 13: from.Say("A geada se espalha... mesmo na derrota!"); break;
+							case 14: from.Say("Seu calor desaparecerá... e eu retornarei!"); break;
 						};
 					}
 					else if ( from is Succubus )
 					{
-						from.Say("No...!");
+						from.Say("Não...!");
 					}
 					else if ( from is Satan )
 					{
-						switch ( Utility.Random( 5 ))		   
+						switch ( Utility.Random( 5 ))           
 						{
-							case 0: from.Say("No...I cannot return to hell!"); break;
-							case 1: from.Say("Hell will not be able to hold me..."); break;
-							case 2: from.Say("" + m.Name + ", I will return for you!"); break;
-							case 3: from.Say("Fool...I am eternal!"); break;
-							case 4: from.Say("I will have your soul one day, " + m.Name + "!"); break;
+							case 0: from.Say("Não... não posso retornar ao inferno!"); break;
+							case 1: from.Say("O inferno não conseguirá me conter..."); break;
+							case 2: from.Say("" + m.Name + ", eu retornarei para você!"); break;
+							case 3: from.Say("Tolo... sou eterno!"); break;
+							case 4: from.Say("Terei sua alma um dia, " + m.Name + "!"); break;
 						};
 					}
 					else if ( from is VampiricDragon )
 					{
-						switch ( Utility.Random( 2 ))		   
+						switch ( Utility.Random( 2 ))           
 						{
-							case 0: from.Say("No...you cannot do this!"); break;
-							case 1: from.Say("Curse you, " + m.Name + "!"); break;
+							case 0: from.Say("Não... você não pode fazer isso!"); break;
+							case 1: from.Say("Amaldiçoo você, " + m.Name + "!"); break;
 						};
 					}
 					else if ( from is ShadowWyrm )
 					{
 						switch ( Utility.Random( 2 ))		   
 						{
-							case 0: from.Say("No...you cannot have light without dark!"); break;
-							case 1: from.Say("Let the shadows take you, " + m.Name + "!"); break;
+							case 0: from.Say("Não... você não pode ter luz sem escuridão!"); break;
+							case 1: from.Say("Deixe as sombras te levar, " + m.Name + "!"); break;
 						};
 					}
 					else if ( from is AshDragon || from is VolcanicDragon )
 					{
-						switch ( Utility.Random( 2 ))		   
+						switch ( Utility.Random( 2 ))           
 						{
-							case 0: from.Say("No...this cannot be how it ends!"); break;
-							case 1: from.Say("Let the mountain fires take you, " + m.Name + "!"); break;
+							case 0: from.Say("Não... não pode ser assim que termina!"); break;
+							case 1: from.Say("Que os fogos da montanha te levem, " + m.Name + "!"); break;
 						};
 					}
 					else if ( from is BottleDragon
@@ -5755,12 +5754,12 @@ namespace Server.Misc
 						 || from is PrimevalVolcanicDragon
 						 || from is AncientWyrm )
 					{
-						switch ( Utility.Random( 4 ))		   
+						switch ( Utility.Random( 4 ))           
 						{
-							case 0: from.Say("No...this cannot be the end!"); break;
-							case 1: from.Say("How...can...this...be..."); break;
-							case 2: from.Say("No, " + m.Name + "!"); break;
-							case 3: from.Say("What is this madness?!"); break;
+							case 0: from.Say("Não... este não pode ser o fim!"); break;
+							case 1: from.Say("Como... isso... pode... ser..."); break;
+							case 2: from.Say("Não, " + m.Name + "!"); break;
+							case 3: from.Say("Que loucura é essa?!"); break;
 						};
 					}
 					else if ( from is FireGargoyle
@@ -5784,19 +5783,19 @@ namespace Server.Misc
 					}
 					else if ( from is ZornTheBlacksmith )
 					{
-						switch ( Utility.Random( 2 ))		   
+						switch ( Utility.Random( 2 ))           
 						{
-							case 0: from.Say("No...you will never get the ore!"); break;
-							case 1: from.Say("You will never find the caddellite!"); break;
+							case 0: from.Say("Não... você nunca terá o minério!"); break;
+							case 1: from.Say("Você nunca encontrará a caddelita!"); break;
 						};
 					}
 					else if ( from is OrkDemigod )
 					{
-						switch ( Utility.Random( 3 ))		   
+						switch ( Utility.Random( 3 ))           
 						{
-							case 0: from.Say("You cannot defeat the power of gods..."); break;
-							case 1: from.Say("" + m.Name + ", you have bested me in battle..."); break;
-							case 2: from.Say("No..."); break;
+							case 0: from.Say("Você não pode derrotar o poder dos deuses..."); break;
+							case 1: from.Say("" + m.Name + ", você me venceu em batalha..."); break;
+							case 2: from.Say("Não..."); break;
 						};
 					}
 					else if ( from is TrollWitchDoctor
@@ -5806,20 +5805,20 @@ namespace Server.Misc
 						 || from is FrostTrollShaman
 						 || from is FrostTroll )
 					{
-						switch ( Utility.Random( 12 ))		   
+						switch ( Utility.Random( 12 ))           
 						{
-							case 0: from.Say("Me cannot lose!"); break;
-							case 1: from.Say("Me curse you..."); break;
-							case 2: from.Say("Me will heal...me come back!"); break;
-							case 3: from.Say("No...me too strong to die!"); break;
-							case 4: from.Say("Me bones will grow back..."); break;
-							case 5: from.Say("You no kill me for good!"); break;
-							case 6: from.Say("Me regenerate...me find you!"); break;
-							case 7: from.Say("This not over...me hungry still!"); break;
-							case 8: from.Say("Me brothers avenge me!"); break;
-							case 9: from.Say("You just make me angry!"); break;
-							case 10: from.Say("Me...me supposed to heal..."); break;
-							case 11: from.Say("How you kill me...me troll!"); break;
+							case 0: from.Say("Eu não poder perder!"); break;
+							case 1: from.Say("Eu amaldiçoar você..."); break;
+							case 2: from.Say("Eu vai curar... eu voltar!"); break;
+							case 3: from.Say("Não... eu forte demais pra morrer!"); break;
+							case 4: from.Say("Meus ossos crescer de volta..."); break;
+							case 5: from.Say("Você não matar eu de vez!"); break;
+							case 6: from.Say("Eu regenerar... eu achar você!"); break;
+							case 7: from.Say("Isso não acabou... eu com fome ainda!"); break;
+							case 8: from.Say("Meus irmãos vingar eu!"); break;
+							case 9: from.Say("Você só deixar eu com raiva!"); break;
+							case 10: from.Say("Eu... eu deveria curar..."); break;
+							case 11: from.Say("Como você matar eu... eu troll!"); break;
 						};
 					}
 					else if ( from is AncientEttin
@@ -5827,31 +5826,31 @@ namespace Server.Misc
 						 || from is Ettin
 						 || from is ArcticEttin )
 					{
-						switch ( Utility.Random( 12 ))		   
+						switch ( Utility.Random( 12 ))           
 						{
 							case 0: from.Say("Arrrggghhh..."); break;
-							case 1: from.Say("You...fight...good..."); break;
-							case 2: from.Say("We...both...agree...we...lost..."); break;
-							case 3: from.Say("No...we...were...strongest..."); break;
-							case 4: from.Say("Two heads...not enough..."); break;
-							case 5: from.Say("We...should have...run..."); break;
-							case 6: from.Say("You...stronger...than...us..."); break;
-							case 7: from.Say("We...failed...our...tribe..."); break;
-							case 8: from.Say("Our...brothers...will...avenge..."); break;
-							case 9: from.Say("We...die...together..."); break;
-							case 10: from.Say("Both heads...go dark..."); break;
-							case 11: from.Say("You...win...this...time..."); break;
+							case 1: from.Say("Você... lutar... bom..."); break;
+							case 2: from.Say("Nós... dois... concordar... nós... perdeu..."); break;
+							case 3: from.Say("Não... nós... era... mais forte..."); break;
+							case 4: from.Say("Duas cabeças... não bastar..."); break;
+							case 5: from.Say("Nós... devia ter... corrido..."); break;
+							case 6: from.Say("Você... mais forte... que... nós..."); break;
+							case 7: from.Say("Nós... falhou... nossa... tribo..."); break;
+							case 8: from.Say("Nossos... irmãos... vão... vingar..."); break;
+							case 9: from.Say("Nós... morrer... juntos..."); break;
+							case 10: from.Say("Duas cabeças... escurecer..."); break;
+							case 11: from.Say("Você... ganhar... desta... vez..."); break;
 						};
 					}
 					else if ( from is Titan
 						 || from is ElderTitan
 						 || from is StormGiant )
 					{
-						switch ( Utility.Random( 4 ))		   
+						switch ( Utility.Random( 4 ))           
 						{
-							case 0: from.Say("By what thunder is this?"); break;
-							case 1: from.Say("No, it cannot be..."); break;
-							case 2: from.Say("You may have won this day, " + m.Name + "...but..."); break;
+							case 0: from.Say("Por qual trovão é isso?"); break;
+							case 1: from.Say("Não, não pode ser..."); break;
+							case 2: from.Say("Você pode ter vencido este dia, " + m.Name + "... mas..."); break;
 							case 3: from.Say("Arrgghhh..."); break;
 						};
 					}
@@ -5866,49 +5865,49 @@ namespace Server.Misc
 						 || from is HillGiant
 						 || from is HillGiantShaman )
 					{
-						switch ( Utility.Random( 12 ))		   
+						switch ( Utility.Random( 12 ))           
 						{
-							case 0: from.Say("Me no feel good!"); break;
+							case 0: from.Say("Eu não sentir bem!"); break;
 							case 1: from.Say("Arrgghhh..."); break;
-							case 2: from.Say("Me...me losing..."); break;
-							case 3: from.Say("How you beat me?!"); break;
-							case 4: from.Say("Me supposed be strong!"); break;
-							case 5: from.Say("No...me can't die..."); break;
-							case 6: from.Say("You...too strong...for me..."); break;
-							case 7: from.Say("Me belly...hurts..."); break;
-							case 8: from.Say("Everything...go dark..."); break;
-							case 9: from.Say("Me...no understand..."); break;
-							case 10: from.Say("You...fight...better...than me..."); break;
-							case 11: from.Say("Me brothers...avenge me..."); break;
+							case 2: from.Say("Eu... eu perdendo..."); break;
+							case 3: from.Say("Como você bater em mim?!"); break;
+							case 4: from.Say("Eu devia ser forte!"); break;
+							case 5: from.Say("Não... eu não poder morrer..."); break;
+							case 6: from.Say("Você... forte demais... pra mim..."); break;
+							case 7: from.Say("Minha barriga... doer..."); break;
+							case 8: from.Say("Tudo... escurecer..."); break;
+							case 9: from.Say("Eu... não entender..."); break;
+							case 10: from.Say("Você... lutar... melhor... que eu..."); break;
+							case 11: from.Say("Meus irmãos... vingar eu..."); break;
 						};
 					}
 					else if ( from is IceGiant )
 					{
-						switch ( Utility.Random( 3 ))		   
+						switch ( Utility.Random( 3 ))           
 						{
-							case 0: from.Say("By iceberg's might, how..."); break;
+							case 0: from.Say("Pelo poder do iceberg, como..."); break;
 							case 1: from.Say("Arrgghhh..."); break;
-							case 2: from.Say("No..."); break;
+							case 2: from.Say("Não..."); break;
 						};
 					}
 					else if ( from is LavaGiant )
 					{
-						switch ( Utility.Random( 3 ))		   
+						switch ( Utility.Random( 3 ))           
 						{
-							case 0: from.Say("By magma's might, how..."); break;
+							case 0: from.Say("Pelo poder do magma, como..."); break;
 							case 1: from.Say("Arrgghhh..."); break;
-							case 2: from.Say("No..."); break;
+							case 2: from.Say("Não..."); break;
 						};
 					}
 					else if ( from is DeepSeaGiant
-						 || from is SeaGiant )
+						|| from is SeaGiant )
 					{
-						switch ( Utility.Random( 4 ))		   
+						switch ( Utility.Random( 4 ))           
 						{
-							case 0: from.Say("By Neptunes's might, how..."); break;
-							case 1: from.Say("By Poseidon's wrath, how..."); break;
+							case 0: from.Say("Pelo poder de Netuno, como..."); break;
+							case 1: from.Say("Pela ira de Poseidon, como..."); break;
 							case 2: from.Say("Arrgghhh..."); break;
-							case 3: from.Say("No..."); break;
+							case 3: from.Say("Não..."); break;
 						};
 					}
 					else if ( from is MountainGiant
@@ -5925,18 +5924,18 @@ namespace Server.Misc
 						 || from is Cyclops )
 					{
 						string called = "fly";
-						switch ( Utility.Random( 4 ))		   
+						switch ( Utility.Random( 4 ))           
 						{
-							case 0: called = "fly"; break;
-							case 1: called = "wretch"; break;
-							case 2: called = "toad"; break;
-							case 3: called = "thing"; break;
+							case 0: called = "mosca"; break;
+							case 1: called = "miserável"; break;
+							case 2: called = "sapo"; break;
+							case 3: called = "coisa"; break;
 						};
-						switch ( Utility.Random( 3 ))		   
+						switch ( Utility.Random( 3 ))           
 						{
-							case 0: from.Say("You puny " + called + ", how..."); break;
+							case 0: from.Say("Seu " + called + " insignificante, como..."); break;
 							case 1: from.Say("Arrgghhh..."); break;
-							case 2: from.Say("No..."); break;
+							case 2: from.Say("Não..."); break;
 						};
 					}
 					else if ( from is TheAncientTree
@@ -5945,10 +5944,10 @@ namespace Server.Misc
 						 || from is AncientReaper
 						 || from is AncientEnt )
 					{
-						switch ( Utility.Random( 2 ))		   
+						switch ( Utility.Random( 2 ))           
 						{
-							case 0: from.Say("How...did...you..."); break;
-							case 1: from.Say("I...am...no...more..."); break;
+							case 0: from.Say("Como... você... conseguiu..."); break;
+							case 1: from.Say("Eu... não... sou... mais..."); break;
 						};
 					}
 					else if ( from is SwampThing )
@@ -5966,21 +5965,21 @@ namespace Server.Misc
 					else if ( from is Dracolich
 						 || from is SkeletalDragon )
 					{
-						switch ( Utility.Random( 13 ))		   
+						switch ( Utility.Random( 13 ))           
 						{
-							case 0: from.Say("My power is eternal!"); break;
-							case 1: from.Say("" + m.Name + ", I will have my revenge..."); break;
-							case 2: from.Say("No, how can this be?!"); break;
-							case 3: from.Say("My phylactery will restore me!"); break;
-							case 4: from.Say("Death holds no power over me!"); break;
-							case 5: from.Say("I have died once...I can return again!"); break;
-							case 6: from.Say("This body was merely a vessel!"); break;
-							case 7: from.Say("You have destroyed nothing, " + m.Name + "!"); break;
-							case 8: from.Say("I am beyond your mortal comprehension!"); break;
-							case 9: from.Say("My necromantic power transcends this defeat!"); break;
-							case 10: from.Say("Bones can be rebuilt...souls reclaimed..."); break;
-							case 11: from.Say("I defied death once...I shall do so again!"); break;
-							case 12: from.Say("This is but a momentary setback!"); break;
+							case 0: from.Say("Meu poder é eterno!"); break;
+							case 1: from.Say("" + m.Name + ", terei minha vingança..."); break;
+							case 2: from.Say("Não, como isso pode ser?!"); break;
+							case 3: from.Say("Meu filactério me restaurará!"); break;
+							case 4: from.Say("A morte não tem poder sobre mim!"); break;
+							case 5: from.Say("Já morri uma vez... posso retornar novamente!"); break;
+							case 6: from.Say("Este corpo era meramente um receptáculo!"); break;
+							case 7: from.Say("Você não destruiu nada, " + m.Name + "!"); break;
+							case 8: from.Say("Estou além da sua compreensão mortal!"); break;
+							case 9: from.Say("Meu poder necromântico transcende esta derrota!"); break;
+							case 10: from.Say("Ossos podem ser reconstruídos... almas reivindicadas..."); break;
+							case 11: from.Say("Desafiei a morte uma vez... o farei novamente!"); break;
+							case 12: from.Say("Isso é apenas um revés momentâneo!"); break;
 						};
 					}
 					else if ( from is AncientLich
@@ -5994,21 +5993,21 @@ namespace Server.Misc
 						 || from is UndeadDruid
 						 || from is DemiLich )
 					{
-						switch ( Utility.Random( 13 ))		   
+						switch ( Utility.Random( 13 ))           
 						{
-							case 0: from.Say("My magic is eternal!"); break;
-							case 1: from.Say("" + m.Name + ", I will have vengeance..."); break;
-							case 2: from.Say("No...how can..."); break;
-							case 3: from.Say("My phylactery remains...I shall return!"); break;
-							case 4: from.Say("You have merely destroyed this vessel!"); break;
-							case 5: from.Say("I transcended death centuries ago!"); break;
-							case 6: from.Say("Impossible...my wards...my power..."); break;
-							case 7: from.Say("This body is temporary...my soul eternal!"); break;
-							case 8: from.Say("You understand nothing of true immortality!"); break;
-							case 9: from.Say("I will reconstruct myself, " + m.Name + "!"); break;
-							case 10: from.Say("My phylactery will birth me anew!"); break;
-							case 11: from.Say("Centuries of knowledge...cannot be undone..."); break;
-							case 12: from.Say("Death has no dominion over me!"); break;
+							case 0: from.Say("Minha magia é eterna!"); break;
+							case 1: from.Say("" + m.Name + ", terei vingança..."); break;
+							case 2: from.Say("Não... como pode..."); break;
+							case 3: from.Say("Meu filactério permanece... eu retornarei!"); break;
+							case 4: from.Say("Você meramente destruiu este receptáculo!"); break;
+							case 5: from.Say("Transcendi a morte séculos atrás!"); break;
+							case 6: from.Say("Impossível... minhas defesas... meu poder..."); break;
+							case 7: from.Say("Este corpo é temporário... minha alma eterna!"); break;
+							case 8: from.Say("Você não entende nada de verdadeira imortalidade!"); break;
+							case 9: from.Say("Reconstruirei a mim mesmo, " + m.Name + "!"); break;
+							case 10: from.Say("Meu filactério me dará à luz novamente!"); break;
+							case 11: from.Say("Séculos de conhecimento... não podem ser desfeitos..."); break;
+							case 12: from.Say("A morte não tem domínio sobre mim!"); break;
 						};
 					}
 					else if ( from is Executioner
@@ -6036,33 +6035,33 @@ namespace Server.Misc
 						 || from is OrkRogue
 						 || Server.Mobiles.BasePirate.IsSailor( from ) )
 					{
-						switch ( Utility.Random( 25 ))		   
+						switch ( Utility.Random( 25 ))           
 						{
-							case 0: from.Say("No!"); break;
+							case 0: from.Say("Não!"); break;
 							case 1: from.Say("Argh!"); break;
 							case 2: from.Say("Ahhh..."); break;
-							case 3: from.Say("I...uh...uhhhhh..."); break;
-							case 4: from.Say("Nooo..."); break;
-							case 5: from.Say("I...I can't believe..."); break;
-							case 6: from.Say("This...wasn't supposed...to happen..."); break;
-							case 7: from.Say("You...you'll pay for this..."); break;
-							case 8: from.Say("My...my crew will avenge me..."); break;
-							case 9: from.Say("I should have...been a tamer..."); break;
-							case 10: from.Say("How...how did you..."); break;
-							case 11: from.Say("I was...so close..."); break;
-							case 12: from.Say("Curse you, " + m.Name + "..."); break;
-							case 13: from.Say("This can't be...the end..."); break;
-							case 14: from.Say("I...failed..."); break;
-							case 15: from.Say("My treasure...so close..."); break;
-							case 16: from.Say("Tell my brothers...I fought well..."); break;
-							case 17: from.Say("Not...like this..."); break;
-							case 18: from.Say("I've...survived worse...than..."); break;
-							case 19: from.Say("You got...lucky..."); break;
-							case 20: from.Say("I'll see you...in hell..."); break;
-							case 21: from.Say("My plans...ruined..."); break;
-							case 22: from.Say("So...this is how it ends..."); break;
-							case 23: from.Say("I was...always better...than this..."); break;
-							case 24: from.Say("The gold...it's all yours..."); break;
+							case 3: from.Say("Eu... uh... uhhhh..."); break;
+							case 4: from.Say("Nããão..."); break;
+							case 5: from.Say("Eu... não posso acreditar..."); break;
+							case 6: from.Say("Isso... não era pra... acontecer..."); break;
+							case 7: from.Say("Você... você vai pagar por isso..."); break;
+							case 8: from.Say("Minha... minha tripulação vai me vingar..."); break;
+							case 9: from.Say("Eu devia ter... sido um domador..."); break;
+							case 10: from.Say("Como... como você conseguiu..."); break;
+							case 11: from.Say("Eu estava... tão perto..."); break;
+							case 12: from.Say("Amaldiçoo você, " + m.Name + "..."); break;
+							case 13: from.Say("Isso não pode ser... o fim..."); break;
+							case 14: from.Say("Eu... falhei..."); break;
+							case 15: from.Say("Meu tesouro... tão perto..."); break;
+							case 16: from.Say("Diga aos meus irmãos... que lutei bem..."); break;
+							case 17: from.Say("Não... assim..."); break;
+							case 18: from.Say("Já... sobrevivi a coisas piores... que..."); break;
+							case 19: from.Say("Você teve... sorte..."); break;
+							case 20: from.Say("Te vejo... no inferno..."); break;
+							case 21: from.Say("Meus planos... arruinados..."); break;
+							case 22: from.Say("Então... é assim que termina..."); break;
+							case 23: from.Say("Eu era... sempre melhor... que isso..."); break;
+							case 24: from.Say("O ouro... é todo seu..."); break;
 						};
 					}
 				}

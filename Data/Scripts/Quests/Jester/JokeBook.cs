@@ -23,15 +23,15 @@ namespace Server.Items
 			{
 				switch ( Utility.RandomMinMax( 0, 8 ) ) 
 				{
-					case 0: from.PlaySound( from.Female ? 801 : 1073 );		from.Say( "*laughs*" );	break;
-					case 1: from.PlaySound( from.Female ? 801 : 1073 );		from.Say( "Good one!" );	break;
-					case 2: from.PlaySound( from.Female ? 801 : 1073 );		from.Say( "I never heard that one before!" );	break;
-					case 3: from.PlaySound( from.Female ? 801 : 1073 );		from.Say( "I always like a good laugh!" );	break;
-					case 4: from.PlaySound( from.Female ? 801 : 1073 );		from.Say( "That has me in tears!" );	break;
-					case 5: from.Say( "I don't get it." );							break;
-					case 6: from.Say( "What does that even mean?" );				break;
-					case 7: from.Say( "Is that supposed to be funny?" );			break;
-					case 8: from.Say( "An orc and an elf walk into a tavern?" );	break;
+					case 0: from.PlaySound( from.Female ? 801 : 1073 );		from.Say( "*ri*" );	break;
+					case 1: from.PlaySound( from.Female ? 801 : 1073 );		from.Say( "Boa essa!" );	break;
+					case 2: from.PlaySound( from.Female ? 801 : 1073 );		from.Say( "Nunca tinha ouvido essa antes!" );	break;
+					case 3: from.PlaySound( from.Female ? 801 : 1073 );		from.Say( "Sempre gosto de uma boa risada!" );	break;
+					case 4: from.PlaySound( from.Female ? 801 : 1073 );		from.Say( "Isso me fez chorar de rir!" );	break;
+					case 5: from.Say( "Não entendi." );							break;
+					case 6: from.Say( "O que isso significa?" );				break;
+					case 7: from.Say( "Isso é pra ser engraçado?" );			break;
+					case 8: from.Say( "Um orc e um elfo entram numa taverna?" );	break;
 				}
 			}
 		}

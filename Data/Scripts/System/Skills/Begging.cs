@@ -162,15 +162,15 @@ namespace Server.SkillHandlers
 						from.CheckSkill( SkillName.Begging, 0, 125 );
 						switch( Utility.RandomMinMax( 0, 8 ) )
 						{
-							case 0: from.Say( "Leave me alone!" ); break;
-							case 1: from.Say( "Have mercy!" ); break;
-							case 2: from.Say( "Please, I am but a puny worm!" ); break;
-							case 3: from.Say( "Go away!" ); break;
-							case 4: from.Say( "I submit to your might!" ); break;
-							case 5: from.Say( "Your power has me scared!" ); break;
-							case 6: from.Say( "Leave me be!" ); break;
-							case 7: from.Say( "I didn't want to hurt you!" ); break;
-							case 8: from.Say( "Don't hurt me!" ); break;
+							case 0: from.Say( "Deixe-me em paz!" ); break;
+							case 1: from.Say( "Tenha piedade!" ); break;
+							case 2: from.Say( "Por favor, sou apenas um verme insignificante!" ); break;
+							case 3: from.Say( "Vá embora!" ); break;
+							case 4: from.Say( "Submeto-me ao seu poder!" ); break;
+							case 5: from.Say( "Seu poder me assusta!" ); break;
+							case 6: from.Say( "Deixe-me em paz!" ); break;
+							case 7: from.Say( "Não queria te machucar!" ); break;
+							case 8: from.Say( "Não me machuque!" ); break;
 						}
 
 						if ( targ is BaseCreature && ((BaseCreature)targ).Uncalmable )
@@ -235,15 +235,15 @@ namespace Server.SkillHandlers
 							from.CheckSkill( SkillName.Begging, 0, 125 );
 							switch( Utility.RandomMinMax( 0, 8 ) )
 							{
-								case 0: from.Say( "Leave me alone!" ); break;
-								case 1: from.Say( "Have mercy!" ); break;
-								case 2: from.Say( "Please, I am but a puny worm!" ); break;
-								case 3: from.Say( "Go away!" ); break;
-								case 4: from.Say( "I submit to your might!" ); break;
-								case 5: from.Say( "Your power has me scared!" ); break;
-								case 6: from.Say( "Leave me be!" ); break;
-								case 7: from.Say( "I didn't want to hurt you!" ); break;
-								case 8: from.Say( "Don't hurt me!" ); break;
+								case 0: from.Say( "Deixe-me em paz!" ); break;
+								case 1: from.Say( "Tenha piedade!" ); break;
+								case 2: from.Say( "Por favor, sou apenas um verme insignificante!" ); break;
+								case 3: from.Say( "Vá embora!" ); break;
+								case 4: from.Say( "Submeto-me ao seu poder!" ); break;
+								case 5: from.Say( "Seu poder me assusta!" ); break;
+								case 6: from.Say( "Deixe-me em paz!" ); break;
+								case 7: from.Say( "Não queria te machucar!" ); break;
+								case 8: from.Say( "Não me machuque!" ); break;
 							}
 
 							double diff = GetBaseDifficulty( targ ) - 10.0;

@@ -20,7 +20,7 @@ namespace Server.Items
             Name = "Eerie Idol";
         }
 
-        public override string DefaultDescription{ get{ return "This ancient idol shimmers with strange and twisted energy. Pollo might be looking for these at the entrance of the excavation."; } }
+        public override string DefaultDescription{ get{ return "Este ídolo antigo brilha com uma energia estranha e distorcida. Pollo pode estar procurando por estes na entrada da escavação."; } }
 
         public EerieIdol(Serial serial) : base(serial)
         {
