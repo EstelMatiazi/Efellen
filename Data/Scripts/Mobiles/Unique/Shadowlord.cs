@@ -9,12 +9,12 @@ using Server.Custom.DailyBosses.System;
 
 namespace Server.Mobiles
 {
-	[CorpseName( "an evil essence" )]
+	[CorpseName("an evil essence")]
 	public class Shadowlord : BaseCreature
 	{
 		private DateTime m_NextSpecialAttack = DateTime.MinValue;
 		[Constructable]
-		public Shadowlord() : base( AIType.AI_Mage, FightMode.Closest, 10, 1, 0.2, 0.4 )
+		public Shadowlord() : base(AIType.AI_Mage, FightMode.Closest, 10, 1, 0.2, 0.4)
 		{
 			Title = "the shadowlord";
 
@@ -25,37 +25,37 @@ namespace Server.Mobiles
 			EmoteHue = 123;
 
 			Robe robe = new Robe();
-				robe.ItemID = 0x2687;
-			  	robe.Hue = 0x541;
-				robe.LootType = LootType.Blessed;
-				robe.Name = "shadowlord robe";
-			  	AddItem( robe );
+			robe.ItemID = 0x2687;
+			robe.Hue = 0x541;
+			robe.LootType = LootType.Blessed;
+			robe.Name = "shadowlord robe";
+			AddItem(robe);
 
-			SetStr( 986, 1185 );
-			SetDex( 177, 255 );
-			SetInt( 151, 250 );
+			SetStr(986, 1185);
+			SetDex(177, 255);
+			SetInt(151, 250);
 
-			SetHits( 592, 711 );
+			SetHits(592, 711);
 
-			SetDamage( 22, 29 );
+			SetDamage(22, 29);
 
-			SetDamageType( ResistanceType.Physical, 50 );
-			SetDamageType( ResistanceType.Fire, 25 );
-			SetDamageType( ResistanceType.Energy, 25 );
+			SetDamageType(ResistanceType.Physical, 50);
+			SetDamageType(ResistanceType.Fire, 25);
+			SetDamageType(ResistanceType.Energy, 25);
 
-			SetResistance( ResistanceType.Physical, 65, 80 );
-			SetResistance( ResistanceType.Fire, 60, 80 );
-			SetResistance( ResistanceType.Cold, 50, 60 );
-			SetResistance( ResistanceType.Poison, 100 );
-			SetResistance( ResistanceType.Energy, 40, 50 );
+			SetResistance(ResistanceType.Physical, 65, 80);
+			SetResistance(ResistanceType.Fire, 60, 80);
+			SetResistance(ResistanceType.Cold, 50, 60);
+			SetResistance(ResistanceType.Poison, 100);
+			SetResistance(ResistanceType.Energy, 40, 50);
 
-			SetSkill( SkillName.Anatomy, 25.1, 50.0 );
-			SetSkill( SkillName.Psychology, 90.1, 100.0 );
-			SetSkill( SkillName.Magery, 95.5, 100.0 );
-			SetSkill( SkillName.Meditation, 25.1, 50.0 );
-			SetSkill( SkillName.MagicResist, 100.5, 150.0 );
-			SetSkill( SkillName.Tactics, 90.1, 100.0 );
-			SetSkill( SkillName.FistFighting, 90.1, 100.0 );
+			SetSkill(SkillName.Anatomy, 25.1, 50.0);
+			SetSkill(SkillName.Psychology, 90.1, 100.0);
+			SetSkill(SkillName.Magery, 95.5, 100.0);
+			SetSkill(SkillName.Meditation, 25.1, 50.0);
+			SetSkill(SkillName.MagicResist, 100.5, 150.0);
+			SetSkill(SkillName.Tactics, 90.1, 100.0);
+			SetSkill(SkillName.FistFighting, 90.1, 100.0);
 
 			Fame = 24000;
 			Karma = -24000;
@@ -65,8 +65,8 @@ namespace Server.Mobiles
 
 		public override void GenerateLoot()
 		{
-			AddLoot( LootPack.FilthyRich, 3 );
-			AddLoot( LootPack.Rich );
+			AddLoot(LootPack.FilthyRich, 3);
+			AddLoot(LootPack.Rich);
 		}
 
 		public override bool OnBeforeDeath()
@@ -75,55 +75,55 @@ namespace Server.Mobiles
 			Mobile winner = this;
 			ArrayList targets = new ArrayList();
 
-			foreach ( Mobile m in this.GetMobilesInRange( 30 ) )
+			foreach (Mobile m in this.GetMobilesInRange(30))
 			{
-				if ( m is PlayerMobile && !m.Blessed )
+				if (m is PlayerMobile && !m.Blessed)
 				{
-					if ( this.Name == "Astaroth" )
+					if (this.Name == "Astaroth")
 					{
-						Item flame = m.Backpack.FindItemByType( typeof ( CandleOfLove ) );
-						if ( flame != null && flame is CandleOfLove && ((CandleOfLove)flame).Owner == m )
+						Item flame = m.Backpack.FindItemByType(typeof(CandleOfLove));
+						if (flame != null && flame is CandleOfLove && ((CandleOfLove)flame).Owner == m)
 						{
-							targets.Add( flame );
+							targets.Add(flame);
 							CanDie = 1;
 							winner = m;
-							m.SendMessage( "The Candle of Love has vanished after dispatching the Shadowlord." );
-							Server.Items.QuestSouvenir.GiveReward( m, flame.Name, flame.Hue, flame.ItemID );
+							m.SendMessage("The Candle of Love has vanished after dispatching the Shadowlord.");
+							Server.Items.QuestSouvenir.GiveReward(m, flame.Name, flame.Hue, flame.ItemID);
 						}
 					}
-					else if ( this.Name == "Faulinei" )
+					else if (this.Name == "Faulinei")
 					{
-						Item flame = m.Backpack.FindItemByType( typeof ( BookOfTruth ) );
-						if ( flame != null && flame is BookOfTruth && ((BookOfTruth)flame).Owner == m )
+						Item flame = m.Backpack.FindItemByType(typeof(BookOfTruth));
+						if (flame != null && flame is BookOfTruth && ((BookOfTruth)flame).Owner == m)
 						{
-							targets.Add( flame );
+							targets.Add(flame);
 							CanDie = 1;
 							winner = m;
-							m.SendMessage( "The Book of Truth has vanished after dispatching the Shadowlord." );
-							Server.Items.QuestSouvenir.GiveReward( m, flame.Name, flame.Hue, flame.ItemID );
+							m.SendMessage("The Book of Truth has vanished after dispatching the Shadowlord.");
+							Server.Items.QuestSouvenir.GiveReward(m, flame.Name, flame.Hue, flame.ItemID);
 						}
 					}
 					else
 					{
-						Item flame = m.Backpack.FindItemByType( typeof ( BellOfCourage ) );
-						if ( flame != null && flame is BellOfCourage && ((BellOfCourage)flame).Owner == m )
+						Item flame = m.Backpack.FindItemByType(typeof(BellOfCourage));
+						if (flame != null && flame is BellOfCourage && ((BellOfCourage)flame).Owner == m)
 						{
-							targets.Add( flame );
+							targets.Add(flame);
 							CanDie = 1;
 							winner = m;
-							m.SendMessage( "The Bell of Courage has vanished after dispatching the Shadowlord." );
-							Server.Items.QuestSouvenir.GiveReward( m, flame.Name, flame.Hue, flame.ItemID );
+							m.SendMessage("The Bell of Courage has vanished after dispatching the Shadowlord.");
+							Server.Items.QuestSouvenir.GiveReward(m, flame.Name, flame.Hue, flame.ItemID);
 						}
 					}
 				}
 			}
 
-			if ( CanDie == 0 )
+			if (CanDie == 0)
 			{
 				Say("Foolish mortal! You cannot defeat me!");
 				this.Hits = this.HitsMax;
-				this.FixedParticles( 0x376A, 9, 32, 5030, EffectLayer.Waist );
-				this.PlaySound( 0x202 );
+				this.FixedParticles(0x376A, 9, 32, 5030, EffectLayer.Waist);
+				this.PlaySound(0x202);
 				return false;
 			}
 			else
@@ -132,102 +132,106 @@ namespace Server.Mobiles
 				this.Hue = 0x497;
 
 				string Iam = this.Name + " the Shadowlord";
-				Server.Misc.LoggingFunctions.LogSlayingLord( this.LastKiller, Iam );
-
-				for ( int i = 0; i < targets.Count; ++i )
+				var pm = this.LastKiller as PlayerMobile;
+				if (pm != null)
 				{
-					Item item = ( Item )targets[ i ];
+					Server.Misc.LoggingFunctions.LogSlayingLord(pm, Iam);
+				}
+
+				for (int i = 0; i < targets.Count; ++i)
+				{
+					Item item = (Item)targets[i];
 					item.Delete();
 				}
 
-				if ( this.Name == "Astaroth" && winner is PlayerMobile )
+				if (this.Name == "Astaroth" && winner is PlayerMobile)
 				{
-					winner.AddToBackpack( new ShardOfHatred() );
-					winner.SendMessage( "You have obtained the Shard of Hatred!" );
-					LoggingFunctions.LogGenericQuest( winner, "has obtained the shard of hatred" );
+					winner.AddToBackpack(new ShardOfHatred());
+					winner.SendMessage("You have obtained the Shard of Hatred!");
+					LoggingFunctions.LogGenericQuest(winner, "has obtained the shard of hatred");
 				}
-				else if ( this.Name == "Faulinei" && winner is PlayerMobile )
+				else if (this.Name == "Faulinei" && winner is PlayerMobile)
 				{
-					winner.AddToBackpack( new ShardOfFalsehood() );
-					winner.SendMessage( "You have obtained the Shard of Falsehood!" );
-					LoggingFunctions.LogGenericQuest( winner, "has obtained the shard of falsehood" );
+					winner.AddToBackpack(new ShardOfFalsehood());
+					winner.SendMessage("You have obtained the Shard of Falsehood!");
+					LoggingFunctions.LogGenericQuest(winner, "has obtained the shard of falsehood");
 				}
-				else if ( this.Name == "Nosfentor" && winner is PlayerMobile )
+				else if (this.Name == "Nosfentor" && winner is PlayerMobile)
 				{
-					winner.AddToBackpack( new ShardOfCowardice() );
-					winner.SendMessage( "You have obtained the Shard of Cowardice!" );
-					LoggingFunctions.LogGenericQuest( winner, "has obtained the shard of cowardice" );
+					winner.AddToBackpack(new ShardOfCowardice());
+					winner.SendMessage("You have obtained the Shard of Cowardice!");
+					LoggingFunctions.LogGenericQuest(winner, "has obtained the shard of cowardice");
 				}
 
-				if ( winner != null )
+				if (winner != null)
 				{
-					if ( winner is BaseCreature )
+					if (winner is BaseCreature)
 						winner = ((BaseCreature)winner).GetMaster();
 
-					if ( winner is PlayerMobile && !winner.Blessed )
+					if (winner is PlayerMobile && !winner.Blessed)
 					{
-						Party p = Engines.PartySystem.Party.Get( winner );
-						if ( p != null )
+						Party p = Engines.PartySystem.Party.Get(winner);
+						if (p != null)
 						{
-							foreach ( PartyMemberInfo pmi in p.Members )
+							foreach (PartyMemberInfo pmi in p.Members)
 							{
-								if ( pmi.Mobile is PlayerMobile && pmi.Mobile.InRange(this.Location, 20) && pmi.Mobile.Map == this.Map && !pmi.Mobile.Blessed && !Server.Misc.PlayerSettings.GetSpecialsKilled( pmi.Mobile, this.Name ) )
+								if (pmi.Mobile is PlayerMobile && pmi.Mobile.InRange(this.Location, 20) && pmi.Mobile.Map == this.Map && !pmi.Mobile.Blessed && !Server.Misc.PlayerSettings.GetSpecialsKilled(pmi.Mobile, this.Name))
 								{
-									Server.Misc.PlayerSettings.SetSpecialsKilled( pmi.Mobile, this.Name, true );
+									Server.Misc.PlayerSettings.SetSpecialsKilled(pmi.Mobile, this.Name, true);
 									ManualOfItems book = new ManualOfItems();
-										book.Hue = 0x541;
-										book.Name = "Chest of Shadowlord Relics";
-										book.m_Charges = 1;
-										book.m_Skill_1 = 99;
-										book.m_Skill_2 = 32;
-										book.m_Skill_3 = 0;
-										book.m_Skill_4 = 0;
-										book.m_Skill_5 = 0;
-										book.m_Value_1 = 10.0;
-										book.m_Value_2 = 10.0;
-										book.m_Value_3 = 0.0;
-										book.m_Value_4 = 0.0;
-										book.m_Value_5 = 0.0;
-										book.m_Slayer_1 = 5;
-										book.m_Slayer_2 = 0;
-										book.m_Owner = pmi.Mobile;
-										book.m_Extra = "of the Shadows";
-										book.m_FromWho = "Spawned from the Shadowlords";
-										book.m_HowGiven = "Acquired by";
-										book.m_Points = 200;
-										book.m_Hue = 0x541;
-										pmi.Mobile.AddToBackpack( book );
+									book.Hue = 0x541;
+									book.Name = "Chest of Shadowlord Relics";
+									book.m_Charges = 1;
+									book.m_Skill_1 = 99;
+									book.m_Skill_2 = 32;
+									book.m_Skill_3 = 0;
+									book.m_Skill_4 = 0;
+									book.m_Skill_5 = 0;
+									book.m_Value_1 = 10.0;
+									book.m_Value_2 = 10.0;
+									book.m_Value_3 = 0.0;
+									book.m_Value_4 = 0.0;
+									book.m_Value_5 = 0.0;
+									book.m_Slayer_1 = 5;
+									book.m_Slayer_2 = 0;
+									book.m_Owner = pmi.Mobile;
+									book.m_Extra = "of the Shadows";
+									book.m_FromWho = "Spawned from the Shadowlords";
+									book.m_HowGiven = "Acquired by";
+									book.m_Points = 200;
+									book.m_Hue = 0x541;
+									pmi.Mobile.AddToBackpack(book);
 
 									pmi.Mobile.SendMessage("An item has appeared in your backpack!");
 								}
 							}
 						}
-						else if ( !Server.Misc.PlayerSettings.GetSpecialsKilled( winner, this.Name ) )
+						else if (!Server.Misc.PlayerSettings.GetSpecialsKilled(winner, this.Name))
 						{
-							Server.Misc.PlayerSettings.SetSpecialsKilled( winner, this.Name, true );
+							Server.Misc.PlayerSettings.SetSpecialsKilled(winner, this.Name, true);
 							ManualOfItems book = new ManualOfItems();
-								book.Hue = 0x541;
-								book.Name = "Chest of Shadowlord Relics";
-								book.m_Charges = 1;
-								book.m_Skill_1 = 99;
-								book.m_Skill_2 = 32;
-								book.m_Skill_3 = 0;
-								book.m_Skill_4 = 0;
-								book.m_Skill_5 = 0;
-								book.m_Value_1 = 10.0;
-								book.m_Value_2 = 10.0;
-								book.m_Value_3 = 0.0;
-								book.m_Value_4 = 0.0;
-								book.m_Value_5 = 0.0;
-								book.m_Slayer_1 = 5;
-								book.m_Slayer_2 = 0;
-								book.m_Owner = winner;
-								book.m_Extra = "of the Shadows";
-								book.m_FromWho = "Spawned from the Shadowlords";
-								book.m_HowGiven = "Acquired by";
-								book.m_Points = 200;
-								book.m_Hue = 0x541;
-								winner.AddToBackpack( book );
+							book.Hue = 0x541;
+							book.Name = "Chest of Shadowlord Relics";
+							book.m_Charges = 1;
+							book.m_Skill_1 = 99;
+							book.m_Skill_2 = 32;
+							book.m_Skill_3 = 0;
+							book.m_Skill_4 = 0;
+							book.m_Skill_5 = 0;
+							book.m_Value_1 = 10.0;
+							book.m_Value_2 = 10.0;
+							book.m_Value_3 = 0.0;
+							book.m_Value_4 = 0.0;
+							book.m_Value_5 = 0.0;
+							book.m_Slayer_1 = 5;
+							book.m_Slayer_2 = 0;
+							book.m_Owner = winner;
+							book.m_Extra = "of the Shadows";
+							book.m_FromWho = "Spawned from the Shadowlords";
+							book.m_HowGiven = "Acquired by";
+							book.m_Points = 200;
+							book.m_Hue = 0x541;
+							winner.AddToBackpack(book);
 
 							winner.SendMessage("An item has appeared in your backpack!");
 						}
@@ -237,114 +241,114 @@ namespace Server.Mobiles
 			return base.OnBeforeDeath();
 		}
 
-		public override void OnDamage( int amount, Mobile from, bool willKill )
+		public override void OnDamage(int amount, Mobile from, bool willKill)
 		{
-			if ( DateTime.UtcNow >= m_NextSpecialAttack )
+			if (DateTime.UtcNow >= m_NextSpecialAttack)
 			{
-				PerformRageAttack( from );
-				m_NextSpecialAttack = DateTime.UtcNow + TimeSpan.FromSeconds( 45 );
+				PerformRageAttack(from);
+				m_NextSpecialAttack = DateTime.UtcNow + TimeSpan.FromSeconds(45);
 			}
-			
-			base.OnDamage( amount, from, willKill );
+
+			base.OnDamage(amount, from, willKill);
 		}
 
-		private void PerformRageAttack( Mobile target )
+		private void PerformRageAttack(Mobile target)
 		{
-			if ( target == null || target.Deleted || !target.Alive )
+			if (target == null || target.Deleted || !target.Alive)
 				return;
 
-			int attackChoice = Utility.RandomMinMax( 1, 3 );
-            Map map = this.Map;
+			int attackChoice = Utility.RandomMinMax(1, 3);
+			Map map = this.Map;
 
-			switch ( attackChoice  )
+			switch (attackChoice)
 			{
 				case 1: // energy burst
-				{
-					BossSpecialAttack.PerformTargettedAoE(
-						this,
-						target,
-						1,
-						"I shall destroy you!",
-						0xA2A,  // hue
-						20,     // physical
-						20,   // fire
-						20,     // cold
-						20,     // poison
-						20      // energy
-					);
-					break;
-				}
+					{
+						BossSpecialAttack.PerformTargettedAoE(
+							this,
+							target,
+							1,
+							"I shall destroy you!",
+							0xA2A,  // hue
+							20,     // physical
+							20,   // fire
+							20,     // cold
+							20,     // poison
+							20      // energy
+						);
+						break;
+					}
 				case 2: // energy nova
-				{
-					BossSpecialAttack.PerformCrossExplosion(
-					    boss: this,
-					    target: target,
-					    warcry: "You will regret dabbling in my affairs!",
-					    hue: 0xA2A,
-					    rage: 2,
-					    coldDmg: 20,
-					    fireDmg: 20,
-					    energyDmg: 20,
-					    poisonDmg: 20,
-					    physicalDmg: 20
-					);
-                	break;
-			    }
+					{
+						BossSpecialAttack.PerformCrossExplosion(
+							boss: this,
+							target: target,
+							warcry: "You will regret dabbling in my affairs!",
+							hue: 0xA2A,
+							rage: 2,
+							coldDmg: 20,
+							fireDmg: 20,
+							energyDmg: 20,
+							poisonDmg: 20,
+							physicalDmg: 20
+						);
+						break;
+					}
 				case 3: // energy nova
-				{
-					BossSpecialAttack.PerformSlam(
-                	    boss: this,
-                	    warcry: "Foolish mortal!",
-                	    hue: 0xA2A,
-                	    rage: 2,
-                	    range: 6,
-                	    physicalDmg: 0,
-						energyDmg: 100
-                	);
-                	break;
-			    }
+					{
+						BossSpecialAttack.PerformSlam(
+							boss: this,
+							warcry: "Foolish mortal!",
+							hue: 0xA2A,
+							rage: 2,
+							range: 6,
+							physicalDmg: 0,
+							energyDmg: 100
+						);
+						break;
+					}
 			}
 		}
 
-        public override void OnAfterSpawn()
-        {
+		public override void OnAfterSpawn()
+		{
 			base.OnAfterSpawn();
 
-			if ( this.Home.X == 6124 && this.Home.Y == 2639 ){ this.Name = "Nosfentor"; }
-			else if ( this.Home.X == 6159 && this.Home.Y == 2845 ){ this.Name = "Faulinei"; }
-			else if ( this.Home.X == 6537 && this.Home.Y == 2616 ){ this.Name = "Astaroth"; }
+			if (this.Home.X == 6124 && this.Home.Y == 2639) { this.Name = "Nosfentor"; }
+			else if (this.Home.X == 6159 && this.Home.Y == 2845) { this.Name = "Faulinei"; }
+			else if (this.Home.X == 6537 && this.Home.Y == 2616) { this.Name = "Astaroth"; }
 
-			Effects.SendLocationParticles( EffectItem.Create( this.Location, this.Map, EffectItem.DefaultDuration ), 0x3728, 10, 10, 2023 );
-			this.PlaySound( 0x1FE );
+			Effects.SendLocationParticles(EffectItem.Create(this.Location, this.Map, EffectItem.DefaultDuration), 0x3728, 10, 10, 2023);
+			this.PlaySound(0x1FE);
 		}
 
-		public override bool CanRummageCorpses{ get{ return true; } }
-		public override int TreasureMapLevel{ get{ return 6; } }
-		public override bool BleedImmune{ get{ return true; } }
+		public override bool CanRummageCorpses { get { return true; } }
+		public override int TreasureMapLevel { get { return 6; } }
+		public override bool BleedImmune { get { return true; } }
 		public override bool BardImmune { get { return true; } }
-		public override Poison PoisonImmune{ get{ return Poison.Deadly; } }
-		public override bool IsScaredOfScaryThings{ get{ return false; } }
-		public override bool IsScaryToPets{ get{ return true; } }
-		public override bool ClickTitle{ get{ return false; } }
-		public override bool ShowFameTitle{ get{ return false; } }
-		public override bool AlwaysAttackable{ get{ return true; } }
+		public override Poison PoisonImmune { get { return Poison.Deadly; } }
+		public override bool IsScaredOfScaryThings { get { return false; } }
+		public override bool IsScaryToPets { get { return true; } }
+		public override bool ClickTitle { get { return false; } }
+		public override bool ShowFameTitle { get { return false; } }
+		public override bool AlwaysAttackable { get { return true; } }
 
-		public Shadowlord( Serial serial ) : base( serial )
+		public Shadowlord(Serial serial) : base(serial)
 		{
 		}
 
-		public override void Serialize( GenericWriter writer )
+		public override void Serialize(GenericWriter writer)
 		{
-			base.Serialize( writer );
-			writer.Write( (int) 1 );
-			writer.Write( m_NextSpecialAttack );
+			base.Serialize(writer);
+			writer.Write((int)1);
+			writer.Write(m_NextSpecialAttack);
 		}
 
-		public override void Deserialize( GenericReader reader )
+		public override void Deserialize(GenericReader reader)
 		{
-			base.Deserialize( reader );
+			base.Deserialize(reader);
 			int version = reader.ReadInt();
-			if ( version >= 1 )
+			if (version >= 1)
 			{
 				m_NextSpecialAttack = reader.ReadDateTime();
 			}

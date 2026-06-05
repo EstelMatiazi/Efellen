@@ -104,9 +104,8 @@ player character goes into (no matter the town they are in). So if you play this
 in a multi-player environment, you may see your friends from time to time in
 these areas. When you leave the bank, you will be back in the town you entered
 from. The other public areas are the Wizards Guild, the Thieves Guild, the Black
-Magic Guild, the Inn, the Tavern, and a few others. Because the Secrets of
-Sosaria is widely expansive, these areas simply provide a way to run into other
-players.
+Magic Guild, the Inn, the Tavern, and a few others. Because Efellen is widely expansive, 
+these areas simply provide a way to run into other players.
 
 Some dungeons have difficulty levels, and you will be notified on how difficult
 a dungeon is. So a skeletal knight in an easy dungeon will be much harder within
@@ -164,11 +163,10 @@ Network:
 Detecting public IP address...done
 Listening: 127.0.0.1:2593
 
-You may now play the Adventurers of Akalabeth!
+You may now play Efellen!
 ```
 
-If everything has occurred as described, you successfully setup your Secrets of
-Sosaria game server. You can close the server whenever you are done playing by
+If everything has occurred as described, you successfully setup your Efellen game server. You can close the server whenever you are done playing by
 clicking the top-right "X" of the console window. If enabled, you can also type
 `help` <kbd>Enter</kbd> within the console window for a list of commands.
 

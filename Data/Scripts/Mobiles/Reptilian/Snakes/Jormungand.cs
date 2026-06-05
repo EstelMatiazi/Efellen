@@ -90,7 +90,11 @@ namespace Server.Mobiles
 
 		public override bool OnBeforeDeath()
 		{
-			Server.Misc.LoggingFunctions.LogSlayingLord( this.LastKiller, this.Name );
+			var pm = this.LastKiller as PlayerMobile;
+			if ( pm != null )
+			{
+				Server.Misc.LoggingFunctions.LogSlayingLord( pm, this.Name );
+			}
 			return base.OnBeforeDeath();
 		}
 

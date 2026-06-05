@@ -1,22 +1,24 @@
 using Server.Accounting;
-using Server.Commands.Generic;
-using Server.Commands;
-using Server.Guilds;
-using Server.Gumps;
-using Server.Items;
 using Server.Misc;
 using Server.Mobiles;
 using Server.Network;
-using Server.Regions;
-using Server;
-using System.Collections.Generic;
-using System.Collections;
 using System.IO;
 using System.Text;
 using System;
 
 namespace Server.Misc
 {
+	public enum LogEventType
+	{
+		Battles,
+		Adventures,
+		Journies,
+		Quests,
+		Deaths,
+		Murderers,
+		Server
+	}
+
     class LoggingFunctions
     {
 		public static bool LoggingEvents()
@@ -88,7 +90,27 @@ namespace Server.Misc
 			}
 		}
 
-		public static string LogEvent( string sEvent, string sLog )
+		public static void EmitAndLogEvent( PlayerMobile mobile, string sEvent, LogEventType sLog, bool includeDate, bool prependNameAndTitle = true )
+		{
+			CustomEventSink.InvokeEventLogged( mobile, sLog, sEvent, !prependNameAndTitle );
+			LogEvent( mobile, sEvent, sLog, includeDate, prependNameAndTitle );
+		}
+
+		public static void LogEvent( PlayerMobile mobile, string sEvent, LogEventType sLog, bool includeDate, bool prependNameAndTitle = true )
+		{
+			if ( prependNameAndTitle )
+			{
+				string sTitle = mobile.Title != null ? mobile.Title : "the " + GetPlayerInfo.GetSkillTitle( mobile );
+				if (0 < sEvent.Length && sEvent.StartsWith(" "))
+					sEvent = sEvent.Substring(1);
+
+				sEvent = mobile.Name + " " + sTitle + " " + sEvent;
+			}
+
+			LogEvent( sEvent, sLog, includeDate );
+		}
+
+		public static void LogEvent( string sEvent, LogEventType sLog, bool includeDate )
 		{
 			if ( LoggingFunctions.LoggingEvents() == true )
 			{
@@ -97,47 +119,53 @@ namespace Server.Misc
 
 				string sPath = "Saves/Data/adventures.txt";
 
-				if ( sLog == "Logging Adventures" ){ sPath = "Saves/Data/adventures.txt"; }
-				else if ( sLog == "Logging Quests" ){ sPath = "Saves/Data/quests.txt"; }
-				else if ( sLog == "Logging Battles" ){ sPath = "Saves/Data/battles.txt"; }
-				else if ( sLog == "Logging Deaths" ){ sPath = "Saves/Data/deaths.txt"; }
-				else if ( sLog == "Logging Murderers" ){ sPath = "Saves/Data/murderers.txt"; }
-				else if ( sLog == "Logging Journies" ){ sPath = "Saves/Data/journies.txt"; }
-				else if ( sLog == "Logging Server" ){ sPath = "Saves/Data/server.txt"; }
-				
+				switch (sLog)
+				{
+					case LogEventType.Adventures: sPath = "Saves/Data/adventures.txt"; break;
+					case LogEventType.Quests: sPath = "Saves/Data/quests.txt"; break;
+					case LogEventType.Battles: sPath = "Saves/Data/battles.txt"; break;
+					case LogEventType.Deaths: sPath = "Saves/Data/deaths.txt"; break;
+					case LogEventType.Murderers: sPath = "Saves/Data/murderers.txt"; break;
+					case LogEventType.Journies: sPath = "Saves/Data/journies.txt"; break;
+					case LogEventType.Server: sPath = "Saves/Data/server.txt"; break;
+				}
+
 				CreateFile( sPath );
 
 				/// PREPEND THE FILE WITH THE EVENT ///
 				try
 				{
+					if ( includeDate ) sEvent += "#" + GetPlayerInfo.GetTodaysDate();
 					UpdateFile(sPath, sEvent);
 				}
 				catch(Exception)
 				{
 				}
 			}
-			return null;
 		}
 
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-		public static string LogRead( string sLog, Mobile m )
+		public static string LogRead( LogEventType sLog, Mobile m )
 		{
 			if ( !Directory.Exists( "Saves/Data" ) )
 				Directory.CreateDirectory( "Saves/Data" );
 
 			string sPath = "Saves/Data/adventures.txt";
 
-			if ( sLog == "Logging Adventures" ){ sPath = "Saves/Data/adventures.txt"; }
-			else if ( sLog == "Logging Quests" ){ sPath = "Saves/Data/quests.txt"; }
-			else if ( sLog == "Logging Battles" ){ sPath = "Saves/Data/battles.txt"; }
-			else if ( sLog == "Logging Deaths" ){ sPath = "Saves/Data/deaths.txt"; }
-			else if ( sLog == "Logging Murderers" ){ sPath = "Saves/Data/murderers.txt"; }
-			else if ( sLog == "Logging Journies" ){ sPath = "Saves/Data/journies.txt"; }
+			switch (sLog)
+			{
+				case LogEventType.Adventures: sPath = "Saves/Data/adventures.txt"; break;
+				case LogEventType.Quests: sPath = "Saves/Data/quests.txt"; break;
+				case LogEventType.Battles: sPath = "Saves/Data/battles.txt"; break;
+				case LogEventType.Deaths: sPath = "Saves/Data/deaths.txt"; break;
+				case LogEventType.Murderers: sPath = "Saves/Data/murderers.txt"; break;
+				case LogEventType.Journies: sPath = "Saves/Data/journies.txt"; break;
+			}
 
 			string sBreak = "";
 
-			if ( sLog == "Logging Murderers"){ sBreak = "<br>"; }
+			if ( sLog == LogEventType.Murderers){ sBreak = "<br>"; }
 			string sLogEntries = "";
 
 			CreateFile( sPath );
@@ -176,13 +204,16 @@ namespace Server.Misc
 
 			if ( nBlank == 1 )
 			{
-				if ( sLog == "Logging Murderers" ){ sLogEntries = sLogEntries + "I am happy to say " + m.Name + ", that no one is wanted for murder."; }
-				else if ( sLog == "Logging Battles" ){ sLogEntries = sLogEntries + "Sorry, " + m.Name + ". I have no new tales of bravery to tell."; }
-				else if ( sLog == "Logging Adventures" ){ sLogEntries = sLogEntries + "Sorry, " + m.Name + ". I have no new gossip to tell."; }
-				else if ( sLog == "Logging Quests" ){ sLogEntries = sLogEntries + "Sorry, " + m.Name + ". I have no new tales of deeds to tell."; }
-				else if ( sLog == "Logging Deaths" ){ sLogEntries = sLogEntries + "I am happy to say " + m.Name + ", that all of Sosaria's citizens are alive and well."; }
-				else if ( sLog == "Logging Journies" ){ sLogEntries = sLogEntries + "Sorry, " + m.Name + ". I have no new tales of exploration to tell."; }
-				else { sLogEntries = sLogEntries + "Sorry, " + m.Name + ". I have nothing new to tell of such things."; }
+				switch (sLog)
+				{
+					case LogEventType.Murderers: sLogEntries = sLogEntries + "I am happy to say " + m.Name + ", that no one is wanted for murder."; break;
+					case LogEventType.Battles: sLogEntries = sLogEntries + "Sorry, " + m.Name + ". I have no new tales of bravery to tell."; break;
+					case LogEventType.Adventures: sLogEntries = sLogEntries + "Sorry, " + m.Name + ". I have no new gossip to tell."; break;
+					case LogEventType.Quests: sLogEntries = sLogEntries + "Sorry, " + m.Name + ". I have no new tales of deeds to tell."; break;
+					case LogEventType.Deaths: sLogEntries = sLogEntries + "I am happy to say " + m.Name + ", that all of Sosaria's citizens are alive and well."; break;
+					case LogEventType.Journies: sLogEntries = sLogEntries + "Sorry, " + m.Name + ". I have no new tales of exploration to tell."; break;
+					default: sLogEntries = sLogEntries + "Sorry, " + m.Name + ". I have nothing new to tell of such things."; break;
+				}
 			}
 
 			if ( sLogEntries.Contains(" .") ){ sLogEntries = sLogEntries.Replace(" .", "."); }
@@ -267,25 +298,25 @@ namespace Server.Misc
 			if ( !Directory.Exists( "Saves/Data" ) )
 				Directory.CreateDirectory( "Saves/Data" );
 
-			string sLog = "Logging Adventures";
+			LogEventType sLog = LogEventType.Adventures;
 			switch ( Utility.Random( 6 ))
 			{
-				case 0: sLog = "Logging Deaths"; break;
-				case 1: sLog = "Logging Quests"; break;
-				case 2: sLog = "Logging Battles"; break;
-				case 3: sLog = "Logging Journies"; break;
-				case 4: sLog = "Logging Murderers"; break;
-				case 5: sLog = "Logging Adventures"; break;
+				case 0: sLog = LogEventType.Deaths; break;
+				case 1: sLog = LogEventType.Quests; break;
+				case 2: sLog = LogEventType.Battles; break;
+				case 3: sLog = LogEventType.Journies; break;
+				case 4: sLog = LogEventType.Murderers; break;
+				case 5: sLog = LogEventType.Adventures; break;
 			};
 
 			string sPath = "Saves/Data/adventures.txt";
 
-			if ( sLog == "Logging Adventures" ){ sPath = "Saves/Data/adventures.txt"; }
-			else if ( sLog == "Logging Quests" ){ sPath = "Saves/Data/quests.txt"; }
-			else if ( sLog == "Logging Battles" ){ sPath = "Saves/Data/battles.txt"; }
-			else if ( sLog == "Logging Deaths" ){ sPath = "Saves/Data/deaths.txt"; }
-			else if ( sLog == "Logging Murderers" ){ sPath = "Saves/Data/murderers.txt"; }
-			else if ( sLog == "Logging Journies" ){ sPath = "Saves/Data/journies.txt"; }
+			if ( sLog == LogEventType.Adventures ){ sPath = "Saves/Data/adventures.txt"; }
+			else if ( sLog == LogEventType.Quests ){ sPath = "Saves/Data/quests.txt"; }
+			else if ( sLog == LogEventType.Battles ){ sPath = "Saves/Data/battles.txt"; }
+			else if ( sLog == LogEventType.Deaths ){ sPath = "Saves/Data/deaths.txt"; }
+			else if ( sLog == LogEventType.Murderers ){ sPath = "Saves/Data/murderers.txt"; }
+			else if ( sLog == LogEventType.Journies ){ sPath = "Saves/Data/journies.txt"; }
 
 			CreateFile( sPath );
 
@@ -300,7 +331,7 @@ namespace Server.Misc
 				};
 
 			string myShout = "";
-			if ( sLog == "Logging Murderers" ){ myShout = Server.Mobiles.TownHerald.randomShout( null ); }
+			if ( sLog == LogEventType.Murderers ){ myShout = Server.Mobiles.TownHerald.randomShout( null ); }
 			else { myShout = Server.Mobiles.TownHerald.randomShout( null ); }
 
 			try
@@ -372,21 +403,21 @@ namespace Server.Misc
 			if ( !Directory.Exists( "Saves/Data" ) )
 				Directory.CreateDirectory( "Saves/Data" );
 
-			string sLog = "Logging Murderers";
+			LogEventType sLog = LogEventType.Murderers;
 			switch ( Utility.Random( 6 ))
 			{
-				case 0: sLog = "Logging Deaths"; break;
-				case 1: sLog = "Logging Battles"; break;
-				case 2: sLog = "Logging Journies"; break;
-				case 3: sLog = "Logging Battles"; break;
-				case 4: sLog = "Logging Journies"; break;
+				case 0: sLog = LogEventType.Deaths; break;
+				case 1: sLog = LogEventType.Battles; break;
+				case 2: sLog = LogEventType.Journies; break;
+				case 3: sLog = LogEventType.Battles; break;
+				case 4: sLog = LogEventType.Journies; break;
 			};
 
 			string sPath = "Saves/Data/murderers.txt";
 
-			if ( sLog == "Logging Battles" ){ sPath = "Saves/Data/battles.txt"; }
-			else if ( sLog == "Logging Deaths" ){ sPath = "Saves/Data/deaths.txt"; }
-			else if ( sLog == "Logging Journies" ){ sPath = "Saves/Data/journies.txt"; }
+			if ( sLog == LogEventType.Battles ){ sPath = "Saves/Data/battles.txt"; }
+			else if ( sLog == LogEventType.Deaths ){ sPath = "Saves/Data/deaths.txt"; }
+			else if ( sLog == LogEventType.Journies ){ sPath = "Saves/Data/journies.txt"; }
 
 			CreateFile( sPath );
 
@@ -521,7 +552,7 @@ namespace Server.Misc
 
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-		public static string LogRegions( Mobile m, string sRegion, string sDirection )
+		public static void LogRegions( Mobile m, string sRegion, string sDirection )
 		{
 			if ( m is PlayerMobile )
 			{
@@ -543,642 +574,513 @@ namespace Server.Misc
 			if ( ( m is PlayerMobile ) && ( m.AccessLevel < AccessLevel.GameMaster ) )
 			{
 				if ( !m.Alive && m.QuestArrow == null ){ GhostHelper.OnGhostWalking( m ); }
-				string sDateString = GetPlayerInfo.GetTodaysDate();
-				string sTitle = "the " + GetPlayerInfo.GetSkillTitle( m );
-				if ( m.Title != null ){ sTitle = m.Title; }
 
 				PlayerMobile pm = (PlayerMobile)m;
 				if (pm.PublicInfo == true)
 				{
-					string sEvent;
-
-					if ( sDirection == "enter" ){ sEvent = m.Name + " " + sTitle + " entered " + sRegion + "#" + sDateString; LoggingFunctions.LogEvent( sEvent, "Logging Journies" ); }
-					// else { sEvent = m.Name + " " + sTitle + " left " + sRegion + "#" + sDateString; LoggingFunctions.LogEvent( sEvent, "Logging Journies" ); }
+					if ( sDirection == "enter" )
+					{
+						string sEvent = " entered " + sRegion;
+						LoggingFunctions.LogEvent( pm, sEvent, LogEventType.Journies, true );
+					}
+					// else
+					// {
+					// 	string sEvent = " left " + sRegion;
+					// 	LoggingFunctions.LogEvent( m.Name + " " + sTitle + sEvent, LogEventType.Journies, true );
+					// }
 				}
 			}
-			return null;
 		}
 
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static string LogBattles( Mobile m, Mobile mob )
+		public static void LogBattles( Mobile m, Mobile mob )
 		{
-		    if ( m == null || mob == null )
-		        return null;
-
-		    if ( !(m is PlayerMobile) )
-		        return null;
-
-		    string sDateString = GetPlayerInfo.GetTodaysDate();
-
-		    string sTitle = "the " + GetPlayerInfo.GetSkillTitle( m );
-		    if ( m.Title != null ){ sTitle = m.Title; }
-
-		    PlayerMobile pm = (PlayerMobile)m;
-
-		    if ( mob.Name == null )
-		        return null;
-
-		    string sKiller = mob.Name;
-		    string[] eachWord = sKiller.Split('[');
-		    int nLine = 1;
-		    foreach (string eachWords in eachWord)
-		    {
-		        if ( nLine == 1 ){ nLine = 2; sKiller = eachWords; }
-		    }
-		    sKiller = sKiller.TrimEnd();
-
-		    if ( mob is BaseCreature && ( mob.Fame > -2000 && mob.Fame < 2000 ) )
-		    {
-		        // NOT WORTH RECORDING OTHERWISE YOU GET A BATTLE LOG FULL OF GOAT OR RABBIT SLAYINGS...OR BASICALLY EASY MONSTERS
-		        return null;
-		    }
-		    else if ( pm.PublicInfo == true )
-		    {
-		        string Killed = sKiller;
-		        // Check for null BEFORE checking for empty string
-		        if ( mob.Title != null && mob.Title != "" ){ Killed = Killed + " " + mob.Title; }
-
-		        if ( m.Name == null )
-		            return null;
-
-		        string sEvent = m.Name + " " + sTitle + " had slain " + Killed + "#" + sDateString;
-		        LoggingFunctions.LogEvent( sEvent, "Logging Battles" );
-		    }
-		    else
-		    {
-		        string privateEnemy = "an opponent";
-		        switch ( Utility.Random( 6 ) )
-		        {
-		            case 0: privateEnemy = "an opponent"; break;
-		            case 1: privateEnemy = "an enemy"; break;
-		            case 2: privateEnemy = "another"; break;
-		            case 3: privateEnemy = "an adversary"; break;
-		            case 4: privateEnemy = "a foe"; break;
-		            case 5: privateEnemy = "a rival"; break;
-		        }
-
-		        if ( m.Name == null )
-		            return null;
-
-		        string sEvent = m.Name + " " + sTitle + " had slain " + privateEnemy + "#" + sDateString;
-		        LoggingFunctions.LogEvent( sEvent, "Logging Battles" );
-		    }
-
-		    return null;
-		}
-
-		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-		public static string LogTraps( Mobile m, string sTrap )
-		{
-			string sDateString = GetPlayerInfo.GetTodaysDate();
-			string sTitle = "the " + GetPlayerInfo.GetSkillTitle( m );
-			if ( m.Title != null ){ sTitle = m.Title; }
-
-			string sTrip = "had triggered";
-			switch( Utility.Random( 7 ) )
+			if ( m is PlayerMobile && mob != null )
 			{
-				case 0: sTrip = "had triggered";	break;
-				case 1: sTrip = "had set off";	break;
-				case 2: sTrip = "had walked into";	break;
-				case 3: sTrip = "had stumbled into";	break;
-				case 4: sTrip = "had been struck with";	break;
-				case 5: sTrip = "had been affected with";	break;
-				case 6: sTrip = "had ran into";	break;
-			}
-
-			PlayerMobile pm = (PlayerMobile)m;
-			if (pm.PublicInfo == true)
-			{
-				string sEvent = m.Name + " " + sTitle + " " + sTrip + " " + sTrap + "#" + sDateString;
-				LoggingFunctions.LogEvent( sEvent, "Logging Adventures" );
-			}
-
-			return null;
-		}
-
-		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-		public static string LogVoid( Mobile m, string sTrap )
-		{
-			string sDateString = GetPlayerInfo.GetTodaysDate();
-			string sTitle = "the " + GetPlayerInfo.GetSkillTitle( m );
-			if ( m.Title != null ){ sTitle = m.Title; }
-
-			PlayerMobile pm = (PlayerMobile)m;
-			if (pm.PublicInfo == true)
-			{
-				string sEvent = m.Name + " " + sTitle + " " + sTrap + ", teleporting them far away#" + sDateString;
-				LoggingFunctions.LogEvent( sEvent, "Logging Adventures" );
-			}
-
-			return null;
-		}
-
-		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-		public static string LogPrison( Mobile m, string sJail )
-		{
-			string sDateString = GetPlayerInfo.GetTodaysDate();
-			string sTitle = "the " + GetPlayerInfo.GetSkillTitle( m );
-			if ( m.Title != null ){ sTitle = m.Title; }
-
-			PlayerMobile pm = (PlayerMobile)m;
-			if (pm.PublicInfo == true)
-			{
-				string sEvent = m.Name + " " + sTitle + " was sent to the " + sJail + "#" + sDateString;
-				LoggingFunctions.LogEvent( sEvent, "Logging Journies" );
-			}
-
-			return null;
-		}
-
-		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-		public static string LogKillTile( Mobile m, string sTrap )
-		{
-			string sDateString = GetPlayerInfo.GetTodaysDate();
-			string sTitle = "the " + GetPlayerInfo.GetSkillTitle( m );
-			if ( m.Title != null ){ sTitle = m.Title; }
-
-			PlayerMobile pm = (PlayerMobile)m;
-			if (pm.PublicInfo == true)
-			{
-				string sEvent = m.Name + " " + sTitle + " made a fatal mistake from " + sTrap + "#" + sDateString;
-				LoggingFunctions.LogEvent( sEvent, "Logging Journies" );
-			}
-
-			return null;
-		}
-
-		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-		public static string LogLoot( Mobile m, string sBox, string sType )
-		{
-			string sDateString = GetPlayerInfo.GetTodaysDate();
-			string sTitle = "the " + GetPlayerInfo.GetSkillTitle( m );
-			if ( m.Title != null ){ sTitle = m.Title; }
-
-			string sLoot = "had searched through a";
-			switch( Utility.Random( 7 ) )
-			{
-				case 0: sLoot = "had searched through a";	break;
-				case 1: sLoot = "had found a";	break;
-				case 2: sLoot = "had discovered a";	break;
-				case 3: sLoot = "had looked through a";	break;
-				case 4: sLoot = "had stumbled upon a";	break;
-				case 5: sLoot = "had dug through a";	break;
-				case 6: sLoot = "had opened a";	break;
-			}
-			if ( sType == "boat" )
-			{
-				switch( Utility.Random( 5 ) )
+				if ( mob is BaseCreature && ( mob.Fame > -5000 && mob.Fame < 5000 ) )
 				{
-					case 0: sLoot = "had searched through a";	break;
-					case 1: sLoot = "had found a";	break;
-					case 2: sLoot = "had discovered a";	break;
-					case 3: sLoot = "had looked through a";	break;
-					case 4: sLoot = "had sailed upon a";	break;
+					// NOT WORTH RECORDING OTHERWISE YOU GET A BATTLE LOG FULL OF GOAT OR RABBIT SLAYINGS...OR BASICALLY EASY MONSTERS
 				}
-				if ( sBox.Contains("Abandoned") || sBox.Contains("Adrift") ){ sLoot = sLoot + "n"; }
-			}
-			else if ( sType == "corpse" )
-			{
-				switch( Utility.Random( 5 ) )
+				else
 				{
-					case 0: sLoot = "had searched through a";	break;
-					case 1: sLoot = "had found a";	break;
-					case 2: sLoot = "had discovered a";	break;
-					case 3: sLoot = "had looked through a";	break;
-					case 4: sLoot = "had sailed upon a";	break;
-				}
-				if ( sBox.Contains("Abandoned") || sBox.Contains("Adrift") ){ sLoot = sLoot + "n"; }
-			}
-
-			PlayerMobile pm = (PlayerMobile)m;
-			if (pm.PublicInfo == true)
-			{
-				string sEvent = m.Name + " " + sTitle + " " + sLoot + " " + sBox + "#" + sDateString;
-				LoggingFunctions.LogEvent( sEvent, "Logging Adventures" );
-			}
-
-			return null;
-		}
-
-		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-		public static string LogSlayingLord( Mobile m, string creature )
-		{
-			if ( m != null )
-			{
-				if ( m is BaseCreature )
-					m = ((BaseCreature)m).GetMaster();
-
-				if ( m is PlayerMobile )
-				{
-					string sDateString = GetPlayerInfo.GetTodaysDate();
 					string sTitle = "the " + GetPlayerInfo.GetSkillTitle( m );
 					if ( m.Title != null ){ sTitle = m.Title; }
 
-					string verb = "has destroyed";
+					PlayerMobile pm = (PlayerMobile)m;
+
+					string sKiller = mob.Name;
+					string[] eachWord = sKiller.Split('[');
+					int nLine = 1;
+					foreach (string eachWords in eachWord)
+					{
+						if ( nLine == 1 ){ nLine = 2; sKiller = eachWords; }
+					}
+					sKiller = sKiller.TrimEnd();
+
+					if ( pm.PublicInfo == true )
+					{
+						string Killed = sKiller;
+							if ( mob.Title != "" && mob.Title != null ){ Killed = Killed + " " + mob.Title; }
+						string sEvent = " had slain " + Killed;
+						LoggingFunctions.LogEvent( m.Name + " " + sTitle + sEvent, LogEventType.Battles, true );
+					}
+					else
+					{
+						string privateEnemy = "an opponent";
+						switch ( Utility.Random( 6 ) )
+						{
+							case 0: privateEnemy = "an opponent"; break;
+							case 1: privateEnemy = "an enemy"; break;
+							case 2: privateEnemy = "another"; break;
+							case 3: privateEnemy = "an adversary"; break;
+							case 4: privateEnemy = "a foe"; break;
+							case 5: privateEnemy = "a rival"; break;
+						}
+						string sEvent = " had slain " + privateEnemy;
+						LoggingFunctions.LogEvent( m.Name + " " + sTitle + sEvent, LogEventType.Battles, true );
+					}
+				}
+			}
+		}
+
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		public static void LogTraps( Mobile m, string sTrap, bool emitEvent = true )
+		{
+			PlayerMobile pm = (PlayerMobile)m;
+			if (pm.PublicInfo == true)
+			{
+				string sTrip = "had triggered";
+				switch( Utility.Random( 7 ) )
+				{
+					case 0: sTrip = "had triggered";	break;
+					case 1: sTrip = "had set off";	break;
+					case 2: sTrip = "had walked into";	break;
+					case 3: sTrip = "had stumbled into";	break;
+					case 4: sTrip = "had been struck with";	break;
+					case 5: sTrip = "had been affected with";	break;
+					case 6: sTrip = "had ran into";	break;
+				}
+				string sEvent = sTrip + " " + sTrap;
+				if ( emitEvent )
+					LoggingFunctions.EmitAndLogEvent( pm, sEvent, LogEventType.Adventures, true );
+				else
+					LoggingFunctions.LogEvent( pm, sEvent, LogEventType.Adventures, true );
+			}
+		}
+
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		public static void LogVoid( Mobile m, string sTrap )
+		{
+			PlayerMobile pm = (PlayerMobile)m;
+			if (pm.PublicInfo == true)
+			{
+				string sEvent = sTrap + ", teleporting them far away";
+				LoggingFunctions.EmitAndLogEvent( pm, sEvent, LogEventType.Adventures, true );
+			}
+		}
+
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		public static void LogPrison( Mobile m, string sJail )
+		{
+			PlayerMobile pm = (PlayerMobile)m;
+			if (pm.PublicInfo == true)
+			{
+				string sEvent = " was sent to the " + sJail;
+				LoggingFunctions.EmitAndLogEvent( pm, sEvent, LogEventType.Journies, true );
+			}
+		}
+
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		public static void LogKillTile( Mobile m, string sTrap )
+		{
+			PlayerMobile pm = (PlayerMobile)m;
+			if (pm.PublicInfo == true)
+			{
+				string sEvent = " made a fatal mistake from " + sTrap;
+				LoggingFunctions.EmitAndLogEvent( pm, sEvent, LogEventType.Journies, true );
+			}
+		}
+
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		public static void LogLoot( Mobile m, string sBox, string sType )
+		{
+			PlayerMobile pm = (PlayerMobile)m;
+			if (pm.PublicInfo == true)
+			{
+				string sLoot = "had searched through a";
+				switch( Utility.Random( 7 ) )
+				{
+					case 0: sLoot = "had searched through a";	break;
+					case 1: sLoot = "had found a";	break;
+					case 2: sLoot = "had discovered a";	break;
+					case 3: sLoot = "had looked through a";	break;
+					case 4: sLoot = "had stumbled upon a";	break;
+					case 5: sLoot = "had dug through a";	break;
+					case 6: sLoot = "had opened a";	break;
+				}
+				if ( sType == "boat" )
+				{
+					switch( Utility.Random( 5 ) )
+					{
+						case 0: sLoot = "had searched through a";	break;
+						case 1: sLoot = "had found a";	break;
+						case 2: sLoot = "had discovered a";	break;
+						case 3: sLoot = "had looked through a";	break;
+						case 4: sLoot = "had sailed upon a";	break;
+					}
+					if ( sBox.Contains("Abandoned") || sBox.Contains("Adrift") ){ sLoot = sLoot + "n"; }
+				}
+				else if ( sType == "corpse" )
+				{
+					switch( Utility.Random( 5 ) )
+					{
+						case 0: sLoot = "had searched through a";	break;
+						case 1: sLoot = "had found a";	break;
+						case 2: sLoot = "had discovered a";	break;
+						case 3: sLoot = "had looked through a";	break;
+						case 4: sLoot = "had sailed upon a";	break;
+					}
+					if ( sBox.Contains("Abandoned") || sBox.Contains("Adrift") ){ sLoot = sLoot + "n"; }
+				}
+
+				string sEvent = sLoot + " " + sBox;
+				LoggingFunctions.LogEvent( pm, sEvent, LogEventType.Adventures, true );
+			}
+		}
+
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		public static void LogSlayingLord( PlayerMobile m, string creature )
+		{
+			if ( m == null ) return;
+
+			if ( m.PublicInfo )
+			{
+				string verb = "has destroyed";
+				switch( Utility.Random( 4 ) )
+				{
+					case 0: verb = "has defeated";		break;
+					case 1: verb = "has slain";		break;
+					case 2: verb = "has destroyed";	break;
+					case 3: verb = "has vanquished";	break;
+				}
+				string sEvent = verb + " " + creature;
+				LoggingFunctions.EmitAndLogEvent( m, sEvent, LogEventType.Quests, true );
+			}
+		}
+		// --------------------------------------------------------------------------------------------
+		public static void LogCreatedArtifact( Mobile m, string sArty )
+		{
+			PlayerMobile pm = (PlayerMobile)m;
+			if (pm.PublicInfo == true)
+			{
+				string sEvent = "The gods have created a legendary artefact called " + sArty;
+				LoggingFunctions.EmitAndLogEvent( pm, sEvent, LogEventType.Quests, true, false );
+			}
+		}
+		// --------------------------------------------------------------------------------------------
+		public static void LogRuneOfVirtue( Mobile m, string side )
+		{
+			PlayerMobile pm = (PlayerMobile)m;
+			if (pm.PublicInfo == true)
+			{
+				string sText = "has cleansed the Runes to the Chamber of Virtue.";
+					if ( side == "evil" ){ sText = "has corrupted the Runes of Virtue."; }
+
+				string sEvent = sText;
+				LoggingFunctions.EmitAndLogEvent( pm, sEvent, LogEventType.Quests, true );
+			}
+		}
+		// --------------------------------------------------------------------------------------------
+		public static void LogCreatedSyth( Mobile m, string sArty )
+		{
+			PlayerMobile pm = (PlayerMobile)m;
+			if (pm.PublicInfo == true)
+			{
+				string sEvent = "A Syth constructed a weapon called " + sArty;
+				LoggingFunctions.EmitAndLogEvent( pm, sEvent, LogEventType.Quests, true, false );
+			}
+		}
+		// --------------------------------------------------------------------------------------------
+		public static void LogCreatedJedi( Mobile m, string sArty )
+		{
+			PlayerMobile pm = (PlayerMobile)m;
+			if (pm.PublicInfo == true)
+			{
+				string sEvent = "A Jedi constructed a weapon called " + sArty;
+				LoggingFunctions.EmitAndLogEvent( pm, sEvent, LogEventType.Quests, true, false );
+			}
+		}
+		// --------------------------------------------------------------------------------------------
+		public static void LogGenericQuest( Mobile m, string sText )
+		{
+			PlayerMobile pm = (PlayerMobile)m;
+			if (pm.PublicInfo == true)
+			{
+				string sEvent = sText;
+				LoggingFunctions.EmitAndLogEvent( pm, sEvent, LogEventType.Quests, true );
+			}
+		}
+		// --------------------------------------------------------------------------------------------
+		public static void LogFoundItemQuest( Mobile m, string sBox )
+		{
+			PlayerMobile pm = (PlayerMobile)m;
+			if (pm.PublicInfo == true)
+			{
+				string sLoot = "has discovered the";
+				switch( Utility.Random( 4 ) )
+				{
+					case 0: sLoot = "has found the";		break;
+					case 1: sLoot = "has recovered the";	break;
+					case 2: sLoot = "has unearthed the";	break;
+					case 3: sLoot = "has discovered the";	break;
+				}
+
+				string sEvent = sLoot + " " + sBox;
+				LoggingFunctions.EmitAndLogEvent( pm, sEvent, LogEventType.Quests, true );
+			}
+		}
+		// --------------------------------------------------------------------------------------------
+		public static void LogQuestItem( Mobile m, string sBox )
+		{
+			PlayerMobile pm = (PlayerMobile)m;
+			if (pm.PublicInfo == true)
+			{
+				string sLoot = "has discovered";
+				switch( Utility.Random( 4 ) )
+				{
+					case 0: sLoot = "has found";		break;
+					case 1: sLoot = "has recovered";	break;
+					case 2: sLoot = "has unearthed";	break;
+					case 3: sLoot = "has discovered";	break;
+				}
+
+				string sEvent = sLoot + " " + sBox;
+				LoggingFunctions.EmitAndLogEvent( pm, sEvent, LogEventType.Quests, true );
+			}
+		}
+		// --------------------------------------------------------------------------------------------
+		public static void LogQuestBody( Mobile m, string sBox )
+		{
+			PlayerMobile pm = (PlayerMobile)m;
+			if (pm.PublicInfo == true)
+			{
+				string sLoot = "has found";
+				switch( Utility.Random( 4 ) )
+				{
+					case 0: sLoot = "has found";		break;
+					case 1: sLoot = "has recovered";	break;
+					case 2: sLoot = "has unearthed";	break;
+					case 3: sLoot = "has dug up";		break;
+				}
+
+				string sBone = "the bones";
+				switch( Utility.Random( 4 ) )
+				{
+					case 0: sBone = "the bones";		break;
+					case 1: sBone = "the body";			break;
+					case 2: sBone = "the remains";		break;
+					case 3: sBone = "the corpse";		break;
+				}
+
+				string sEvent = sLoot + " " + sBone + " of " + sBox;
+				LoggingFunctions.EmitAndLogEvent( pm, sEvent, LogEventType.Quests, true );
+			}
+		}
+		// --------------------------------------------------------------------------------------------
+		public static void LogQuestChest( Mobile m, string sBox )
+		{
+			PlayerMobile pm = (PlayerMobile)m;
+			if (pm.PublicInfo == true)
+			{
+				string sLoot = "has found";
+				switch( Utility.Random( 4 ) )
+				{
+					case 0: sLoot = "has found";		break;
+					case 1: sLoot = "has recovered";	break;
+					case 2: sLoot = "has unearthed";	break;
+					case 3: sLoot = "has dug up";		break;
+				}
+
+				string sChest = "the hidden";
+				switch( Utility.Random( 4 ) )
+				{
+					case 0: sChest = "the hidden";		break;
+					case 1: sChest = "the lost";		break;
+					case 2: sChest = "the missing";		break;
+					case 3: sChest = "the secret";		break;
+				}
+
+				string sEvent = sLoot + " " + sChest + " chest of " + sBox;
+				LoggingFunctions.EmitAndLogEvent( pm, sEvent, LogEventType.Quests, true );
+			}
+		}
+		// --------------------------------------------------------------------------------------------
+		public static void LogQuestMap( Mobile m, int sLevel, string chest )
+		{
+			PlayerMobile pm = (PlayerMobile)m;
+			if (pm.PublicInfo == true)
+			{
+				string sLoot = "has found";
+				switch( Utility.Random( 4 ) )
+				{
+					case 0: sLoot = "has found";		break;
+					case 1: sLoot = "has recovered";	break;
+					case 2: sLoot = "has unearthed";	break;
+					case 3: sLoot = "has dug up";		break;
+				}
+
+				string sEvent = sLoot + " " + chest;
+				LoggingFunctions.LogEvent( pm, sEvent, LogEventType.Quests, true );
+			}
+		}
+		// --------------------------------------------------------------------------------------------
+		public static void LogQuestSea( Mobile m, int sLevel, string sShip )
+		{
+			PlayerMobile pm = (PlayerMobile)m;
+			if (pm.PublicInfo == true)
+			{
+				string sLoot = "has fished up";
+				switch( Utility.Random( 4 ) )
+				{
+					case 0: sLoot = "has surfaced";		break;
+					case 1: sLoot = "has salvaged";		break;
+					case 2: sLoot = "has brought up";	break;
+					case 3: sLoot = "has fished up";	break;
+				}
+
+				string sChest = "a grand sunken chest";
+				switch( sLevel )
+				{
+					case 0: sChest = "a meager sunken chest";		break;
+					case 1: sChest = "a simple sunken chest";		break;
+					case 2: sChest = "a good sunken chest";			break;
+					case 3: sChest = "a great sunken chest";		break;
+					case 4: sChest = "an excellent sunken chest";	break;
+					case 5: sChest = "a superb sunken chest";		break;
+				}
+
+				string sEvent = sLoot + " " + sChest + " from " + sShip;
+				LoggingFunctions.LogEvent( pm, sEvent, LogEventType.Quests, true );
+			}
+		}
+		// --------------------------------------------------------------------------------------------
+		public static void LogQuestKill( Mobile m, string sBox, Mobile t )
+		{
+			PlayerMobile pm = (PlayerMobile)m;
+			if (pm.PublicInfo == true)
+			{
+				string sLoot = "";
+				string sWho = "";
+				
+				if ( sBox == "bounty" )
+				{
+					sWho = "";
 					switch( Utility.Random( 4 ) )
 					{
-						case 0: verb = "has defeated";		break;
-						case 1: verb = "has slain";		break;
-						case 2: verb = "has destroyed";	break;
-						case 3: verb = "has vanquished";	break;
+						case 0: sLoot = "has fullfilled a bounty on";	break;
+						case 1: sLoot = "has claimed a bounty on";		break;
+						case 2: sLoot = "has served a bounty on";		break;
+						case 3: sLoot = "has completed a bounty on";	break;
 					}
-
-					PlayerMobile pm = (PlayerMobile)m;
-					if (pm.PublicInfo == true)
+				}
+				else if ( sBox == "sea" )
+				{
+					sWho = " on the high seas";
+					switch( Utility.Random( 4 ) )
 					{
-						string sEvent = m.Name + " " + sTitle + " " + verb + " " + creature + "#" + sDateString;
-						LoggingFunctions.LogEvent( sEvent, "Logging Quests" );
+						case 0: sLoot = "has fullfilled a bounty on";	break;
+						case 1: sLoot = "has claimed a bounty on";		break;
+						case 2: sLoot = "has served a bounty on";		break;
+						case 3: sLoot = "has completed a bounty on";	break;
 					}
 				}
-			}
-
-			return null;
-		}
-		// --------------------------------------------------------------------------------------------
-		public static string LogCreatedArtifact( Mobile m, string sArty )
-		{
-			string sDateString = GetPlayerInfo.GetTodaysDate();
-
-			PlayerMobile pm = (PlayerMobile)m;
-			if (pm.PublicInfo == true)
-			{
-				string sEvent = "The gods have created a legendary artefact called " + sArty + "#" + sDateString;
-				LoggingFunctions.LogEvent( sEvent, "Logging Quests" );
-			}
-
-			return null;
-		}
-		// --------------------------------------------------------------------------------------------
-		public static string LogRuneOfVirtue( Mobile m, string side )
-		{
-			string sDateString = GetPlayerInfo.GetTodaysDate();
-			string sTitle = "the " + GetPlayerInfo.GetSkillTitle( m );
-			if ( m.Title != null ){ sTitle = m.Title; }
-
-			string sText = "has cleansed the Runes to the Chamber of Virtue.";
-				if ( side == "evil" ){ sText = "has corrupted the Runes of Virtue."; }
-
-			PlayerMobile pm = (PlayerMobile)m;
-			if (pm.PublicInfo == true)
-			{
-				string sEvent = m.Name + " " + sTitle + " " + sText + "#" + sDateString;
-				LoggingFunctions.LogEvent( sEvent, "Logging Quests" );
-			}
-
-			return null;
-		}
-		// --------------------------------------------------------------------------------------------
-		public static string LogGenericQuest( Mobile m, string sText )
-		{
-			string sDateString = GetPlayerInfo.GetTodaysDate();
-			string sTitle = "the " + GetPlayerInfo.GetSkillTitle( m );
-			if ( m.Title != null ){ sTitle = m.Title; }
-
-			PlayerMobile pm = (PlayerMobile)m;
-			if (pm.PublicInfo == true)
-			{
-				string sEvent = m.Name + " " + sTitle + " " + sText + "#" + sDateString;
-				LoggingFunctions.LogEvent( sEvent, "Logging Quests" );
-			}
-
-			return null;
-		}
-		// --------------------------------------------------------------------------------------------
-		public static string LogFoundItemQuest( Mobile m, string sBox )
-		{
-			string sDateString = GetPlayerInfo.GetTodaysDate();
-			string sTitle = "the " + GetPlayerInfo.GetSkillTitle( m );
-			if ( m.Title != null ){ sTitle = m.Title; }
-
-			string sLoot = "has discovered the";
-			switch( Utility.Random( 4 ) )
-			{
-				case 0: sLoot = "has found the";		break;
-				case 1: sLoot = "has recovered the";	break;
-				case 2: sLoot = "has unearthed the";	break;
-				case 3: sLoot = "has discovered the";	break;
-			}
-
-			PlayerMobile pm = (PlayerMobile)m;
-			if (pm.PublicInfo == true)
-			{
-				string sEvent = m.Name + " " + sTitle + " " + sLoot + " " + sBox + "#" + sDateString;
-				LoggingFunctions.LogEvent( sEvent, "Logging Quests" );
-			}
-
-			return null;
-		}
-		// --------------------------------------------------------------------------------------------
-		public static string LogScammedBySage( Mobile m, string sBox )
-		{
-			string sDateString = GetPlayerInfo.GetTodaysDate();
-			string sTitle = "the " + GetPlayerInfo.GetSkillTitle( m );
-			if ( m.Title != null ){ sTitle = m.Title; }
-
-			string sLoot = "has filed a complaint against the sages order due to missleading information regarding the";
-
-			PlayerMobile pm = (PlayerMobile)m;
-			if (pm.PublicInfo == true)
-			{
-				string sEvent = m.Name + " " + sTitle + " " + sLoot + " !"+"#" + sDateString;
-				LoggingFunctions.LogEvent( sEvent, "Logging Quests" );
-			}
-
-			return null;
-		}
-		// --------------------------------------------------------------------------------------------
-		public static string LogQuestItem( Mobile m, string sBox )
-		{
-			string sDateString = GetPlayerInfo.GetTodaysDate();
-			string sTitle = "the " + GetPlayerInfo.GetSkillTitle( m );
-			if ( m.Title != null ){ sTitle = m.Title; }
-
-			string sLoot = "has discovered";
-			switch( Utility.Random( 4 ) )
-			{
-				case 0: sLoot = "has found";		break;
-				case 1: sLoot = "has recovered";	break;
-				case 2: sLoot = "has unearthed";	break;
-				case 3: sLoot = "has discovered";	break;
-			}
-
-			PlayerMobile pm = (PlayerMobile)m;
-			if (pm.PublicInfo == true)
-			{
-				string sEvent = m.Name + " " + sTitle + " " + sLoot + " " + sBox + "#" + sDateString;
-				LoggingFunctions.LogEvent( sEvent, "Logging Quests" );
-			}
-
-			return null;
-		}
-		// --------------------------------------------------------------------------------------------
-		public static string LogQuestBody( Mobile m, string sBox )
-		{
-			string sDateString = GetPlayerInfo.GetTodaysDate();
-			string sTitle = "the " + GetPlayerInfo.GetSkillTitle( m );
-			if ( m.Title != null ){ sTitle = m.Title; }
-
-			string sLoot = "has found";
-			switch( Utility.Random( 4 ) )
-			{
-				case 0: sLoot = "has found";		break;
-				case 1: sLoot = "has recovered";	break;
-				case 2: sLoot = "has unearthed";	break;
-				case 3: sLoot = "has dug up";		break;
-			}
-
-			string sBone = "the bones";
-			switch( Utility.Random( 4 ) )
-			{
-				case 0: sBone = "the bones";		break;
-				case 1: sBone = "the body";			break;
-				case 2: sBone = "the remains";		break;
-				case 3: sBone = "the corpse";		break;
-			}
-
-			PlayerMobile pm = (PlayerMobile)m;
-			if (pm.PublicInfo == true)
-			{
-				string sEvent = m.Name + " " + sTitle + " " + sLoot + " " + sBone + " of " + sBox + "#" + sDateString;
-				LoggingFunctions.LogEvent( sEvent, "Logging Quests" );
-			}
-
-			return null;
-		}
-		// --------------------------------------------------------------------------------------------
-		public static string LogQuestChest( Mobile m, string sBox )
-		{
-			string sDateString = GetPlayerInfo.GetTodaysDate();
-			string sTitle = "the " + GetPlayerInfo.GetSkillTitle( m );
-			if ( m.Title != null ){ sTitle = m.Title; }
-
-			string sLoot = "has found";
-			switch( Utility.Random( 4 ) )
-			{
-				case 0: sLoot = "has found";		break;
-				case 1: sLoot = "has recovered";	break;
-				case 2: sLoot = "has unearthed";	break;
-				case 3: sLoot = "has dug up";		break;
-			}
-
-			string sChest = "the hidden";
-			switch( Utility.Random( 4 ) )
-			{
-				case 0: sChest = "the hidden";		break;
-				case 1: sChest = "the lost";		break;
-				case 2: sChest = "the missing";		break;
-				case 3: sChest = "the secret";		break;
-			}
-
-			PlayerMobile pm = (PlayerMobile)m;
-			if (pm.PublicInfo == true)
-			{
-				string sEvent = m.Name + " " + sTitle + " " + sLoot + " " + sChest + " chest of " + sBox + "#" + sDateString;
-				LoggingFunctions.LogEvent( sEvent, "Logging Quests" );
-			}
-
-			return null;
-		}
-		// --------------------------------------------------------------------------------------------
-		public static string LogQuestMap( Mobile m, int sLevel, string chest )
-		{
-			string sDateString = GetPlayerInfo.GetTodaysDate();
-			string sTitle = "the " + GetPlayerInfo.GetSkillTitle( m );
-			if ( m.Title != null ){ sTitle = m.Title; }
-
-			string sLoot = "has found";
-			switch( Utility.Random( 4 ) )
-			{
-				case 0: sLoot = "has found";		break;
-				case 1: sLoot = "has recovered";	break;
-				case 2: sLoot = "has unearthed";	break;
-				case 3: sLoot = "has dug up";		break;
-			}
-
-			PlayerMobile pm = (PlayerMobile)m;
-			if (pm.PublicInfo == true)
-			{
-				string sEvent = m.Name + " " + sTitle + " " + sLoot + " " + chest + "#" + sDateString;
-				LoggingFunctions.LogEvent( sEvent, "Logging Quests" );
-			}
-
-			return null;
-		}
-		// --------------------------------------------------------------------------------------------
-		public static string LogQuestSea( Mobile m, int sLevel, string sShip )
-		{
-			string sDateString = GetPlayerInfo.GetTodaysDate();
-			string sTitle = "the " + GetPlayerInfo.GetSkillTitle( m );
-			if ( m.Title != null ){ sTitle = m.Title; }
-
-			string sLoot = "has fished up";
-			switch( Utility.Random( 4 ) )
-			{
-				case 0: sLoot = "has surfaced";		break;
-				case 1: sLoot = "has salvaged";		break;
-				case 2: sLoot = "has brought up";	break;
-				case 3: sLoot = "has fished up";	break;
-			}
-
-			string sChest = "a grand sunken chest";
-			switch( sLevel )
-			{
-				case 0: sChest = "a meager sunken chest";		break;
-				case 1: sChest = "a simple sunken chest";		break;
-				case 2: sChest = "a good sunken chest";			break;
-				case 3: sChest = "a great sunken chest";		break;
-				case 4: sChest = "an excellent sunken chest";	break;
-				case 5: sChest = "a superb sunken chest";		break;
-			}
-
-			PlayerMobile pm = (PlayerMobile)m;
-			if (pm.PublicInfo == true)
-			{
-				string sEvent = m.Name + " " + sTitle + " " + sLoot + " " + sChest + " from " + sShip + "#" + sDateString;
-				LoggingFunctions.LogEvent( sEvent, "Logging Quests" );
-			}
-
-			return null;
-		}
-		// --------------------------------------------------------------------------------------------
-		public static string LogQuestKill( Mobile m, string sBox, Mobile t )
-		{
-			string sDateString = GetPlayerInfo.GetTodaysDate();
-			string sTitle = "the " + GetPlayerInfo.GetSkillTitle( m );
-			if ( m.Title != null ){ sTitle = m.Title; }
-
-			string sLoot = "";
-			string sWho = "";
-			
-			if ( sBox == "bounty" )
-			{
-				sWho = "";
-				switch( Utility.Random( 4 ) )
+				else if ( sBox == "assassin" )
 				{
-					case 0: sLoot = "has fullfilled a bounty on";	break;
-					case 1: sLoot = "has claimed a bounty on";		break;
-					case 2: sLoot = "has served a bounty on";		break;
-					case 3: sLoot = "has completed a bounty on";	break;
+					sWho = " for the guild";
+					switch( Utility.Random( 4 ) )
+					{
+						case 0: sLoot = "has assassinated";		break;
+						case 1: sLoot = "has dispatched";		break;
+						case 2: sLoot = "has dealt with";		break;
+						case 3: sLoot = "has eliminated";		break;
+					}
 				}
-			}
-			if ( sBox == "sea" )
-			{
-				sWho = " on the high seas";
-				switch( Utility.Random( 4 ) )
-				{
-					case 0: sLoot = "has fullfilled a bounty on";	break;
-					case 1: sLoot = "has claimed a bounty on";		break;
-					case 2: sLoot = "has served a bounty on";		break;
-					case 3: sLoot = "has completed a bounty on";	break;
-				}
-			}
-			if ( sBox == "assassin" )
-			{
-				sWho = " for the guild";
-				switch( Utility.Random( 4 ) )
-				{
-					case 0: sLoot = "has assassinated";		break;
-					case 1: sLoot = "has dispatched";		break;
-					case 2: sLoot = "has dealt with";		break;
-					case 3: sLoot = "has eliminated";		break;
-				}
-			}
-			
-			sLoot = sLoot + " " + t.Name + " " + t.Title;
 
-			PlayerMobile pm = (PlayerMobile)m;
-			if (pm.PublicInfo == true)
-			{
-				string sEvent = m.Name + " " + sTitle + " " + sLoot + sWho + "#" + sDateString;
-				LoggingFunctions.LogEvent( sEvent, "Logging Quests" );
-			}
+				sLoot = sLoot + " " + t.Name + " " + t.Title;
 
-			return null;
+				string sEvent = sLoot + sWho;
+				LoggingFunctions.EmitAndLogEvent( pm, sEvent, LogEventType.Quests, true );
+			}
 		}
 
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-		public static string LogGeneric( Mobile m, string sText )
+		public static void LogGeneric( Mobile m, string sText )
 		{
-			string sDateString = GetPlayerInfo.GetTodaysDate();
-			string sTitle = "the " + GetPlayerInfo.GetSkillTitle( m );
-			if ( m.Title != null ){ sTitle = m.Title; }
-
 			PlayerMobile pm = (PlayerMobile)m;
 			if (pm.PublicInfo == true)
 			{
-				string sEvent = m.Name + " " + sTitle + " " + sText + "#" + sDateString;
-				LoggingFunctions.LogEvent( sEvent, "Logging Quests" );
+				string sEvent = sText;
+				LoggingFunctions.EmitAndLogEvent( pm, sEvent, LogEventType.Quests, true );
 			}
-
-			return null;
 		}
 
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-		public static string LogStandard( Mobile m, string sText )
+		public static void LogStandard( Mobile m, string sText, bool emitEvent = true )
 		{
-			string sDateString = GetPlayerInfo.GetTodaysDate();
-			string sTitle = "the " + GetPlayerInfo.GetSkillTitle( m );
-			if ( m.Title != null ){ sTitle = m.Title; }
-
 			PlayerMobile pm = (PlayerMobile)m;
 			if (pm.PublicInfo == true)
 			{
-				string sEvent = m.Name + " " + sTitle + " " + sText + "#" + sDateString;
-				LoggingFunctions.LogEvent( sEvent, "Logging Adventures" );
+				string sEvent = sText;
+				if ( emitEvent )
+					LoggingFunctions.EmitAndLogEvent( pm, sEvent, LogEventType.Adventures, true );
+				else
+					LoggingFunctions.LogEvent( pm, sEvent, LogEventType.Adventures, true );
 			}
-
-			return null;
 		}
 		
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-		public static string LogAccess( Mobile m, string sAccess )
+		public static void LogAccess( Mobile m, string sAccess )
 		{
-			PlayerMobile pm = (PlayerMobile)m;
-			string sDateString = GetPlayerInfo.GetTodaysDate();
-			string sTitle = "the " + GetPlayerInfo.GetSkillTitle( m );
-			if ( m.Title != null ){ sTitle = m.Title; }
-
             if ( m.AccessLevel < AccessLevel.GameMaster )
             {
+				string sTitle = "the " + GetPlayerInfo.GetSkillTitle( m );
+				if ( m.Title != null ){ sTitle = m.Title; }
+				PlayerMobile pm = (PlayerMobile)m;
+				
 				m.ResetInn();
 				string sEvent;
 				if ( sAccess == "login" )
 				{
-					sEvent = m.Name + " " + sTitle + " had entered the realm#" + sDateString;
+					sEvent = " had entered the realm";
 					World.Broadcast(0x35, true, "{0} {1} has entered the realm", m.Name, sTitle);
 				}
 				else
 				{
-					sEvent = m.Name + " " + sTitle + " had left the realm#" + sDateString;
+					sEvent = " had left the realm";
 					World.Broadcast(0x35, true, "{0} {1} has left the realm", m.Name, sTitle);
 				}
 
-				LoggingFunctions.LogEvent( sEvent, "Logging Adventures" );
+				LoggingFunctions.LogEvent( pm, sEvent, LogEventType.Adventures, true );
             }
-
-			return null;
 		}
 
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-		public static string LogDeaths( Mobile m, Mobile mob )
+		public static void LogDeaths( Mobile m, Mobile mob )
 		{
-			if ( m is PlayerMobile && mob != null )
+			if ( m is PlayerMobile && mob != null && m != null)
 			{
 				PlayerMobile pm = (PlayerMobile)m;
-				string sDateString = GetPlayerInfo.GetTodaysDate();
-				string sTitle = "the " + GetPlayerInfo.GetSkillTitle( m );
-				if ( m.Title != null ){ sTitle = m.Title; }
 
 				string sKiller = mob.Name;
 				string[] eachWord = sKiller.Split('[');
@@ -1192,29 +1094,29 @@ namespace Server.Misc
 				///////// PLAYER DIED SO DO SINGLE FILES //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 				if ( m.AccessLevel < AccessLevel.GameMaster )
 				{
-					string sEvent = "";
+					string sEvent;
 
 					if ( pm.PublicInfo == true )
 					{
 						if ( ( mob == m ) && ( mob != null ) )
 						{
-							sEvent = m.Name + " " + sTitle + " had killed themselves#" + sDateString;
+							sEvent = " had killed themselves";
 						}
 						else if ( ( mob != null ) && ( mob is PlayerMobile ) )
 						{
 							string kTitle = " the " + GetPlayerInfo.GetSkillTitle( mob );
 							if ( mob.Title != null ){ kTitle = " " + mob.Title; }
-							sEvent = m.Name + " " + sTitle + " had been killed by " + sKiller + kTitle + "#" + sDateString;
+							sEvent = " had been killed by " + sKiller + kTitle;
 						}
 						else if ( mob != null )
 						{
 							string kTitle = "";
 							if ( mob.Title != null ){ kTitle = " " + mob.Title; }
-							sEvent = m.Name + " " + sTitle + " had been killed by " + sKiller + kTitle + "#" + sDateString;
+							sEvent = " had been killed by " + sKiller + kTitle;
 						}
 						else
 						{
-							sEvent = m.Name + " " + sTitle + " had been killed#" + sDateString;
+							sEvent = " had been killed";
 						}
 					}
 					else
@@ -1232,61 +1134,60 @@ namespace Server.Misc
 
 						if ( ( mob == m ) && ( mob != null ) )
 						{
-							sEvent = m.Name + " " + sTitle + " had killed themselves#" + sDateString;
+							sEvent = " had killed themselves";
 						}
 						else if ( ( mob != null ) && ( mob is PlayerMobile ) )
 						{
 							string kTitle = " the " + GetPlayerInfo.GetSkillTitle( mob );
 							if ( mob.Title != null ){ kTitle = mob.Title; }
-							sEvent = m.Name + " " + sTitle + " had been killed by " + sKiller + " " + kTitle + "#" + sDateString;
+							sEvent = " had been killed by " + sKiller + " " + kTitle;
 						}
 						else if ( mob != null )
 						{
-							sEvent = m.Name + " " + sTitle + " had been killed by " + privateEnemy + "#" + sDateString;
+							sEvent = " had been killed by " + privateEnemy;
 						}
 						else
 						{
-							sEvent = m.Name + " " + sTitle + " had been killed#" + sDateString;
+							sEvent = " had been killed";
 						}
 					}
-					LoggingFunctions.LogEvent( sEvent, "Logging Deaths" );
+
+					LoggingFunctions.LogEvent( pm, sEvent, LogEventType.Deaths, true );
 				}
 			}
-			return null;
 		}
 
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-		public static string LogKillers( Mobile m, int nKills )
+		public static void LogKillers( Mobile m, int nKills )
 		{
 			string sEvent = "";
-			string sDateString = GetPlayerInfo.GetTodaysDate();
-			string sTitle = "the " + GetPlayerInfo.GetSkillTitle( m );
-			if ( m.Title != null ){ sTitle = m.Title; }
 
-			if ( m.Kills > 1){ sEvent = m.Name + " " + sTitle + " is wanted for the murder of " + m.Kills + " people."; }
-			else if ( m.Kills > 0){ sEvent = m.Name + " " + sTitle + " is wanted for murder."; }
+			PlayerMobile pm = (PlayerMobile)m;
 
-			LoggingFunctions.LogEvent( sEvent, "Logging Murderers" );
+			if ( m.Kills > 1){ sEvent = " is wanted for the murder of " + m.Kills + " people."; }
+			else if ( m.Kills > 0){ sEvent = " is wanted for murder."; }
 
-			return null;
+			LoggingFunctions.LogEvent( pm, sEvent, LogEventType.Murderers, false );
 		}
 
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-		public static string LogClear( string sLog )
+		public static void LogClear( LogEventType sLog )
 		{
 			string sPath = "Saves/Data/adventures.txt";
- 
-			if ( sLog == "Logging Adventures" ){ sPath = "Saves/Data/adventures.txt"; }
-			else if ( sLog == "Logging Battles" ){ sPath = "Saves/Data/battles.txt"; }
-			else if ( sLog == "Logging Deaths" ){ sPath = "Saves/Data/deaths.txt"; }
-			else if ( sLog == "Logging Murderers" ){ sPath = "Saves/Data/murderers.txt"; }
-			else if ( sLog == "Logging Journies" ){ sPath = "Saves/Data/journies.txt"; }
+
+			switch (sLog)
+			{
+				case LogEventType.Adventures: sPath = "Saves/Data/adventures.txt"; break;
+				case LogEventType.Battles: sPath = "Saves/Data/battles.txt"; break;
+				case LogEventType.Deaths: sPath = "Saves/Data/deaths.txt"; break;
+				case LogEventType.Murderers: sPath = "Saves/Data/murderers.txt"; break;
+				case LogEventType.Journies: sPath = "Saves/Data/journies.txt"; break;
+				default: return;
+			}
 
 			DeleteFile( sPath );
-
-			return null;
 		}
 	}
 }
@@ -1346,7 +1247,7 @@ namespace Server.Misc
 
 			if ( LoggingFunctions.LoggingEvents() == true )
 			{
-				LoggingFunctions.LogClear( "Logging Murderers" );
+				LoggingFunctions.LogClear( LogEventType.Murderers );
 
 				// GET ALL OF THE MURDERERS ///////////////////////////////
 				foreach ( Account a in Accounts.GetAccounts() )
@@ -1409,27 +1310,27 @@ namespace Server.Gumps
 
 			if ( page == 2 )
 			{
-				sEvents = "Deeds In The Realm<br><br>" + LoggingFunctions.LogRead( "Logging Quests", from ); scroll = true; btn1 = 4011;
+				sEvents = "Deeds In The Realm<br><br>" + LoggingFunctions.LogRead( LogEventType.Quests, from ); scroll = true; btn1 = 4011;
 			}
 			else if ( page == 3 )
 			{
-				sEvents = "Exploration In The Realm<br><br>" + LoggingFunctions.LogRead( "Logging Journies", from ); scroll = true; btn2 = 4011;
+				sEvents = "Exploration In The Realm<br><br>" + LoggingFunctions.LogRead( LogEventType.Journies, from ); scroll = true; btn2 = 4011;
 			}
 			else if ( page == 4 )
 			{
-				sEvents = "Victories In The Realm<br><br>" + LoggingFunctions.LogRead( "Logging Battles", from ); scroll = true; btn3 = 4011;
+				sEvents = "Victories In The Realm<br><br>" + LoggingFunctions.LogRead( LogEventType.Battles, from ); scroll = true; btn3 = 4011;
 			}
 			else if ( page == 5 )
 			{
-				sEvents = "Recent Deaths In The Realm<br><br>" + LoggingFunctions.LogRead( "Logging Deaths", from ); scroll = true; btn4 = 4011;
+				sEvents = "Recent Deaths In The Realm<br><br>" + LoggingFunctions.LogRead( LogEventType.Deaths, from ); scroll = true; btn4 = 4011;
 			}
 			else if ( page == 6 )
 			{
-				sEvents = "Murderers In The Realm<br><br>" + LoggingFunctions.LogRead( "Logging Murderers", from ); scroll = true; btn5 = 4011;
+				sEvents = "Murderers In The Realm<br><br>" + LoggingFunctions.LogRead( LogEventType.Murderers, from ); scroll = true; btn5 = 4011;
 			}
 			else if ( page == 7 )
 			{
-				sEvents = "Gossip In The Realm<br><br>" + LoggingFunctions.LogRead( "Logging Adventures", from ); scroll = true; btn6 = 4011;
+				sEvents = "Gossip In The Realm<br><br>" + LoggingFunctions.LogRead( LogEventType.Adventures, from ); scroll = true; btn6 = 4011;
 			}
 
 			AddButton(12, 48, btn1, btn1, 1, GumpButtonType.Reply, 0);

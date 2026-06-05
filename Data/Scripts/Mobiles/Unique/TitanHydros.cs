@@ -137,7 +137,11 @@ namespace Server.Mobiles
 			else if ( CanKillIt == 0 )
 			{
 				string Iam = "the Titan of Water";
-				Server.Misc.LoggingFunctions.LogSlayingLord( this.LastKiller, Iam );
+				var pm = this.LastKiller as PlayerMobile;
+				if (pm != null)
+				{
+					Server.Misc.LoggingFunctions.LogSlayingLord(pm, Iam);
+				}
 				if ( winner is PlayerMobile )
 				{
 					LoggingFunctions.LogGenericQuest( winner, "has obtained the power of the water titan" );

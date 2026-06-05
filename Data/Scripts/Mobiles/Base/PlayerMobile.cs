@@ -2870,7 +2870,7 @@ namespace Server.Mobiles
 			RecoverAmmo();
 
 			Mobile mob = this.LastKiller;
-			if ( mob != null ){ LoggingFunctions.LogDeaths( this, mob ); }
+			if ( mob != null && this != null ){ LoggingFunctions.LogDeaths( this, mob ); }
 
 			return base.OnBeforeDeath();
 		}

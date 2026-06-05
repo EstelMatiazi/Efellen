@@ -74,6 +74,94 @@ namespace Server
 	public delegate void QuestGumpRequestHandler( QuestGumpRequestArgs e );
 	public delegate void ClientVersionReceivedHandler( ClientVersionReceivedArgs e );
 
+	public delegate void ResourceHarvestSuccessHandler( ResourceHarvestSuccessArgs e );
+	public delegate void OnKilledByEventHandler( OnKilledByArgs e );
+	public delegate void CraftSuccessHandler( CraftSuccessArgs e );
+	public delegate void SkillGainHandler( SkillGainArgs e );
+	public delegate void OnEnterRegionHandler( OnEnterRegionArgs e );
+
+	public class ResourceHarvestSuccessArgs
+	{
+		public Mobile Harvester { get; private set; }
+		public Item Tool { get; private set; }
+		public Item Resource { get; private set; }
+        public Item BonusResource { get; private set; }
+		public object HarvestSystem { get; private set; }
+
+		public ResourceHarvestSuccessArgs(Mobile m, Item i, Item r, Item b, object o)
+		{
+			Harvester = m;
+			Tool = i;
+			Resource = r;
+            BonusResource = b;
+			HarvestSystem = o;
+		}
+	}
+
+	public class OnKilledByArgs
+	{
+		public OnKilledByArgs(Mobile killed, Mobile killedBy, Container corpse = null, int damagerCount = 0, int totalDamage = 0)
+		{
+			Killed = killed;
+			KilledBy = killedBy;
+			Corpse = corpse;
+			DamagerCount = damagerCount;
+			TotalDamage = totalDamage;
+		}
+
+		public Mobile Killed { get; private set; }
+		public Mobile KilledBy { get; private set; }
+		public Container Corpse { get; private set; }
+		public int DamagerCount { get; private set; }
+		public int TotalDamage { get; private set; }
+	}
+
+	public class CraftSuccessArgs
+	{
+		public Mobile Crafter { get; private set; }
+		public Item Tool { get; private set; }
+		public Item CraftedItem { get; private set; }
+
+		public CraftSuccessArgs(Mobile m, Item i, Item t)
+		{
+			Crafter = m;
+			Tool = t;
+			CraftedItem = i;
+		}
+	}
+
+    public class SkillGainArgs
+    {
+        public int Gained { get; private set; }
+        public Mobile From { get; private set; }
+        public Skill Skill { get; private set; }
+
+        public SkillGainArgs(Mobile from, Skill skill, int toGain)
+        {
+            From = from;
+            Skill = skill;
+            Gained = toGain;
+        }
+    }
+
+	public class OnEnterRegionArgs
+	{
+		private readonly Mobile m_From;
+        private readonly Region m_OldRegion;
+		private readonly Region m_NewRegion;
+
+		public OnEnterRegionArgs(Mobile from, Region oldRegion, Region newRegion)
+		{
+			m_From = from;
+            m_OldRegion = oldRegion;
+			m_NewRegion = newRegion;
+		}
+
+		public Mobile From { get { return m_From; } }
+		public Region OldRegion { get { return m_OldRegion; } }
+        public Region NewRegion { get { return m_NewRegion; } }
+	}
+
 	public class ClientVersionReceivedArgs : EventArgs
 	{
 		private NetState m_State;
@@ -834,6 +922,12 @@ namespace Server
 		public static event QuestGumpRequestHandler QuestGumpRequest;
 		public static event ClientVersionReceivedHandler ClientVersionReceived;
 
+		public static event ResourceHarvestSuccessHandler ResourceHarvestSuccess;
+		public static event OnKilledByEventHandler OnKilledBy;
+		public static event CraftSuccessHandler CraftSuccess;
+		public static event SkillGainHandler SkillGain;
+		public static event OnEnterRegionHandler OnEnterRegion;
+
 		public static void InvokeClientVersionReceived( ClientVersionReceivedArgs e )
 		{
 			if( ClientVersionReceived != null )
@@ -1086,6 +1180,36 @@ namespace Server
 		{
 			if ( WorldSave != null )
 				WorldSave( e );
+		}
+
+		public static void InvokeResourceHarvestSuccess( ResourceHarvestSuccessArgs e )
+		{
+			if ( ResourceHarvestSuccess != null )
+				ResourceHarvestSuccess( e );
+		}
+
+        public static void InvokeOnKilledBy( Mobile killed, Mobile killedBy, Container corpse, int damagerCount, int totalDamage )
+		{
+			if (OnKilledBy != null)
+				OnKilledBy( new OnKilledByArgs( killed, killedBy, corpse, damagerCount, totalDamage ) );
+		}
+
+		public static void InvokeCraftSuccess( CraftSuccessArgs e )
+		{
+			if ( CraftSuccess != null )
+				CraftSuccess( e );
+		}
+
+		public static void InvokeSkillGain( SkillGainArgs e )
+		{
+			if ( SkillGain != null )
+				SkillGain( e );
+		}
+
+		public static void InvokeOnEnterRegion( OnEnterRegionArgs e )
+		{
+			if ( OnEnterRegion != null )
+				OnEnterRegion( e );
 		}
 
 		public static void Reset()
