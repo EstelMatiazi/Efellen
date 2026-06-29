@@ -4069,7 +4069,14 @@ namespace Server
 			new ItemSalesInfo( typeof(	Artifact_RememberanceOfHereafter	),	5000	,	0	,	0	,	false	,	false	,	World.None	,	Category.Artifact	,	Material.None	,	Market.None	),
 			new ItemSalesInfo( typeof(	Artifact_SpellBreaker	),	5000	,	0	,	0	,	false	,	false	,	World.None	,	Category.Artifact	,	Material.None	,	Market.None	),	
 			new ItemSalesInfo( typeof(	Artifact_UgmarLastWord	),	5000	,	0	,	0	,	false	,	false	,	World.None	,	Category.Artifact	,	Material.None	,	Market.None	),			
-			new ItemSalesInfo( typeof(	Artifact_MelodyOfTriumph	),	5000	,	0	,	0	,	false	,	false	,	World.None	,	Category.Artifact	,	Material.None	,	Market.None	),				
+			new ItemSalesInfo( typeof(	Artifact_MelodyOfTriumph	),	5000	,	0	,	0	,	false	,	false	,	World.None	,	Category.Artifact	,	Material.None	,	Market.None	),
+			new ItemSalesInfo( typeof(	Artifact_AkodoPrideHiroSode 	),	5000	,	0	,	0	,	false	,	false	,	World.None	,	Category.Artifact	,	Material.None	,	Market.None	),
+			new ItemSalesInfo( typeof(	Artifact_AkodoPridePlateDo 	),	5000	,	0	,	0	,	false	,	false	,	World.None	,	Category.Artifact	,	Material.None	,	Market.None	),
+			new ItemSalesInfo( typeof(	Artifact_AkodoPridePlateKabuto 	),	5000	,	0	,	0	,	false	,	false	,	World.None	,	Category.Artifact	,	Material.None	,	Market.None	),
+			new ItemSalesInfo( typeof(	Artifact_AkodoPrideSuneate 	),	5000	,	0	,	0	,	false	,	false	,	World.None	,	Category.Artifact	,	Material.None	,	Market.None	),
+			new ItemSalesInfo( typeof(	Artifact_BayushisHonestSmile 	),	5000	,	0	,	0	,	false	,	false	,	World.None	,	Category.Artifact	,	Material.None	,	Market.None	),
+			new ItemSalesInfo( typeof(	Artifact_AncestralKakitaDaisho 	),	5000	,	0	,	0	,	false	,	false	,	World.None	,	Category.Artifact	,	Material.None	,	Market.None	),
+
 		};
 	}
 }
