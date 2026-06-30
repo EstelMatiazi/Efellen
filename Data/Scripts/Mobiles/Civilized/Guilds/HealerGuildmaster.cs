@@ -104,7 +104,7 @@ namespace Server.Mobiles
 
             public override void OnClick()
             {
-                m_HealerGuildmaster.MaybeShowClericRewardsGump(m_From as PlayerMobile);
+                m_HealerGuildmaster.ShowClericRewardsGump(m_From as PlayerMobile);
             }
         }
 
@@ -137,7 +137,7 @@ namespace Server.Mobiles
 
             if (e.Speech.ToLower().IndexOf("reward") >= 0)
             {
-                MaybeShowClericRewardsGump(from as PlayerMobile);
+                ShowClericRewardsGump(from as PlayerMobile);
                 e.Handled = true;
                 return;
             }
@@ -145,7 +145,7 @@ namespace Server.Mobiles
             base.OnSpeech(e);
         }
 
-        public void MaybeShowClericRewardsGump(PlayerMobile from)
+        public void ShowClericRewardsGump(PlayerMobile from)
         {
             PlayerMobile healer = from as PlayerMobile;
 
