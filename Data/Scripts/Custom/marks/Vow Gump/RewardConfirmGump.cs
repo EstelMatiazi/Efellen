@@ -46,6 +46,10 @@ namespace Server.Custom.DefenderOfTheRealm
                     m_CurrencyType = "Marks of the Weave";
                     m_Hue = 0x0213;
                     break;
+                case 7: 
+                    m_CurrencyType = "Marks of Bhaal";
+                    m_Hue = 0x047E;
+                    break;
                 default:
                     m_CurrencyType = "Marks";
                     m_Hue = 0;
@@ -95,6 +99,9 @@ namespace Server.Custom.DefenderOfTheRealm
                     break;
                 case 6:
                     markType = typeof(MarksOfTheWeave);
+                    break;
+                case 7:
+                    markType = typeof(MarksOfBhaal);
                     break;
             }
 

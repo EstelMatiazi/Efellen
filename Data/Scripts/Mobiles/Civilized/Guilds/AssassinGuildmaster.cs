@@ -28,6 +28,14 @@ namespace Server.Mobiles
 			SetSkill( SkillName.Poisoning, 85.0, 100.0 );
 		}
 
+		public override bool HandlesOnSpeech(Mobile from)
+        {
+            if (from is PlayerMobile && from.InRange(this, 4))
+                return true;
+
+            return base.HandlesOnSpeech(from);
+        }
+
 		public override void InitSBInfo( Mobile m )
 		{
 			m_Merchant = m;
@@ -79,12 +87,73 @@ namespace Server.Mobiles
 		}
 
 		///////////////////////////////////////////////////////////////////////////
-		public override void GetContextMenuEntries( Mobile from, List<ContextMenuEntry> list ) 
-		{ 
-			base.GetContextMenuEntries( from, list ); 
-			if ( MySettings.S_Bribery >= 1000 )
-				list.Add( new HireEntry( from, this ) );
-		} 
+		private class RewardsEntry : ContextMenuEntry
+        {
+            private AssassinGuildmaster m_AssassinGuildmaster;
+            private Mobile m_From;
+
+            public RewardsEntry(AssassinGuildmaster AssassinGuildmaster, Mobile from) : base(6093, 3)
+            {
+                m_AssassinGuildmaster = AssassinGuildmaster;
+                m_From = from;
+                Enabled = m_AssassinGuildmaster.CheckVendorAccess(from);
+            }
+
+            public override void OnClick()
+            {
+                m_AssassinGuildmaster.ShowMurdererRewards(m_From as PlayerMobile);
+            }
+        }
+		public override void AddCustomContextEntries(Mobile from, List<ContextMenuEntry> list)
+{
+    if (MySettings.S_Bribery >= 1000)
+        list.Add(new HireEntry(from, this));
+
+    if (from.Alive)
+        list.Add(new RewardsEntry(this, from));
+
+    base.AddCustomContextEntries(from, list);
+}
+		public override void OnSpeech(SpeechEventArgs e)
+        {
+            Mobile from = e.Mobile;
+
+            if (from == null || !(from is PlayerMobile))
+            {
+                base.OnSpeech(e);
+                return;
+            }
+
+            if (!from.InRange(this, 4))
+            {
+                base.OnSpeech(e);
+                return;
+            }
+
+            if (e.Speech.ToLower().IndexOf("reward") >= 0)
+            {
+                ShowMurdererRewards(from as PlayerMobile);
+                e.Handled = true;
+                return;
+            }
+
+            base.OnSpeech(e);
+        }
+		public void ShowMurdererRewards(PlayerMobile from)
+        {
+			if (from == null)
+			    return;
+
+			if (from.NpcGuild == NpcGuild.AssassinsGuild)
+            {
+                from.SendGump(new Server.Custom.DefenderOfTheRealm.RewardGump(from, 7, 0));
+                Say("These are the tokens the dark can bestow thee, " + (from.Female ? "sister." : "brother."));
+            }
+            else
+            {
+                Say("I only trust those that are in good standing with our order.");
+            }
+        } 
 
 		private class HireEntry : ContextMenuEntry
 		{

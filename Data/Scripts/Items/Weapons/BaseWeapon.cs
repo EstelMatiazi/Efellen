@@ -1513,6 +1513,20 @@ namespace Server.Items
 		        if (sneakBonus > 1.25)          sneakBonus = 1.25;
 		        if (this is BaseRanged)         sneakBonus = sneakBonus / 2;
 
+				if (sneakPm.NpcGuild == NpcGuild.AssassinsGuild)
+				{
+				    if (Utility.RandomMinMax(50, 175) < attacker.Skills[SkillName.Stealth].Value)
+				    {
+				        int marks = (int)(Utility.RandomMinMax(6, 12) * sneakBonus);
+
+				        if (marks < 1)
+				            marks = 1;
+
+				        attacker.SendMessage("Bhaal favors you with {0} Marks of Bhaal.", marks);
+				        attacker.AddToBackpack(new MarksOfBhaal(marks));
+				    }
+				}
+
 		        attacker.SendMessage("You perform a sneak attack for " + (int)(sneakBonus * 100) + "% more damage!");
 		        sneakPm.SneakDamage = false;
 		    }
@@ -2305,6 +2319,19 @@ namespace Server.Items
 		                    double preserveChance = attacker.Skills[SkillName.Poisoning].Value / 5.0;
 		                    if ((Utility.RandomDouble() * 100.0) >= preserveChance)
 		                        --poisonWeapon.PoisonCharges;
+
+							PlayerMobile assassin = attacker as PlayerMobile;
+
+							if (assassin != null && assassin.NpcGuild == NpcGuild.AssassinsGuild)
+							{
+							    if (Utility.RandomMinMax(100, 300) < attacker.Skills[SkillName.Poisoning].Value)
+							    {
+							        int marks = Utility.RandomMinMax(3, 8);
+
+							        attacker.SendMessage("Bhaal favors you with {0} Marks of Bhaal.", marks);
+							        attacker.AddToBackpack(new MarksOfBhaal(marks));
+							    }
+							}
 
 		                    defender.ApplyPoison(attacker, p);
 		                    defender.PlaySound(0x62D);

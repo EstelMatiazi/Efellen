@@ -77,7 +77,21 @@ namespace Server.Custom.DefenderOfTheRealm
             new RewardInfo(typeof(Artifact_ShadowBrokerGorget),            1000,  0x13C7, "Shadow Broker Gorget",             true,  0),
             new RewardInfo(typeof(Artifact_ShadowBrokerCap),               1000,  0x1DB9, "Shadow Broker Cap",                true,  0),
             new RewardInfo(typeof(Artifact_ShadowBrokerLeggings),          1000,  0x13D2, "Shadow Broker Leggings",           true,  0),
-            new RewardInfo(typeof(AscensionScroll),                         100,  0x2D9E, "Assassin Ascension Scroll",        false, 0x233, AscensionType.Assassin),
+            new RewardInfo(typeof(AscensionScroll),                         125,  0x2D9E, "Assassin Ascension Scroll",        false, 0x233, AscensionType.Assassin),
+        };
+
+        public static RewardInfo[] BhaalRewards = new RewardInfo[]
+        {
+            new RewardInfo(typeof(PotionOfDexterity),                       20,   0x2827, "Potion of Dexterity",              false, 0xB51),
+            new RewardInfo(typeof(EtherealHiryu),                          500,  0x2135, "Ethereal Hiryu",                  true,  0),
+            new RewardInfo(typeof(Artifact_ShadowDancerArms),              1000,  0x13CD, "Shadow Dancer Arms",               true,  0),
+            new RewardInfo(typeof(Artifact_ShadowDancerTunic),             1000,  0x13CC, "Shadow Dancer Tunic",              true,  0),
+            new RewardInfo(typeof(Artifact_ShadowDancerGloves),            1000,  0x13C6, "Shadow Dancer Gloves",             true,  0),
+            new RewardInfo(typeof(Artifact_ShadowDancerGorget),            1000,  0x13C7, "Shadow Dancer Gorget",             true,  0),
+            new RewardInfo(typeof(Artifact_ShadowDancerCap),               1000,  0x1DB9, "Shadow Dancer Cap",                true,  0),
+            new RewardInfo(typeof(Artifact_ShadowDancerLeggings),          1000,  0x13D2, "Shadow Dancer Leggings",           true,  0),
+            new RewardInfo(typeof(AscensionScroll),                         75,  0x2D9E, "Assassin Ascension Scroll",        false, 0x233, AscensionType.Assassin),
+            new RewardInfo(typeof(AscensionScroll),                         100,  0x2D9E, "Reaver Ascension Scroll",              false, 0x0F8, AscensionType.Reaver),
         };
 
         public static RewardInfo[] NatureMasterRewards = new RewardInfo[]

@@ -39,6 +39,7 @@ namespace Server.Custom.DefenderOfTheRealm
                     case 4: item.Hue = 669;    break;
                     case 5: item.Hue = 0x9C2;  break;
                     case 6: item.Hue = 0x213;  break;
+                    case 7: item.Hue = 0x047E; break;
                 }
             }
             else if (Hue != 0)

@@ -19,6 +19,7 @@ namespace Server.Custom.DefenderOfTheRealm
             4 - Marks of the Wilds - druid guildmaster
             5 - Marks of Devotion - healers guildmaster
             6 - marks of the weave - elementalist/wizard guildmaster
+            7 - marks of Bhaal
         */
         private int type;
         private int m_Hue;
@@ -77,6 +78,12 @@ namespace Server.Custom.DefenderOfTheRealm
                     m_CurrencyType = "Marks of the Weave";
                     m_Hue = 0x0213;
                     list.AddRange(RewardTables.WeaveRewards);
+                    break;
+                case 7:
+                    AddLabel(160, 20, 1152, "Murderer Rewards");
+                    m_CurrencyType = "Marks of Bhaal";
+                    m_Hue = 0x047E;
+                    list.AddRange(RewardTables.BhaalRewards);
                     break;
                 default:
                     AddLabel(160, 20, 1152, "Rewards");
