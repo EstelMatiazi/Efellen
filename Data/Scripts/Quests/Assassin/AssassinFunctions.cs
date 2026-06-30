@@ -279,6 +279,8 @@ namespace Server.Misc
 				{
 					m.SendSound( 0x3D );
 					m.AddToBackpack ( new Gold( nAssassinFee ) );
+					int markAmount = nAssassinFee/10 > 100 ? 100 : nAssassinFee;
+					m.AddToBackpack ( new MarksOfBhaal(markAmount) );
 					string sMessage = "";
 					switch ( Utility.RandomMinMax( 0, 9 ) )
 					{

@@ -57,6 +57,8 @@ namespace Server.Items
 					if ( envelope.NoteOwner == from && envelope.NoteItemGot > 0 && StumpTown == envelope.NoteDeliverTo && envelope.NoteDeliverType == 1 )
 					{
 						LoggingFunctions.LogStandard( from, "has stolen " + envelope.NoteItem + "." );
+						int marks = envelope.NoteReward/10 > 100 ? 100 : envelope.NoteReward/10;
+						from.AddToBackpack( new MarksOfTheShadowbroker(marks));
 						from.AddToBackpack ( new Gold( envelope.NoteReward ) );
 						Titles.AwardFame( from, ((int)(envelope.NoteReward/100)), true );
 						Titles.AwardKarma( from, -((int)(envelope.NoteReward/100)), true );
