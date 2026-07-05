@@ -24,6 +24,7 @@ namespace Server.Mobiles
 		private int m_Rage = 0;
 		private Mobile m_LastTarget;
 		private DateTime m_NextSpecialAttack = DateTime.MinValue;
+		private DateTime m_NextLeap = DateTime.MinValue;
 
 		private static readonly List<Type> BossDrops = new List<Type>
     	{
@@ -218,8 +219,7 @@ namespace Server.Mobiles
 			if (from.Player && from.Kills < 5 && !from.Criminal) 
 				from.Criminal = true;
 
-			if (Utility.RandomDouble() < 0.35)
-				Server.Misc.IntelligentAction.LeapToAttacker( this, from );
+			Server.Misc.IntelligentAction.TryToLeapToAttacker( this, from, 0.07, ref m_NextLeap );
 
 			base.OnDamage( amount, from, willKill );
 

@@ -3681,9 +3681,18 @@ namespace Server.Misc
 
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-		public static void LeapToAttacker( Mobile from, Mobile m )
+		public static void TryToLeapToAttacker( Mobile from, Mobile m, double percentage, ref DateTime nextLeapTime )
 		{
-			if ( from != null && from.Hits > 0 && Utility.RandomMinMax( 1, 5 ) == 1 )
+			if ( nextLeapTime < DateTime.UtcNow && Utility.RandomDouble() < percentage )
+			{
+				LeapToAttacker( from, m );
+				nextLeapTime = DateTime.UtcNow + TimeSpan.FromSeconds( 5 );
+			}
+		}
+
+		private static void LeapToAttacker( Mobile from, Mobile m )
+		{
+			if ( from != null && from.Hits > 0 )
 			{
 				Region myReg = Region.Find( from.Location, from.Map );
 				Region foeReg = Region.Find( m.Location, m.Map );
