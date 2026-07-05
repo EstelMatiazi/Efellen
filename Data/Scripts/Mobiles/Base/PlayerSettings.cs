@@ -1132,6 +1132,9 @@ namespace Server.Misc
 							else if ( i is DDSilver ){ belongings.Add(i); foundCoins = 1; }
 							else if ( i is DDXormite ){ belongings.Add(i); foundCoins = 1; }
 							else if ( i is DDGoldNuggets ){ belongings.Add(i); foundNuggets = 1; }
+							else if ( i is MarksOfHonor ){ belongings.Add(i); foundNuggets = 1; }
+							else if ( i is MarksOfTheScourge ){ belongings.Add(i); foundNuggets = 1; }
+							else if ( i is EssenceOfLolthsHatred ){ belongings.Add(i); foundNuggets = 1; }
 						}
 					}
 					else if ( nEntry == 2 && found == "1" )
