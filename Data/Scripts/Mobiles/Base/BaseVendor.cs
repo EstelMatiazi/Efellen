@@ -1690,7 +1690,20 @@ namespace Server.Mobiles
 
 			int packGold = pack != null ? pack.GetAmount(typeof(Gold)) : 0;
 			int bankGold = bank != null ? bank.GetAmount(typeof(Gold)) : 0;
-			int totalGold = packGold + bankGold;
+			int checksGold = 0;
+
+			Item[] checks = new Item[0];
+			if (bank != null)
+			{
+				checks = bank.FindItemsByType(typeof(BankCheck), true);
+				foreach (Item item in checks)
+				{
+					if (item is BankCheck)
+						checksGold += ((BankCheck)item).Worth;
+				}
+			}
+
+			int totalGold = packGold + bankGold + checksGold;
 
 			if (totalGold >= totalCost)
 			{
@@ -1709,6 +1722,32 @@ namespace Server.Mobiles
 					bank.ConsumeTotal(typeof(Gold), fromBankAmount);
 					toConsume -= fromBankAmount;
 					fromBank = true;
+				}
+
+				if (toConsume > 0 && checksGold > 0)
+				{
+					foreach (Item item in checks)
+					{
+						BankCheck check = item as BankCheck;
+
+						if (check == null)
+							continue;
+
+						if (check.Worth <= toConsume)
+						{
+							toConsume -= check.Worth;
+							check.Delete();
+						}
+						else
+						{
+							check.Worth -= toConsume;
+							toConsume = 0;
+							break;
+						}
+					}
+
+					if (toConsume == 0)
+						fromBank = true;
 				}
 
 				bought = true;
