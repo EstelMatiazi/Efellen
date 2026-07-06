@@ -391,6 +391,9 @@ namespace Server.Spells
 			if( to.AccessLevel > from.AccessLevel )
 				return false;
 
+			if( from.Karma > 0 && to.Karma > 0 && !from.Criminal && !to.Criminal )
+				return false;
+
 			Guild fromGuild = GetGuildFor( from );
 			Guild toGuild = GetGuildFor( to );
 
