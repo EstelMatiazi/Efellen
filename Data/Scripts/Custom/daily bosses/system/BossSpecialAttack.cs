@@ -1365,6 +1365,14 @@ namespace Server.Custom.DailyBosses.System
                             Point3D loc = GetSpawnLocation(bc, boss.Map);
                             s.IsTempEnemy = true;
                             s.MoveToWorld(loc, boss.Map);
+
+                            Timer.DelayCall(TimeSpan.FromMinutes(2), delegate()
+                            {
+                                if (s != null && (!s.Deleted || s.Alive))
+                                {
+                                    s.Delete();
+                                }
+                            });
                         }
                     }
 
