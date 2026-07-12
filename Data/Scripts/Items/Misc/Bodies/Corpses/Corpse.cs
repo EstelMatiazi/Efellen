@@ -601,6 +601,8 @@ namespace Server.Items
 					m_Aggressors.Add( info.Defender );
 			}
 
+			m_Killer = BaseCreature.GetKiller( m_Killer );
+
 			if ( isBaseCreature )
 			{
 				BaseCreature bc = (BaseCreature)owner;

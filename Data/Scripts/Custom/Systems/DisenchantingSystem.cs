@@ -50,9 +50,9 @@ namespace Server.Misc
 
                 Container cont = (Container)target;
 
-                if (!cont.IsChildOf(from.Backpack))
+                if (!(cont is Corpse && ((Corpse)cont).Killer == from) && !cont.IsChildOf(from.Backpack))
                 {
-                    from.SendMessage("You can only disenchant containers in your backpack.");
+                    from.SendMessage("You can only disenchant containers in your backpack or creatures you killed.");
                     return;
                 }
 
