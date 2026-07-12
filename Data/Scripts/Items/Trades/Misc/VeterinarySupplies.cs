@@ -66,9 +66,11 @@ namespace Server.Items
                 {
                     other.Delete();
                 }
+
+                return true;
             }
 
-            return true;
+            return false;
         }
 
         public override void OnDoubleClick(Mobile from)
