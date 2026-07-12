@@ -1118,6 +1118,7 @@ namespace Server.Misc
 				int foundPotions = 0;
 
 				List<Item> belongings = new List<Item>();
+				List<Item> allItems = Container.GetAllItems(box);
 
 				string[] discoveries = looting.Split('#');
 				int nEntry = 1;
@@ -1125,7 +1126,7 @@ namespace Server.Misc
 				{
 					if ( nEntry == 1 && found == "1" )
 					{
-						foreach( Item i in box.Items )
+						foreach( Item i in allItems )
 						{
 							if ( i is Gold ){ belongings.Add(i); foundCoins = 1; }
 							else if ( i is DDCopper ){ belongings.Add(i); foundCoins = 1; }
@@ -1139,7 +1140,7 @@ namespace Server.Misc
 					}
 					else if ( nEntry == 2 && found == "1" )
 					{
-						foreach( Item i in box.Items )
+						foreach( Item i in allItems )
 						{
 							if ( i is StarSapphire ){ belongings.Add(i); foundGems = 1; }
 							else if ( i is Emerald ){ belongings.Add(i); foundGems = 1; }
@@ -1167,7 +1168,7 @@ namespace Server.Misc
 					}
 					else if ( nEntry == 3 && found == "1" )
 					{
-						foreach( Item i in box.Items )
+						foreach( Item i in allItems )
 						{
 							if ( i is Arrow ){ belongings.Add(i); foundArrows = 1; }
 							else if ( i is ManyArrows100 ){ belongings.Add(i); foundArrows = 1; }
@@ -1179,7 +1180,7 @@ namespace Server.Misc
 					}
 					else if ( nEntry == 4 && found == "1" )
 					{
-						foreach( Item i in box.Items )
+						foreach( Item i in allItems )
 						{
 							if ( i is Elemental_Armor_Scroll || i is Elemental_Bolt_Scroll || i is Elemental_Mend_Scroll || 
 							i is Elemental_Sanctuary_Scroll || i is Elemental_Pain_Scroll || i is Elemental_Protection_Scroll || 
@@ -1197,14 +1198,14 @@ namespace Server.Misc
 					}
 					else if ( nEntry == 5 && found == "1" )
 					{
-						foreach( Item i in box.Items )
+						foreach( Item i in allItems )
 						{
 							if ( i is Bandage ){ belongings.Add(i); foundBandages = 1; }
 						}
 					}
 					else if ( nEntry == 6 && found == "1" )
 					{
-						foreach( Item i in box.Items )
+						foreach( Item i in allItems )
 						{
 							if ( i is ReactiveArmorScroll || i is ClumsyScroll || i is CreateFoodScroll || i is FeeblemindScroll || 
 							 i is HealScroll || i is MagicArrowScroll || i is NightSightScroll || i is WeakenScroll || 
@@ -1227,7 +1228,7 @@ namespace Server.Misc
 					}
 					else if ( nEntry == 7 && found == "1" )
 					{
-						foreach( Item i in box.Items )
+						foreach( Item i in allItems )
 						{
 							if ( i is AnimateDeadScroll || i is BloodOathScroll || i is CorpseSkinScroll || i is CurseWeaponScroll || 
 							 i is EvilOmenScroll || i is HorrificBeastScroll || i is LichFormScroll || i is MindRotScroll || 
@@ -1239,7 +1240,7 @@ namespace Server.Misc
 					}
 					else if ( nEntry == 8 && found == "1" )
 					{
-						foreach( Item i in box.Items )
+						foreach( Item i in allItems )
 						{
 							if ( i is BlackPearl ){ belongings.Add(i); foundReagents = 1; }
 							else if ( i is Bloodmoss ){ belongings.Add(i); foundReagents = 1; }
@@ -1254,7 +1255,7 @@ namespace Server.Misc
 					}
 					else if ( nEntry == 9 && found == "1" )
 					{
-						foreach( Item i in box.Items )
+						foreach( Item i in allItems )
 						{
 							if ( i is BatWing ){ belongings.Add(i); foundReagents = 1; }
 							else if ( i is DaemonBlood ){ belongings.Add(i); foundReagents = 1; }
@@ -1288,14 +1289,14 @@ namespace Server.Misc
 					}
 					else if ( nEntry == 10 && found == "1" )
 					{
-						foreach( Item i in box.Items )
+						foreach( Item i in allItems )
 						{
 							if ( i is NotIdentified && i.NotIDSource == Identity.Reagent ){ belongings.Add(i); foundReagents = 1; }
 						}
 					}
 					else if ( nEntry == 11 && found == "1" )
 					{
-						foreach( Item i in box.Items )
+						foreach( Item i in allItems )
 						{
 							if ( i is BasePotion ){ belongings.Add(i); foundPotions = 1; }
 							else if ( i is AutoResPotion ){ belongings.Add(i); foundPotions = 1; }
@@ -1341,14 +1342,14 @@ namespace Server.Misc
 					}
 					else if ( nEntry == 12 && found == "1" )
 					{
-						foreach( Item i in box.Items )
+						foreach( Item i in allItems )
 						{
 							if ( i is NotIdentified && i.NotIDSource == Identity.Potion ){ belongings.Add(i); foundPotions = 1; }
 						}
 					}
 					else if ( nEntry == 13 && found == "1" )
 					{
-						foreach( Item i in box.Items )
+						foreach( Item i in allItems )
 						{
 							if ( i is ArmysPaeonScroll ){ belongings.Add(i); foundScrolls = 1; }
 							else if ( i is EnchantingEtudeScroll ){ belongings.Add(i); foundScrolls = 1; }
@@ -1370,14 +1371,14 @@ namespace Server.Misc
 					}
 					else if ( nEntry == 14 && found == "1" )
 					{
-						foreach( Item i in box.Items )
+						foreach( Item i in allItems )
 						{
 							if ( i is NotIdentified && i.NotIDSource == Identity.Scroll ){ belongings.Add(i); foundScrolls = 1; }
 						}
 					}
 					else if ( nEntry == 15 && found == "1" )
 					{
-						foreach( Item i in box.Items )
+						foreach( Item i in allItems )
 						{
 							if ( i is EyeOfToad ){ belongings.Add(i); foundReagents = 1; }
 							else if ( i is FairyEgg ){ belongings.Add(i); foundReagents = 1; }
@@ -1396,7 +1397,7 @@ namespace Server.Misc
 					}
 					else if ( nEntry == 16 && found == "1" )
 					{
-						foreach( Item i in box.Items )
+						foreach( Item i in allItems )
 						{
 							if ( i is BlackPearl ){ belongings.Add(i); foundReagents = 1; }
 							else if ( i is Ginseng ){ belongings.Add(i); foundReagents = 1; }
