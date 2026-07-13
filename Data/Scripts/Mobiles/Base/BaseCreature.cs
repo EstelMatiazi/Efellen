@@ -9412,6 +9412,8 @@ namespace Server.Mobiles
 				}
 
 				CheckStatTimers();
+
+				c.Delete();
 			}
 			else
 			{
