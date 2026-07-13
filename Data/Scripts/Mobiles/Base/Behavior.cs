@@ -6903,7 +6903,7 @@ namespace Server.Mobiles
 				bool isOwner = (e.Mobile == m_Mobile.ControlMaster);
 				bool isFriend = (!isOwner && m_Mobile.IsPetFriend( e.Mobile ));
 
-				if( e.Mobile.Alive && (isOwner || isFriend) )
+				if( e.Mobile.Alive && !m_Mobile.IsDeadPet && (isOwner || isFriend) )
 				{
 					m_Mobile.DebugSay( "It's from my master" );
 
