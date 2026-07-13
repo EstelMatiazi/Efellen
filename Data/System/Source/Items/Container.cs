@@ -1753,6 +1753,21 @@ namespace Server.Items
 			else
 				from.SendLocalizedMessage( 500446 ); // That is too far away.
 		}
+
+		public static List<Item> GetAllItems(Container container)
+		{
+			List<Item> items = new List<Item>();
+
+			foreach (Item item in container.Items)
+			{
+				items.Add(item);
+
+				if (item is Container)
+					items.AddRange(GetAllItems((Container)item));
+			}
+
+			return items;
+		}
 	}
 
 	public class ContainerData
