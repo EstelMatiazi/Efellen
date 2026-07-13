@@ -7925,6 +7925,22 @@ namespace Server.Mobiles
 			return false;
 		}
 
+		public static Mobile GetKiller(Mobile killer)
+		{
+			if (killer is BaseCreature)
+			{
+				BaseCreature bc_killer = (BaseCreature)killer;
+
+				if (bc_killer.Summoned && bc_killer.SummonMaster != null)
+					killer = bc_killer.SummonMaster;
+				else if (bc_killer.Controlled && bc_killer.ControlMaster != null)
+					killer = bc_killer.ControlMaster;
+				else if (bc_killer.BardProvoked && bc_killer.BardMaster != null)
+					killer = bc_killer.BardMaster;
+			}
+			return killer;
+		}
+
 		public override bool OnBeforeDeath()
 		{
 			Region reg = Region.Find(this.Location, this.Map);
@@ -7934,29 +7950,8 @@ namespace Server.Mobiles
 			else if (Body == 975 || Body == 841)
 				Body = 15;
 
-			Mobile slayer = this.LastKiller;
-
-			if (slayer is BaseCreature)
-			{
-				BaseCreature bc_killer = (BaseCreature)slayer;
-				if (bc_killer.Summoned)
-				{
-					if (bc_killer.SummonMaster != null)
-						slayer = bc_killer.SummonMaster;
-				}
-				else if (bc_killer.Controlled)
-				{
-					if (bc_killer.ControlMaster != null)
-						slayer = bc_killer.ControlMaster;
-				}
-				else if (bc_killer.BardProvoked)
-				{
-					if (bc_killer.BardMaster != null)
-						slayer = bc_killer.BardMaster;
-				}
-
-				LastKiller = slayer;
-			}
+			Mobile slayer = GetKiller(this.LastKiller);
+			LastKiller = slayer;
 
 			if (AI == AIType.AI_Citizen)
 			{
@@ -9313,18 +9308,6 @@ namespace Server.Mobiles
 			Mobile killer = this.LastKiller;
 
 			QuestTake.DropChest(this);
-
-			if (killer is BaseCreature)
-			{
-				BaseCreature bc_killer = (BaseCreature)killer;
-
-				if (bc_killer.Summoned && bc_killer.SummonMaster != null)
-					killer = bc_killer.SummonMaster;
-				else if (bc_killer.Controlled && bc_killer.ControlMaster != null)
-					killer = bc_killer.ControlMaster;
-				else if (bc_killer.BardProvoked && bc_killer.BardMaster != null)
-					killer = bc_killer.BardMaster;
-			}
 
 			if ((killer is PlayerMobile) && (killer.AccessLevel < AccessLevel.GameMaster))
 			{
