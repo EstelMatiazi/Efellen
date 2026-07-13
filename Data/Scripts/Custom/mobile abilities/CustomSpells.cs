@@ -455,6 +455,8 @@ namespace Server.CustomSpells
         {
             if (m == null || m.Deleted || !m.Alive)
                 return false;
+            if (!caster.InLOS(m))
+                return false;
             bool valid = false;
             if (m is PlayerMobile)
             {
