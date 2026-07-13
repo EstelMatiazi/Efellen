@@ -44,6 +44,35 @@ namespace Server.Items
 
         public VeterinarySupplies(Serial serial) : base(serial) { }
 
+        public override bool OnDragDrop(Mobile from, Item dropped)
+        {
+            if (dropped == null || dropped == this)
+                return false;
+
+            if (dropped is VeterinarySupplies)
+            {
+                VeterinarySupplies other = (VeterinarySupplies)dropped;
+
+                int total = this.UsesRemaining + other.UsesRemaining;
+
+                this.UsesRemaining = Math.Min(total, 1000);
+
+                if (total > 1000)
+                {
+                    other.UsesRemaining = total - 1000;
+                    from.Backpack.AddItem(other);
+                }
+                else
+                {
+                    other.Delete();
+                }
+
+                return true;
+            }
+
+            return false;
+        }
+
         public override void OnDoubleClick(Mobile from)
         {
             if (!IsChildOf(from.Backpack))
