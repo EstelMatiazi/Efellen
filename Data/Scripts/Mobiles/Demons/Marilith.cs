@@ -10,6 +10,8 @@ namespace Server.Mobiles
 	[CorpseName( "a demonic corpse" )]
 	public class Marilith : BaseCreature
 	{
+		private DateTime m_NextLeap = DateTime.MinValue;
+
 		[Constructable]
 		public Marilith() : base( AIType.AI_Melee, FightMode.Closest, 10, 1, 0.2, 0.4 )
 		{
@@ -53,7 +55,7 @@ namespace Server.Mobiles
 
 		public override void OnDamage( int amount, Mobile from, bool willKill )
 		{
-			Server.Misc.IntelligentAction.LeapToAttacker( this, from );
+			Server.Misc.IntelligentAction.TryToLeapToAttacker( this, from, 1.0, ref m_NextLeap );
 			base.OnDamage( amount, from, willKill );
 		}
 

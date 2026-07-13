@@ -51,6 +51,7 @@ namespace Server.Mobiles
 		private Mobile m_LastTarget;
 		private DateTime m_NextSummonTime = DateTime.MinValue;
 		private DateTime m_NextSpecialAttack = DateTime.MinValue;
+		private DateTime m_NextLeap = DateTime.MinValue;
 		private DateTime m_NextBomb = DateTime.MinValue;
 		private int m_Thrown;
 		private List<BaseCreature> m_Summons = new List<BaseCreature>();
@@ -127,8 +128,8 @@ namespace Server.Mobiles
 		public override void OnDamage( int amount, Mobile from, bool willKill )
 		{
 			m_LastTarget = from;
-			if (Utility.RandomDouble() < 0.30 )
-				Server.Misc.IntelligentAction.LeapToAttacker( this, from );
+
+			Server.Misc.IntelligentAction.TryToLeapToAttacker( this, from, 0.07, ref m_NextLeap );
 
 			base.OnDamage( amount, from, willKill );
 

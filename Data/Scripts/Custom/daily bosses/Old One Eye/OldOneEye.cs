@@ -34,6 +34,7 @@ namespace Server.Mobiles
 		private Mobile m_LastTarget;
 		private DateTime m_NextSpecialAttack = DateTime.MinValue;
 		private DateTime m_NextTailSwipe = DateTime.MinValue;
+		private DateTime m_NextLeap = DateTime.MinValue;
 		private bool m_IsStunned = false;
 		private DateTime m_StunEndTime = DateTime.MinValue;
 
@@ -95,8 +96,7 @@ namespace Server.Mobiles
 		{
 			m_LastTarget = from;
 
-			if (Utility.RandomDouble() < 0.75)
-				Server.Misc.IntelligentAction.LeapToAttacker( this, from );
+			Server.Misc.IntelligentAction.TryToLeapToAttacker( this, from, 0.15, ref m_NextLeap );
 			
 			if ( !m_IsStunned && DateTime.UtcNow >= m_NextSpecialAttack )
 			{
@@ -237,8 +237,7 @@ namespace Server.Mobiles
 		{
 			base.OnGotMeleeAttack(attacker);
 
-			if (Utility.RandomDouble() < 0.5)
-				Server.Misc.IntelligentAction.LeapToAttacker( this, attacker );
+			Server.Misc.IntelligentAction.TryToLeapToAttacker( this, attacker, 0.1, ref m_NextLeap );
 
 			if (Utility.Random(100) < 15 && DateTime.UtcNow >= m_NextTailSwipe)
 			{

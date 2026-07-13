@@ -64,6 +64,7 @@ namespace Server.Mobiles
 		private Mobile m_LastTarget;
 		private DateTime m_NextSummonTime = DateTime.MinValue;
 		private DateTime m_NextSpecialAttack = DateTime.MinValue;
+		private DateTime m_NextLeap = DateTime.MinValue;
 		private List<BaseCreature> m_Summons = new List<BaseCreature>();
 
 		private bool m_Rage1Applied = false;
@@ -201,8 +202,7 @@ namespace Server.Mobiles
 			if (from != null && from.Player && !from.Criminal)
 				from.Criminal = true;
 
-			if (Utility.RandomDouble() < 0.30)
-				Server.Misc.IntelligentAction.LeapToAttacker(this, from);
+			Server.Misc.IntelligentAction.TryToLeapToAttacker( this, from, 0.07, ref m_NextLeap );
 
 			base.OnDamage(amount, from, willKill);
 

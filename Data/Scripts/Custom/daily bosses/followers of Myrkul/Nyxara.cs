@@ -32,6 +32,7 @@ namespace Server.Mobiles
 		private int m_Rage;
 		private Mobile m_LastTarget;
 		private DateTime m_NextSpecialAttack;
+		private DateTime m_NextLeap = DateTime.MinValue;
 
 		private bool m_Rage1Applied = false;
 		private bool m_Rage2Applied = false;
@@ -92,8 +93,7 @@ namespace Server.Mobiles
 		{
 			m_LastTarget = from;
 
-			if (Utility.RandomDouble() < 0.35)
-				Server.Misc.IntelligentAction.LeapToAttacker( this, from );
+			Server.Misc.IntelligentAction.TryToLeapToAttacker( this, from, 0.07, ref m_NextLeap );
 
 			base.OnDamage( amount, from, willKill );
 
