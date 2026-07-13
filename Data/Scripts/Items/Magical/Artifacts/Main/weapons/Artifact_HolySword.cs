@@ -88,7 +88,7 @@ namespace Server.Items
 		                continue;
 
 		            int bonus = 0;
-                    if (mob.Karma > 0)
+                    if (mob.Karma < 0)
                     {
                         int scaled = 1 + ((-mob.Karma) * 24 / 15000);
 						if (scaled < 1) scaled = 0;
