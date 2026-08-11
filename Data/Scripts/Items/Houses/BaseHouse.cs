@@ -244,7 +244,11 @@ namespace Server.Multis
 
 		private int m_MaxLockDowns;
 		private int m_MaxSecures;
+
 		private int m_Price;
+		private int m_Level;
+		private int m_LevelUpgradePrice = 25000;
+		private int m_LevelUpgradeStorage = 250;
 
 		private int m_Visits;
 
@@ -258,6 +262,8 @@ namespace Server.Multis
 
 		public virtual bool IsActive{ get{ return true; } }
 
+		public int PriceLevelUpgrade { get { return m_LevelUpgradePrice; } }
+
 		public virtual HousePlacementEntry GetAosEntry()
 		{
 			return HousePlacementEntry.Find( this );
@@ -270,7 +276,18 @@ namespace Server.Multis
 			if ( hpe == null )
 				return 0;
 
-			return (int)(hpe.Storage * BonusStorageScalar);
+			return (int)(hpe.Storage * BonusStorageScalar) + m_Level * m_LevelUpgradeStorage;
+		}
+
+		public int Level { get { return m_Level; } }
+		public int LevelUpgradeStorage { get { return m_LevelUpgradeStorage; } }
+
+		public void AddLevel( int amount )
+		{
+			if ( amount <= 0 )
+				return;
+
+			m_Level += amount;
 		}
 
 		public virtual int GetAosMaxLockdowns()
@@ -2411,7 +2428,7 @@ namespace Server.Multis
 		{
 			base.Serialize( writer );
 
-			writer.Write( (int) 14 ); // version
+			writer.Write( (int) 15 ); // version
 
 			writer.Write( (Point3D) m_RelativeBanLocation );
 
@@ -2471,6 +2488,7 @@ namespace Server.Multis
 
 			writer.Write( (int) m_MaxLockDowns );
 			writer.Write( (int) m_MaxSecures );
+			writer.Write( (int) m_Level );
 		}
 
 		public override void Deserialize( GenericReader reader )
@@ -2482,6 +2500,7 @@ namespace Server.Multis
 
 			switch ( version )
 			{
+				case 15:
 				case 14:
 				{
 					m_RelativeBanLocation = reader.ReadPoint3D();
@@ -2642,6 +2661,7 @@ namespace Server.Multis
 
 					m_MaxLockDowns = reader.ReadInt();
 					m_MaxSecures = reader.ReadInt();
+					m_Level = reader.ReadInt();
 
 					if ( (Map == null || Map == Map.Internal) && Location == Point3D.Zero )
 						Delete();

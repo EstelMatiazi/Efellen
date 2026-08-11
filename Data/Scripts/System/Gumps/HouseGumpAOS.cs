@@ -33,6 +33,72 @@ namespace Server.Gumps
 		Vendors
 	}
 
+	public class UpgradeLevelConfirmGump : Gump
+	{
+		private BaseHouse m_House;
+
+		public UpgradeLevelConfirmGump( Mobile from, BaseHouse house) : base( 50, 40 )
+		{
+			m_House = house;
+
+			from.CloseGump( typeof( UpgradeLevelConfirmGump ) );
+
+			AddPage( 0 );
+			AddImage( 0, 0, 5202, Server.Misc.PlayerSettings.GetGumpHue( from ) );
+
+			AddHtmlLocalized( 10, 120, 400, 20, 1060637, 0x7FFF, false, false ); // Notice header
+
+			string text = String.Format( "Current level: {0}\nIncrease Cost: {1}\nAdditional Storage: {2}\n\nDo you wish to confirm?", house.Level, house.PriceLevelUpgrade, house.LevelUpgradeStorage );
+
+			AddLabel( 20, 150, 1152, text );
+
+			// Confirm
+			AddButton( 100, 290, 4005, 4007, 1, GumpButtonType.Reply, 0 );
+			AddLabel( 135, 290, 1152, "Confirm" );
+
+			// Cancel
+			AddButton( 260, 290, 4005, 4007, 0, GumpButtonType.Reply, 0 );
+			AddLabel( 295, 290, 1152, "Cancel" );
+		}
+
+		public override void OnResponse( NetState sender, RelayInfo info )
+		{
+			Mobile from = sender.Mobile;
+
+			if ( m_House == null || m_House.Deleted )
+			{
+				from.SendMessage( "That house is no longer available." );
+				return;
+			}
+
+			bool isOwner = m_House.IsOwner( from );
+			bool isCoOwner = isOwner || m_House.IsCoOwner( from );
+
+			if ( info.ButtonID == 1 ) // Confirm
+			{
+				if ( !isCoOwner )
+				{
+					from.SendMessage( "You are not authorized to upgrade this house." );
+				}
+				else if ( m_House.Level >= 10 )
+				{
+					from.SendMessage( "This house has already reached the maximum level." );
+				}
+				else if (!Banker.Withdraw(from, m_House.PriceLevelUpgrade))
+				{
+					from.SendMessage("You do not have enough gold in your bank.");
+				}
+				else
+				{
+					m_House.AddLevel( 1 );
+					from.SendMessage( String.Format( "House level increased to {0}.", m_House.Level ) );
+				}
+			}
+
+			from.SendGump( new HouseGumpAOS( HouseGumpPageAOS.Storage, from, m_House ) );
+		}
+	}
+
 	public class HouseGumpAOS : Gump
 	{
 		private BaseHouse m_House;
@@ -405,6 +471,9 @@ namespace Server.Gumps
 
 						AddHtmlLocalized( 10, 350, 300, 20, 1062391, LabelColor, false, false ); // Vendor Count
 						AddLabel( 310, 350, LabelHue, vendors.ToString() + " / " + maxVendors.ToString() );
+
+						AddButton( 10, 370, 4005, 4007, GetButtonID( 2, 0 ), GumpButtonType.Reply, 0 );
+						AddLabel( 45, 370, 1152, "Upgrade Storage");
 					}
 					else
 					{
@@ -937,6 +1006,21 @@ namespace Server.Gumps
 					}
 
 					from.SendGump( new HouseGumpAOS( page, from, m_House ) );
+					break;
+				}
+				case 2:
+				{
+					switch ( index )
+					{
+						case 0: // Upgrade Level
+						{
+							if ( isCoOwner )
+							{
+								from.SendGump( new UpgradeLevelConfirmGump( from, m_House ) );
+							}
+							break;
+						}
+					}
 					break;
 				}
 				case 3:
