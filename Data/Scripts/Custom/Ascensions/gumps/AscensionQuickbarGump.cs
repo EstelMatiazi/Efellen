@@ -1,6 +1,8 @@
+using System;
+using System.Collections.Generic;
+using Server;
 using Server.Gumps;
 using Server.Mobiles;
-using System.Collections.Generic;
 
 namespace Server.Custom.Ascensions
 {
@@ -8,40 +10,77 @@ namespace Server.Custom.Ascensions
     {
         private PlayerMobile _pm;
 
-        private const int GumpWidth  = 250;
+        private const int GumpWidth  = 260;
         private const int RowHeight  = 32;
-        private const int TopPadding = 15;
-        private const int XPSection  = 20;
 
         public AscensionQuickbarGump(PlayerMobile pm) : base(20, 200)
         {
             _pm = pm;
 
+            Closable = true;
+            Disposable = true;
+            Dragable = true;
+            Resizable = false;
+
+            AscensionType activeType = pm.ActiveAscension;
+            AscensionProgress prog = pm.AscensionProfile.Get(activeType);
+
             List<AscensionAbility> usable = GetUsableAbilities(pm);
+            int rowsCount = Math.Max(1, usable.Count);
 
-            int height = TopPadding + XPSection + (usable.Count * RowHeight) + 10;
+            int headerHeight = 72;
+            int totalHeight = headerHeight + (rowsCount * RowHeight) + 12;
 
-            AddBackground(0, 0, GumpWidth, height, 9270);
+            AddPage(0);
 
-            AscensionProgress prog = pm.AscensionProfile.Get(pm.ActiveAscension);
+            // Action Bar Frame
+            AddBackground(0, 0, GumpWidth, totalHeight, 0x1453);
+            AddImageTiled(6, 6, GumpWidth - 12, totalHeight - 12, 0xA40);
+            AddAlphaRegion(6, 6, GumpWidth - 12, totalHeight - 12);
 
+            // Active Class Icon & Header
+            AscensionVisuals.DrawClassIcon(this, 10, 10, activeType, 36);
+
+            string hexColor = AscensionVisuals.GetColorHex(activeType);
+            string displayName = AscensionTypeHelper.GetDisplayName(activeType);
+            AddHtml(52, 10, 195, 20, $"<BASEFONT COLOR={hexColor}>{displayName}</BASEFONT> <BASEFONT COLOR=#82E0AA>[Lvl {prog.Level}]</BASEFONT>", false, false);
+
+            // Mini Experience Progress Bar
             int required = prog.GetRequiredExperience();
-            string xpText = required > 0
-                ? "Experience: " + prog.Experience + " / " + required
-                : "Experience: MAX";
+            double pct = required > 0 ? Math.Min(1.0, (double)prog.Experience / required) : 1.0;
+            string xpText = required > 0 ? $"{prog.Experience}/{required}" : "MAX";
 
-            AddLabel(15, TopPadding, 1152, xpText);
+            AscensionVisuals.DrawProgressBar(this, 52, 28, 196, 14, pct, xpText);
 
-            int y        = TopPadding + XPSection;
+            // Subtle divider
+            AddImageTiled(10, 52, GumpWidth - 20, 1, 0xBB8);
+
+            // Abilities Lines
+            int y = 58;
             int buttonID = 1;
 
-            foreach (AscensionAbility ability in usable)
+            if (usable.Count == 0)
             {
-                AddButton(10, y, 4005, 4007, buttonID, GumpButtonType.Reply, 0);
-                AddLabel(45, y + 3, 1152, ability.DisplayName);
+                AddHtml(12, y + 4, GumpWidth - 24, 20, "<CENTER><BASEFONT COLOR=#8E999E><SMALL><I>No active abilities</I></SMALL></BASEFONT></CENTER>", false, false);
+            }
+            else
+            {
+                foreach (AscensionAbility ability in usable)
+                {
+                    // Ability Row Background
+                    AddBackground(10, y, GumpWidth - 20, 28, 0x2422);
+                    AddImageTiled(12, y + 2, GumpWidth - 24, 24, 0xA40);
+                    AddAlphaRegion(12, y + 2, GumpWidth - 24, 24);
 
-                y        += RowHeight;
-                buttonID++;
+                    // Activation Button
+                    AddButton(14, y + 4, 0xFA5, 0xFA7, buttonID, GumpButtonType.Reply, 0);
+
+                    // Ability Name
+                    AddHtml(44, y + 4, GumpWidth - 54, 20, $"<BASEFONT COLOR=#E5E7E9>{ability.DisplayName}</BASEFONT>", false, false);
+
+                    y += RowHeight;
+                    buttonID++;
+                }
             }
         }
 
@@ -66,7 +105,7 @@ namespace Server.Custom.Ascensions
         private static List<AscensionAbility> GetUsableAbilities(PlayerMobile pm)
         {
             List<AscensionAbility> abilities = AscensionAbilityRegistry.GetAbilities(pm.ActiveAscension);
-            List<AscensionAbility> usable    = new List<AscensionAbility>();
+            List<AscensionAbility> usable = new List<AscensionAbility>();
 
             foreach (AscensionAbility ability in abilities)
             {
